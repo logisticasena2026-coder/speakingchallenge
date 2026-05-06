@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Nivel {
+  PRINCIPIANTE
+  BASICO
+  BASICO_INTERMEDIO
+  INTERMEDIO
+  AVANZADO
+}
+
+enum Skin {
+  ImperioCivilización
+  ImperioAcadio
+  ImperioAntiguoDeEgipto
+  ImperioBabilónico
+  ImperioHitita
+  ImperioAsirio
+  ImperioNeobabilónico
+  ImperioAqueménidaPersa
+  ImperioMacedonio
+  ImperioMaurya
+  ImperioRomano
+  ImperioBizantino
+  CalifatoOmeya
+  ImperioMongol
+  ImperioOtomano
+  ImperioAzteca
+  ImperioInca
+  ImperioRuso
+  ImperioBritánico
+  ImperioJaponés
+}
+
+model user {
+  id         String                    @id @default(uuid())
+  name       String
+  email      String                    @unique
+  password   String
+  avatar     String?
+  skin       Skin?
+  nivel      Nivel                     @default(PRINCIPIANTE)
+  createdAt  DateTime                  @default(now())
+  updatedAt  DateTime                  @updatedAt
+  sesiones   Session[]
+  tokenReset ResetearContrasenaToken[]
+
+  @@index([email, name, nivel])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+
+  propietario_id String?
+  propietario    user?   @relation(fields: [propietario_id], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt, propietario_id])
+}
+
+model ResetearContrasenaToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  expiresAt DateTime
+
+  propietario_id String?
+  propietario    user?   @relation(fields: [propietario_id], references: [id], onDelete: Cascade)
+
+  @@index([token, propietario_id])
+}

@@ -1,0 +1,143 @@
+import Link from "next/link";
+
+export function Presentacion() {
+    return (
+      <section className="relative pt-32 pb-20 px-4 sm:px-6 overflow-hidden min-h-screen flex items-center" id="Presentacion">
+        <div className="mesh-bg"></div>
+
+        <div
+          className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full opacity-5"
+          style={{
+            background: 'radial-gradient(circle, var(--brand-green), transparent)',
+            filter: 'blur(60px)',
+          }}
+        ></div>
+        <div
+          className="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full opacity-4"
+          style={{
+            background: 'radial-gradient(circle, var(--brand-cyan), transparent)',
+            filter: 'blur(60px)',
+          }}
+        ></div>
+
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 mb-6">
+            <span
+              className="w-1.5 h-1.5 rounded-full animate-pulse"
+              style={{ background: 'var(--brand-green)' }}
+            ></span>
+            <span className="section-label">El despertar de los verbos perdidos</span>
+          </div>
+
+          <h1
+            className="display-heading text-5xl sm:text-6xl lg:text-7xl xl:text-8xl mb-6 animate-in"
+            style={{ fontSize: 'clamp(36px, 7vw, 80px)' }}
+          >
+            Cuatro eras,
+            <br />
+            <span className="text-highlight-green">una travesía</span>
+          </h1>
+
+          <p
+            className="text-base sm:text-lg max-w-2xl mx-auto mb-10 animate-in delay-100"
+            style={{ color: 'var(--text-secondary)', lineHeight: 1.75 }}
+          >
+            Aprende inglés como jamás lo has hecho. Desbloquea eras históricas, enfrenta desafíos
+            arcade y restaura los verbos perdidos del tiempo con la guía de Sophia, tu mentora IA.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12 animate-in delay-200">
+            <button className="btn-primary w-full sm:w-auto text-base px-8 py-3">
+              Iniciar viaje →
+            </button>
+            <Link href="#sistemas" className="btn-ghost w-full sm:w-auto text-center">
+              Ver cómo funciona
+            </Link>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-2 animate-in delay-300">
+            <span className="feature-pill">🎮 Gamificado</span>
+            <span className="feature-pill">🤖 IA tutora</span>
+            <span className="feature-pill">📊 Progreso real</span>
+            <span className="feature-pill">🆓 Sin tarjeta</span>
+          </div>
+
+          <div className="flex justify-center mt-16 opacity-30 animate-in delay-400">
+            <div className="waveform">
+              <div className="waveform-bar" style={{ height: '16px', animationDelay: '0s' }}></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '28px', animationDelay: '0.1s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '20px', animationDelay: '0.2s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '36px', animationDelay: '0.05s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '24px', animationDelay: '0.15s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '40px', animationDelay: '0.25s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '20px', animationDelay: '0.1s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '32px', animationDelay: '0.3s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '16px', animationDelay: '0.05s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '28px', animationDelay: '0.2s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '36px', animationDelay: '0.15s' }}
+              ></div>
+              <div className="waveform-bar" style={{ height: '24px', animationDelay: '0s' }}></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '40px', animationDelay: '0.25s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '20px', animationDelay: '0.1s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '28px', animationDelay: '0.2s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '32px', animationDelay: '0.05s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '16px', animationDelay: '0.3s' }}
+              ></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '36px', animationDelay: '0.15s' }}
+              ></div>
+              <div className="waveform-bar" style={{ height: '24px', animationDelay: '0s' }}></div>
+              <div
+                className="waveform-bar"
+                style={{ height: '20px', animationDelay: '0.25s' }}
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+}
