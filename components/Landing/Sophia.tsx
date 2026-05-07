@@ -1,3 +1,6 @@
+import { GraduationCap, Clock, Bot, Languages, Globe, Sparkles } from 'lucide-react';
+import { OrbitingCircles } from '../ui/orbiting-circles';
+
 export function Sophia() {
   return (
     <section
@@ -8,73 +11,43 @@ export function Sophia() {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Sophia image */}
-          <div
-            className="sophia-image-frame aspect-3/4 max-w-sm mx-auto lg:mx-0"
-            style={{ position: 'relative' }}
-          >
-            <div
-              style={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'linear-gradient(160deg, #0d1825 0%, #0a1a30 60%, #051015 100%)',
-                minHeight: '400px',
-              }}
-            >
+          <div className="sophia-image-frame aspect-3/4 max-w-sm mx-auto lg:mx-0">
+            <div className="relative h-125 w-full overflow-hidden flex items-center justify-center ">
+              <OrbitingCircles>
+                <Globe />
+                <Sparkles />
+                <GraduationCap />
+              </OrbitingCircles>
+              <OrbitingCircles radius={100} reverse>
+                <Bot />
+                <Languages />
+                <Clock />
+              </OrbitingCircles>
               <div
                 style={{
-                  position: 'absolute',
-                  width: '280px',
-                  height: '280px',
+                  width: '120px',
+                  height: '120px',
                   borderRadius: '50%',
-                  border: '1px solid rgba(61,214,140,0.1)',
+                  background: 'linear-gradient(135deg, #1a3a5c, #0d2240)',
+                  border: '2px solid rgba(61,214,140,0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto',
+                  fontFamily: "'Cinzel',serif",
+                  fontSize: '36px',
+                  color: 'var(--brand-green)',
+                  position: 'absolute',
                   top: '50%',
                   left: '50%',
-                  transform: 'translate(-50%,-50%)',
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 10,
                 }}
-              ></div>
-              <div
-                style={{
-                  position: 'absolute',
-                  width: '200px',
-                  height: '200px',
-                  borderRadius: '50%',
-                  border: '1px solid rgba(61,214,140,0.06)',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%,-50%)',
-                }}
-              ></div>
-              <div style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-                <div
-                  style={{
-                    width: '120px',
-                    height: '120px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #1a3a5c, #0d2240)',
-                    border: '2px solid rgba(61,214,140,0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 16px',
-                    fontFamily: "'Cinzel',serif",
-                    fontSize: '36px',
-                    color: 'var(--brand-green)',
-                  }}
-                >
-                  S
-                </div>
-                <p
-                  style={{
-                    fontFamily: "'Space Grotesk',sans-serif",
-                    fontSize: '13px',
-                    color: 'var(--text-muted)',
-                  }}
-                ></p>
+              >
+                S
               </div>
             </div>
+
             {/* Online badge */}
             <div
               className="absolute bottom-5 left-5 flex items-center gap-2 px-3 py-1.5 rounded-full"
@@ -142,8 +115,9 @@ export function Sophia() {
                 className="text-sm sm:text-base italic mb-3"
                 style={{ color: 'var(--text-primary)' }}
               >
-                &ldquo;Veo que mejoraste la <strong style={{ color: 'var(--brand-green)' }}>th</strong>{' '}
-                desde la última vez. ¡Esta vez probemos un debate corto en la Roma Imperial!&rdquo;
+                &ldquo;Veo que mejoraste la{' '}
+                <strong style={{ color: 'var(--brand-green)' }}>th</strong> desde la última vez.
+                ¡Esta vez probemos un debate corto en la Roma Imperial!&rdquo;
               </p>
               <div className="flex items-center gap-2">
                 <div
