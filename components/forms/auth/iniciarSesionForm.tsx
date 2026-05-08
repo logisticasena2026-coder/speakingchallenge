@@ -78,7 +78,7 @@ export function IniciarSesionForm() {
           Email
         </label>
         <div className="relative flex items-center">
-          <Mail className="absolute left-3 text-text-muted w-5 h-5" />
+          <Mail className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.email ? 'ring-2 ring-error animate-shake' : ''
@@ -86,11 +86,14 @@ export function IniciarSesionForm() {
             id="email"
             placeholder="viajero@tiempos.com"
             type="email"
+            autoComplete="email"
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? 'email-error' : undefined}
             {...register('email')}
           />
         </div>
         {errors.email && (
-          <p className="text-xs text-error font-medium animate-slide-in-bottom">
+          <p id="email-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
             {errors.email.message}
           </p>
         )}
@@ -100,10 +103,10 @@ export function IniciarSesionForm() {
           htmlFor="password"
           className="font-ui-label text-ui-label text-on-surface-variant block ml-1"
         >
-          Password
+          Contraseña
         </label>
         <div className="relative flex items-center">
-          <Lock className="absolute left-3 text-text-muted w-5 h-5" />
+          <Lock className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.password ? 'ring-2 ring-error animate-shake' : ''
@@ -111,18 +114,23 @@ export function IniciarSesionForm() {
             id="password"
             placeholder="••••••••"
             type={verContrasena ? 'text' : 'password'}
+            autoComplete="current-password"
+            aria-invalid={!!errors.password}
+            aria-describedby={errors.password ? 'password-error' : undefined}
             {...register('password')}
           />
           <button
             className="absolute right-3 text-text-muted hover:text-primary transition-colors"
             type="button"
             onClick={toggleVerContrasena}
+            aria-label={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+            aria-pressed={verContrasena}
           >
             {verContrasena ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
         </div>
         {errors.password && (
-          <p className="text-xs text-error font-medium animate-slide-in-bottom">
+          <p id="password-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
             {errors.password.message}
           </p>
         )}

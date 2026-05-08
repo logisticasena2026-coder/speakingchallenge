@@ -67,7 +67,7 @@ export function RegistrarseForm() {
           Nombre de usuario
         </label>
         <div className="relative flex items-center">
-          <User className="absolute left-3 text-text-muted w-5 h-5" />
+          <User className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.username ? 'ring-2 ring-error animate-shake' : ''
@@ -75,11 +75,14 @@ export function RegistrarseForm() {
             id="username"
             placeholder="viajero_del_tiempo"
             type="text"
+            autoComplete="username"
+            aria-invalid={!!errors.username}
+            aria-describedby={errors.username ? 'username-error' : undefined}
             {...register('username')}
           />
         </div>
         {errors.username && (
-          <p className="text-xs text-error font-medium animate-slide-in-bottom">
+          <p id="username-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
             {errors.username.message}
           </p>
         )}
@@ -92,7 +95,7 @@ export function RegistrarseForm() {
           Email
         </label>
         <div className="relative flex items-center">
-          <Mail className="absolute left-3 text-text-muted w-5 h-5" />
+          <Mail className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.email ? 'ring-2 ring-error animate-shake' : ''
@@ -100,11 +103,14 @@ export function RegistrarseForm() {
             id="email"
             placeholder="viajero@tiempos.com"
             type="email"
+            autoComplete="email"
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? 'email-error' : undefined}
             {...register('email')}
           />
         </div>
         {errors.email && (
-          <p className="text-xs text-error font-medium animate-slide-in-bottom">
+          <p id="email-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
             {errors.email.message}
           </p>
         )}
@@ -117,7 +123,7 @@ export function RegistrarseForm() {
           Contraseña
         </label>
         <div className="relative flex items-center">
-          <Lock className="absolute left-3 text-text-muted w-5 h-5" />
+          <Lock className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.password ? 'ring-2 ring-error animate-shake' : ''
@@ -125,18 +131,23 @@ export function RegistrarseForm() {
             id="password"
             placeholder="••••••••"
             type={verContrasena ? 'text' : 'password'}
+            autoComplete="new-password"
+            aria-invalid={!!errors.password}
+            aria-describedby={errors.password ? 'password-error' : undefined}
             {...register('password')}
           />
           <button
             className="absolute right-3 text-text-muted hover:text-primary transition-colors"
             type="button"
             onClick={toggleVerContrasena}
+            aria-label={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+            aria-pressed={verContrasena}
           >
             {verContrasena ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
         </div>
         {errors.password && (
-          <p className="text-xs text-error font-medium animate-slide-in-bottom">
+          <p id="password-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
             {errors.password.message}
           </p>
         )}
@@ -149,7 +160,7 @@ export function RegistrarseForm() {
           Confirmar contraseña
         </label>
         <div className="relative flex items-center">
-          <Lock className="absolute left-3 text-text-muted w-5 h-5" />
+          <Lock className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.confirmPassword ? 'ring-2 ring-error animate-shake' : ''
@@ -157,11 +168,14 @@ export function RegistrarseForm() {
             id="confirmPassword"
             placeholder="••••••••"
             type={verContrasena ? 'text' : 'password'}
+            autoComplete="new-password"
+            aria-invalid={!!errors.confirmPassword}
+            aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
             {...register('confirmPassword')}
           />
         </div>
         {errors.confirmPassword && (
-          <p className="text-xs text-error font-medium animate-slide-in-bottom">
+          <p id="confirmPassword-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
             {errors.confirmPassword.message}
           </p>
         )}
