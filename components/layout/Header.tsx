@@ -21,7 +21,7 @@ export function Header() {
             >
               <Link href="#Presentacion" className="flex items-center gap-3 shrink-0">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold">
-                  <Image src="/Microfono.png" width={1024} height={1024} alt="Microfono" />
+                  <Image src="/Microfono.png" width={1024} height={1024} alt="Logo de PlayLenguage" />
                 </div>
                 <span
                   className="font-display font-semibold text-sm tracking-wide"
@@ -31,7 +31,7 @@ export function Header() {
                 </span>
               </Link>
 
-              <nav className="hidden md:flex items-center gap-6">
+              <nav aria-label="Navegación principal" className="hidden md:flex items-center gap-6">
                 <Link href="#eras" className="nav-link">
                   Eras
                 </Link>
@@ -65,7 +65,7 @@ export function Header() {
                 id="hamburger"
                 className="md:hidden p-2 rounded-lg"
                 style={{ color: 'var(--text-secondary)' }}
-                aria-label="Abrir menú"
+                aria-label="Abrir menú de navegación"
               >
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                   <rect y="3" width="20" height="2" rx="1" />

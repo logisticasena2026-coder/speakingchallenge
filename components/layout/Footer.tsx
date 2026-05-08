@@ -8,6 +8,8 @@ export function Footer() {
     <>
       {Pathname === '/' && (
         <footer
+          role="contentinfo"
+          aria-label="Pie de página"
           className="py-10 px-4 sm:px-6"
           style={{ borderTop: '1px solid var(--border-subtle)' }}
         >
