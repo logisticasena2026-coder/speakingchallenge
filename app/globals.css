@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import 'tailwind-animations';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -15,14 +16,94 @@
   --color-surface-2: #121620;
   --color-surface-3: #181d2a;
   --color-surface-4: #1f2535;
-
+  --color-primary: #60f3a6;
   --color-text-primary: #f0ede8;
   --color-text-secondary: #9ca3a0;
   --color-text-muted: #5a6270;
-
   --color-border-subtle: rgba(255, 255, 255, 0.06);
   --color-border-default: rgba(255, 255, 255, 0.10);
   --color-border-strong: rgba(255, 255, 255, 0.18);
+
+  --color-on-tertiary-fixed: #301400;
+  --color-era-cyber-start: #0a0a1a;
+  --color-tertiary: #ffd0b1;
+  --color-era-rome-start: #1a0808;
+  --color-era-viking-start: #0a1628;
+  --color-inverse-on-surface: #2b322c;
+  --color-era-egypt-end: #5c3d00;
+  --color-on-tertiary-fixed-variant: #713700;
+  --color-error: #ffb4ab;
+  --color-surface-container-high: #242c26;
+  --color-surface-tint: #49e095;
+  --color-primary-container: #3dd68c;
+  --color-tertiary-fixed: #ffdcc6;
+  --color-on-secondary-fixed-variant: #633f00;
+  --color-on-surface-variant: #bbcabd;
+  --color-surface-container-highest: #2f3731;
+  --color-secondary-container: #dc9100;
+  --color-on-tertiary-container: #783c05;
+  --color-on-secondary: #452b00;
+  --color-on-error-container: #ffdad6;
+  --color-secondary: #ffb955;
+  --color-inverse-primary: #006d41;
+  --color-surface-dim: #0e1510;
+  --color-era-viking-end: #0d2a45;
+  --color-inverse-surface: #dde5dc;
+  --color-surface: #0e1510;
+  --color-era-cyber-end: #0a1628;
+  --color-on-secondary-fixed: #291800;
+  --color-on-primary-fixed: #002110;
+  --color-on-primary-container: #005834;
+  --color-outline-variant: #3c4a40;
+  --color-surface-container-lowest: #09100b;
+  --color-primary-fixed: #6bfdaf;
+  --color-surface-container: #1a211c;
+  --color-error-container: #93000a;
+  --color-surface-bright: #333b35;
+  --color-on-primary-fixed-variant: #005230;
+  --color-on-secondary-container: #4f3100;
+  --color-surface-variant: #2f3731;
+  --color-on-error: #690005;
+  --color-secondary-fixed-dim: #ffb955;
+  --color-tertiary-fixed-dim: #ffb784;
+  --color-primary-fixed-dim: #49e095;
+  --color-on-surface: #dde5dc;
+  --color-on-tertiary: #4f2500;
+  --color-era-egypt-start: #1a1200;
+  --color-secondary-fixed: #ffddb4;
+  --color-surface-container-low: #161d18;
+  --color-on-background: #dde5dc;
+  --color-tertiary-container: #ffaa6c;
+  --color-background: #0e1510;
+  --color-era-rome-end: #5c2020;
+  --color-outline: #869488;
+
+  --spacing-gap-cards-mobile: 16px;
+  --spacing-section-py-desktop: 112px;
+  --spacing-padding-card-sm: 20px;
+  --spacing-container-px-desktop: 24px;
+  --spacing-unit: 4px;
+  --spacing-gap-badges: 8px;
+  --spacing-section-py-mobile: 80px;
+  --spacing-gap-cards-desktop: 24px;
+  --spacing-padding-card-lg: 24px;
+  --spacing-container-px-mobile: 16px;
+
+  --font-body-large: "Space Grotesk", sans-serif;
+  --font-h1-hero: "Cinzel", serif;
+  --font-h2-section: "Cinzel", serif;
+  --font-ui-badge: "Inter", sans-serif;
+  --font-h3-card: "Cinzel", serif;
+  --font-body-standard: "Space Grotesk", sans-serif;
+  --font-ui-label: "Inter", sans-serif;
+
+  --text-body-large: 18px;
+  --text-h1-hero: clamp(36px, 7vw, 80px);
+  --text-h2-section: 48px;
+  --text-ui-badge: 10px;
+  --text-h3-card: 24px;
+  --text-body-standard: 16px;
+  --text-ui-label: 14px;
 
   --font-display: var(--font-cinzel), serif;
   --font-body: var(--font-space), sans-serif;
@@ -53,7 +134,6 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -202,6 +282,11 @@ body::before {
 .noise-bg {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   opacity: 0.4;
+}
+
+.grain-overlay {
+  background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAB5Y_QwRalYo9H9SKDM12PpPFpyz2FNYwZU2QJnQKF-qlWZlxP-Gpb7FeYmmrzTgVfeDbD6-Xnqv08LcjagZoi9FOPjoLtEZt9JuVPkpxDtaDGRs9o6IxqVR9BZNH5HZGvhTAWUicSzMHL5Rg0OtCyY5l1hzNHm9sQ-p5koQLpe_x_Q9zj0AvtPLgAzAalxltrljXPrnk3fAsfcAJrQDy7OSyt-2pe7qnVfDmS-hZEv993IpwRvS2dtdqhPdUK_m_Bx5r0sxcv9EEc);
+  opacity: 0.05;
 }
 
 .mesh-gradient {
@@ -668,6 +753,10 @@ body::before {
 
 .animate-in {
   animation: fadeUp 0.6s ease-out forwards;
+}
+
+.animate-zoom-in {
+  animation: fadeUp 0.4s ease-out forwards;
 }
 
 .delay-100 {
