@@ -47,6 +47,9 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body>
+        <a href="#main-content" className="skip-link">
+          Saltar al contenido principal
+        </a>
         <Header />
         {children}
         <SileoToaster />

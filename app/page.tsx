@@ -9,7 +9,7 @@ import { Sophia } from '@/components/Landing/Sophia';
 
 export default function Home() {
   return (
-    <>
+    <main id="main-content">
       <Presentacion />
       <Eras />
       <Sistemas />
@@ -18,6 +18,6 @@ export default function Home() {
       <Mapa />
       <Juegos />
       <Creditos />
-    </>
+    </main>
   );
 }
