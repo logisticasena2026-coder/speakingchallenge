@@ -6,12 +6,12 @@ export default function Iniciar_sesion() {
   return (
     <>
       <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-emerald-900/20">
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <ArrowLeft className="text-primary w-5 h-5" />
           <h1 className="font-serif text-2xl font-bold tracking-widest text-emerald-400 drop-shadow-[0_0_8px_rgba(61,214,140,0.5)]">
             PlayLenguage
           </h1>
-        </div>
+        </Link>
         <div className="flex items-center gap-4">
           <HelpCircle className="text-slate-400 hover:text-emerald-300 transition-colors w-5 h-5" />
         </div>
