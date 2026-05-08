@@ -52,7 +52,8 @@ No test runner configured (no Vitest, Jest, or Playwright in package.json). Run 
 | brand-green | #3dd68c | Primary accent, buttons, glows |
 | surface-0 | #07090f | Main background (dark) |
 | text-primary | #f0ede8 | Main text (warm white) |
-| text-secondary | #9ca3a0 | Muted text |
+| text-secondary | #b8bfbd | Muted text (actualizado para contraste WCAG) |
+| text-muted | #8a8f8c | Disabled/hint text (actualizado para contraste WCAG) |
 | border-default | rgba(255,255,255,0.10) | Subtle borders |
 
 ## Era Themes
@@ -62,3 +63,39 @@ Each era has its own color palette defined in globals.css:
 - Egypt: gold/brown gradients
 - Rome: dark red gradients
 - Cyber: deep blue/neon gradients
+
+---
+
+## Accesibilidad (A11y) - Implementada Mayo 2026
+
+**NO** repetir estas implementaciones — ya están completas:
+
+### Archivos modificados y cambios realizados:
+
+| Archivo | Cambios A11y |
+|---------|---------------|
+| `app/globals.css` | Contraste colores corregido (text-secondary: #b8bfbd, text-muted: #8a8f8c), focus-visible, skip-link styles, prefers-reduced-motion, clase `.visually-hidden` |
+| `app/layout.tsx` | Skip link `<a href="#main-content">` al inicio del body |
+| `app/page.tsx` | `<main id="main-content">` wrapper |
+| `app/auth/register/page.tsx` | `<main id="main-content">`, `aria-hidden` en iconos decorativos, `role="presentation"` |
+| `app/auth/iniciar_sesion/page.tsx` | Mismos cambios que register |
+| `components/forms/auth/iniciarSesionForm.tsx` | `autocomplete`, `aria-invalid`, `aria-describedby`, `role="alert" aria-live="polite"` en errores, `aria-label` en toggle contraseña, `aria-hidden` en iconos |
+| `components/forms/auth/registrarseForm.tsx` | Mismos cambios + `autocomplete="new-password"` en password y confirmPassword |
+| `components/layout/Header.tsx` | `aria-label="Navegación principal"`, `alt="Logo de PlayLenguage"`, `aria-label="Abrir menú de navegación"` en hamburger |
+| `components/layout/Footer.tsx` | `role="contentinfo" aria-label="Pie de página"` |
+| `components/Landing/Eras.tsx` | `role="list"`, `role="listitem"`, `tabIndex={0}`, `aria-label` en cada tarjeta |
+| `components/Landing/Actividades.tsx` | `aria-label` únicos en cada botón ("Abrir actividad: [nombre]") |
+| `components/Landing/Sistemas.tsx` | `aria-label` en botón de video |
+| `components/Landing/Presentacion.tsx` | `aria-hidden` en emojis, `role="list"`, `role="listitem"` en feature-pills |
+
+### Reglas de accesibilidad ya aplicadas:
+- Skip link para saltar navegación
+- Contraste WCAG AA mínimo (4.5:1)
+- prefers-reduced-motion para animaciones
+- Focus states visibles con outline brand-green
+- Landmarks semánticos (main, nav, footer)
+- Formularios con labels asociados, autocomplete, aria-invalid, aria-live en errores
+- Iconos decorativos con aria-hidden
+- Botones con aria-label únicos cuando hay múltiples similares
+- Target sizes recomendados (los botones ya tienen padding adecuado)
+- Jerarquía de headings (H1 único por página)
