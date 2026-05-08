@@ -1,5 +1,6 @@
 import { GraduationCap, Clock, Bot, Languages, Globe, Sparkles } from 'lucide-react';
 import { OrbitingCircles } from '../ui/orbiting-circles';
+import Image from 'next/image';
 
 export function Sophia() {
   return (
@@ -44,7 +45,7 @@ export function Sophia() {
                   zIndex: 10,
                 }}
               >
-                S
+                <Image src="/Sophia.png" alt="Sophia" width={500} height={500} />
               </div>
             </div>
 
@@ -124,7 +125,7 @@ export function Sophia() {
                   className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
                   style={{ background: 'var(--brand-green)', color: '#07090f' }}
                 >
-                  S
+                  <Image src="/Sophia.png" alt="Sophia" width={500} height={500} />
                 </div>
                 <span
                   style={{
