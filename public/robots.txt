@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block auth pages
+Disallow: /auth/*
+
+# Sitemap
+Sitemap: https://www.speakingchallenge.online/sitemap.xml
