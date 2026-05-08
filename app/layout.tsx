@@ -3,9 +3,9 @@ import { Cinzel, Space_Grotesk, Inter, Geist } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -34,7 +34,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={cn(cinzel.variable, spaceGrotesk.variable, inter.variable, "font-sans", geist.variable)}>
+    <html
+      lang="es"
+      className={cn(
+        cinzel.variable,
+        spaceGrotesk.variable,
+        inter.variable,
+        'font-sans',
+        geist.variable,
+      )}
+      data-scroll-behavior="smooth"
+    >
       <body>
         <Header />
         {children}
