@@ -46,7 +46,7 @@ enum Skin {
 model user {
   id         String                    @id @default(uuid())
   name       String
-  email      String                    @unique
+  email      String                   
   password   String
   avatar     String?
   skin       Skin?
@@ -57,6 +57,7 @@ model user {
   tokenReset ResetearContrasenaToken[]
 
   @@index([email, name, nivel])
+  @@unique([name,email])
 }
 
 model Session {
