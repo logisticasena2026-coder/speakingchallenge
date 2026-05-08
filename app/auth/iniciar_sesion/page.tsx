@@ -1,6 +1,16 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, HelpCircle, Sparkles, Landmark, Cog } from 'lucide-react';
 import { IniciarSesionForm } from '@/components/forms/auth/iniciarSesionForm';
+
+export const metadata: Metadata = {
+  title: 'Iniciar sesión - PlayLenguage',
+  description: 'Inicia sesión en PlayLenguage para continuar tu aventura de aprendizaje de inglés.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Iniciar_sesion() {
   return (

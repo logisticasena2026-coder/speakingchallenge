@@ -1,6 +1,16 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, HelpCircle, Sparkles, Landmark, Cog } from 'lucide-react';
 import { RegistrarseForm } from '@/components/forms/auth/registrarseForm';
+
+export const metadata: Metadata = {
+  title: 'Crear cuenta - PlayLenguage',
+  description: 'Regístrate en PlayLenguage y comienza tu viaje a través del tiempo. Aprende inglés gamificado con IA.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Register() {
   return (
