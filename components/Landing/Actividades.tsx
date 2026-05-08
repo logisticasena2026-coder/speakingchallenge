@@ -112,7 +112,7 @@ export function Actividades() {
                   Frases enteras con linking sounds.
                 </span>
               </div>
-              <button className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
+              <button aria-label="Abrir actividad: Speaking Challenge" className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
             </div>
           </div>
 
@@ -186,7 +186,7 @@ export function Actividades() {
                   Debates de 8 turnos con interrupciones.
                 </span>
               </div>
-              <button className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
+              <button aria-label="Abrir actividad: Verbose" className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
             </div>
           </div>
 
@@ -260,7 +260,7 @@ export function Actividades() {
                   Sintaxis avanzada con timer agresivo.
                 </span>
               </div>
-              <button className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
+              <button aria-label="Abrir actividad: Trivia Fight" className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
             </div>
           </div>
 
@@ -350,7 +350,7 @@ export function Actividades() {
                   Sonidos similares a velocidad triple.
                 </span>
               </div>
-              <button className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
+              <button aria-label="Abrir actividad: Fonetic Invaders" className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
             </div>
           </div>
 
@@ -428,7 +428,7 @@ export function Actividades() {
                   Tiempos perfectos y subordinadas.
                 </span>
               </div>
-              <button className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
+              <button aria-label="Abrir actividad: Grammar Runner" className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
             </div>
           </div>
 
@@ -487,7 +487,7 @@ export function Actividades() {
                   Entrevistas auténticas a velocidad real.
                 </span>
               </div>
-              <button className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
+              <button aria-label="Abrir actividad: Video Insight" className="w-full btn-primary text-sm py-2.5">Abrir actividad</button>
             </div>
           </div>
         </div>

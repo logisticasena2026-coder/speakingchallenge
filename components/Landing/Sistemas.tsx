@@ -100,9 +100,9 @@ export function Sistemas() {
           <div className="system-card">
             <div className="flex items-start justify-between mb-4">
               <span className="system-num">03</span>
-              <button className="w-9 h-9 rounded-full flex items-center justify-center"
+              <button aria-label="Reproducir video explicativo de Video Insight" className="w-9 h-9 rounded-full flex items-center justify-center"
                 style={{ background: 'var(--brand-amber)', color: '#07090f' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <polygon points="5,3 19,12 5,21" />
                 </svg>
               </button>

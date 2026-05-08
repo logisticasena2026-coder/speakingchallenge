@@ -17,9 +17,14 @@ export function Eras() {
         </div>
 
         {/* Era cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5" role="list" aria-label="Eras históricas">
           {/* Era 1: Vikinga — ACTIVA */}
-          <div className="era-card">
+          <div 
+            className="era-card" 
+            role="listitem"
+            tabIndex={0}
+            aria-label="Era Vikinga - Nivel Bronce - Activa"
+          >
             <div
               className="era-bg era-viking flex items-end p-0"
               style={{ height: '220px', position: 'relative' }}
@@ -86,7 +91,12 @@ export function Eras() {
           </div>
 
           {/* Era 2: Antiguo Egipto — ACTIVA */}
-          <div className="era-card">
+          <div 
+            className="era-card" 
+            role="listitem"
+            tabIndex={0}
+            aria-label="Antiguo Egipto - Nivel Plata - Activa"
+          >
             <div
               className="era-bg era-egypt flex items-end"
               style={{ height: '220px', position: 'relative' }}

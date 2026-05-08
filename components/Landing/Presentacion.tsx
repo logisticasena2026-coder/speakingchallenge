@@ -47,19 +47,19 @@ export function Presentacion() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12 animate-in delay-200">
-            <button className="btn-primary w-full sm:w-auto text-base px-8 py-3">
+            <Link href="/auth/register" className="btn-primary w-full sm:w-auto text-base px-8 py-3 text-center">
               Iniciar viaje →
-            </button>
+            </Link>
             <Link href="#sistemas" className="btn-ghost w-full sm:w-auto text-center">
               Ver cómo funciona
             </Link>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2 animate-in delay-300">
-            <span className="feature-pill">🎮 Gamificado</span>
-            <span className="feature-pill">🤖 IA tutora</span>
-            <span className="feature-pill">📊 Progreso real</span>
-            <span className="feature-pill">🆓 Sin tarjeta</span>
+          <div className="flex flex-wrap justify-center gap-2 animate-in delay-300" role="list" aria-label="Características">
+            <span className="feature-pill" role="listitem"><span aria-hidden="true">🎮</span> Gamificado</span>
+            <span className="feature-pill" role="listitem"><span aria-hidden="true">🤖</span> IA tutora</span>
+            <span className="feature-pill" role="listitem"><span aria-hidden="true">📊</span> Progreso real</span>
+            <span className="feature-pill" role="listitem"><span aria-hidden="true">🆓</span> Sin tarjeta</span>
           </div>
 
           <div className="flex justify-center mt-16 opacity-30 animate-in delay-400">
