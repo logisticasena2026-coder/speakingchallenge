@@ -99,3 +99,32 @@ Each era has its own color palette defined in globals.css:
 - Botones con aria-label únicos cuando hay múltiples similares
 - Target sizes recomendados (los botones ya tienen padding adecuado)
 - Jerarquía de headings (H1 único por página)
+
+---
+
+## SEO - Implementado Mayo 2026
+
+**NO** repetir estas implementaciones — ya están completas:
+
+### Archivos modificados y creados:
+
+| Archivo | Acción |
+|---------|--------|
+| `app/layout.tsx` | Metadata completa (title, description, keywords, OpenGraph, Twitter Cards, canonical) |
+| `app/auth/register/page.tsx` | Metadata con `robots: { index: false }` |
+| `app/auth/iniciar_sesion/page.tsx` | Metadata con `robots: { index: false }` |
+| `public/robots.txt` | Creado - permite crawl, bloquea /auth/* |
+| `public/sitemap.xml` | Creado - incluye página principal |
+
+### Configuración SEO implementada:
+- Title y description optimizados con keywords
+- Open Graph tags para redes sociales (usando /FoundPage.png)
+- Twitter Cards
+- Canonical URL: https://www.speakingchallenge.online
+- Páginas de auth con noindex
+- Sitemap XML submitted
+- robots.txt configurado
+
+### URL del sitio:
+- Dominio: https://www.speakingchallenge.online
+- OG Image: /FoundPage.png (1200x630)
