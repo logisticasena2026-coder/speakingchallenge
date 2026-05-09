@@ -9,9 +9,11 @@ import { FormRegisterSchema, FormRegisterData } from '@/schemas/auth/register';
 import { sileo } from 'sileo';
 import { registro } from '@/actions/auth/registro';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 export function RegistrarseForm() {
   const router = useRouter();
   const { verContrasena, toggleVerContrasena } = useVerContrasena();
+  const [boton, setBoton] = useState(false);
 
   const {
     register,
@@ -23,6 +25,7 @@ export function RegistrarseForm() {
   });
 
   const onSubmit: SubmitHandler<FormRegisterData> = (data) => {
+    setBoton(true);
     sileo
       .promise(
         () =>
@@ -41,6 +44,8 @@ export function RegistrarseForm() {
             };
           },
           error: (err: unknown) => {
+            setBoton(false);
+
             const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado';
             return {
               title: 'Error al crear usuario',
@@ -82,7 +87,12 @@ export function RegistrarseForm() {
           />
         </div>
         {errors.username && (
-          <p id="username-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
+          <p
+            id="username-error"
+            className="text-xs text-error font-medium animate-slide-in-bottom"
+            role="alert"
+            aria-live="polite"
+          >
             {errors.username.message}
           </p>
         )}
@@ -110,7 +120,12 @@ export function RegistrarseForm() {
           />
         </div>
         {errors.email && (
-          <p id="email-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
+          <p
+            id="email-error"
+            className="text-xs text-error font-medium animate-slide-in-bottom"
+            role="alert"
+            aria-live="polite"
+          >
             {errors.email.message}
           </p>
         )}
@@ -142,12 +157,18 @@ export function RegistrarseForm() {
             onClick={toggleVerContrasena}
             aria-label={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
             aria-pressed={verContrasena}
+            disabled={boton}
           >
             {verContrasena ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
         </div>
         {errors.password && (
-          <p id="password-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
+          <p
+            id="password-error"
+            className="text-xs text-error font-medium animate-slide-in-bottom"
+            role="alert"
+            aria-live="polite"
+          >
             {errors.password.message}
           </p>
         )}
@@ -175,12 +196,20 @@ export function RegistrarseForm() {
           />
         </div>
         {errors.confirmPassword && (
-          <p id="confirmPassword-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
+          <p
+            id="confirmPassword-error"
+            className="text-xs text-error font-medium animate-slide-in-bottom"
+            role="alert"
+            aria-live="polite"
+          >
             {errors.confirmPassword.message}
           </p>
         )}
       </div>
-      <button className="w-full relative group/btn overflow-hidden rounded-lg bg-primary text-on-primary font-ui-label py-4 primary-glow transition-all duration-300 active:scale-95">
+      <button
+        className="w-full relative group/btn overflow-hidden rounded-lg bg-primary text-on-primary font-ui-label py-4 primary-glow transition-all duration-300 active:scale-95"
+        disabled={boton}
+      >
         <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></div>
         <span className="relative flex items-center justify-center gap-2 font-bold tracking-wider uppercase">
           Crear cuenta

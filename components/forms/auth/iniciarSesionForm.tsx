@@ -12,10 +12,11 @@ import Link from 'next/link';
 import { iniciar_session } from '@/actions/auth/iniciarSesion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
-
+import { useState } from 'react';
 export function IniciarSesionForm() {
   const router = useRouter();
   const { verContrasena, toggleVerContrasena } = useVerContrasena();
+  const [boton, setBoton] = useState(false);
 
   const {
     register,
@@ -27,6 +28,7 @@ export function IniciarSesionForm() {
   });
 
   const onSubmit: SubmitHandler<FormLoginData> = (data) => {
+    setBoton(true);
     sileo
       .promise(() => iniciar_session({ contrasena: data.password, correo: data.email }), {
         loading: { title: 'Ingresando al viaje' },
@@ -53,6 +55,7 @@ export function IniciarSesionForm() {
           };
         },
         error: (err: unknown) => {
+          setBoton(false);
           const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado';
           return {
             title: 'Error al comprovar datos',
@@ -93,7 +96,12 @@ export function IniciarSesionForm() {
           />
         </div>
         {errors.email && (
-          <p id="email-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
+          <p
+            id="email-error"
+            className="text-xs text-error font-medium animate-slide-in-bottom"
+            role="alert"
+            aria-live="polite"
+          >
             {errors.email.message}
           </p>
         )}
@@ -130,7 +138,12 @@ export function IniciarSesionForm() {
           </button>
         </div>
         {errors.password && (
-          <p id="password-error" className="text-xs text-error font-medium animate-slide-in-bottom" role="alert" aria-live="polite">
+          <p
+            id="password-error"
+            className="text-xs text-error font-medium animate-slide-in-bottom"
+            role="alert"
+            aria-live="polite"
+          >
             {errors.password.message}
           </p>
         )}
@@ -138,12 +151,15 @@ export function IniciarSesionForm() {
       <div className="flex justify-end">
         <Link
           className="font-ui-label text-ui-label text-secondary hover:text-secondary-fixed transition-colors"
-          href="#"
+          href="/auth/iniciar_sesion/recuperar_contrasena"
         >
           ¿Olvidaste tu contraseña?
         </Link>
       </div>
-      <button className="w-full relative group/btn overflow-hidden rounded-lg bg-primary text-on-primary font-ui-label py-4 primary-glow transition-all duration-300 active:scale-95">
+      <button
+        className="w-full relative group/btn overflow-hidden rounded-lg bg-primary text-on-primary font-ui-label py-4 primary-glow transition-all duration-300 active:scale-95"
+        disabled={boton}
+      >
         <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></div>
         <span className="relative flex items-center justify-center gap-2 font-bold tracking-wider uppercase">
           Iniciar sesión
