@@ -215,7 +215,8 @@ export function Actividades() {
                 <div className="flex flex-col items-center gap-2">
                   <div
                     className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold"
-                    style={{ background: '#ef4444', color: 'white' }}
+                    style={{ background: '#dc2626', color: '#ffffff' }}
+                    aria-label="Oponente IA"
                   >
                     AI
                   </div>

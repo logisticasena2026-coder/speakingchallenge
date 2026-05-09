@@ -46,7 +46,7 @@ export function Juegos() {
             >
               WASD · FLECHAS · DESLIZA
             </p>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Sin partidas aún
             </p>
           </div>
@@ -76,7 +76,7 @@ export function Juegos() {
             >
               CLICK / TAP
             </p>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Sin partidas aún
             </p>
           </div>
@@ -106,7 +106,7 @@ export function Juegos() {
             >
               TECLADO
             </p>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Sin partidas aún
             </p>
           </div>
@@ -137,7 +137,7 @@ export function Juegos() {
             >
               FLECHAS · ESPACIO · DESLIZA
             </p>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Sin partidas aún
             </p>
           </div>
