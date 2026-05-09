@@ -11,7 +11,7 @@ export function Footer() {
           role="contentinfo"
           aria-label="Pie de página"
           className="py-10 px-4 sm:px-6"
-          style={{ borderTop: '1px solid var(--border-subtle)' }}
+          style={{ borderTop: '1px solid var(--border-subtle)', minHeight: '200px' }}
         >
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">

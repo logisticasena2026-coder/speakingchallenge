@@ -307,7 +307,7 @@ body::before {
 
 
 #Presentacion {
-  background-image: url("/FoundPage.png");
+  background-image: url("/FoundPage.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -811,6 +811,13 @@ body::before {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-card > * {
+  flex-shrink: 0;
 }
 
 .game-card:hover {
