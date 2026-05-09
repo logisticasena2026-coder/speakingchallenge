@@ -1,13 +1,21 @@
-'use client';
-
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import {  CheckCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Contraseña actualizada - PlayLenguage',
+  description: 'Tu contraseña ha sido cambiada exitosamente. Ya puedes iniciar sesión.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function ContrasenaCambiada() {
   return (
     <>
 
-      <main className="min-h-screen grow flex items-center justify-center px-4 relative">
+      <main id="main-content" className="min-h-screen grow flex items-center justify-center px-4 relative" role="status" aria-live="polite">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-[120px]"></div>
         </div>

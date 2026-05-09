@@ -1,6 +1,16 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Mail, Clock, LogIn, ExternalLink } from 'lucide-react';
 import { Sonido } from '@/components/sonido';
+
+export const metadata: Metadata = {
+  title: 'Correo de recuperación enviado - PlayLenguage',
+  description: 'Revisa tu bandeja de entrada para restablecer tu contraseña.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 interface Props {
   searchParams: Promise<{ correo: string }>;
@@ -18,7 +28,7 @@ export default async function ConfirmarCorreoContrasena({ searchParams }: Readon
           </div>
         </div>
       </header>
-      <main className="grow flex items-center justify-center relative px-container-px-mobile md:px-container-px-desktop pt-24 pb-12 overflow-hidden">
+      <main id="main-content" className="grow flex items-center justify-center relative px-container-px-mobile md:px-container-px-desktop pt-24 pb-12 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-primary/5 rounded-full blur-[120px]"></div>
           <div className="absolute bottom-0 left-0 w-full h-1/2 bg-linear-to-t from-surface-0 to-transparent"></div>
