@@ -102,14 +102,26 @@ Each era has its own color palette defined in globals.css:
 | `app/page.tsx` | `<main id="main-content">` wrapper |
 | `app/auth/register/page.tsx` | `<main id="main-content">`, `aria-hidden` en iconos decorativos, `role="presentation"` |
 | `app/auth/iniciar_sesion/page.tsx` | Mismos cambios que register |
+| `app/auth/iniciar_sesion/recuperar_contrasena/confirmar_correo_contrasena/page.tsx` | `<main id="main-content">` |
+| `app/auth/iniciar_sesion/recuperar_contrasena/nueva_contrasena/contrasena_cambiada/page.tsx` | `<main id="main-content">`, `role="status" aria-live="polite"` |
 | `components/forms/auth/iniciarSesionForm.tsx` | `autocomplete`, `aria-invalid`, `aria-describedby`, `role="alert" aria-live="polite"` en errores, `aria-label` en toggle contraseña, `aria-hidden` en iconos |
 | `components/forms/auth/registrarseForm.tsx` | Mismos cambios + `autocomplete="new-password"` en password y confirmPassword |
+| `components/forms/auth/recuperarContrasenaForm.tsx` | `autocomplete`, `aria-invalid`, `aria-describedby`, `role="alert" aria-live="polite"`, `aria-hidden` en iconos |
+| `components/forms/auth/nuevaContrasenaForm.tsx` | `autocomplete="new-password"`, `aria-invalid`, `aria-describedby`, `role="alert" aria-live="polite"`, `aria-label` en toggle |
 | `components/layout/Header.tsx` | `aria-label="Navegación principal"`, `alt="Logo de PlayLenguage"`, `aria-label="Abrir menú de navegación"` en hamburger |
 | `components/layout/Footer.tsx` | `role="contentinfo" aria-label="Pie de página"` |
 | `components/Landing/Eras.tsx` | `role="list"`, `role="listitem"`, `tabIndex={0}`, `aria-label` en cada tarjeta |
 | `components/Landing/Actividades.tsx` | `aria-label` únicos en cada botón ("Abrir actividad: [nombre]") |
 | `components/Landing/Sistemas.tsx` | `aria-label` en botón de video |
 | `components/Landing/Presentacion.tsx` | `aria-hidden` en emojis, `role="list"`, `role="listitem"` en feature-pills |
+| `components/Landing/Creditos.tsx` | `role="list"`, `role="listitem"` en team cards |
+| `components/Landing/Sophia.tsx` | `role="list"`, `role="listitem"` en capabilities, `aria-hidden` en dots decorativos |
+| `components/Landing/Mapa.tsx` | `role="list"`, `role="listitem"` en steps, `aria-hidden` en iconos SVG y emojis |
+| `components/Landing/Juegos.tsx` | `role="list"`, `role="listitem"` en game cards, `aria-hidden` en emojis |
+| `components/sonido.tsx` | `role="presentation" aria-hidden="true"` |
+| `app/loading.tsx` | `<main id="main-content">`, `role="status" aria-live="polite"` |
+| `app/error.tsx` | `<main id="main-content">`, `role="alert"` |
+| `app/not-found.tsx` | `<main id="main-content">`, `role="status" aria-live="polite"` |
 
 ### Reglas de accesibilidad ya aplicadas:
 - Skip link para saltar navegación
@@ -136,6 +148,10 @@ Each era has its own color palette defined in globals.css:
 | `app/layout.tsx` | Metadata completa (title, description, keywords, OpenGraph, Twitter Cards, canonical) |
 | `app/auth/register/page.tsx` | Metadata con `robots: { index: false }` |
 | `app/auth/iniciar_sesion/page.tsx` | Metadata con `robots: { index: false }` |
+| `app/auth/iniciar_sesion/recuperar_contrasena/page.tsx` | Metadata con `robots: { index: false }` |
+| `app/auth/iniciar_sesion/recuperar_contrasena/confirmar_correo_contrasena/page.tsx` | Metadata con `robots: { index: false }` |
+| `app/auth/iniciar_sesion/recuperar_contrasena/nueva_contrasena/page.tsx` | Metadata con `robots: { index: false }` |
+| `app/auth/iniciar_sesion/recuperar_contrasena/nueva_contrasena/contrasena_cambiada/page.tsx` | Metadata con `robots: { index: false }` |
 | `public/robots.txt` | Creado - permite crawl, bloquea /auth/* |
 | `public/sitemap.xml` | Creado - incluye página principal |
 
