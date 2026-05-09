@@ -1,0 +1,77 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowLeft, Sparkles, Landmark, Cog } from 'lucide-react';
+import { NuevaContrasenaForm } from '@/components/forms/auth/nuevaContrasenaForm';
+
+export const metadata: Metadata = {
+  title: 'Nueva contraseña - PlayLenguage',
+  description: 'Establece una nueva contraseña para tu cuenta de PlayLenguage.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
+interface Props {
+  searchParams: Promise<{ token: string }>;
+}
+
+export default async function NuevaContrasena({ searchParams }: Readonly<Props>) {
+  const { token } = await searchParams;
+  return (
+    <>
+      <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-emerald-900/20">
+        <Link href="/auth/iniciar_sesion" className="flex items-center gap-2">
+          <ArrowLeft className="text-primary w-5 h-5" aria-hidden="true" />
+          <span className="font-serif text-2xl font-bold tracking-widest text-emerald-400 drop-shadow-[0_0_8px_rgba(61,214,140,0.5)]">
+            PlayLenguage
+          </span>
+        </Link>
+      </header>
+      <main
+        id="main-content"
+        className="relative z-10 grow flex items-center justify-center px-container-px-mobile md:px-container-px-desktop py-24"
+      >
+        <div className="w-full max-w-md relative group">
+          <div className="absolute -inset-0.5 bg-linear-to-r from-primary/20 via-secondary/20 to-primary/20 rounded-xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+          <div className="relative bg-surface-1/40 backdrop-blur-2xl border border-white/5 p-padding-card-sm md:p-padding-card-lg rounded-xl shadow-2xl overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary/40 to-transparent"></div>
+            <div className="text-center mb-8">
+              <h2 className="font-h2-section text-h2-section text-primary mb-2">
+                Establecer nueva contraseña
+              </h2>
+              <p className="font-body-large text-body-standard text-text-secondary">
+                Ingresa tu nueva contraseña para restaurar el acceso a tu cuenta.
+              </p>
+            </div>
+            <NuevaContrasenaForm token={token} />
+            <div className="mt-8 text-center pt-6 border-t border-white/5">
+              <Link
+                className="font-body-standard text-ui-label text-text-secondary hover:text-primary transition-colors group"
+                href="/auth/iniciar_sesion"
+              >
+                <span className="text-primary font-bold group-hover:underline underline-offset-4">
+                  Volver a iniciar sesión
+                </span>
+              </Link>
+            </div>
+          </div>
+          <ul className="flex justify-center gap-8 mt-12 opacity-40">
+            <li className="flex flex-col items-center">
+              <Sparkles className="text-primary mb-1 w-6 h-6" aria-hidden="true" />
+              <span className="text-ui-badge uppercase tracking-widest font-bold">Magia</span>
+            </li>
+            <li className="flex flex-col items-center">
+              <Landmark className="text-secondary mb-1 w-6 h-6" aria-hidden="true" />
+              <span className="text-ui-badge uppercase tracking-widest font-bold">Historia</span>
+            </li>
+            <li className="flex flex-col items-center">
+              <Cog className="text-brand-cyan mb-1 w-6 h-6" aria-hidden="true" />
+              <span className="text-ui-badge uppercase tracking-widest font-bold">Ciencia</span>
+            </li>
+          </ul>
+        </div>
+      </main>
+    </>
+  );
+}
