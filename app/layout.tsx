@@ -28,10 +28,22 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.speakingchallenge.online'),
   title: {
     default: 'PlayLenguage - Aprende inglés a través del tiempo',
-    template: '%s | PlayLenguage'
+    template: '%s | PlayLenguage',
   },
-  description: 'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas (Vikinga, Egipto, Roma, Ciberpunk) mientras restauras los verbos perdidos del tiempo. Incluye speaking challenge, conversaciones con IA y juegos arcade.',
-  keywords: ['aprender inglés', 'inglés gamificado', 'IA para aprendizaje', 'speaking challenge', 'verbos perdidos', 'aprendizaje de idiomas', 'conversación IA', 'pronunciación inglés', 'grammar runner', 'trivia fight'],
+  description:
+    'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas (Vikinga, Egipto, Roma, Ciberpunk) mientras restauras los verbos perdidos del tiempo. Incluye speaking challenge, conversaciones con IA y juegos arcade.',
+  keywords: [
+    'aprender inglés',
+    'inglés gamificado',
+    'IA para aprendizaje',
+    'speaking challenge',
+    'verbos perdidos',
+    'aprendizaje de idiomas',
+    'conversación IA',
+    'pronunciación inglés',
+    'grammar runner',
+    'trivia fight',
+  ],
   authors: [{ name: 'PlayLenguage' }],
   creator: 'PlayLenguage',
   publisher: 'PlayLenguage',
@@ -52,7 +64,8 @@ export const metadata: Metadata = {
     url: 'https://www.speakingchallenge.online',
     siteName: 'PlayLenguage',
     title: 'PlayLenguage - Aprende inglés a través del tiempo',
-    description: 'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
+    description:
+      'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
     images: [
       {
         url: '/FoundPage.png',
@@ -65,13 +78,14 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'PlayLenguage - Aprende inglés a través del tiempo',
-    description: 'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
+    description:
+      'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
     images: ['/FoundPage.png'],
   },
   alternates: {
     canonical: 'https://www.speakingchallenge.online',
     languages: {
-      'es': 'https://www.speakingchallenge.online',
+      es: 'https://www.speakingchallenge.online',
     },
   },
 };
