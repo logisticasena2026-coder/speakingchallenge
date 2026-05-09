@@ -27,7 +27,7 @@ export default function ErrorPage({
           </button>
         </div>
       </header>
-      <main className="grow flex flex-col items-center justify-center relative overflow-hidden px-container-px-mobile md:px-container-px-desktop pt-24 pb-12 min-h-screen">
+      <main id="main-content" className="grow flex flex-col items-center justify-center relative overflow-hidden px-container-px-mobile md:px-container-px-desktop pt-24 pb-12 min-h-screen" role="alert">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-era-rome-end rounded-full blur-[120px]" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary-container rounded-full blur-[120px]" />

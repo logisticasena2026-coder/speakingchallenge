@@ -21,7 +21,7 @@ export default function Loading() {
           <HelpCircle className="text-slate-400 cursor-pointer w-6 h-6" />
         </div>
       </header>
-      <main className="grow flex flex-col items-center justify-center relative mesh-bg px-container-px-mobile md:px-container-px-desktop min-h-screen">
+      <main id="main-content" className="grow flex flex-col items-center justify-center relative mesh-bg px-container-px-mobile md:px-container-px-desktop min-h-screen" role="status" aria-live="polite">
         <div className="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center">
           <div className="absolute inset-0 portal-linear rounded-full animate-pulse-glow" />
           <div className="absolute inset-0 border border-primary/20 rounded-full animate-rotate-cw flex items-center justify-center">

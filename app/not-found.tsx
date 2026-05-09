@@ -19,7 +19,7 @@ export default function NotFound() {
         </div>
 
       </header>
-      <main className="relative grow flex items-center justify-center px-container-px-mobile md:px-container-px-desktop mesh-linear overflow-hidden min-h-screen">
+      <main id="main-content" className="relative grow flex items-center justify-center px-container-px-mobile md:px-container-px-desktop mesh-linear overflow-hidden min-h-screen" role="status" aria-live="polite">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[15%] left-[10%] opacity-20 float-slow">
             <div
