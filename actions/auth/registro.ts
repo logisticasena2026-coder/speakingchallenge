@@ -8,7 +8,7 @@ import { DatabaseError, ConflictError, ValidationError } from '../../lib/errors'
 
 async function getSesion() {
   const cookieStore = await cookies();
-  const sessionId = cookieStore.get('session_id');
+  const sessionId = cookieStore.get('sessions_id');
 
   if (!sessionId?.value) return null;
 

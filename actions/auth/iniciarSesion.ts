@@ -8,7 +8,7 @@ import { logger } from '@/lib/logger';
 
 async function getSession() {
   const cookieStore = await cookies();
-  const sessionId = cookieStore.get('sessionEstudiante_id');
+  const sessionId = cookieStore.get('sessions_id');
 
   if (!sessionId?.value) return null;
 
@@ -79,7 +79,7 @@ export async function iniciar_session({
 
     const isProduction = process.env.NODE_ENV === 'production';
 
-    (await cookies()).set('sessionEstudiante_id', session.id, {
+    (await cookies()).set('sessions_id', session.id, {
       httpOnly: true,
       secure: isProduction,
       sameSite: 'lax',
