@@ -15,8 +15,8 @@ export function Creditos() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="team-card md:row-span-2 flex flex-col">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6" role="list">
+          <div className="team-card md:row-span-2 flex flex-col" role="listitem">
             <div className="photo-placeholder era-viking" style={{ height: '320px' }}>
               <div style={{ textAlign: 'center' }}>
                 <div
@@ -138,7 +138,7 @@ export function Creditos() {
             </div>
           </div>
 
-          <div className="team-card">
+          <div className="team-card" role="listitem">
             <div className="photo-placeholder era-egypt" style={{ height: '180px' }}>
               <div style={{ textAlign: 'center' }}>
                 <div
@@ -174,7 +174,7 @@ export function Creditos() {
             </div>
           </div>
 
-          <div className="team-card">
+          <div className="team-card" role="listitem">
             <div className="photo-placeholder era-rome" style={{ height: '180px' }}>
               <div style={{ textAlign: 'center' }}>
                 <div
@@ -210,7 +210,7 @@ export function Creditos() {
             </div>
           </div>
 
-          <div className="team-card">
+          <div className="team-card" role="listitem">
             <div className="photo-placeholder era-cyber" style={{ height: '180px' }}>
               <div style={{ textAlign: 'center' }}>
                 <div
@@ -246,7 +246,7 @@ export function Creditos() {
             </div>
           </div>
 
-          <div className="team-card" style={{ borderColor: 'rgba(61,214,140,0.15)' }}>
+          <div className="team-card" style={{ borderColor: 'rgba(61,214,140,0.15)' }} role="listitem">
             <div
               style={{
                 height: '180px',

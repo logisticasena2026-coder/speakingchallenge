@@ -18,8 +18,9 @@ export function Mapa() {
           <div
             className="flex items-start gap-0 min-w-max mx-auto mt-5"
             style={{ width: 'fit-content' }}
+            role="list"
           >
-            <div className="flex flex-col items-center w-28 sm:w-32">
+            <div className="flex flex-col items-center w-28 sm:w-32" role="listitem">
               <div style={{ position: 'relative' }}>
                 <div
                   className="step-circle"
@@ -28,7 +29,7 @@ export function Mapa() {
                     border: '2px solid var(--brand-green)',
                   }}
                 >
-                  <svg width="22" height="22" fill="none" stroke="var(--brand-green)" strokeWidth="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zm20 0h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  <svg width="22" height="22" fill="none" stroke="var(--brand-green)" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zm20 0h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                 </div>
                 <div
                   className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
@@ -60,7 +61,7 @@ export function Mapa() {
               }}
             ></div>
 
-            <div className="flex flex-col items-center w-28 sm:w-32">
+            <div className="flex flex-col items-center w-28 sm:w-32" role="listitem">
               <div style={{ position: 'relative' }}>
                 <div
                   className="step-circle"
@@ -69,7 +70,7 @@ export function Mapa() {
                     border: '2px solid rgba(61,214,140,0.5)',
                   }}
                 >
-                  <svg width="22" height="22" fill="none" stroke="var(--brand-green)" strokeWidth="2" opacity={0.8} viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg>
+                  <svg width="22" height="22" fill="none" stroke="var(--brand-green)" strokeWidth="2" opacity={0.8} viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg>
                 </div>
                 <div
                   className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
@@ -101,7 +102,7 @@ export function Mapa() {
               }}
             ></div>
 
-            <div className="flex flex-col items-center w-28 sm:w-32">
+            <div className="flex flex-col items-center w-28 sm:w-32" role="listitem">
               <div style={{ position: 'relative' }}>
                 <div
                   className="step-circle"
@@ -110,7 +111,7 @@ export function Mapa() {
                     border: '2px solid rgba(245,166,35,0.4)',
                   }}
                 >
-                  <svg width="22" height="22" fill="none" stroke="var(--brand-amber)" strokeWidth="2" opacity={0.8} viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>
+                  <svg width="22" height="22" fill="none" stroke="var(--brand-amber)" strokeWidth="2" opacity={0.8} viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>
                 </div>
                 <div
                   className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
@@ -142,7 +143,7 @@ export function Mapa() {
               }}
             ></div>
 
-            <div className="flex flex-col items-center w-28 sm:w-32">
+            <div className="flex flex-col items-center w-28 sm:w-32" role="listitem">
               <div style={{ position: 'relative' }}>
                 <div
                   className="step-circle"
@@ -151,7 +152,7 @@ export function Mapa() {
                     border: '2px solid rgba(239,68,68,0.4)',
                   }}
                 >
-                  <span style={{ fontSize: '22px' }}>🔥</span>
+                  <span style={{ fontSize: '22px' }} aria-hidden="true">🔥</span>
                 </div>
                 <div
                   className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
@@ -183,7 +184,7 @@ export function Mapa() {
               }}
             ></div>
 
-            <div className="flex flex-col items-center w-28 sm:w-32">
+            <div className="flex flex-col items-center w-28 sm:w-32" role="listitem">
               <div style={{ position: 'relative' }}>
                 <div
                   className="step-circle"
@@ -192,7 +193,7 @@ export function Mapa() {
                     border: '2px solid rgba(168,85,247,0.5)',
                   }}
                 >
-                  <span style={{ fontSize: '22px' }}>💀</span>
+                  <span style={{ fontSize: '22px' }} aria-hidden="true">💀</span>
                 </div>
                 <div
                   className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"

@@ -1,6 +1,6 @@
 export function Sonido() {
     return (
-      <div className="flex justify-center mt-16 opacity-30 animate-in delay-400">
+      <div className="flex justify-center mt-16 opacity-30 animate-in delay-400" role="presentation" aria-hidden="true">
         <div className="waveform">
           <div className="waveform-bar" style={{ height: '16px', animationDelay: '0s' }}></div>
           <div className="waveform-bar" style={{ height: '28px', animationDelay: '0.1s' }}></div>

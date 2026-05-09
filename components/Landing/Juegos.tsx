@@ -19,10 +19,10 @@ export function Juegos() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="game-card">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" role="list">
+          <div className="game-card" role="listitem">
             <div className="flex items-center justify-between mb-5">
-              <span style={{ fontSize: '28px' }}>🐍</span>
+              <span style={{ fontSize: '28px' }} aria-hidden="true">🐍</span>
               <span className="badge badge-bronze">Bronce</span>
             </div>
             <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>
@@ -51,9 +51,9 @@ export function Juegos() {
             </p>
           </div>
 
-          <div className="game-card">
+          <div className="game-card" role="listitem">
             <div className="flex items-center justify-between mb-5">
-              <span style={{ fontSize: '28px' }}>🎪</span>
+              <span style={{ fontSize: '28px' }} aria-hidden="true">🎪</span>
               <span className="badge badge-silver">Plata</span>
             </div>
             <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>
@@ -81,9 +81,9 @@ export function Juegos() {
             </p>
           </div>
 
-          <div className="game-card" style={{ borderColor: 'rgba(34,211,238,0.15)' }}>
+          <div className="game-card" style={{ borderColor: 'rgba(34,211,238,0.15)' }} role="listitem">
             <div className="flex items-center justify-between mb-5">
-              <span style={{ fontSize: '28px' }}>🚀</span>
+              <span style={{ fontSize: '28px' }} aria-hidden="true">🚀</span>
               <span className="badge badge-diamond">Diamante</span>
             </div>
             <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>
@@ -111,9 +111,9 @@ export function Juegos() {
             </p>
           </div>
 
-          <div className="game-card">
+          <div className="game-card" role="listitem">
             <div className="flex items-center justify-between mb-5">
-              <span style={{ fontSize: '28px' }}>🧱</span>
+              <span style={{ fontSize: '28px' }} aria-hidden="true">🧱</span>
               <span className="badge badge-gold">Oro</span>
             </div>
             <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>

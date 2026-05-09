@@ -153,28 +153,29 @@ export function Sophia() {
               Sophia recuerda y aprende
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <div className="capability-item">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="list">
+              <div className="capability-item" role="listitem">
                 <span className="capability-dot"></span>Recuerda tu nombre
               </div>
-              <div className="capability-item">
-                <span className="capability-dot"></span>Sigue tu nivel actual
+              <div className="capability-item" role="listitem">
+                <span className="capability-dot" aria-hidden="true"></span>Sigue tu nivel actual
               </div>
-              <div className="capability-item">
-                <span className="capability-dot"></span>Guarda tus puntajes
+              <div className="capability-item" role="listitem">
+                <span className="capability-dot" aria-hidden="true"></span>Guarda tus puntajes
               </div>
-              <div className="capability-item">
-                <span className="capability-dot"></span>Detecta errores frecuentes
+              <div className="capability-item" role="listitem">
+                <span className="capability-dot" aria-hidden="true"></span>Detecta errores frecuentes
               </div>
-              <div className="capability-item">
+              <div className="capability-item" role="listitem">
                 <span
                   className="capability-dot"
                   style={{ background: 'var(--brand-amber)' }}
+                  aria-hidden="true"
                 ></span>
                 Celebra tus logros
               </div>
-              <div className="capability-item">
-                <span className="capability-dot" style={{ background: 'var(--brand-cyan)' }}></span>
+              <div className="capability-item" role="listitem">
+                <span className="capability-dot" style={{ background: 'var(--brand-cyan)' }} aria-hidden="true"></span>
                 Crea retos a medida
               </div>
             </div>
