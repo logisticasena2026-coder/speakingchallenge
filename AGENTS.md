@@ -5,10 +5,29 @@
 ```bash
 npm run dev      # Start dev server (http://localhost:3000)
 npm run build   # Runs prisma generate && next build
+npm run start   # Start production server
 npm run lint    # ESLint
 ```
 
 **Important**: `npm run build` automatically runs `prisma generate` first — do not skip this when modifying the schema.
+
+## Required Environment Variables
+
+Create a `.env` file with:
+- `DATABASE_URL` — PostgreSQL connection string
+- `EMAIL_USER` — SMTP sender email
+- `EMAIL_PASS` — SMTP app password
+- `NEXT_PUBLIC_APP_URL` — Public URL for email links (e.g., http://localhost:3002)
+
+## Prisma
+
+```bash
+npx prisma generate   # Regenerate client (always run before build)
+npx prisma studio     # Open web DB GUI
+npx prisma migrate dev --name <name>  # Create migration
+```
+
+Schema: `prisma/schema.prisma`, Migrations: `prisma/migrations/`
 
 ## Tailwind CSS v4
 
@@ -44,6 +63,10 @@ Configured in `app/layout.tsx` via `next/font/google`.
 ## Testing
 
 No test runner configured (no Vitest, Jest, or Playwright in package.json). Run `npm run dev` to manually verify changes.
+
+## Deployment
+
+Live site: https://www.speakingchallenge.online
 
 ## Design Tokens Summary
 
