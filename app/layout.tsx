@@ -68,7 +68,7 @@ export const metadata: Metadata = {
       'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
     images: [
       {
-        url: '/FoundPage.png',
+        url: '/FoundPage.webp',
         width: 1200,
         height: 630,
         alt: 'PlayLenguage - Aprendizaje de inglés gamificado',
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     title: 'PlayLenguage - Aprende inglés a través del tiempo',
     description:
       'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
-    images: ['/FoundPage.png'],
+    images: ['/FoundPage.webp'],
   },
   alternates: {
     canonical: 'https://www.speakingchallenge.online',
