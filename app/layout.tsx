@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { cn } from '@/lib/utils';
 import { SileoToaster } from '@/components/SileoToaster';
+import Link from 'next/link';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -108,9 +109,9 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body>
-        <a href="#main-content" className="skip-link">
+        <Link href="#main-content" className="skip-link">
           Saltar al contenido principal
-        </a>
+        </Link>
         <Header />
         {children}
         <SileoToaster />
