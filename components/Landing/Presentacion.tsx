@@ -10,17 +10,17 @@ export function Presentacion() {
       <div className="mesh-bg"></div>
 
       <div
-        className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full opacity-5"
+        className="absolute top-1/4 right-1/4 size-96 rounded-full opacity-5"
         style={{
           background: 'radial-gradient(circle, var(--brand-green), transparent)',
-          filter: 'blur(60px)',
+          filter: 'blur(10px)',
         }}
       ></div>
       <div
-        className="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full opacity-4"
+        className="absolute bottom-1/4 left-1/3 size-64 rounded-full opacity-4"
         style={{
           background: 'radial-gradient(circle, var(--brand-cyan), transparent)',
-          filter: 'blur(60px)',
+          filter: 'blur(10px)',
         }}
       ></div>
 

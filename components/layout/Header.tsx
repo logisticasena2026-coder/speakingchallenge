@@ -14,7 +14,7 @@ export function Header() {
             <div
               style={{
                 background: 'rgba(7,9,15,0.85)',
-                backdropFilter: 'blur(20px)',
+                backdropFilter: 'blur(10px)',
                 borderBottom: '1px solid var(--border-subtle)',
               }}
               className="flex items-center justify-between h-16 px-4 sm:px-6 rounded-b-xl"
