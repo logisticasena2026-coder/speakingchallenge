@@ -34,7 +34,7 @@ export default async function ConfirmarCorreoContrasena({ searchParams }: Readon
           <div className="absolute bottom-0 left-0 w-full h-1/2 bg-linear-to-t from-surface-0 to-transparent"></div>
         </div>
         <div className="relative w-full max-w-2xl z-10">
-          <div className="bg-surface-2/40 backdrop-blur-xl border border-border-strong rounded-xl p-8 md:p-12 shadow-2xl shadow-black/80 flex flex-col items-center text-center space-y-8">
+          <div className="bg-surface-2/40 backdrop-blur-xl border border-border-strong rounded-xl p-8 md:p-12 shadow-2xl shadow-black/80 flex flex-col items-center text-center gap-y-8">
             <div className="relative">
               <div className="w-24 h-24 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center animate-pulse shadow-[0_0_40px_rgba(96,243,166,0.2)]">
                 <Mail className="w-12 h-12 text-primary" aria-hidden="true" />

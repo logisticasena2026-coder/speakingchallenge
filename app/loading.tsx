@@ -1,26 +1,11 @@
 
-import { ArrowLeft, HelpCircle, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Loading() {
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-emerald-900/20">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/"
-            className="text-emerald-400 hover:bg-white/5 transition-all  p-2 rounded-full active:scale-95 duration-150"
-          >
-            <ArrowLeft className="w-6 h-6" />
-          </Link>
-          <h1 className="font-serif text-2xl font-bold tracking-widest text-emerald-400 drop-shadow-[0_0_8px_rgba(61,214,140,0.5)]">
-            PlayLenguage
-          </h1>
-        </div>
-        <div className="flex items-center gap-6">
-          <HelpCircle className="text-slate-400 cursor-pointer w-6 h-6" />
-        </div>
-      </header>
+
       <main id="main-content" className="grow flex flex-col items-center justify-center relative mesh-bg px-container-px-mobile md:px-container-px-desktop min-h-screen" role="status" aria-live="polite">
         <div className="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center">
           <div className="absolute inset-0 portal-linear rounded-full animate-pulse-glow" />
@@ -48,13 +33,13 @@ export default function Loading() {
         </div>
         <div className="mt-16 text-center max-w-md z-10">
           <h2 className="font-h2-section text-h3-card md:text-h2-section text-on-surface mb-4 tracking-tight drop-shadow-md">
-            Abriendo portal temporal...
+            Abriendo portal temporal…
           </h2>
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-3 bg-surface-container-high/40 border border-border-subtle px-6 py-3 rounded-full backdrop-blur-xl">
               <Sparkles className="text-primary w-5 h-5" />
               <p className="font-ui-label text-ui-label uppercase tracking-widest text-on-surface-variant">
-                Sincronizando verbos vikingos...
+                Sincronizando verbos vikingos…
               </p>
             </div>
           </div>
