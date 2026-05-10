@@ -36,6 +36,7 @@ export const RecuperarCuentaEmailDiseno = ({
 }: RecuperarCuentaEmailProps) => (
   <Html>
     <Head>
+      {/* Google Fonts via CDN - required for email templates since next/font doesn't work in email clients */}
       <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet"
