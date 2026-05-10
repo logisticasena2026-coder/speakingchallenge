@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Sparkles, Landmark, Cog } from 'lucide-react';
 import { NuevaContrasenaForm } from '@/components/forms/auth/nuevaContrasenaForm';
+import { Particles } from '@/components/ui/particles';
 
 export const metadata: Metadata = {
   title: 'Nueva contraseña - PlayLenguage',
@@ -70,6 +71,9 @@ export default async function NuevaContrasena({ searchParams }: Readonly<Props>)
               <span className="text-ui-badge uppercase tracking-widest font-bold">Ciencia</span>
             </li>
           </ul>
+        </div>
+        <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+          <Particles quantity={80} color="#3dd68c" size={0.5} staticity={60} ease={60} />
         </div>
       </main>
     </>

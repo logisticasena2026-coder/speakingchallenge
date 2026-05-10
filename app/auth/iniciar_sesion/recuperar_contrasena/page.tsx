@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, HelpCircle, Sparkles, Landmark, Cog } from 'lucide-react';
 import { RecuperarContrasenaForm } from '@/components/forms/auth/recuperarContrasenaForm';
+import { Particles } from '@/components/ui/particles';
 
 export const metadata: Metadata = {
   title: 'Recuperar contraseña - PlayLenguage',
@@ -23,16 +24,24 @@ export default function RecuperarContrasena() {
           </span>
         </Link>
         <div className="flex items-center gap-4">
-          <HelpCircle className="text-slate-400 hover:text-emerald-300 transition-colors w-5 h-5" aria-hidden="true" />
+          <HelpCircle
+            className="text-slate-400 hover:text-emerald-300 transition-colors w-5 h-5"
+            aria-hidden="true"
+          />
         </div>
       </header>
-      <main id="main-content" className="relative z-10 grow flex items-center justify-center px-container-px-mobile md:px-container-px-desktop py-24">
+      <main
+        id="main-content"
+        className="relative z-10 grow flex items-center justify-center px-container-px-mobile md:px-container-px-desktop py-24"
+      >
         <div className="w-full max-w-md relative group">
           <div className="absolute -inset-0.5 bg-linear-to-r from-primary/20 via-secondary/20 to-primary/20 rounded-xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
           <div className="relative bg-surface-1/40 backdrop-blur-2xl border border-white/5 p-padding-card-sm md:p-padding-card-lg rounded-xl shadow-2xl overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary/40 to-transparent"></div>
             <div className="text-center mb-8">
-              <h2 className="font-h2-section text-h2-section text-primary mb-2">Recuperar tu cuenta</h2>
+              <h2 className="font-h2-section text-h2-section text-primary mb-2">
+                Recuperar tu cuenta
+              </h2>
               <p className="font-body-large text-body-standard text-text-secondary">
                 Ingresa tu correo y te enviaremos un enlace para restaurar tu contraseña.
               </p>
@@ -63,6 +72,9 @@ export default function RecuperarContrasena() {
               <span className="text-ui-badge uppercase tracking-widest font-bold">Ciencia</span>
             </div>
           </div>
+        </div>
+        <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+          <Particles quantity={80} color="#3dd68c" size={0.5} staticity={60} ease={60} />
         </div>
       </main>
     </>
