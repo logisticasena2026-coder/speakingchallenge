@@ -61,7 +61,7 @@ export function Footer() {
             >
               <p
                 className="text-xs tracking-widest uppercase"
-                style={{ color: 'var(--text-muted)', letterSpacing: '0.2em' }}
+                style={{ color: 'var(--text-muted)', letterSpacing: '0.05em' }}
               >
                 Restaura las habilidades lingüísticas perdidas en el tiempo
               </p>

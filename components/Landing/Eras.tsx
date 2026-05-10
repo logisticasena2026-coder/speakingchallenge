@@ -173,7 +173,7 @@ export function Eras() {
               <span
                 style={{
                   fontFamily: "'Inter',sans-serif",
-                  fontSize: '10px',
+                  fontSize: '11px',
                   fontWeight: 600,
                   letterSpacing: '0.1em',
                   color: 'rgba(255,255,255,0.4)',
@@ -211,7 +211,7 @@ export function Eras() {
               <span
                 style={{
                   fontFamily: "'Inter',sans-serif",
-                  fontSize: '10px',
+                  fontSize: '11px',
                   fontWeight: 600,
                   letterSpacing: '0.1em',
                   color: 'rgba(255,255,255,0.4)',

@@ -148,7 +148,7 @@ export function Juegos() {
           style={{
             color: 'var(--text-muted)',
             fontFamily: "'Inter',sans-serif",
-            letterSpacing: '0.1em',
+            letterSpacing: '0.05em',
           }}
         >
           4 DE 4 ERAS DESBLOQUEADAS

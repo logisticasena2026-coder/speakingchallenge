@@ -19,22 +19,7 @@ export function Creditos() {
           <div className="team-card md:row-span-2 flex flex-col" role="listitem">
             <div className="photo-placeholder era-viking" style={{ height: '320px' }}>
               <div style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg,#1a3a5c,#0d2240)',
-                    border: '2px solid rgba(61,214,140,0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 12px',
-                    fontFamily: "'Cinzel',serif",
-                    fontSize: '24px',
-                    color: 'var(--brand-green)',
-                  }}
-                >
+                <div className="avatar-circle avatar-viking" style={{ fontSize: '24px', color: 'var(--brand-green)' }}>
                   M
                 </div>
                 <div
@@ -49,7 +34,7 @@ export function Creditos() {
                 >
                   <p
                     style={{
-                      fontSize: '10px',
+                      fontSize: '11px',
                       fontWeight: 700,
                       color: '#22c55e',
                       letterSpacing: '0.08em',
@@ -177,22 +162,7 @@ export function Creditos() {
           <div className="team-card" role="listitem">
             <div className="photo-placeholder era-rome" style={{ height: '180px' }}>
               <div style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg,#3d1515,#5c2020)',
-                    border: '2px solid rgba(239,68,68,0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: "'Cinzel',serif",
-                    fontSize: '20px',
-                    color: '#f87171',
-                    margin: '0 auto',
-                  }}
-                >
+                <div className="avatar-circle avatar-rome" style={{ width: '60px', height: '60px', fontSize: '20px' }}>
                   L
                 </div>
               </div>
@@ -278,7 +248,7 @@ export function Creditos() {
                 </div>
                 <p
                   style={{
-                    fontSize: '9px',
+                    fontSize: '11px',
                     color: 'var(--brand-green)',
                     letterSpacing: '0.1em',
                     fontFamily: "'Inter',sans-serif",

@@ -127,7 +127,7 @@ export function Actividades() {
                   <span
                     style={{
                       fontFamily: "'Inter',sans-serif",
-                      fontSize: '10px',
+                      fontSize: '11px',
                       fontWeight: 600,
                       letterSpacing: '0.12em',
                       color: 'var(--text-muted)',
@@ -137,14 +137,14 @@ export function Actividades() {
                   </span>
                   <span className="flex items-center gap-1.5">
                     <span
-                      className="w-1.5 h-1.5 rounded-full animate-pulse"
+                      className="size-1.5 rounded-full animate-pulse"
                       style={{ background: '#22c55e' }}
                     ></span>
                     <span
                       style={{
-                        fontFamily: "'Inter',sans-serif",
-                        fontSize: '10px',
-                        fontWeight: 600,
+fontFamily: "'Inter',sans-serif",
+                      fontSize: '11px',
+                      fontWeight: 600,
                         color: '#22c55e',
                       }}
                     >

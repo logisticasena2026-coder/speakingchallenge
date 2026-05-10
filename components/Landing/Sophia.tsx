@@ -75,7 +75,7 @@ export function Sophia() {
             >
               <p
                 style={{
-                  fontSize: '9px',
+                  fontSize: '11px',
                   fontWeight: 700,
                   color: 'var(--brand-green)',
                   letterSpacing: '0.1em',
@@ -86,7 +86,7 @@ export function Sophia() {
               </p>
               <p
                 style={{
-                  fontSize: '8px',
+                  fontSize: '11px',
                   color: 'var(--text-muted)',
                   fontFamily: "'Inter',sans-serif",
                   marginTop: '1px',

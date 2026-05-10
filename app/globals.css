@@ -1235,3 +1235,57 @@ button:focus-visible,
     animation: none !important;
   }
 }
+
+/* Avatar circles for team cards */
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-family: 'Cinzel', serif;
+  border: 2px solid rgba(61,214,140,0.3);
+}
+
+.avatar-circle-sm {
+  width: 60px;
+  height: 60px;
+  font-size: 20px;
+}
+
+.avatar-circle-lg {
+  width: 120px;
+  height: 120px;
+  font-size: 36px;
+}
+
+.avatar-viking {
+  background: linear-gradient(135deg,#1a3a5c,#0d2240);
+  color: var(--brand-cyan);
+}
+
+.avatar-egypt {
+  background: linear-gradient(135deg,#3d2800,#5c3d00);
+  color: var(--brand-amber);
+  border-color: rgba(245,166,35,0.3);
+}
+
+.avatar-rome {
+  background: linear-gradient(135deg,#3d1515,#5c2020);
+  color: #f87171;
+  border-color: rgba(239,68,68,0.3);
+}
+
+.avatar-cyber {
+  background: linear-gradient(135deg,#0d1a3d,#0a1628);
+  color: var(--brand-cyan);
+  border-color: rgba(34,211,238,0.3);
+}
+
+.avatar-sophia {
+  background: linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05));
+  color: var(--brand-green);
+  border-color: rgba(61,214,140,0.3);
+}
