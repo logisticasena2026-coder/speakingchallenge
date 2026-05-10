@@ -1,3 +1,7 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = { title: 'Streaming Practice' };
+
 // 'use client';
 
 // import { useState, useRef, useEffect } from 'react';
