@@ -53,33 +53,6 @@ export default function Loading() {
           </div>
         </div>
       </main>
-      <footer className="w-full py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4 mt-auto bg-slate-950/40 backdrop-blur-md border-t border-white/5">
-        <div className="flex items-center gap-2">
-          <p className="text-ui-badge uppercase font-bold tracking-widest text-slate-500">
-            © 2024 PlayLenguage. Master the ancient tongues.
-          </p>
-        </div>
-        <div className="flex gap-6">
-          <Link
-            href="#"
-            className="text-ui-badge uppercase font-bold tracking-widest text-slate-500 hover:text-emerald-400 transition-colors"
-          >
-            Privacy Policy
-          </Link>
-          <Link
-            href="#"
-            className="text-ui-badge uppercase font-bold tracking-widest text-slate-500 hover:text-emerald-400 transition-colors"
-          >
-            Terms of Service
-          </Link>
-          <Link
-            href="#"
-            className="text-ui-badge uppercase font-bold tracking-widest text-slate-500 hover:text-emerald-400 transition-colors"
-          >
-            Support
-          </Link>
-        </div>
-      </footer>
       <div className="fixed inset-0 pointer-events-none opacity-10 z-[-1]">
         <img
           alt="Celestial background"
