@@ -6,6 +6,7 @@ export const FormNuevaContrasenaSchema = z
     password: z
       .string()
       .min(6, 'Mínimo 6 caracteres')
+      .max(100, 'Máximo 100 caracteres')
       .refine(
         (password) => {
           const result = zxcvbn(password);
