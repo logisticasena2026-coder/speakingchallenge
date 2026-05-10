@@ -250,14 +250,14 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #0d1017;
+  --sidebar-foreground: #f0ede8;
+  --sidebar-primary: #3dd68c;
+  --sidebar-primary-foreground: #07090f;
+  --sidebar-accent: #1f2535;
+  --sidebar-accent-foreground: #f0ede8;
+  --sidebar-border: rgba(255,255,255,0.10);
+  --sidebar-ring: #3dd68c;
 }
 
 * {
@@ -1139,14 +1139,14 @@ body::before {
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar: #0d1017;
+  --sidebar-foreground: #f0ede8;
+  --sidebar-primary: #3dd68c;
+  --sidebar-primary-foreground: #07090f;
+  --sidebar-accent: #1f2535;
+  --sidebar-accent-foreground: #f0ede8;
+  --sidebar-border: rgba(255,255,255,0.10);
+  --sidebar-ring: #3dd68c;
 }
 
 @layer base {
@@ -1288,4 +1288,24 @@ button:focus-visible,
   background: linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05));
   color: var(--brand-green);
   border-color: rgba(61,214,140,0.3);
+}
+
+.sidebar-avatar-glow {
+  position: relative;
+}
+
+.sidebar-avatar-glow::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(61,214,140,0.3) 0%, transparent 70%);
+  opacity: 0.15;
+  filter: blur(8px);
+  transition: opacity 0.5s ease-out;
+  z-index: -1;
+}
+
+.sidebar-avatar-glow:hover::before {
+  opacity: 0.30;
 }
