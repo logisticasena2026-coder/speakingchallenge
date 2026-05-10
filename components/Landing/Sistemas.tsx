@@ -61,9 +61,9 @@ export function Sistemas() {
             <div className="flex items-start justify-between mb-4">
               <span className="system-num">02</span>
               <div className="flex gap-2">
-                <div className="w-7 h-7 rounded-full"
+                <div className="size-7 rounded-full"
                   style={{ background: 'rgba(61,214,140,0.2)', border: '1px solid rgba(61,214,140,0.3)' }}></div>
-                <div className="w-7 h-7 rounded-full"
+                <div className="size-7 rounded-full"
                   style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-subtle)' }}>
                 </div>
               </div>
@@ -100,7 +100,7 @@ export function Sistemas() {
           <div className="system-card">
             <div className="flex items-start justify-between mb-4">
               <span className="system-num">03</span>
-              <button aria-label="Reproducir video explicativo de Video Insight" className="w-9 h-9 rounded-full flex items-center justify-center"
+              <button aria-label="Reproducir video explicativo de Video Insight" className="size-9 rounded-full flex items-center justify-center"
                 style={{ background: 'var(--brand-amber)', color: '#07090f' }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <polygon points="5,3 19,12 5,21" />
@@ -178,7 +178,7 @@ export function Sistemas() {
           <div className="system-card" style={{ borderColor: 'rgba(61,214,140,0.15)' }}>
             <div className="flex items-start justify-between mb-4">
               <span className="system-num">05</span>
-              <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold"
+              <div className="size-9 rounded-full flex items-center justify-center text-sm font-bold"
                 style={{ background: 'var(--brand-green)', color: '#07090f' }}>S</div>
             </div>
             <p className="section-label mb-1" style={{ color: 'var(--text-muted)' }}>Mentora Persistente</p>
@@ -215,12 +215,12 @@ export function Sistemas() {
             <div className="flex items-start justify-between mb-4">
               <span className="system-num">06</span>
               <div className="grid grid-cols-3 gap-1">
-                <div className="w-2 h-2 rounded-full" style={{ background: 'var(--brand-cyan)' }}></div>
-                <div className="w-2 h-2 rounded-full" style={{ background: 'var(--brand-cyan)' }}></div>
-                <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(34,211,238,0.3)' }}></div>
-                <div className="w-2 h-2 rounded-full" style={{ background: 'var(--brand-cyan)' }}></div>
-                <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(34,211,238,0.3)' }}></div>
-                <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(34,211,238,0.3)' }}></div>
+                <div className="size-2 rounded-full" style={{ background: 'var(--brand-cyan)' }}></div>
+                <div className="size-2 rounded-full" style={{ background: 'var(--brand-cyan)' }}></div>
+                <div className="size-2 rounded-full" style={{ background: 'rgba(34,211,238,0.3)' }}></div>
+                <div className="size-2 rounded-full" style={{ background: 'var(--brand-cyan)' }}></div>
+                <div className="size-2 rounded-full" style={{ background: 'rgba(34,211,238,0.3)' }}></div>
+                <div className="size-2 rounded-full" style={{ background: 'rgba(34,211,238,0.3)' }}></div>
               </div>
             </div>
             <p className="section-label mb-1" style={{ color: 'var(--text-muted)' }}>Ascenso Temático</p>
