@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export function RecuperarContrasenaForm() {
-  const router = useRouter();
+  const { prefetch, push } = useRouter();
   const [boton, setBoton] = useState(false);
   const {
     register,
@@ -55,11 +55,11 @@ export function RecuperarContrasenaForm() {
       })
       .then((res: { ok: boolean; message: string }) => {
         if (res?.ok) {
-          router.prefetch(
+          prefetch(
             '/auth/iniciar_sesion/recuperar_contrasena/confirmar_correo_contrasena?correo=' +
               data.email,
           );
-          router.push(
+          push(
             '/auth/iniciar_sesion/recuperar_contrasena/confirmar_correo_contrasena?correo=' +
               data.email,
           );
@@ -77,7 +77,7 @@ export function RecuperarContrasenaForm() {
           Correo electrónico
         </label>
         <div className="relative flex items-center">
-          <Mail className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
+          <Mail className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.email ? 'ring-2 ring-error animate-shake' : ''
@@ -112,7 +112,7 @@ export function RecuperarContrasenaForm() {
           <svg
             fill="none"
             stroke="currentColor"
-            className="w-5 h-5"
+            className="size-5"
             strokeWidth={2}
             viewBox="0 0 24 24"
           >

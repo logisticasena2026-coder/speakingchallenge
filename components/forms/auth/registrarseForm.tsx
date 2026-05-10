@@ -11,7 +11,7 @@ import { registro } from '@/actions/auth/registro';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 export function RegistrarseForm() {
-  const router = useRouter();
+  const { prefetch, push } = useRouter();
   const { verContrasena, toggleVerContrasena } = useVerContrasena();
   const [boton, setBoton] = useState(false);
 
@@ -56,8 +56,8 @@ export function RegistrarseForm() {
       )
       .then(async (res: { ok: boolean; message: string }) => {
         if (res?.ok) {
-          router.prefetch(`/auth/iniciar_sesion`);
-          router.push(`/auth/iniciar_sesion`);
+          prefetch(`/auth/iniciar_sesion`);
+          push(`/auth/iniciar_sesion`);
         }
       });
   };
@@ -72,7 +72,7 @@ export function RegistrarseForm() {
           Nombre de usuario
         </label>
         <div className="relative flex items-center">
-          <User className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
+          <User className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.username ? 'ring-2 ring-error animate-shake' : ''
@@ -105,7 +105,7 @@ export function RegistrarseForm() {
           Email
         </label>
         <div className="relative flex items-center">
-          <Mail className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
+          <Mail className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.email ? 'ring-2 ring-error animate-shake' : ''
@@ -138,7 +138,7 @@ export function RegistrarseForm() {
           Contraseña
         </label>
         <div className="relative flex items-center">
-          <Lock className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
+          <Lock className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.password ? 'ring-2 ring-error animate-shake' : ''
@@ -159,7 +159,7 @@ export function RegistrarseForm() {
             aria-pressed={verContrasena}
             disabled={boton}
           >
-            {verContrasena ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            {verContrasena ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
           </button>
         </div>
         {errors.password && (
@@ -181,7 +181,7 @@ export function RegistrarseForm() {
           Confirmar contraseña
         </label>
         <div className="relative flex items-center">
-          <Lock className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
+          <Lock className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.confirmPassword ? 'ring-2 ring-error animate-shake' : ''
@@ -216,7 +216,7 @@ export function RegistrarseForm() {
           <svg
             fill="none"
             stroke="currentColor"
-            className="w-5 h-5"
+            className="size-5"
             strokeWidth={2}
             viewBox="0 0 24 24"
           >

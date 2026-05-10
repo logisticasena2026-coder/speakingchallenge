@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 export function IniciarSesionForm() {
-  const router = useRouter();
+  const { prefetch, push } = useRouter();
   const { verContrasena, toggleVerContrasena } = useVerContrasena();
   const [boton, setBoton] = useState(false);
 
@@ -65,8 +65,8 @@ export function IniciarSesionForm() {
       })
       .then((res: { ok: boolean; message: string; avatar: string | null }) => {
         if (res?.ok) {
-          router.prefetch('/dashboard/home');
-          router.push('/dashboard/home');
+          prefetch('/dashboard');
+          push('/dashboard');
         }
       });
   };
@@ -81,7 +81,7 @@ export function IniciarSesionForm() {
           Email
         </label>
         <div className="relative flex items-center">
-          <Mail className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
+          <Mail className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.email ? 'ring-2 ring-error animate-shake' : ''
@@ -114,7 +114,7 @@ export function IniciarSesionForm() {
           Contraseña
         </label>
         <div className="relative flex items-center">
-          <Lock className="absolute left-3 text-text-muted w-5 h-5" aria-hidden="true" />
+          <Lock className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
           <input
             className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
               errors.password ? 'ring-2 ring-error animate-shake' : ''
@@ -134,7 +134,7 @@ export function IniciarSesionForm() {
             aria-label={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
             aria-pressed={verContrasena}
           >
-            {verContrasena ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            {verContrasena ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
           </button>
         </div>
         {errors.password && (
@@ -166,7 +166,7 @@ export function IniciarSesionForm() {
           <svg
             fill="none"
             stroke="currentColor"
-            className="w-5 h-5"
+            className="size-5"
             strokeWidth={2}
             viewBox="0 0 24 24"
           >
