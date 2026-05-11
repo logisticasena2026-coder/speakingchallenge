@@ -3,7 +3,8 @@ import type { NextConfig } from 'next';
 const isDev = process.env.NODE_ENV === 'development';
 
 const ContentSecurityPolicy = `
-  default-src 'self';
+  default-src 'self'
+    https://vercel.live;
 
   script-src 'self'
     ${isDev ? "'unsafe-eval' 'unsafe-inline'" : "'unsafe-inline'"}
@@ -22,7 +23,10 @@ const ContentSecurityPolicy = `
 
   connect-src 'self'
     https://www.speakingchallenge.online
+    https://vercel.live
     ${isDev ? 'ws: wss:' : ''};
+
+  frame-src 'self' https://vercel.live;
 
   object-src 'none';
 
