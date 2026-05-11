@@ -13,18 +13,28 @@ import {
 
 import { cn } from '@/lib/utils';
 
-import { Home, MessageCircle, Dumbbell, Trophy, BookOpen, Settings } from 'lucide-react';
+import {
+  Home,
+  MessageCircle,
+  Dumbbell,
+  Settings,
+  Gamepad,
+  Medal,
+  ChartNoAxesCombined,
+} from 'lucide-react';
 
 import Link from 'next/link';
 export function Enlaces() {
   const terminalItems = [
-    { label: 'Home', href: '/dashboard', icon: Home },
+    { label: 'Inicio', href: '/dashboard', icon: Home },
     { label: 'Sophia Chat', href: '#', icon: MessageCircle },
-    { label: 'Practice', href: '#', icon: Dumbbell },
-    { label: 'Logros', href: '#', icon: Trophy },
-    { label: 'Library', href: '#', icon: BookOpen },
+    { label: 'Practica', href: '#', icon: Dumbbell },
+    { label: 'Juegos', href: '#', icon: Gamepad },
   ];
-
+  const progresItems = [
+    { label: 'Logros', href: '#', icon: Medal },
+    { label: 'Estadisticas', href: '#', icon: ChartNoAxesCombined },
+  ];
   const systemItems = [{ label: 'Configuración', href: '#', icon: Settings }];
   const pathname = usePathname();
 
@@ -32,7 +42,7 @@ export function Enlaces() {
     <SidebarContent className="mt-6">
       <SidebarGroup>
         <SidebarGroupLabel className="px-3 text-[10px] font-semibold text-text-muted uppercase tracking-[0.08em] mb-2">
-          Navegacion
+          Principal
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
@@ -62,10 +72,41 @@ export function Enlaces() {
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
-
+      <SidebarGroup>
+        <SidebarGroupLabel className="px-3 text-[10px] font-semibold text-text-muted uppercase tracking-[0.08em] mb-2">
+          Principal
+        </SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {progresItems.map((item) => {
+              const estaActivo = pathname === item.href;
+              const Icon = item.icon;
+              return (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={estaActivo}
+                    className={cn(
+                      'flex items-center gap-4 py-3 px-3 rounded-lg transition-all duration-250',
+                      estaActivo
+                        ? 'text-brand-green bg-brand-green/8'
+                        : 'text-text-secondary hover:bg-surface-4 hover:text-brand-green',
+                    )}
+                  >
+                    <Link href={item.href}>
+                      <Icon className="w-5 h-5 shrink-0" aria-hidden="true" />
+                      <span className="font-ui-label text-sm">{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
       <SidebarGroup className="mt-8">
         <SidebarGroupLabel className="px-3 text-[10px] font-semibold text-text-muted uppercase tracking-[0.08em] mb-2">
-          Personalizacion
+          Cuenta
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
