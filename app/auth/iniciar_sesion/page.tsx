@@ -5,8 +5,8 @@ import { IniciarSesionForm } from '@/components/forms/auth/iniciarSesionForm';
 import { Particles } from '@/components/ui/particles';
 
 export const metadata: Metadata = {
-  title: 'Iniciar sesión - PlayLenguage',
-  description: 'Inicia sesión en PlayLenguage para continuar tu aventura de aprendizaje de inglés.',
+  title: 'Iniciar sesión - speakingchallenge',
+  description: 'Inicia sesión en speakingchallenge para continuar tu aventura de aprendizaje de inglés.',
   robots: {
     index: false,
     follow: false,
@@ -20,7 +20,7 @@ export default function Iniciar_sesion() {
         <Link href="/" className="flex items-center gap-2">
           <ArrowLeft className="text-primary w-5 h-5" aria-hidden="true" />
           <span className="font-serif text-2xl font-bold tracking-widest text-emerald-400 drop-shadow-[0_0_8px_rgba(61,214,140,0.5)]">
-            PlayLenguage
+            speakingchallenge
           </span>
         </Link>
         <div className="flex items-center gap-4">

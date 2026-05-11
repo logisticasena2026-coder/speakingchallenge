@@ -134,7 +134,7 @@ export function Sophia() {
                     fontFamily: "'Inter',sans-serif",
                   }}
                 >
-                  Sophia, mentora PlayLenguage
+                  Sophia, mentora speakingchallenge
                 </span>
               </div>
             </div>

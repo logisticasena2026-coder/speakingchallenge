@@ -24,7 +24,7 @@ export function Footer() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold" style={{ fontFamily: "'Cinzel',serif" }}>
-                    PlayLenguage
+                    speakingchallenge
                   </p>
                   <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
                     El despertar de los verbos perdidos
@@ -51,7 +51,7 @@ export function Footer() {
               </div>
 
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                © 2026 PlayLenguage
+                © 2026 speakingchallenge
               </p>
             </div>
 

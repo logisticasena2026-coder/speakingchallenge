@@ -21,13 +21,13 @@ export function Header() {
             >
               <Link href="#Presentacion" className="flex items-center gap-3 shrink-0">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold">
-                  <Image src="/Microfono.png" width={1024} height={1024} alt="Logo de PlayLenguage" />
+                  <Image src="/Microfono.png" width={1024} height={1024} alt="Logo de speakingchallenge" />
                 </div>
                 <span
                   className="font-display font-semibold text-sm tracking-wide"
                   style={{ color: 'var(--text-primary)' }}
                 >
-                  PlayLenguage
+                  speakingchallenge
                 </span>
               </Link>
 

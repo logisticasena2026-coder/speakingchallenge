@@ -5,9 +5,9 @@ import { RegistrarseForm } from '@/components/forms/auth/registrarseForm';
 import { Particles } from '@/components/ui/particles';
 
 export const metadata: Metadata = {
-  title: 'Crear cuenta - PlayLenguage',
+  title: 'Crear cuenta - speakingchallenge',
   description:
-    'Regístrate en PlayLenguage y comienza tu viaje a través del tiempo. Aprende inglés gamificado con IA.',
+    'Regístrate en speakingchallenge y comienza tu viaje a través del tiempo. Aprende inglés gamificado con IA.',
   robots: {
     index: false,
     follow: false,
@@ -21,7 +21,7 @@ export default function Register() {
         <Link href="/" className="flex items-center gap-2">
           <ArrowLeft className="text-primary w-5 h-5" aria-hidden="true" />
           <span className="font-serif text-2xl font-bold tracking-widest text-emerald-400 drop-shadow-[0_0_8px_rgba(61,214,140,0.5)]">
-            PlayLenguage
+            speakingchallenge
           </span>
         </Link>
         <div className="flex items-center gap-4">

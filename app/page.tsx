@@ -9,7 +9,7 @@ import { Sistemas } from '@/components/Landing/Sistemas';
 import { Sophia } from '@/components/Landing/Sophia';
 
 export const metadata: Metadata = {
-  title: 'PlayLenguage - Speaking Challenge Online',
+  title: 'speakingchallenge - Speaking Challenge Online',
   description: 'Aprende inglés viajando por el tiempo. Cuatro eras históricas te esperan: Vikings, Egypt, Rome y Cyber. Únete al desafío ahora.',
 };
 

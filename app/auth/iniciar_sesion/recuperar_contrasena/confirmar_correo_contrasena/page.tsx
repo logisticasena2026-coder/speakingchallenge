@@ -4,7 +4,7 @@ import { Mail, Clock, LogIn, ExternalLink } from 'lucide-react';
 import { Sonido } from '@/components/sonido';
 
 export const metadata: Metadata = {
-  title: 'Correo de recuperación enviado - PlayLenguage',
+  title: 'Correo de recuperación enviado - speakingchallenge',
   description: 'Revisa tu bandeja de entrada para restablecer tu contraseña.',
   robots: {
     index: false,

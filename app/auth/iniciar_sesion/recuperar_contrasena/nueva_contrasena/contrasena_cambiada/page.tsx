@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Contraseña actualizada - PlayLenguage',
+  title: 'Contraseña actualizada - speakingchallenge',
   description: 'Tu contraseña ha sido cambiada exitosamente. Ya puedes iniciar sesión.',
   robots: {
     index: false,

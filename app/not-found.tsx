@@ -14,7 +14,7 @@ export default function NotFound() {
             <ArrowLeft className="w-6 h-6" />
           </Link>
           <h1 className="font-serif text-2xl font-bold tracking-widest text-emerald-400 drop-shadow-[0_0_8px_rgba(61,214,140,0.5)]">
-            PlayLenguage
+            speakingchallenge
           </h1>
         </div>
 
@@ -73,7 +73,7 @@ export default function NotFound() {
       <footer className="w-full py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4 mt-auto bg-slate-950/40 backdrop-blur-md border-t border-white/5">
         <div className="flex flex-col items-center md:items-start gap-1">
           <p className="font-ui-label text-ui-badge uppercase font-bold tracking-widest text-slate-500">
-            © 2024 PlayLenguage. Master the ancient tongues.
+            © 2024 speakingchallenge. Master the ancient tongues.
           </p>
         </div>
         <div className="flex gap-8">

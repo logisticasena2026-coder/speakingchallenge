@@ -1,6 +1,6 @@
-# DESIGN.md — PlayLenguage Frontend Redesign
+# DESIGN.md — speakingchallenge Frontend Redesign
 
-> Versión rediseñada de la landing page de **PlayLenguage**, una plataforma gamificada de aprendizaje de inglés contextualizada en eras históricas. El diseño mantiene la identidad oscura y épica del original, elevando craft, jerarquía visual, consistencia y responsiveness.
+> Versión rediseñada de la landing page de **speakingchallenge**, una plataforma gamificada de aprendizaje de inglés contextualizada en eras históricas. El diseño mantiene la identidad oscura y épica del original, elevando craft, jerarquía visual, consistencia y responsiveness.
 
 ---
 

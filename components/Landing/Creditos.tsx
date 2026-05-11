@@ -271,7 +271,7 @@ export function Creditos() {
                 Mentora IA
               </p>
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                Compañera de viaje · PlayLenguage
+                Compañera de viaje · speakingchallenge
               </p>
             </div>
           </div>

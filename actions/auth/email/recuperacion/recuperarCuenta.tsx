@@ -47,9 +47,9 @@ export async function recuperarCuenta(Destinatario: string) {
     );
 
     await transportador.sendMail({
-      from: `"Soporte PlayLenguage" <${process.env.EMAIL_USER}>`,
+      from: `"Soporte speakingchallenge" <${process.env.EMAIL_USER}>`,
       to: Destinatario,
-      subject: 'Recuperación de cuenta - Simulador PlayLenguage',
+      subject: 'Recuperación de cuenta - Simulador speakingchallenge',
       html,
     });
 

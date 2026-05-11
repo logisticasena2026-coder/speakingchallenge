@@ -28,8 +28,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.speakingchallenge.online'),
   title: {
-    default: 'PlayLenguage - Aprende inglés a través del tiempo',
-    template: '%s | PlayLenguage',
+    default: 'speakingchallenge - Aprende inglés a través del tiempo',
+    template: '%s | speakingchallenge',
   },
   description:
     'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas (Vikinga, Egipto, Roma, Ciberpunk) mientras restauras los verbos perdidos del tiempo. Incluye speaking challenge, conversaciones con IA y juegos arcade.',
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
     'grammar runner',
     'trivia fight',
   ],
-  authors: [{ name: 'PlayLenguage' }],
-  creator: 'PlayLenguage',
-  publisher: 'PlayLenguage',
+  authors: [{ name: 'speakingchallenge' }],
+  creator: 'speakingchallenge',
+  publisher: 'speakingchallenge',
   robots: {
     index: true,
     follow: true,
@@ -63,8 +63,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_ES',
     url: 'https://www.speakingchallenge.online',
-    siteName: 'PlayLenguage',
-    title: 'PlayLenguage - Aprende inglés a través del tiempo',
+    siteName: 'speakingchallenge',
+    title: 'speakingchallenge - Aprende inglés a través del tiempo',
     description:
       'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
     images: [
@@ -72,13 +72,13 @@ export const metadata: Metadata = {
         url: '/FoundPage.webp',
         width: 1200,
         height: 630,
-        alt: 'PlayLenguage - Aprendizaje de inglés gamificado',
+        alt: 'speakingchallenge - Aprendizaje de inglés gamificado',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PlayLenguage - Aprende inglés a través del tiempo',
+    title: 'speakingchallenge - Aprende inglés a través del tiempo',
     description:
       'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
     images: ['/FoundPage.webp'],

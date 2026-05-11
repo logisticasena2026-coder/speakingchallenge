@@ -11,7 +11,7 @@ export function Actividades() {
             className="text-sm sm:text-base max-w-2xl mx-auto"
             style={{ color: 'var(--text-secondary)' }}
           >
-            Estas son las actividades que componen PlayLenguage. Cada una es jugable, evaluable y
+            Estas son las actividades que componen speakingchallenge. Cada una es jugable, evaluable y
             escala contigo de Bronce a Diamante.
           </p>
         </div>

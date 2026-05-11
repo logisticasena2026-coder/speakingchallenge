@@ -42,7 +42,7 @@ export const RecuperarCuentaEmailDiseno = ({
         rel="stylesheet"
       />
     </Head>
-    <Preview>Restablece tu contraseña - PlayLenguage</Preview>
+    <Preview>Restablece tu contraseña - speakingchallenge</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={headerSection}>
@@ -51,11 +51,11 @@ export const RecuperarCuentaEmailDiseno = ({
               src="https://cdn.jsdelivr.net/gh/luisangelf17/imagenesWebICFES/logo.webp"
               width="48"
               height="48"
-              alt="PlayLenguage Logo"
+              alt="speakingchallenge Logo"
               style={logo}
             />
           </div>
-          <Text style={headerTitle}>PlayLenguage</Text>
+          <Text style={headerTitle}>speakingchallenge</Text>
           <Text style={headerSubtitle}>Speaking Challenge Online</Text>
         </Section>
 
@@ -70,7 +70,7 @@ export const RecuperarCuentaEmailDiseno = ({
 
           <Text style={textGreeting}>
             Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en{' '}
-            <strong style={{ color: colors.brandGreen }}>PlayLenguage</strong>.
+            <strong style={{ color: colors.brandGreen }}>speakingchallenge</strong>.
           </Text>
 
           <Text style={textBody}>
