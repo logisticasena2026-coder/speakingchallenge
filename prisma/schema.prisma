@@ -46,7 +46,7 @@ enum Skin {
 model user {
   id         String                    @id @default(uuid())
   name       String
-  email      String                   
+  email      String
   password   String
   avatar     String?
   skin       Skin?
@@ -56,8 +56,8 @@ model user {
   sesiones   Session[]
   tokenReset ResetearContrasenaToken[]
 
+  @@unique([name, email])
   @@index([email, name, nivel])
-  @@unique([name,email])
 }
 
 model Session {
@@ -79,4 +79,16 @@ model ResetearContrasenaToken {
   propietario    user?   @relation(fields: [propietario_id], references: [id], onDelete: Cascade)
 
   @@index([token, propietario_id])
+}
+
+model FrasesDePractica {
+  id           Int    @id @default(autoincrement())
+  fraseIngles  String
+  fraseEspanol String
+  dificultad   Int
+  tematica     String
+  edad         Int?
+  creador      String
+
+  @@index([dificultad, tematica, edad, creador])
 }
