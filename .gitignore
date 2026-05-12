@@ -42,3 +42,6 @@ next-env.d.ts
 
 /generated/prisma
 .agents/
+etc.json
+Gestiónlogística.json
+Gestiónportuaria.json

@@ -2,7 +2,7 @@ import { Prisma } from '@/generated/prisma/client';
 import { SidebarHeader } from '../ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 export function HeaderSidebar({ user }: Readonly<{ user: Prisma.userGetPayload<object> }>) {
-  
+
   const initials = user.name?.slice(0, 2).toUpperCase() || 'SA';
   return (
     <SidebarHeader className="pt-8 pb-6 px-6 border-b border-border-subtle">

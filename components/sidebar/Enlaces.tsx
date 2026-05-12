@@ -28,7 +28,7 @@ export function Enlaces() {
   const terminalItems = [
     { label: 'Inicio', href: '/dashboard', icon: Home },
     { label: 'Sophia Chat', href: '#', icon: MessageCircle },
-    { label: 'Practica', href: '#', icon: Dumbbell },
+    { label: 'Estudiar', href: '/dashboard/estudiar', icon: Dumbbell },
     { label: 'Juegos', href: '#', icon: Gamepad },
   ];
   const progresItems = [

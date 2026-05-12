@@ -1,3 +1,4 @@
+import { HeaderDashboard } from '@/components/layout/dasboard/Header';
 import { AppSidebar } from '@/components/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { DatosDelAutenticado } from '@/lib/auth';
@@ -12,7 +13,10 @@ export default async function EstudianteLayout({
       <div className="flex h-screen overflow-hidden">
         <SidebarProvider defaultOpen={true}>
           <AppSidebar user={propietario} />
-          <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">{children}</main>
+          <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+            <HeaderDashboard />
+            {children}
+          </main>
         </SidebarProvider>
       </div>
     );
