@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +8,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+    rel="stylesheet" />
 
   <script>
     tailwind.config = {
@@ -16,895 +19,468 @@
         extend: {
           fontFamily: {
             display: ['Cinzel', 'serif'],
-            body:    ['Space Grotesk', 'sans-serif'],
-            ui:      ['Inter', 'sans-serif'],
+            body: ['Space Grotesk', 'sans-serif'],
+            ui: ['Inter', 'sans-serif'],
           },
           colors: {
-            'brand-green':  '#3dd68c',
-            'brand-amber':  '#f5a623',
-            'brand-cyan':   '#22d3ee',
+            'brand-green': '#3dd68c',
+            'brand-amber': '#f5a623',
+            'brand-cyan': '#22d3ee',
             'brand-purple': '#a855f7',
-            'surface-0':    '#07090f',
-            'surface-1':    '#0d1017',
-            'surface-2':    '#121620',
-            'surface-3':    '#181d2a',
-            'surface-4':    '#1f2535',
-            'text-primary':   '#f0ede8',
+            'surface-0': '#07090f',
+            'surface-1': '#0d1017',
+            'surface-2': '#121620',
+            'surface-3': '#181d2a',
+            'surface-4': '#1f2535',
+            'text-primary': '#f0ede8',
             'text-secondary': '#9ca3a0',
-            'text-muted':     '#5a6270',
-          }
+            'text-muted': '#5a6270',
+          },
         }
       }
     }
   </script>
 
+  <link rel="stylesheet" href="/app/globals.css" />
   <style>
-    /* ── Tokens ── */
-    :root {
-      --brand-green:  #3dd68c;
-      --brand-amber:  #f5a623;
-      --brand-cyan:   #22d3ee;
-      --brand-purple: #a855f7;
-      --surface-0:    #07090f;
-      --surface-1:    #0d1017;
-      --surface-2:    #121620;
-      --surface-3:    #181d2a;
-      --surface-4:    #1f2535;
-      --text-primary:   #f0ede8;
-      --text-secondary: #9ca3a0;
-      --text-muted:     #5a6270;
-      --border-subtle:  rgba(255,255,255,0.06);
-      --border-default: rgba(255,255,255,0.10);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      overflow: hidden;
-    }
-
-    body {
-      background: var(--surface-0);
-      color: var(--text-primary);
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
-    /* ── Material Icons ── */
-    .mi {
-      font-family: 'Material Symbols Outlined';
-      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-      font-size: 20px;
-      line-height: 1;
-      display: inline-block;
-      user-select: none;
-    }
-    .mi-fill { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--surface-1); }
-    ::-webkit-scrollbar-thumb { background: var(--brand-green); border-radius: 4px; }
-
-    /* ── MESH BACKGROUND ── */
-    .mesh-bg {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 70% 60% at 0% 0%,   rgba(61,214,140,0.12) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 50% at 100% 0%,  rgba(10,22,40,1)     0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 100% 100%,rgba(168,85,247,0.1) 0%, transparent 55%),
-        radial-gradient(ellipse 80% 80% at 50% 50%,  rgba(7,9,15,1)       0%, transparent 100%);
-      background-color: var(--surface-0);
-    }
-
-    /* ── NOISE ── */
-    .noise-layer {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.4;
-    }
-
-    /* ── PARTICLE GRID ── */
-    .particle-layer {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: radial-gradient(circle, rgba(61,214,140,0.35) 1px, transparent 1px);
-      background-size: 72px 72px;
-      mask-image: radial-gradient(ellipse at center, black, transparent 80%);
-      animation: drift 70s linear infinite;
-      opacity: 0.06;
-    }
-    @keyframes drift {
-      from { transform: translateY(0); }
-      to   { transform: translateY(-72px); }
-    }
-
-    /* ── HEADER EXACT SPEC ── */
-    .app-header {
-      position: sticky;
-      top: 0;
-      height: 64px;
-      background: rgba(7,9,15,0.92);
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      z-index: 40;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-    }
-    @media (min-width: 768px) { .app-header { padding: 0 24px; } }
-
-    /* SidebarTrigger simulado */
-    .sidebar-trigger {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
-
-    /* Notif dot */
-    .notif-dot {
-      position: absolute;
-      top: -2px; right: -2px;
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--brand-amber);
-      border: 1.5px solid var(--surface-0);
-    }
-
-    /* ── LAYOUT ── */
-    .page-wrapper {
-      position: relative;
-      z-index: 1;
-      height: calc(100vh - 64px);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* ── GLASS CRYSTAL (frase) ── */
-    .glass-crystal {
-      background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
-      border: 1px solid rgba(61,214,140,0.18);
-      box-shadow: inset 0 0 32px rgba(61,214,140,0.06), 0 0 60px rgba(0,0,0,0.5);
-      backdrop-filter: blur(40px);
-      -webkit-backdrop-filter: blur(40px);
-      border-radius: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* ── HUD CORNER BRACKETS ── */
+    /* HUD corners para practice */
     .hud-corner {
       position: absolute;
-      width: 22px; height: 22px;
-    }
-    .hud-corner.tl { top: 16px; left: 16px; border-top: 1.5px solid rgba(61,214,140,0.4); border-left: 1.5px solid rgba(61,214,140,0.4); border-radius: 4px 0 0 0; }
-    .hud-corner.tr { top: 16px; right: 16px; border-top: 1.5px solid rgba(61,214,140,0.4); border-right: 1.5px solid rgba(61,214,140,0.4); border-radius: 0 4px 0 0; }
-    .hud-corner.bl { bottom: 16px; left: 16px; border-bottom: 1.5px solid rgba(61,214,140,0.4); border-left: 1.5px solid rgba(61,214,140,0.4); border-radius: 0 0 0 4px; }
-    .hud-corner.br { bottom: 16px; right: 16px; border-bottom: 1.5px solid rgba(61,214,140,0.4); border-right: 1.5px solid rgba(61,214,140,0.4); border-radius: 0 0 4px 0; }
-
-    /* ── METALLIC PANEL ── */
-    .metallic-panel {
-      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-      border: 1px solid var(--border-default);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 16px;
+      width: 22px;
+      height: 22px;
     }
 
-    /* ── MIC BUTTON ── */
-    .mic-btn {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      background: var(--brand-green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s ease;
-      position: relative;
-      flex-shrink: 0;
-    }
-    .mic-btn::before {
-      content: '';
-      position: absolute; inset: -8px;
-      border-radius: 50%;
-      background: rgba(61,214,140,0.15);
-      animation: micPulse 2s ease-in-out infinite;
-    }
-    .mic-btn::after {
-      content: '';
-      position: absolute; inset: -16px;
-      border-radius: 50%;
-      background: rgba(61,214,140,0.07);
-      animation: micPulse 2s ease-in-out infinite 0.4s;
-    }
-    .mic-btn:hover { transform: scale(1.06); box-shadow: 0 0 40px rgba(61,214,140,0.5); }
-    .mic-btn:active { transform: scale(0.96); }
-    .mic-btn.recording { animation: recordPulse 1s ease-in-out infinite; }
-
-    @keyframes micPulse {
-      0%,100% { opacity: 0.4; transform: scale(1); }
-      50%      { opacity: 0.7; transform: scale(1.08); }
-    }
-    @keyframes recordPulse {
-      0%,100% { box-shadow: 0 0 20px rgba(61,214,140,0.4); }
-      50%      { box-shadow: 0 0 50px rgba(61,214,140,0.8); }
+    .hud-corner.tl {
+      top: 16px;
+      left: 16px;
+      border-top: 1.5px solid rgba(61, 214, 140, 0.4);
+      border-left: 1.5px solid rgba(61, 214, 140, 0.4);
+      border-radius: 4px 0 0 0;
     }
 
-    /* ── CONTROL BTN (secondary) ── */
-    .ctrl-btn {
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: 1px solid var(--border-default);
-      background: rgba(255,255,255,0.05);
-      color: var(--text-secondary);
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-    }
-    .ctrl-btn:hover {
-      border-color: rgba(61,214,140,0.3);
-      color: var(--brand-green);
-      background: rgba(61,214,140,0.08);
+    .hud-corner.tr {
+      top: 16px;
+      right: 16px;
+      border-top: 1.5px solid rgba(61, 214, 140, 0.4);
+      border-right: 1.5px solid rgba(61, 214, 140, 0.4);
+      border-radius: 0 4px 0 0;
     }
 
-    /* ── ACCURACY RING ── */
-    .accuracy-ring { position: relative; }
-    .accuracy-ring svg { transform: rotate(-90deg); }
-    .ring-track { fill: none; stroke: var(--surface-4); stroke-width: 6; }
-    .ring-progress {
-      fill: none;
-      stroke: var(--brand-green);
-      stroke-width: 6;
-      stroke-linecap: round;
-      stroke-dasharray: 283;
-      stroke-dashoffset: 17; /* 94% = 283 * 0.06 ≈ 17 */
-      filter: drop-shadow(0 0 8px rgba(61,214,140,0.6));
-      transition: stroke-dashoffset 1s ease;
-    }
-    .ring-label {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+    .hud-corner.bl {
+      bottom: 16px;
+      left: 16px;
+      border-bottom: 1.5px solid rgba(61, 214, 140, 0.4);
+      border-left: 1.5px solid rgba(61, 214, 140, 0.4);
+      border-radius: 0 0 0 4px;
     }
 
-    /* ── PHONEME FEEDBACK ── */
-    .phoneme-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+    .hud-corner.br {
+      bottom: 16px;
+      right: 16px;
+      border-bottom: 1.5px solid rgba(61, 214, 140, 0.4);
+      border-right: 1.5px solid rgba(61, 214, 140, 0.4);
+      border-radius: 0 0 4px 0;
     }
-    .phoneme-good    { background: rgba(61,214,140,0.12); color: var(--brand-green); border: 1px solid rgba(61,214,140,0.25); }
-    .phoneme-ok      { background: rgba(245,166,35,0.10); color: var(--brand-amber); border: 1px solid rgba(245,166,35,0.22); }
-    .phoneme-miss    { background: rgba(239,68,68,0.10);  color: #f87171;            border: 1px solid rgba(239,68,68,0.22); }
 
-    /* ── WAVEFORM ── */
+    /* Waveform bars - versión inline */
     .waveform-bar {
       width: 3px;
       border-radius: 3px;
-      background: var(--brand-green);
-      animation: waveAnim 1.1s ease-in-out infinite;
+      background: #3dd68c;
+      animation: waveAnim-practice 1.1s ease-in-out infinite;
       transform-origin: bottom;
-    }
-    @keyframes waveAnim {
-      0%,100% { transform: scaleY(0.25); opacity: 0.5; }
-      50%      { transform: scaleY(1);   opacity: 1;   }
-    }
-
-    /* ── SECTION LABEL ── */
-    .section-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--brand-green);
-    }
-
-    /* ── BADGE ── */
-    .badge {
-      font-family: 'Inter', sans-serif;
-      font-size: 9px; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 3px 8px; border-radius: 4px;
-      display: inline-block;
-    }
-    .badge-bronze  { background: rgba(180,100,30,0.2);  color: #d97706; border: 1px solid rgba(217,119,6,0.3); }
-    .badge-green   { background: rgba(61,214,140,0.12); color: #3dd68c; border: 1px solid rgba(61,214,140,0.25); }
-
-    /* ── PROGRESS BAR ── */
-    .prog-track { background: var(--surface-4); border-radius: 4px; overflow: hidden; height: 5px; }
-    .prog-fill  { height: 100%; border-radius: 4px; background: var(--brand-green); box-shadow: 0 0 8px rgba(61,214,140,0.5); }
-
-    /* ── NEXT BUTTON ── */
-    .next-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      border-radius: 12px;
-      border: 1px solid var(--border-subtle);
-      background: rgba(255,255,255,0.03);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .next-btn::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(61,214,140,0.05));
-      transform: translateX(-100%);
-      transition: transform 0.5s ease;
-    }
-    .next-btn:hover { border-color: rgba(61,214,140,0.3); }
-    .next-btn:hover::before { transform: translateX(0); }
-    .next-btn-arrow {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border-default);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary);
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-    }
-    .next-btn:hover .next-btn-arrow {
-      background: var(--brand-green);
-      border-color: var(--brand-green);
-      color: #07090f;
-      transform: scale(1.1);
-    }
-
-    /* ── TIMER PILL ── */
-    .timer-pill {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(18,22,32,0.6);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 5px 14px;
-      backdrop-filter: blur(8px);
-    }
-
-    /* ── SCORE RESULT CHIP ── */
-    .score-glow {
-      text-shadow: 0 0 20px rgba(61,214,140,0.6);
-    }
-
-    /* ── FOOTER INFO ── */
-    .footer-bar {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      pointer-events: none;
-      padding: 0 24px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-
-    /* ── BG WAVEFORM (decorative, fixed bottom) ── */
-    .bg-waveform {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      height: 100px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 3px;
-      opacity: 0.06;
-      pointer-events: none;
-      z-index: 0;
-      padding: 0 24px;
-    }
-    .bg-wave-bar {
-      width: 4px;
-      border-radius: 3px 3px 0 0;
-      background: var(--brand-green);
-      animation: bgWave 2s ease-in-out infinite;
-    }
-    @keyframes bgWave {
-      0%,100% { transform: scaleY(0.4); }
-      50%      { transform: scaleY(1); }
-    }
-
-    /* ── ANIMATE IN ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .ani { animation: fadeUp 0.5s ease-out forwards; }
-    .d1 { animation-delay: 0.05s; opacity: 0; }
-    .d2 { animation-delay: 0.12s; opacity: 0; }
-    .d3 { animation-delay: 0.20s; opacity: 0; }
-    .d4 { animation-delay: 0.28s; opacity: 0; }
-
-    /* ── RESPONSIVE LAYOUT ── */
-    .practice-grid {
-      display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 20px;
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-      align-items: center;
-    }
-
-    @media (max-width: 767px) {
-      .practice-grid {
-        grid-template-columns: 1fr;
-        overflow-y: auto;
-        max-height: 100%;
-      }
-      .side-panel { display: none; }
-      .mobile-panel { display: flex !important; }
-    }
-
-    @media (min-width: 768px) {
-      .mobile-panel { display: none !important; }
-    }
-
-    /* iOS-style tab for mobile tabs */
-    .tab-btn {
-      flex: 1;
-      padding: 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      border: none;
-      background: none;
-      color: var(--text-muted);
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .tab-btn.active {
-      background: var(--surface-3);
-      color: var(--brand-green);
     }
   </style>
 </head>
 
-<body class="overflow-hidden">
+<body class="overflow-hidden h-full font-body bg-surface-0 text-text-primary">
 
-<!-- Layers de fondo -->
-<div class="mesh-bg"></div>
-<div class="noise-layer"></div>
-<div class="particle-layer"></div>
-<!-- BG Waveform decorativo -->
-<div class="bg-waveform" id="bgWave"></div>
-
-<!-- ══════════════════════════════════════════
-     HEADER (especificación exacta)
-══════════════════════════════════════════ -->
-<header class="app-header">
-
-  <!-- Left: SidebarTrigger (close / back) -->
-  <div class="flex items-center gap-2.5">
-    <button class="sidebar-trigger" onclick="history.back()" title="Volver">
-      <span class="mi" style="color: #3dd68c; font-size: 22px;">close</span>
-      <!-- Label en desktop -->
-      <div style="display:flex;flex-direction:column;gap:1px;">
-        <span style="font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:#3dd68c;letter-spacing:0.06em;display:none;" class="hidden sm:block">PlayLenguage</span>
-        <span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);display:none;" class="hidden sm:block">Speaking Challenge</span>
-      </div>
-    </button>
-    <!-- Timer pill (desktop) -->
-    <div class="timer-pill hidden md:flex">
-      <span class="mi" style="color:var(--brand-green);font-size:14px;">timer</span>
-      <span id="timer" style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--text-secondary);">04:12</span>
-    </div>
+  <div class="mesh-bg"></div>
+  <div class="noise-layer"></div>
+  <div class="particle-layer"></div>
+  <div id="bgWave"
+    class="fixed bottom-0 left-0 right-0 h-[100px] flex items-end justify-center gap-[3px] opacity-[0.06] pointer-events-none z-0 px-6">
   </div>
 
-  <!-- Right: Flame + Bell + Avatar -->
-  <div class="flex items-center gap-3" style="gap: 12px;">
-    <!-- Timer (mobile only) -->
-    <div class="timer-pill md:hidden">
-      <span class="mi" style="color:var(--brand-green);font-size:13px;">timer</span>
-      <span id="timer-mobile" style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--text-secondary);">04:12</span>
-    </div>
-
-    <!-- Flame streak -->
-    <div class="flex items-center gap-1.5" style="color: #f5a623;">
-      <span class="mi mi-fill" style="font-size:16px; color:#f5a623;">local_fire_department</span>
-      <span class="hidden sm:block" style="font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:#f5a623;">12</span>
-    </div>
-
-    <!-- Bell -->
-    <div style="position: relative; cursor: pointer;">
-      <span class="mi" style="font-size:16px;color:var(--text-muted);" onmouseenter="this.style.color='rgba(255,255,255,0.8)'" onmouseleave="this.style.color='var(--text-muted)'">notifications</span>
-      <span class="notif-dot"></span>
-    </div>
-
-    <!-- Avatar -->
-    <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1a3a5c,#0d2240);border:2px solid rgba(61,214,140,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:#3dd68c;cursor:pointer;">
-      A
-    </div>
-  </div>
-</header>
 
 
-<!-- ══════════════════════════════════════════
-     PAGE WRAPPER
-══════════════════════════════════════════ -->
-<div class="page-wrapper">
+  <header
+    class="sticky top-0 h-16 bg-[rgba(7,9,15,0.92)] border-b border-white/10 backdrop-blur-xl z-40 flex items-center justify-between px-4 md:px-6">
 
-  <!-- Padding container -->
-  <div style="flex:1;display:flex;flex-direction:column;padding:20px 16px 16px;overflow:hidden;" class="md:px-6 md:py-6">
-
-    <!-- Progress top bar -->
-    <div class="ani d1" style="margin-bottom:16px;max-width:1000px;width:100%;margin-left:auto;margin-right:auto;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:8px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="badge badge-bronze">Era Vikinga</span>
-          <span style="font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">Speaking Challenge</span>
-          <span style="font-family:'Inter',sans-serif;font-size:10px;color:var(--text-muted);">· Frase 3 de 8</span>
+    <!-- Left -->
+    <div class="flex items-center gap-2.5">
+      <button onclick="history.back()" class="flex items-center gap-2 bg-transparent border-none cursor-pointer">
+        <span class="mi text-[22px] text-brand-green">close</span>
+        <div class="hidden sm:flex flex-col gap-px">
+          <span class="font-display text-[13px] font-bold text-brand-green tracking-[0.06em]">PlayLenguage</span>
+          <span class="font-ui text-[9px] font-semibold tracking-[0.14em] uppercase text-text-muted">Speaking
+            Challenge</span>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <!-- Lives -->
-          <div style="display:flex;gap:4px;">
-            <span style="font-size:13px;">❤️</span>
-            <span style="font-size:13px;">❤️</span>
-            <span style="font-size:13px;">❤️</span>
-          </div>
-          <div style="width:1px;height:14px;background:var(--border-subtle);"></div>
-          <span style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--brand-green);">+50 XP</span>
-        </div>
-      </div>
-      <!-- Session progress bar -->
-      <div class="prog-track">
-        <div class="prog-fill" style="width:37.5%;transition:width 0.8s ease;"></div>
+      </button>
+
+      <!-- Timer — desktop -->
+      <div
+        class="hidden md:flex items-center gap-1.5 bg-[rgba(18,22,32,0.6)] border border-white/[0.06] rounded-full px-3.5 py-[5px] backdrop-blur-sm">
+        <span class="mi text-[14px] text-brand-green">timer</span>
+        <span id="timer" class="font-ui text-xs font-semibold tracking-[0.12em] text-text-secondary">04:12</span>
       </div>
     </div>
 
+    <!-- Right -->
+    <div class="flex items-center gap-3">
+      <!-- Timer — mobile -->
+      <div
+        class="flex md:hidden items-center gap-1.5 bg-[rgba(18,22,32,0.6)] border border-white/[0.06] rounded-full px-3 py-[5px] backdrop-blur-sm">
+        <span class="mi text-[13px] text-brand-green">timer</span>
+        <span id="timer-mobile" class="font-ui text-[11px] font-semibold text-text-secondary">04:12</span>
+      </div>
 
-    <!-- ── MAIN PRACTICE GRID ── -->
-    <div class="practice-grid ani d2" style="flex:1;min-height:0;">
+      <!-- Flame -->
+      <div class="flex items-center gap-1.5 text-brand-amber">
+        <span class="mi mi-fill text-[16px] text-brand-amber">local_fire_department</span>
+        <span class="hidden sm:block font-display text-[13px] font-bold text-brand-amber">12</span>
+      </div>
 
-      <!-- ══ CENTER: Frase + Controls ══ -->
-      <div style="display:flex;flex-direction:column;gap:16px;height:100%;justify-content:center;">
+      <!-- Bell + notif dot -->
+      <div class="relative cursor-pointer">
+        <span class="mi text-[16px] text-text-muted hover:text-white/80 transition-colors">notifications</span>
+        <span
+          class="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-brand-amber border-[1.5px] border-surface-0"></span>
+      </div>
 
-        <!-- PHRASE CARD -->
-        <div class="glass-crystal" style="padding: 32px 28px;">
-          <!-- HUD corners -->
-          <div class="hud-corner tl"></div>
-          <div class="hud-corner tr"></div>
-          <div class="hud-corner bl"></div>
-          <div class="hud-corner br"></div>
+      <!-- Avatar -->
+      <div
+        class="w-8 h-8 rounded-full bg-gradient-to-br from-[#1a3a5c] to-[#0d2240] border-2 border-brand-green/30 flex items-center justify-center font-display text-[11px] font-bold text-brand-green cursor-pointer">
+        A
+      </div>
+    </div>
+  </header>
 
-          <!-- Ambient glow orbs -->
-          <div style="position:absolute;top:-40px;left:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(61,214,140,0.12),transparent);border-radius:50%;pointer-events:none;"></div>
-          <div style="position:absolute;bottom:-30px;right:-30px;width:100px;height:100px;background:radial-gradient(circle,rgba(168,85,247,0.1),transparent);border-radius:50%;pointer-events:none;"></div>
+  <div class="relative z-[1] h-[calc(100vh-64px)] flex flex-col overflow-hidden">
 
-          <div style="position:relative;z-index:1;text-align:center;">
-            <p class="section-label" style="margin-bottom:16px;">Incantación objetivo</p>
+    <!-- Inner container -->
+    <div class="flex-1 flex flex-col overflow-hidden px-4 py-5 md:px-6 md:py-6">
 
-            <!-- The phrase -->
-            <h1 style="font-family:'Cinzel',serif;font-size:clamp(18px,3.5vw,30px);font-weight:700;line-height:1.35;color:var(--text-primary);font-style:italic;margin-bottom:20px;">
-              "The winds of fate guide the brave."
-            </h1>
-
-            <!-- Divider -->
-            <div style="width:80px;height:1.5px;background:linear-gradient(90deg,transparent,rgba(61,214,140,0.4),transparent);margin:0 auto 20px;"></div>
-
-            <!-- Phoneme breakdown -->
-            <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:4px;">
-              <span class="phoneme-chip phoneme-good">The <span style="opacity:0.6;margin-left:3px;">✓</span></span>
-              <span class="phoneme-chip phoneme-good">winds <span style="opacity:0.6;margin-left:3px;">✓</span></span>
-              <span class="phoneme-chip phoneme-ok">of <span style="opacity:0.6;margin-left:3px;">~</span></span>
-              <span class="phoneme-chip phoneme-good">fate <span style="opacity:0.6;margin-left:3px;">✓</span></span>
-              <span class="phoneme-chip phoneme-good">guide <span style="opacity:0.6;margin-left:3px;">✓</span></span>
-              <span class="phoneme-chip phoneme-miss">the <span style="opacity:0.6;margin-left:3px;">✗</span></span>
-              <span class="phoneme-chip phoneme-good">brave <span style="opacity:0.6;margin-left:3px;">✓</span></span>
+      <!-- ── Session progress bar ── -->
+      <div class="ani d1 mb-4 w-full max-w-[1000px] mx-auto">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-1.5">
+          <div class="flex items-center gap-2.5">
+            <span
+              class="font-ui text-[9px] font-bold tracking-[0.08em] uppercase px-2 py-[3px] rounded bg-[rgba(180,100,30,0.2)] text-[#d97706] border border-[rgba(217,119,6,0.3)]">
+              Era Vikinga
+            </span>
+            <span class="font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-text-muted">Speaking
+              Challenge</span>
+            <span class="font-ui text-[10px] text-text-muted">· Frase 3 de 8</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex gap-1">
+              <span class="text-[13px]">❤️</span>
+              <span class="text-[13px]">❤️</span>
+              <span class="text-[13px]">❤️</span>
             </div>
-            <p style="font-family:'Inter',sans-serif;font-size:10px;color:var(--text-muted);margin-top:8px;">Toca cada palabra para ver el fonema objetivo</p>
+            <div class="w-px h-3.5 bg-white/[0.06]"></div>
+            <span class="font-ui text-[11px] font-semibold text-brand-green">+50 XP</span>
           </div>
         </div>
+        <div class="h-[5px] rounded bg-surface-4 overflow-hidden">
+          <div class="h-full rounded bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]"
+            style="width:37.5%;transition:width 0.8s ease;"></div>
+        </div>
+      </div>
 
-        <!-- LIVE WAVEFORM FEEDBACK -->
-        <div style="background:var(--surface-2);border:1px solid var(--border-subtle);border-radius:12px;padding:14px 20px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);">Tu pronunciación</span>
-            <div style="display:flex;align-items:center;gap:5px;">
-              <span style="width:6px;height:6px;border-radius:50%;background:#ef4444;display:inline-block;animation:recBlink 1s ease-in-out infinite;"></span>
-              <span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#ef4444;letter-spacing:0.1em;">REC</span>
+
+      <!-- ── Main grid ── -->
+      <div class="practice-grid ani d2 flex-1 min-h-0">
+
+        <!-- CENTER -->
+        <div class="flex flex-col gap-4 h-full justify-center">
+
+          <!-- Phrase card -->
+          <div class="glass-crystal relative rounded-3xl overflow-hidden p-8 md:px-7">
+            <div class="hud-corner tl"></div>
+            <div class="hud-corner tr"></div>
+            <div class="hud-corner bl"></div>
+            <div class="hud-corner br"></div>
+
+            <!-- Orbs -->
+            <div class="absolute -top-10 -left-10 w-[120px] h-[120px] rounded-full pointer-events-none"
+              style="background:radial-gradient(circle,rgba(61,214,140,0.12),transparent)"></div>
+            <div class="absolute -bottom-8 -right-8 w-[100px] h-[100px] rounded-full pointer-events-none"
+              style="background:radial-gradient(circle,rgba(168,85,247,0.1),transparent)"></div>
+
+            <div class="relative z-[1] text-center">
+              <p class="font-ui text-[9px] font-semibold tracking-[0.2em] uppercase text-brand-green mb-4">
+                Incantación objetivo
+              </p>
+
+              <h1 class="font-display font-bold italic text-text-primary leading-[1.35] mb-5"
+                style="font-size:clamp(18px,3.5vw,30px)">
+                "The winds of fate guide the brave."
+              </h1>
+
+              <!-- Divider -->
+              <div class="w-20 h-px mx-auto mb-5"
+                style="background:linear-gradient(90deg,transparent,rgba(61,214,140,0.4),transparent)"></div>
+
+              <!-- Phoneme chips -->
+              <div class="flex flex-wrap gap-1.5 justify-center mb-1">
+                <span
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-ui text-[11px] font-semibold tracking-[0.04em] bg-brand-green/[0.12] text-brand-green border border-brand-green/25">The
+                  <span class="opacity-60">✓</span></span>
+                <span
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-ui text-[11px] font-semibold tracking-[0.04em] bg-brand-green/[0.12] text-brand-green border border-brand-green/25">winds
+                  <span class="opacity-60">✓</span></span>
+                <span
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-ui text-[11px] font-semibold tracking-[0.04em] bg-brand-amber/10 text-brand-amber border border-brand-amber/[0.22]">of
+                  <span class="opacity-60">~</span></span>
+                <span
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-ui text-[11px] font-semibold tracking-[0.04em] bg-brand-green/[0.12] text-brand-green border border-brand-green/25">fate
+                  <span class="opacity-60">✓</span></span>
+                <span
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-ui text-[11px] font-semibold tracking-[0.04em] bg-brand-green/[0.12] text-brand-green border border-brand-green/25">guide
+                  <span class="opacity-60">✓</span></span>
+                <span
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-ui text-[11px] font-semibold tracking-[0.04em] bg-red-500/10 text-red-400 border border-red-500/[0.22]">the
+                  <span class="opacity-60">✗</span></span>
+                <span
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-ui text-[11px] font-semibold tracking-[0.04em] bg-brand-green/[0.12] text-brand-green border border-brand-green/25">brave
+                  <span class="opacity-60">✓</span></span>
+              </div>
+              <p class="font-ui text-[10px] text-text-muted mt-2">Toca cada palabra para ver el fonema objetivo</p>
             </div>
           </div>
-          <!-- Waveform display -->
-          <div id="waveform" style="display:flex;align-items:center;gap:3px;height:40px;"></div>
-        </div>
 
-        <!-- CONTROLS ROW -->
-        <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
+          <!-- Waveform -->
+          <div class="bg-surface-2 border border-white/[0.06] rounded-xl px-5 py-3.5">
+            <div class="flex items-center justify-between mb-2.5">
+              <span class="font-ui text-[9px] font-semibold tracking-[0.14em] uppercase text-text-muted">Tu
+                pronunciación</span>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500 inline-block rec-blink"></span>
+                <span class="font-ui text-[9px] font-semibold text-red-500 tracking-[0.1em]">REC</span>
+              </div>
+            </div>
+            <div id="waveform" class="flex items-center gap-[3px] h-10"></div>
+          </div>
 
-          <!-- Volume -->
-          <button class="ctrl-btn" title="Escuchar frase">
-            <span class="mi" style="font-size:18px;">volume_up</span>
-          </button>
+          <!-- Controls -->
+          <div class="flex items-center justify-center gap-5">
+            <button title="Escuchar frase"
+              class="w-12 h-12 rounded-full flex items-center justify-center border border-white/10 bg-white/5 text-text-secondary cursor-pointer transition-all duration-200 flex-shrink-0 hover:border-brand-green/30 hover:text-brand-green hover:bg-brand-green/[0.08]">
+              <span class="mi text-[18px]">volume_up</span>
+            </button>
 
-          <!-- MIC (main CTA) -->
-          <div style="position:relative;">
-            <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Grabar pronunciación">
-              <span class="mi mi-fill" style="font-size:30px;color:#07090f;" id="micIcon">mic</span>
+            <div class="relative">
+              <button id="micBtn" onclick="toggleMic()" title="Grabar pronunciación"
+                class="mic-btn relative w-[72px] h-[72px] rounded-full bg-brand-green flex items-center justify-center border-none cursor-pointer transition-all duration-200 flex-shrink-0 hover:scale-[1.06] hover:shadow-[0_0_40px_rgba(61,214,140,0.5)] active:scale-[0.96]">
+                <span id="micIcon" class="mi mi-fill text-[30px] text-surface-0">mic</span>
+              </button>
+            </div>
+
+            <button title="Volver a intentar"
+              class="w-12 h-12 rounded-full flex items-center justify-center border border-white/10 bg-white/5 text-text-secondary cursor-pointer transition-all duration-200 flex-shrink-0 hover:border-brand-green/30 hover:text-brand-green hover:bg-brand-green/[0.08]">
+              <span class="mi text-[18px]">replay</span>
             </button>
           </div>
 
-          <!-- Replay -->
-          <button class="ctrl-btn" title="Volver a intentar">
-            <span class="mi" style="font-size:18px;">replay</span>
+          <p class="text-center font-ui text-[10px] text-text-muted md:hidden">
+            Toca el micrófono y pronuncia la frase
+          </p>
+
+        </div><!-- /center -->
+
+
+        <!-- SIDE PANEL -->
+        <div class="side-panel flex flex-col gap-3.5 h-full justify-center">
+
+          <!-- Accuracy -->
+          <div class="ani d3 text-center rounded-2xl border border-white/10 p-5"
+            style="background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));box-shadow:0 8px 32px rgba(0,0,0,0.4);backdrop-filter:blur(20px);">
+
+            <p class="font-ui text-[9px] font-semibold tracking-[0.2em] uppercase text-brand-green mb-3.5">Precisión</p>
+
+            <div class="relative w-[110px] h-[110px] mx-auto mb-3" style="transform:rotate(-90deg)">
+              <svg width="110" height="110" viewBox="0 0 110 110">
+                <circle class="ring-track" cx="55" cy="55" r="45" />
+                <circle class="ring-progress" cx="55" cy="55" r="45" stroke-dasharray="283" stroke-dashoffset="17" />
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center" style="transform:rotate(90deg)">
+                <span class="font-display text-[28px] font-bold text-brand-green score-glow">94</span>
+                <span class="font-ui text-[8px] font-semibold tracking-[0.12em] uppercase text-text-muted">%</span>
+              </div>
+            </div>
+
+            <h3 class="font-display text-sm font-bold text-text-primary mb-1">Precisión Arcana</h3>
+            <p class="text-[11px] text-text-secondary leading-relaxed">
+              Tu pronunciación de <em class="text-brand-green">"fate"</em> alcanzó resonancia perfecta.
+            </p>
+
+            <!-- Breakdown -->
+            <div class="mt-3.5 flex flex-col gap-1.5 text-left">
+              <div class="flex items-center justify-between">
+                <span class="font-ui text-[10px] text-text-muted">Linking sounds</span>
+                <div class="flex items-center gap-1.5">
+                  <div class="w-[60px] h-[5px] rounded bg-surface-4 overflow-hidden">
+                    <div class="h-full rounded bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]" style="width:88%">
+                    </div>
+                  </div>
+                  <span class="font-ui text-[9px] font-semibold text-brand-green">88%</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="font-ui text-[10px] text-text-muted">Entonación</span>
+                <div class="flex items-center gap-1.5">
+                  <div class="w-[60px] h-[5px] rounded bg-surface-4 overflow-hidden">
+                    <div class="h-full rounded bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]" style="width:96%">
+                    </div>
+                  </div>
+                  <span class="font-ui text-[9px] font-semibold text-brand-green">96%</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="font-ui text-[10px] text-text-muted">Fonema /ð/</span>
+                <div class="flex items-center gap-1.5">
+                  <div class="w-[60px] h-[5px] rounded bg-surface-4 overflow-hidden">
+                    <div class="h-full rounded bg-brand-amber shadow-[0_0_6px_rgba(245,166,35,0.4)]" style="width:72%">
+                    </div>
+                  </div>
+                  <span class="font-ui text-[9px] font-semibold text-brand-amber">72%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Next btn -->
+          <button
+            class="next-btn ani d4 w-full flex items-center justify-between px-5 py-4 rounded-xl border border-white/[0.06] bg-white/[0.03] cursor-pointer transition-all duration-300 relative overflow-hidden hover:border-brand-green/30">
+            <div class="text-left relative z-[1]">
+              <p class="font-ui text-[9px] font-semibold tracking-[0.2em] uppercase text-brand-green mb-1">Siguiente
+                enigma</p>
+              <p class="font-display text-sm font-bold text-text-primary">Continuar práctica</p>
+            </div>
+            <div
+              class="next-btn-arrow w-10 h-10 rounded-[10px] bg-white/5 border border-white/10 flex items-center justify-center text-text-secondary transition-all duration-300 flex-shrink-0">
+              <span class="mi text-[18px]">arrow_forward</span>
+            </div>
           </button>
 
+          <!-- Sophia tip -->
+          <div class="ani d4 rounded-[10px] p-3 bg-brand-green/5 border border-brand-green/[0.12]">
+            <div class="flex gap-2.5 items-start">
+              <div
+                class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center font-display text-[10px] text-brand-green border-[1.5px] border-brand-green/30"
+                style="background:linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05))">S</div>
+              <div>
+                <p class="font-ui text-[9px] font-bold text-brand-green tracking-[0.1em] mb-1">SOPHIA DICE</p>
+                <p class="text-[11px] text-text-secondary leading-relaxed">
+                  El fonema <strong class="text-text-primary">/ð/</strong> en "the" se forma con la lengua entre los
+                  dientes. ¡Casi lo tienes!
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /side panel -->
+
+      </div><!-- /practice-grid -->
+
+
+      <!-- MOBILE PANEL -->
+      <div class="mobile-panel ani d3 flex-col gap-2.5 mt-3">
+
+        <!-- Tabs -->
+        <div class="flex bg-surface-2 border border-white/[0.06] rounded-lg p-1 gap-1">
+          <button id="tab-precision" onclick="switchTab('precision')"
+            class="tab-btn active flex-1 py-2 font-ui text-[11px] font-semibold tracking-[0.06em] uppercase text-text-muted rounded-md cursor-pointer border-none bg-transparent transition-all">
+            Precisión
+          </button>
+          <button id="tab-sophia" onclick="switchTab('sophia')"
+            class="tab-btn flex-1 py-2 font-ui text-[11px] font-semibold tracking-[0.06em] uppercase text-text-muted rounded-md cursor-pointer border-none bg-transparent transition-all">
+            Sophia
+          </button>
+          <button id="tab-next" onclick="switchTab('next')"
+            class="tab-btn flex-1 py-2 font-ui text-[11px] font-semibold tracking-[0.06em] uppercase text-text-muted rounded-md cursor-pointer border-none bg-transparent transition-all">
+            Siguiente
+          </button>
         </div>
 
-        <!-- Hint for mobile -->
-        <p style="text-align:center;font-family:'Inter',sans-serif;font-size:10px;color:var(--text-muted);" class="md:hidden">
-          Toca el micrófono y pronuncia la frase
-        </p>
-
-      </div><!-- /center col -->
-
-
-      <!-- ══ SIDE PANEL (desktop only) ══ -->
-      <div class="side-panel" style="display:flex;flex-direction:column;gap:14px;height:100%;justify-content:center;">
-
-        <!-- Accuracy ring -->
-        <div class="metallic-panel ani d3" style="padding:20px;text-align:center;">
-          <p class="section-label" style="margin-bottom:14px;">Precisión</p>
-
-          <div class="accuracy-ring" style="width:110px;height:110px;margin:0 auto 12px;">
-            <svg width="110" height="110" viewBox="0 0 110 110">
-              <!-- Track -->
-              <circle class="ring-track" cx="55" cy="55" r="45"/>
-              <!-- Progress 94% -->
-              <circle class="ring-progress" cx="55" cy="55" r="45"
-                stroke-dasharray="283"
-                stroke-dashoffset="17"/>
+        <!-- Tab: Precisión -->
+        <div id="tab-content-precision"
+          class="bg-surface-2 border border-white/[0.06] rounded-[10px] p-4 flex items-center gap-4">
+          <div class="relative w-[70px] h-[70px] flex-shrink-0" style="transform:rotate(-90deg)">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle class="ring-track" cx="35" cy="35" r="28" style="stroke-width:5" />
+              <circle class="ring-progress" cx="35" cy="35" r="28"
+                style="stroke-width:5;stroke-dasharray:176;stroke-dashoffset:11" />
             </svg>
-            <div class="ring-label">
-              <span style="font-family:'Cinzel',serif;font-size:28px;font-weight:700;color:var(--brand-green);" class="score-glow">94</span>
-              <span style="font-family:'Inter',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">%</span>
+            <div class="absolute inset-0 flex items-center justify-center" style="transform:rotate(90deg)">
+              <span class="font-display text-[16px] font-bold text-brand-green">94</span>
             </div>
           </div>
-
-          <h3 style="font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:5px;">Precisión Arcana</h3>
-          <p style="font-size:11px;color:var(--text-secondary);line-height:1.5;">Tu pronunciación de <em style="color:var(--brand-green);">"fate"</em> alcanzó resonancia perfecta.</p>
-
-          <!-- Mini score breakdown -->
-          <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px;text-align:left;">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <span style="font-family:'Inter',sans-serif;font-size:10px;color:var(--text-muted);">Linking sounds</span>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="prog-track" style="width:60px;">
-                  <div class="prog-fill" style="width:88%;"></div>
-                </div>
-                <span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:var(--brand-green);">88%</span>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <span style="font-family:'Inter',sans-serif;font-size:10px;color:var(--text-muted);">Entonación</span>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="prog-track" style="width:60px;">
-                  <div class="prog-fill" style="width:96%;"></div>
-                </div>
-                <span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:var(--brand-green);">96%</span>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <span style="font-family:'Inter',sans-serif;font-size:10px;color:var(--text-muted);">Fonema /ð/</span>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <div class="prog-track" style="width:60px;">
-                  <div class="prog-fill" style="width:72%;background:var(--brand-amber);box-shadow:0 0 6px rgba(245,166,35,0.4);"></div>
-                </div>
-                <span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:var(--brand-amber);">72%</span>
-              </div>
-            </div>
+          <div class="flex-1">
+            <h3 class="font-display text-[13px] font-bold mb-1">Precisión Arcana</h3>
+            <p class="text-[11px] text-text-secondary">Fonema <em class="text-brand-amber">/ð/</em> necesita más
+              práctica.</p>
           </div>
         </div>
 
-        <!-- Next button -->
-        <button class="next-btn ani d4">
-          <div style="text-align:left;position:relative;z-index:1;">
-            <p class="section-label" style="margin-bottom:4px;">Siguiente enigma</p>
-            <p style="font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--text-primary);">Continuar práctica</p>
-          </div>
-          <div class="next-btn-arrow">
-            <span class="mi" style="font-size:18px;">arrow_forward</span>
-          </div>
-        </button>
-
-        <!-- Sophia tip -->
-        <div style="background:rgba(61,214,140,0.05);border:1px solid rgba(61,214,140,0.12);border-radius:10px;padding:12px;" class="ani d4">
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05));border:1.5px solid rgba(61,214,140,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:10px;color:var(--brand-green);flex-shrink:0;">S</div>
+        <!-- Tab: Sophia -->
+        <div id="tab-content-sophia"
+          class="hidden rounded-[10px] p-3.5 bg-brand-green/5 border border-brand-green/[0.12]">
+          <div class="flex gap-2.5 items-start">
+            <div
+              class="w-[30px] h-[30px] rounded-full flex-shrink-0 flex items-center justify-center font-display text-[11px] text-brand-green border-[1.5px] border-brand-green/30"
+              style="background:linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05))">S</div>
             <div>
-              <p style="font-family:'Inter',sans-serif;font-size:9px;font-weight:700;color:var(--brand-green);letter-spacing:0.1em;margin-bottom:4px;">SOPHIA DICE</p>
-              <p style="font-size:11px;color:var(--text-secondary);line-height:1.5;">El fonema <strong style="color:var(--text-primary);">/ð/</strong> en "the" se forma con la lengua entre los dientes. ¡Casi lo tienes!</p>
+              <p class="font-ui text-[9px] font-bold text-brand-green tracking-[0.1em] mb-1">SOPHIA DICE</p>
+              <p class="text-[12px] text-text-secondary leading-relaxed">
+                El fonema <strong class="text-text-primary">/ð/</strong> en "the" se forma con la lengua entre los
+                dientes. ¡Casi lo tienes!
+              </p>
             </div>
           </div>
         </div>
 
-      </div><!-- /side panel -->
-
-    </div><!-- /practice-grid -->
-
-
-    <!-- ══ MOBILE PANEL (tabs) ══ -->
-    <div class="mobile-panel ani d3" style="display:none;flex-direction:column;gap:10px;margin-top:12px;">
-
-      <!-- Tabs -->
-      <div style="display:flex;background:var(--surface-2);border:1px solid var(--border-subtle);border-radius:8px;padding:4px;gap:4px;">
-        <button class="tab-btn active" id="tab-precision" onclick="switchTab('precision')">Precisión</button>
-        <button class="tab-btn" id="tab-sophia" onclick="switchTab('sophia')">Sophia</button>
-        <button class="tab-btn" id="tab-next" onclick="switchTab('next')">Siguiente</button>
-      </div>
-
-      <!-- Tab content -->
-      <div id="tab-content-precision" style="background:var(--surface-2);border:1px solid var(--border-subtle);border-radius:10px;padding:16px;display:flex;align-items:center;gap:16px;">
-        <div class="accuracy-ring" style="width:70px;height:70px;flex-shrink:0;">
-          <svg width="70" height="70" viewBox="0 0 70 70">
-            <circle class="ring-track" cx="35" cy="35" r="28" style="stroke-width:5;"/>
-            <circle class="ring-progress" cx="35" cy="35" r="28"
-              style="stroke-width:5;stroke-dasharray:176;stroke-dashoffset:11;"/>
-          </svg>
-          <div class="ring-label">
-            <span style="font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--brand-green);">94</span>
-          </div>
+        <!-- Tab: Siguiente -->
+        <div id="tab-content-next" class="hidden">
+          <button
+            class="next-btn w-full flex items-center justify-between px-5 py-4 rounded-xl border border-white/[0.06] bg-white/[0.03] cursor-pointer transition-all duration-300 relative overflow-hidden hover:border-brand-green/30">
+            <div class="text-left relative z-[1]">
+              <p class="font-ui text-[9px] font-semibold tracking-[0.2em] uppercase text-brand-green mb-1">Siguiente
+                enigma</p>
+              <p class="font-display text-sm font-bold text-text-primary">Continuar práctica</p>
+            </div>
+            <div
+              class="next-btn-arrow w-10 h-10 rounded-[10px] bg-white/5 border border-white/10 flex items-center justify-center text-text-secondary transition-all duration-300 flex-shrink-0">
+              <span class="mi text-[18px]">arrow_forward</span>
+            </div>
+          </button>
         </div>
-        <div style="flex:1;">
-          <h3 style="font-family:'Cinzel',serif;font-size:13px;font-weight:700;margin-bottom:4px;">Precisión Arcana</h3>
-          <p style="font-size:11px;color:var(--text-secondary);">Fonema <em style="color:var(--brand-amber);">/ð/</em> necesita más práctica.</p>
-        </div>
-      </div>
-      <div id="tab-content-sophia" style="display:none;background:rgba(61,214,140,0.05);border:1px solid rgba(61,214,140,0.12);border-radius:10px;padding:14px;">
-        <div style="display:flex;gap:10px;align-items:flex-start;">
-          <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05));border:1.5px solid rgba(61,214,140,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:11px;color:var(--brand-green);flex-shrink:0;">S</div>
-          <div>
-            <p style="font-family:'Inter',sans-serif;font-size:9px;font-weight:700;color:var(--brand-green);letter-spacing:0.1em;margin-bottom:4px;">SOPHIA DICE</p>
-            <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;">El fonema <strong style="color:var(--text-primary);">/ð/</strong> en "the" se forma con la lengua entre los dientes. ¡Casi lo tienes!</p>
-          </div>
+
+      </div><!-- /mobile panel -->
+
+    </div><!-- /inner -->
+
+
+    <!-- Footer — desktop -->
+    <div
+      class="absolute bottom-0 left-0 right-0 pointer-events-none px-6 pb-4 hidden md:flex justify-between items-end">
+      <div class="flex flex-col gap-1 opacity-55">
+        <span class="font-ui text-[9px] font-bold tracking-[0.3em] uppercase text-brand-green">Era Vikinga · Nivel
+          1</span>
+        <div class="w-[140px] h-[5px] rounded bg-surface-4 overflow-hidden">
+          <div class="h-full w-[75%] rounded bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]"></div>
         </div>
       </div>
-      <div id="tab-content-next" style="display:none;">
-        <button class="next-btn">
-          <div style="text-align:left;position:relative;z-index:1;">
-            <p class="section-label" style="margin-bottom:3px;">Siguiente enigma</p>
-            <p style="font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--text-primary);">Continuar práctica</p>
-          </div>
-          <div class="next-btn-arrow">
-            <span class="mi" style="font-size:18px;">arrow_forward</span>
-          </div>
-        </button>
-      </div>
-
-    </div><!-- /mobile panel -->
-
-  </div><!-- /padding container -->
-
-
-  <!-- ── FOOTER BAR (desktop) ── -->
-  <div class="footer-bar hidden md:flex">
-    <div style="display:flex;flex-direction:column;gap:5px;opacity:0.55;">
-      <span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--brand-green);">Era Vikinga · Nivel 1</span>
-      <div class="prog-track" style="width:140px;">
-        <div class="prog-fill" style="width:75%;"></div>
+      <div class="text-right opacity-45">
+        <span class="font-ui text-[9px] tracking-[0.3em] uppercase text-text-muted">Módulo: Pronunciación · Linking
+          Sounds</span>
       </div>
     </div>
-    <div style="text-align:right;opacity:0.45;">
-      <span style="font-family:'Inter',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-muted);">Módulo: Pronunciación · Linking Sounds</span>
-    </div>
+
   </div>
 
-</div><!-- /page-wrapper -->
-
-
-<!-- ══════════════════════════════════════════
-     SCRIPTS
-══════════════════════════════════════════ -->
-<script>
-  /* ── Build background waveform ── */
-  const bgWave = document.getElementById('bgWave');
-  const heights = [30,50,70,100,45,80,35,60,90,40,110,55,25,75,95,45,65,85,30,70];
-  heights.forEach((h, i) => {
-    const b = document.createElement('div');
-    b.className = 'bg-wave-bar';
-    b.style.height = h + 'px';
-    b.style.animationDelay = (i * 0.12) + 's';
-    bgWave.appendChild(b);
-  });
-
-  /* ── Build live waveform ── */
-  const wf = document.getElementById('waveform');
-  const wfHeights = [8,16,12,24,18,30,14,22,10,20,28,16,12,24,8,18,26,14,20,10];
-  wfHeights.forEach((h, i) => {
-    const b = document.createElement('div');
-    b.className = 'waveform-bar';
-    b.style.height = h + 'px';
-    b.style.animationDelay = (i * 0.06) + 's';
-    wf.appendChild(b);
-  });
-
-  /* ── Timer countdown ── */
-  let seconds = 252; // 4:12
-  const timerEl = document.getElementById('timer');
-  const timerMob = document.getElementById('timer-mobile');
-  setInterval(() => {
-    seconds--;
-    if (seconds < 0) seconds = 0;
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    const str = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    timerEl.textContent = str;
-    timerMob.textContent = str;
-    // Turn red when low
-    if (seconds < 30) {
-      timerEl.style.color = '#f87171';
-      timerMob.style.color = '#f87171';
-    }
-  }, 1000);
-
-  /* ── Mic toggle ── */
-  let recording = false;
-  function toggleMic() {
-    recording = !recording;
-    const btn  = document.getElementById('micBtn');
-    const icon = document.getElementById('micIcon');
-    if (recording) {
-      btn.classList.add('recording');
-      btn.style.background = '#ef4444';
-      icon.textContent = 'mic_off';
-    } else {
-      btn.classList.remove('recording');
-      btn.style.background = 'var(--brand-green)';
-      icon.textContent = 'mic';
-    }
-  }
-
-  /* ── Mobile tabs ── */
-  function switchTab(name) {
-    ['precision','sophia','next'].forEach(t => {
-      const btn = document.getElementById('tab-' + t);
-      const content = document.getElementById('tab-content-' + t);
-      if (t === name) {
-        btn.classList.add('active');
-        if (content) content.style.display = (t === 'next') ? 'block' : 'flex';
-      } else {
-        btn.classList.remove('active');
-        if (content) content.style.display = 'none';
-      }
-    });
-  }
-  // Init
-  document.getElementById('tab-content-precision').style.display = 'flex';
-  document.getElementById('tab-content-sophia').style.display = 'none';
-  document.getElementById('tab-content-next').style.display = 'none';
-</script>
-
-<style>
-  @keyframes recBlink {
-    0%,100% { opacity: 1; }
-    50%      { opacity: 0.3; }
-  }
-</style>
-
 </body>
+
 </html>

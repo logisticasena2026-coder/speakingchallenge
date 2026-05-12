@@ -1,16 +1,16 @@
-import { PrismaClient, Prisma } from '../generated/prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
-import 'dotenv/config';
-import etcc from '../etc.json';
-import Gestiónlogística from '../Gestiónlogística.json';
-import Gestiónportuaria from '../Gestiónportuaria.json';
+//import { PrismaClient, Prisma } from '../generated/prisma/client';
+//import { PrismaPg } from '@prisma/adapter-pg';
+//import 'dotenv/config';
+//import etcc from '../etc.json';
+//import Gestiónlogística from '../Gestiónlogística.json';
+//import Gestiónportuaria from '../Gestiónportuaria.json';
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL,
-});
-const prisma = new PrismaClient({
-  adapter,
-});
+//const adapter = new PrismaPg({
+  //connectionString: process.env.DATABASE_URL,
+//});
+//const prisma = new PrismaClient({
+  //adapter,
+//});
 
 // async function etc() {
 //   await prisma.frasesDePractica.createMany({
