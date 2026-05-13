@@ -1,0 +1,59 @@
+import { Bell, Flame, Timer, X } from "lucide-react";
+
+export function HeaderPractica() {
+    return (
+      <header className="sticky top-0 h-16 bg-[rgba(7,9,15,0.92)] border-b border-white/10 backdrop-blur-xl z-40 flex items-center justify-between px-4 md:px-6">
+        <div className="flex items-center gap-2.5">
+          <button className="flex items-center gap-2 bg-transparent border-none cursor-pointer">
+            <X className="w-5 h-5 text-brand-green" />
+            <div className="hidden sm:flex flex-col gap-px">
+              <span className="font-display text-3.25 font-bold text-brand-green tracking-[0.06em]">
+                PlayLenguage
+              </span>
+              <span className="font-ui text-[9px] font-semibold tracking-[0.14em] uppercase text-text-muted">
+                Speaking Challenge
+              </span>
+            </div>
+          </button>
+
+          <div className="hidden md:flex items-center gap-1.5 bg-[rgba(18,22,32,0.6)] border border-white/6 rounded-full px-3.5 py-1.25 backdrop-blur-sm">
+            <Timer className="w-3.5 h-3.5 text-brand-green" />
+            <span
+              id="timer"
+              className="font-ui text-xs font-semibold tracking-[0.12em] text-text-secondary"
+            >
+              04:12
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="flex md:hidden items-center gap-1.5 bg-[rgba(18,22,32,0.6)] border border-white/6 rounded-full px-3 py-1.25 backdrop-blur-sm">
+            <Timer className="w-3.25 h-3.25 text-brand-green" />
+            <span
+              id="timer-mobile"
+              className="font-ui text-[11px] font-semibold text-text-secondary"
+            >
+              04:12
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-brand-amber">
+            <Flame className="w-4 h-4 text-brand-amber" />
+            <span className="hidden sm:block font-display text-3.25 font-bold text-brand-amber">
+              12
+            </span>
+          </div>
+
+          <div className="relative cursor-pointer">
+            <Bell className="w-4 h-4 text-text-muted hover:text-white/80 transition-colors" />
+            <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-brand-amber border-[1.5px] border-surface-0"></span>
+          </div>
+
+          <div className="w-8 h-8 rounded-full bg-linear-to-br from-[#1a3a5c] to-[#0d2240] border-2 border-brand-green/30 flex items-center justify-center font-display text-[11px] font-bold text-brand-green cursor-pointer">
+            A
+          </div>
+        </div>
+      </header>
+    );
+}
