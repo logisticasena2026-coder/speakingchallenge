@@ -59,7 +59,6 @@ export async function iniciar_session({
         avatar: '',
       };
     }
-
     const validando = await bcrypt.compare(contrasena, usuarioEstudiante.password);
 
     if (!validando) {

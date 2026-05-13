@@ -7,7 +7,6 @@ export function Presentacion() {
       className="relative pt-32 pb-20 px-4 sm:px-6 overflow-hidden min-h-screen flex items-center"
       id="Presentacion"
     >
-      <div className="mesh-bg"></div>
 
       <div
         className="absolute top-1/4 right-1/4 size-96 rounded-full opacity-5"
