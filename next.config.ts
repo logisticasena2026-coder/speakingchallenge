@@ -4,6 +4,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const ContentSecurityPolicy = `
   default-src 'self'
+    blob:
     https://vercel.live;
 
   script-src 'self'
@@ -18,6 +19,8 @@ const ContentSecurityPolicy = `
     https://lh3.googleusercontent.com
     https://www.speakingchallenge.online
     https://api.dicebear.com;
+
+  media-src 'self' blob:;
 
   font-src 'self' data:;
 

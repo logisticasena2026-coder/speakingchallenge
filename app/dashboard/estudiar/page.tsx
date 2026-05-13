@@ -2,6 +2,7 @@ import { Configuraciónes } from '@/components/Practica/Configuraciones';
 import { ErasPractica } from '@/components/Practica/ErasPractica';
 import { Stasts } from '@/components/Practica/Stasts';
 import { Play, Radar } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Practicando() {
   return (
@@ -55,10 +56,10 @@ export default function Practicando() {
             <p className="text-sm text-text-muted mb-6 max-w-100 leading-relaxed">
               Listo para comenzar a practicar cuando quieras. tienes 2.000 frases a tu disposicion
             </p>
-            <button className="flex items-center justify-center gap-2 bg-brand-green text-surface-0 font-ui text-xs font-bold tracking-widest uppercase px-8 py-3.5 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-[0_0_24px_rgba(61,214,140,0.4)] hover:-translate-y-0.5">
+            <Link href="/dashboard/estudiar/practicando" className="flex items-center justify-center gap-2 bg-brand-green text-surface-0 font-ui text-xs font-bold tracking-widest uppercase px-8 py-3.5 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-[0_0_24px_rgba(61,214,140,0.4)] hover:-translate-y-0.5">
               <Play className="w-5 h-5" />
               Iniciar practica
-            </button>
+            </Link>
           </div>
         </div>
       </div>
