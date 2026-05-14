@@ -21,7 +21,7 @@ export function HeaderSidebar({ user }: Readonly<{ user: Prisma.userGetPayload<o
             <AvatarFallback className="bg-surface-3 text-text-secondary">{initials}</AvatarFallback>
           </Avatar>
         </div>
-        <h1 className="mt-4 text-h3-card text-text-primary tracking-tighter">{user.name}</h1>
+        <p className="mt-4 text-h3-card text-text-primary tracking-tighter">{user.name}</p>
         <p className="font-ui-label text-[10px] text-text-muted uppercase tracking-[0.08em]">
           AI Guide
         </p>

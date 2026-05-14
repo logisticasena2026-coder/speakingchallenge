@@ -56,7 +56,7 @@ export default function ContrasenaCambiada() {
       <div className="fixed inset-0 -z-10 opacity-20">
         <div
           className="absolute bottom-0 left-0 w-full h-full"
-          data-alt="A cinematic, high-tech control room environment with holographic green light interfaces and historical artifact outlines floating in a dark, atmospheric void. The aesthetic is a blend of futuristic spaceship technology and ancient library mystery, utilizing deep emerald and slate tones. Soft neon glows emanate from digital runes, creating a sense of restored order and technical precision in a dark-mode game interface background."
+          aria-hidden="true"
           style={{
             backgroundImage:
               "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDR43dswmlKrflpRJCQylMtoMbv0MQfw2OkZr_KJtG8DSLoJbuQXxNcSc1mAxl_S5usps4pS4KHSiwGyEZEH_sPou5njK3t6rA25U-gWWIEAyFZf81VYZ8a43Q7n-Ew3bdNXOoXKyxn06c1zkJUNgDGIL-NDq0pAySLRlfI86g3TPI381A3IeWjAlnWA2XZI5y4ZMjeM7PByPazZG7Do72zxZOR_OR9ecrRnFDqOWzK4rd6v7N2IEOMJnLTVV6srOcBZd-hbc90oPeJ')",

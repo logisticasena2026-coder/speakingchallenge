@@ -1,10 +1,19 @@
+import type { Metadata } from 'next';
 import { HeaderPractica } from '@/components/Practica/HeaderPractica';
 import { MuestraDeFrases } from '@/components/Practica/MuestraDeFrases';
 import { Nivel } from '@/components/Practica/Nivel';
 
+export const metadata: Metadata = {
+  title: 'Practicando',
+  description:
+    'Modo de práctica inmersiva con frases en inglés. Mejora tu pronunciación y comprensión mientras viajas a través del tiempo.',
+  robots: { index: false, follow: false },
+};
+
 export default function Practicando() {
   return (
     <>
+      <h1 className="sr-only">Práctica de pronunciación</h1>
       {' '}
       <div className="mesh-bg"></div>
       <div className="noise-layer"></div>

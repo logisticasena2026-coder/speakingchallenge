@@ -40,7 +40,7 @@ export default function Register() {
           <div className="relative bg-surface-1/40 backdrop-blur-2xl border border-white/5 p-padding-card-sm md:p-padding-card-lg rounded-xl shadow-2xl overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary/40 to-transparent"></div>
             <div className="text-center mb-8">
-              <h2 className="font-h2-section text-h2-section text-primary mb-2">Únete al Viaje</h2>
+              <h1 className="font-h2-section text-h2-section text-primary mb-2">Únete al Viaje</h1>
               <p className="font-body-large text-body-standard text-text-secondary">
                 Comienza tu aventura a través del tiempo.
               </p>

@@ -165,8 +165,9 @@ function Sidebar({
 
   if (collapsible === "none") {
     return (
-      <div
+      <nav
         data-slot="sidebar"
+        aria-label="Navegación del dashboard"
         className={cn(
           "flex h-full w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground",
           className
@@ -174,7 +175,7 @@ function Sidebar({
         {...props}
       >
         {children}
-      </div>
+      </nav>
     )
   }
 
@@ -238,13 +239,14 @@ function Sidebar({
         )}
         {...props}
       >
-        <div
+        <nav
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
+          aria-label="Navegación del dashboard"
           className="flex size-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:shadow-sm group-data-[variant=floating]:ring-1 group-data-[variant=floating]:ring-sidebar-border"
         >
           {children}
-        </div>
+        </nav>
       </div>
     </div>
   )

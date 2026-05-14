@@ -9,6 +9,7 @@ export default function NotFound() {
         <div className="flex items-center gap-4">
           <Link
             href="/"
+            aria-label="Volver al inicio"
             className="text-emerald-400 cursor-pointer hover:bg-white/5 transition-all duration-300 p-2 rounded-full"
           >
             <ArrowLeft className="w-6 h-6" />

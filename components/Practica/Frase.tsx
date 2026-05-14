@@ -24,12 +24,12 @@ export function Frase({ frases, indice }: Readonly<{ frases: Frase[]; indice: nu
           Encantamiento Objetivo
         </p>
 
-        <h1
+        <p
           className="font-display font-bold italic text-text-primary leading-[1.35] mb-5"
           style={{ fontSize: 'clamp(18px,3.5vw,30px)' }}
         >
           &ldquo;{frases[indice]?.fraseIngles || 'Cargando...'}&rdquo;
-        </h1>
+        </p>
 
         <div
           className="w-20 h-px mx-auto mb-5"

@@ -16,7 +16,7 @@ export function OpcionesMicrofono({
   const setGrabando = useFrasesStore((state) => state.setGrabando);
   const NuevoTexto = useFrasesStore((state) => state.setTexto);
   const streamerRef = useRef<DeepgramStreamer | null>(null);
-  const DEEPGRAM_API_KEY = 'f60e26415a81bebcde5ab4f148fd2b1134f9fb0b';
+  const DEEPGRAM_API_KEY = process.env.NEXT_PUBLIC_DEEPGRAM_KEY ?? '';
 
   const texto = frase[indiceActual]?.fraseIngles;
 
@@ -31,7 +31,7 @@ export function OpcionesMicrofono({
     setGrabando(true);
     try {
       const streamer = new DeepgramStreamer(DEEPGRAM_API_KEY, {
-        onTranscript(text, isFinal) {
+        onTranscript(text) {
           if (text.trim()) {
             NuevoTexto(text);
           }
@@ -144,7 +144,9 @@ export function OpcionesMicrofono({
             });
           }}
           disabled={boton}
+
           title="Escuchar frase"
+          aria-label="Escuchar frase"
           className="w-12 h-12 rounded-full flex items-center justify-center border border-white/10 bg-white/5 text-text-secondary cursor-pointer transition-all duration-200 shrink-0 hover:border-brand-green/30 hover:text-brand-green hover:bg-brand-green/8"
         >
           <Volume2 className="w-5 h-5" />
@@ -155,6 +157,7 @@ export function OpcionesMicrofono({
             id="micBtn"
             onClick={toggleMic}
             title={grabando ? 'Detener grabación' : 'Grabar pronunciación'}
+            aria-label={grabando ? 'Detener grabación' : 'Grabar pronunciación'}
             className={`mic-btn relative w-18 h-18 rounded-full flex items-center justify-center border-none cursor-pointer transition-all duration-200 shrink-0 hover:scale-[1.06] active:scale-[0.96] ${
               grabando
                 ? 'bg-red-500 hover:shadow-[0_0_40px_rgba(239,68,68,0.5)]'
@@ -168,6 +171,7 @@ export function OpcionesMicrofono({
         <button
           onClick={resetTexto}
           title="Volver a intentar"
+          aria-label="Volver a intentar"
           className="w-12 h-12 rounded-full flex items-center justify-center border border-white/10 bg-white/5 text-text-secondary cursor-pointer transition-all duration-200 shrink-0 hover:border-brand-green/30 hover:text-brand-green hover:bg-brand-green/8"
         >
           <RotateCcw className="w-5 h-5" />

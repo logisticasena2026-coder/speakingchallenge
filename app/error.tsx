@@ -13,6 +13,7 @@ export default function ErrorPage({
         <div className="flex items-center gap-4">
           <Link
             href="/"
+            aria-label="Volver al inicio"
             className="text-emerald-400 hover:bg-white/5 transition-all duration-300 p-2 rounded-full active:scale-95"
           >
             <ArrowLeft className="w-6 h-6" />
@@ -22,7 +23,7 @@ export default function ErrorPage({
           </h1>
         </div>
         <div className="flex items-center gap-4">
-          <button className="text-slate-400 hover:text-emerald-300 transition-colors p-2 rounded-full active:scale-95">
+          <button aria-label="Ayuda" className="text-slate-400 hover:text-emerald-300 transition-colors p-2 rounded-full active:scale-95">
             <HelpCircle className="w-6 h-6" />
           </button>
         </div>
