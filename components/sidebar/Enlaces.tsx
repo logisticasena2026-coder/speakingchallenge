@@ -74,7 +74,7 @@ export function Enlaces() {
       </SidebarGroup>
       <SidebarGroup>
         <SidebarGroupLabel className="px-3 text-[10px] font-semibold text-text-muted uppercase tracking-[0.08em] mb-2">
-          Principal
+          Progreso
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
