@@ -1,8 +1,16 @@
+import type { Metadata } from 'next';
 import { Configuraciónes } from '@/components/Practica/Configuraciones';
 import { ErasPractica } from '@/components/Practica/ErasPractica';
 import { Stasts } from '@/components/Practica/Stasts';
 import { Play, Radar } from 'lucide-react';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Configurar estudio',
+  description:
+    'Ajusta los parámetros de tu misión de aprendizaje: era histórica, tipo de ejercicio y dificultad antes de comenzar a practicar.',
+  robots: { index: false, follow: false },
+};
 
 export default function Practicando() {
   return (
@@ -18,8 +26,14 @@ export default function Practicando() {
 
       <Stasts />
 
-      <Configuraciónes />
-      <ErasPractica />
+      <section>
+        <h2 className="sr-only">Configuración de grupo</h2>
+        <Configuraciónes />
+      </section>
+      <section>
+        <h2 className="sr-only">Era histórica</h2>
+        <ErasPractica />
+      </section>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 ani delay-anim-2">
         <div className="mt-5 relative rounded-xl border border-white/6 bg-surface-2/70 backdrop-blur-xl ani delay-anim-4">

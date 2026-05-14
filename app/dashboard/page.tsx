@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import {
   Flame,
   ArrowRight,
@@ -19,6 +20,13 @@ import {
   Wand2,
   Trophy,
 } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description:
+    'Tu progreso en speakingchallenge. Estadísticas, rachas, rituales diarios y acceso a tus viajes a través del tiempo.',
+  robots: { index: false, follow: false },
+};
 
 export default function Home() {
   return (
