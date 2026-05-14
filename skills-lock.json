@@ -11,6 +11,24 @@
       "sourceType": "autoskills-registry",
       "computedHash": "c124390cc3441844903ada94cb5820b23d922f2d0ad34e01e029e410197c8a32"
     },
+    "deepgram-js-audio-intelligence": {
+      "source": "deepgram/deepgram-js-sdk",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/deepgram-js-audio-intelligence/SKILL.md",
+      "computedHash": "52cc5dfaca026eaadc891ec0b23c348c4234179963d80485d2176accd2f5b6c5"
+    },
+    "deepgram-js-speech-to-text": {
+      "source": "deepgram/deepgram-js-sdk",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/deepgram-js-speech-to-text/SKILL.md",
+      "computedHash": "7230a28b8f5ed650e9639e684780a75a9665d9e95ffb2bf66386f3e6d0631705"
+    },
+    "deepgram-js-text-to-speech": {
+      "source": "deepgram/deepgram-js-sdk",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/deepgram-js-text-to-speech/SKILL.md",
+      "computedHash": "43a5cac6caba0e2c4296c8828ba322a9b3e255db59ee87564ec61893740fe900"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "autoskills-registry",
