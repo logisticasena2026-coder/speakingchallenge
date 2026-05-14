@@ -15,7 +15,6 @@ export function MuestraDeFrases() {
   const siguiente = useFrasesStore((state) => state.siguiente);
   const anterior = useFrasesStore((state) => state.anterior);
   const cargarFrasesInicial = useFrasesStore((state) => state.cargarFrasesInicial);
-  const estaCargando = useFrasesStore((state) => state.estaCargando);
   const TotalFrases = useFrasesStore((store) => store.totalFrases);
   useEffect(() => {
     if (frases.length === 0) {
@@ -43,6 +42,7 @@ export function MuestraDeFrases() {
               <button
                 onClick={anterior}
                 disabled={indiceActual === 0}
+                aria-label="Frase anterior"
                 className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20 disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-5 h-5 text-text-secondary group-hover:text-brand-green transition-colors" />
@@ -50,7 +50,7 @@ export function MuestraDeFrases() {
 
               <div className="flex-1 flex flex-col items-center">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="font-display text-xs text-brand-green">{indiceActual}</span>
+                  <span className="font-display text-xs text-brand-green">{indiceActual + 1}</span>
                   <span className="text-text-muted text-[10px]">/</span>
                   <span className="font-ui text-[10px] text-text-muted">{TotalFrases}</span>
                 </div>
@@ -66,6 +66,7 @@ export function MuestraDeFrases() {
 
               <button
                 onClick={siguiente}
+                aria-label="Siguiente frase"
                 className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20"
               >
                 <ChevronRight className="w-5 h-5 text-text-secondary group-hover:text-brand-green transition-colors" />
