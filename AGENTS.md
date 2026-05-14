@@ -1,109 +1,101 @@
 # AGENTS.md
 
-## Build Commands
+## Dev Commands
 
 ```bash
-pnpm dev      # Start dev server (http://localhost:3000)
-pnpm build   # Runs prisma generate && next build
-pnpm start   # Start production server
-pnpm lint    # ESLint
+pnpm dev          # http://localhost:3000 (not 3002 despite .env)
+pnpm build        # prisma generate && next build — always run after schema changes
+pnpm lint         # ESLint flat config v9 — run before committing
+pnpm install      # sync pnpm-lock.yaml after pulling
 ```
 
-**Important**: `pnpm build` auto-runs `prisma generate` — always use it after schema changes.
+No test runner exists. Manual verification via `pnpm dev`.
 
-## Required Environment
+## Required Environment (.env)
 
-Create `.env`:
-- `DATABASE_URL` — PostgreSQL connection
-- `EMAIL_USER` — SMTP sender email
-- `EMAIL_PASS` — SMTP app password
-- `NEXT_PUBLIC_APP_URL` — Public URL (e.g., http://localhost:3002)
+Live credentials committed to `.env` (gitignored by `.env*` but file is committed — treat with care).
+
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | Prisma Postgres (SSL required) |
+| `EMAIL_USER` / `EMAIL_PASS` | SMTP (Gmail app password) |
+| `NEXT_PUBLIC_APP_URL` | Public URL |
+| `DEEPGREEM_KEY` | Deepgram API key (typo in name intentional) |
+| `NEXT_PUBLIC_DEEPGRAM_KEY` | Same key exposed client-side |
 
 ## Prisma
 
 ```bash
-npx prisma generate   # Always run before build after schema changes
+npx prisma generate   # Output: generated/prisma/ (non-standard path, gitignored)
 npx prisma studio     # Web DB GUI
-npx prisma migrate dev --name <name>  # Create migration
+npx prisma migrate dev --name <name>
 ```
 
-Schema: `prisma/schema.prisma`, Migrations: `prisma/migrations/`
+- Uses `@prisma/adapter-pg` (not `@prisma/client` default driver). See `lib/prisma.ts`.
+- 4 models: `user`, `Session`, `ResetearContrasenaToken`, `FrasesDePractica` + 2 enums.
+- `pnpm build` auto-runs `prisma generate`.
+- Seed file `prisma/seed.ts` exists but is fully commented out.
 
-## Tech Stack
+## Middleware & Auth
 
-- **Next.js**: 16.2.4 (App Router only, no pages directory)
-- **React**: 19.2.4
-- **Prisma**: 7.8.0 + PostgreSQL
-- **Tailwind CSS**: v4 (no `tailwind.config.ts` — config in `app/globals.css` with `@theme inline`)
+- `proxy.ts` exports `proxy` (not `middleware`). Standard Next.js `middleware.ts` does **not** exist.
+- Matcher: `/dashboard/:path*`. Checks `sessions_id` cookie; redirects to `/auth/iniciar_sesion` if missing.
+- Custom session auth (no NextAuth). Sessions expire in 24h. Passwords hashed with `bcrypt`.
+- `actions/auth/iniciarSesion.ts` returns `{ ok, message, avatar }` pattern — not throwing errors for most cases.
+- `lib/apiVos.ts` provides `getSession()` with in-memory cache for API routes.
 
-## Tailwind v4 Tokens
+## API Routes
 
-Colors: `brand-green`, `brand-amber`, `brand-cyan`, `brand-purple`, `surface-0`–`surface-4`, `text-primary`, `text-secondary`, `text-muted`, `border-default`
+| Route | Purpose |
+|---|---|
+| `GET /api/vos?text=...` | TTS via Deepgram `aura-2-thalia-en`, returns `audio/mpeg` |
+| `GET /api/transcriptor` | Returns transient Deepgram API token (for client-side STT) |
 
-Fonts: `font-body` (Space Grotesk), `font-display` (Cinzel), `font-ui` (Inter)
+Both validate session cookie before processing.
 
-## Design Tokens Summary
+## Deepgram STT (Client-side)
 
-| Token          | Value                  | Usage                                                |
-| -------------- | ---------------------- | ---------------------------------------------------- |
-| brand-green    | #3dd68c                | Primary accent, buttons, glows                       |
-| surface-0      | #07090f                | Main background (dark)                               |
-| text-primary   | #f0ede8                | Main text (warm white)                               |
-| text-secondary | #b8bfbd                | Muted text (WCAG contrast)                           |
-| text-muted     | #8a8f8c                | Disabled/hint text (WCAG contrast)                   |
-| border-default | rgba(255,255,255,0.10) | Subtle borders                                       |
+- `lib/deepGrem2.ts` — WebSocket streaming client. Used in `OpcionesMicrofono.tsx` via mic button.
+- Connects to `wss://api.deepgram.com/v1/listen` with model `nova-3`.
+- Uses callbacks: `onTranscript(text, isFinal)`, `onError`, `onOpen`, `onClose`.
+- Language defaults to `'en'`. Auto-detects audio codec (no `encoding` param sent).
+- Mic permission denied → `sileo.error()` toast. Runtime errors also toast via `sileo.error()`.
+- CSP in `next.config.ts` whitelists `wss://api.deepgram.com` and `microphone=(self)`.
 
-## Era Themes (globals.css)
+## Key Architecture
 
-- **Viking**: cyan/blue gradients
-- **Egypt**: gold/brown gradients
-- **Rome**: dark red gradients
-- **Cyber**: deep blue/neon gradients
+- **App Router only** — no `pages/`. All routes under `app/`.
+- **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`.
+- **Spanish naming** everywhere: routes (`iniciar_sesion/`, `recuperar_contrasena/`), DB models, server actions.
+- **Toast** — `sileo` package. Pattern: `sileo.promise(() => asyncFn(), { loading, success, error })` or `sileo.error({ title, description })`.
+- **State** — Zustand at `store/useFrasesStore.ts` (holds `texto`, `grabando`, frase pagination).
+- **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry includes `@magicui`. MCP configured in `opencode.json`.
+- **Fonts** — `font-display` (Cinzel), `font-body` (Space Grotesk), `font-ui` (Inter). Configured in `app/layout.tsx`.
 
-## Component Structure
+## WIP / Dormant Files
 
-- `components/Landing/` — Landing page sections
-- `components/layout/` — Header, Footer
-- `components/ui/` — shadcn primitives
-- `components/forms/auth/` — Auth forms
-- Toast: `components/SileoToaster.tsx` uses `sileo` package
+| File | Status |
+|---|---|
+| `lib/gemini.ts` | Fully commented out |
+| `lib/Geminilive .ts` | Space in filename — treat as dormant |
+| `lib/streaming/` | Directory exists but unused |
+| `lib/text/` | Directory exists but unused |
+| `lib/audio/` | Directory exists but unused |
+| `prisma/seed.ts` | Fully commented out |
 
-## Fonts
+## Conventions
 
-- Display/Headings: **Cinzel** (serif, epic)
-- Body: **Space Grotesk** (modern sans)
-- UI: **Inter**
-
-Configured in `app/layout.tsx` via `next/font/google`.
-
-## Testing
-
-No test runner. Manual verification via `pnpm dev`.
-
-## Deployment
-
-Live: https://www.speakingchallenge.online
-
-## Key Files to Check
-
-- `app/globals.css` — Tailwind v4 theme config, era color palettes
-- `next.config.ts` — CSP headers, security config (includes https://api.dicebear.com in img-src)
-- `prisma/schema.prisma` — DB models
-- `opencode.json` — MCP config for shadcn
-
----
+- Path alias: `@/*` → project root.
+- All custom CSS lives in `app/globals.css` (single source of truth, ~1758 lines) — no `*.module.css` or other CSS files.
+- 4 era themes in globals.css: **Viking** (cyan), **Egypt** (gold/brown), **Rome** (dark red), **Cyber** (deep blue/neon).
+- Design token reference: `DESIGN.md` (321 lines) — comprehensive surface/text/border tokens.
+- `generated/prisma/` is gitignored — must run `prisma generate` after schema changes.
+- ESLint flat config at `eslint.config.mjs` — no `.eslintrc.*`.
 
 ## Already Implemented (Do Not Repeat)
 
 ### Accessibility (WCAG AA)
-- Skip link, contrast colors (text-secondary: #b8bfbd, text-muted: #8a8f8c)
-- prefers-reduced-motion, semantic landmarks (main, nav, footer)
-- Forms: autocomplete, aria-invalid, aria-live errors
-- Iconos decorativos con aria-hidden
-- Focus states con outline brand-green
+Skip link, `prefers-reduced-motion`, semantic landmarks (`main`, `nav`, `footer`), `aria-invalid` + `aria-live` on forms, decorative icons with `aria-hidden`, focus-visible `outline brand-green`.
 
 ### SEO
-- Full metadata in layout.tsx (title, description, OpenGraph, Twitter Cards, canonical)
-- Auth pages: `robots: { index: false }`
-- `public/robots.txt` and `public/sitemap.xml` configured
-- OG Image: `/FoundPage.webp` (1200x630)
+Full metadata in `layout.tsx` (OG, Twitter Cards, canonical, robots). Auth pages: `robots: { index: false }`. `public/robots.txt` + `public/sitemap.xml` exist. OG image: `/FoundPage.webp`.
