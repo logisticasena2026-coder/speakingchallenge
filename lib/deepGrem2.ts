@@ -1,6 +1,7 @@
 'use client';
 export interface DeepgramCallbacks {
   onTranscript: (text: string, isFinal: boolean) => void;
+  onSilence?: () => void;
   onError?: (error: string) => void;
   onOpen?: () => void;
   onClose?: () => void;
@@ -30,6 +31,8 @@ export class DeepgramStreamer {
         language,
         smart_format: 'true',
         interim_results: 'true',
+        vad_events: 'true',
+        utterance_end_ms: '2000',
       });
 
       const url = `wss://api.deepgram.com/v1/listen?${params}`;
@@ -55,6 +58,10 @@ export class DeepgramStreamer {
             if (transcript.trim()) {
               this.callbacks.onTranscript(transcript, isFinal);
             }
+          }
+
+          if (data.type === 'UtteranceEnd') {
+            this.callbacks.onSilence?.();
           }
         } catch {
           // ignorar mensajes no JSON

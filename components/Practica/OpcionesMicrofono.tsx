@@ -36,6 +36,11 @@ export function OpcionesMicrofono({
             NuevoTexto(text);
           }
         },
+        onSilence() {
+          streamerRef.current?.stop();
+          streamerRef.current = null;
+          setGrabando(false);
+        },
         onError(err) {
           logger.error('Deepgram error', new Error(err));
           setGrabando(false);
