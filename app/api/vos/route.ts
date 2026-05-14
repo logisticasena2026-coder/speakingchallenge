@@ -3,7 +3,6 @@ import { DeepgramClient } from '@deepgram/sdk';
 import { logger } from '@/lib/logger';
 import { getSession } from '@/lib/apiVos';
 
-
 export async function GET(request: Request) {
   const sessionId = (await cookies()).get('sessions_id')?.value;
 

@@ -15,6 +15,10 @@ interface FrasesStore {
   totalFrases: number;
   estaCargando: boolean;
   tieneMasFrases: boolean;
+  texto: string;
+  setTexto: (texto: string) => void;
+  grabando: boolean;
+  setGrabando: (grabando: boolean) => void;
   cargarFrasesInicial: () => Promise<void>;
   siguiente: () => Promise<void>;
   anterior: () => void;
@@ -28,7 +32,16 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   totalFrases: 0,
   estaCargando: false,
   tieneMasFrases: true,
+  texto: '',
+  grabando: false,
 
+  setTexto: (texto) => {
+    set({ texto });
+  },
+
+  setGrabando: (grabando) => {
+    set({ grabando });
+  },
   cargarFrasesInicial: async () => {
     set({ estaCargando: true });
 
