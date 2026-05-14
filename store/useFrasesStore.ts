@@ -16,6 +16,8 @@ interface FrasesStore {
   estaCargando: boolean;
   tieneMasFrases: boolean;
   texto: string;
+  tiempo: number;
+  setTiempo: (tiempo: number) => void;
   setTexto: (texto: string) => void;
   grabando: boolean;
   setGrabando: (grabando: boolean) => void;
@@ -34,6 +36,13 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   tieneMasFrases: true,
   texto: '',
   grabando: false,
+  tiempo: 0,
+
+  setTiempo: (tiempo: number) =>
+    set((state) => {
+      if (state.tiempo === tiempo) return state;
+      return { tiempo };
+    }),
 
   setTexto: (texto) => {
     set({ texto });

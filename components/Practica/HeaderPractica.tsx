@@ -1,10 +1,11 @@
 import { Bell, Flame, Timer, X } from "lucide-react";
+import { Temporizador } from "./temporizador";
 
 export function HeaderPractica() {
     return (
       <header className="sticky top-0 h-16 bg-[rgba(7,9,15,0.92)] border-b border-white/10 backdrop-blur-xl z-40 flex items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-2.5">
-          <button className="flex items-center gap-2 bg-transparent border-none cursor-pointer">
+          <button aria-label="Cerrar práctica" className="flex items-center gap-2 bg-transparent border-none cursor-pointer">
             <X className="w-5 h-5 text-brand-green" />
             <div className="hidden sm:flex flex-col gap-px">
               <span className="font-display text-3.25 font-bold text-brand-green tracking-[0.06em]">
@@ -16,15 +17,7 @@ export function HeaderPractica() {
             </div>
           </button>
 
-          <div className="hidden md:flex items-center gap-1.5 bg-[rgba(18,22,32,0.6)] border border-white/6 rounded-full px-3.5 py-1.25 backdrop-blur-sm">
-            <Timer className="w-3.5 h-3.5 text-brand-green" />
-            <span
-              id="timer"
-              className="font-ui text-xs font-semibold tracking-[0.12em] text-text-secondary"
-            >
-              04:12
-            </span>
-          </div>
+          <Temporizador />
         </div>
 
         <div className="flex items-center gap-3">
