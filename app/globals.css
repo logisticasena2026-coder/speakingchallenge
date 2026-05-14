@@ -1163,9 +1163,9 @@ body::before {
   transition: border-color 0.2s ease;
 }
 
-.cta-input:focus {
-  border-color: rgba(61, 214, 140, 0.4);
-  box-shadow: 0 0 0 3px rgba(61, 214, 140, 0.08);
+.cta-input:focus-visible {
+  border-color: rgba(61, 214, 140, 0.5);
+  box-shadow: 0 0 0 3px rgba(61, 214, 140, 0.3);
 }
 
 .cta-input::placeholder {
@@ -1365,38 +1365,6 @@ button:focus-visible,
 
 .sidebar-avatar-glow:hover::before {
   opacity: 0.30;
-}
-
-.tooltip {
-  cursor: help;
-  position: relative;
-}
-
-.tooltip::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%) scale(0.95);
-  background: #181d2a;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  color: #9ca3a0;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.2s;
-  white-space: nowrap;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  z-index: 50;
-}
-
-.tooltip:hover::after {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) scale(1);
 }
 
 .era-scroll {

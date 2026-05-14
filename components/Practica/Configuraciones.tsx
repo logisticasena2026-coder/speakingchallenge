@@ -1,4 +1,10 @@
 import { CheckCircle, Grid3X3, Users, Zap } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export function Configuraciónes() {
   return (
@@ -9,15 +15,21 @@ export function Configuraciónes() {
         <div className="hud-corner-sm hud-corner-bl-sm"></div>
         <div className="hud-corner-sm hud-corner-br-sm"></div>
 
-        <h3
-          className="flex items-center gap-2.5 cursor-help relative tooltip"
-          data-tooltip="Elige entre práctica individual o en grupo. Afecta la dificultad y recompensas."
-        >
-          <Users className="w-4 h-4 text-brand-green" />
-          <span className="font-display text-sm font-semibold text-text-primary">
-            Protocolo de Grupo
-          </span>
-        </h3>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <h3 className="flex items-center gap-2.5 cursor-help relative">
+                <Users className="w-4 h-4 text-brand-green" />
+                <span className="font-display text-sm font-semibold text-text-primary">
+                  Protocolo de Grupo
+                </span>
+              </h3>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>Elige entre práctica individual o en grupo. Afecta la dificultad y recompensas.</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <div className="flex flex-col gap-2">
           <button className="flex items-center justify-between p-3.5 bg-brand-green/8 border-2 border-brand-green/30 rounded-xl cursor-pointer transition-all duration-200 hover:bg-brand-green/12">
@@ -44,15 +56,21 @@ export function Configuraciónes() {
         <div className="hud-corner-sm hud-corner-bl-sm"></div>
         <div className="hud-corner-sm hud-corner-br-sm"></div>
 
-        <h3
-          className="flex items-center gap-2.5 cursor-help relative tooltip"
-          data-tooltip="Número de frases por sesión. Más intensidad = más XP pero mayor fatiga mental."
-        >
-          <Zap className="w-4 h-4 text-brand-amber" />
-          <span className="font-display text-sm font-semibold text-text-primary">
-            Intensidad de Sincronización
-          </span>
-        </h3>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <h3 className="flex items-center gap-2.5 cursor-help relative">
+                <Zap className="w-4 h-4 text-brand-amber" />
+                <span className="font-display text-sm font-semibold text-text-primary">
+                  Intensidad de Sincronización
+                </span>
+              </h3>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>Número de frases por sesión. Más intensidad = más XP pero mayor fatiga mental.</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <div className="flex gap-2">
           <button className="flex-1 p-3 bg-white/3 border border-white/6 rounded-lg cursor-pointer transition-all duration-200 hover:bg-white/5 text-center">
@@ -86,15 +104,21 @@ export function Configuraciónes() {
         <div className="hud-corner-sm hud-corner-bl-sm"></div>
         <div className="hud-corner-sm hud-corner-br-sm"></div>
 
-        <h3
-          className="flex items-center gap-2.5 cursor-help relative tooltip"
-          data-tooltip="Nivel de complejidad léxica y gramatical. Avança bertahap untuk unlock difícil."
-        >
-          <Grid3X3 className="w-4 h-4 text-brand-purple" />
-          <span className="font-display text-sm font-semibold text-text-primary">
-            Matriz de Dificultad
-          </span>
-        </h3>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <h3 className="flex items-center gap-2.5 cursor-help relative">
+                <Grid3X3 className="w-4 h-4 text-brand-purple" />
+                <span className="font-display text-sm font-semibold text-text-primary">
+                  Matriz de Dificultad
+                </span>
+              </h3>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>Nivel de complejidad léxica y gramatical. Avança bertahap untuk unlock difícil.</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <div className="flex flex-col gap-2">
           <button className="flex items-center justify-between p-3 bg-white/2 border border-white/6 rounded-lg cursor-pointer transition-all duration-200 hover:bg-white/4 hover:border-white/10">

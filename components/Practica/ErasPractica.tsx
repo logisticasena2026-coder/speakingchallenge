@@ -1,4 +1,10 @@
 import { CheckCircle, Hourglass, Lock } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export function ErasPractica() {
     return (
@@ -8,15 +14,21 @@ export function ErasPractica() {
         <div className="hud-corner-sm hud-corner-bl-sm"></div>
         <div className="hud-corner-sm hud-corner-br-sm"></div>
 
-        <h3
-          className="flex items-center gap-2.5 mb-5 cursor-help relative tooltip"
-          data-tooltip="Selecciona la era histórica para tu inmersión lingüística. Cada era tiene vocabulario único."
-        >
-          <Hourglass className="w-4 h-4 text-brand-cyan" />
-          <span className="font-display text-sm font-semibold text-text-primary">
-            Focalización de Era
-          </span>
-        </h3>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <h3 className="flex items-center gap-2.5 mb-5 cursor-help relative">
+                <Hourglass className="w-4 h-4 text-brand-cyan" />
+                <span className="font-display text-sm font-semibold text-text-primary">
+                  Focalización de Era
+                </span>
+              </h3>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>Selecciona la era histórica para tu inmersión lingüística. Cada era tiene vocabulario único.</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <div className="flex gap-4 overflow-x-auto pb-2 pt-2 snap-x snap-mandatory era-scroll">
           <div className="relative shrink-0 w-65 h-40 rounded-xl overflow-hidden border border-brand-green/40 cursor-pointer transition-all duration-300 hover:border-brand-green/30 hover:-translate-y-1 shadow-[0_0_20px_rgba(61,214,140,0.15)]">
