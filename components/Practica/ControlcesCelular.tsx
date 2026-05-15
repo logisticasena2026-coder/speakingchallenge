@@ -1,9 +1,47 @@
 'use client'
 
+import { useEffect, useState } from 'react';
+import { useFrasesStore } from '@/store/useFrasesStore';
+import { comparacion_de_frases } from '@/utils/comparacion-de-frases';
+
+const RADIO = 28;
+const CIRCUNFERENCIA = 2 * Math.PI * RADIO;
+
+function colorSegunPrecision(pct: number): string {
+  if (pct >= 80) return '#3dd68c';
+  if (pct >= 60) return '#f5a623';
+  return '#ef4444';
+}
+
 export function ControlesCelular({
   siguiente,
   anterior,
 }: Readonly<{ siguiente: () => Promise<void>; anterior: () => void }>) {
+  const fraseActual = useFrasesStore((state) => state.indiceActual);
+  const frases = useFrasesStore((store) => store.frases);
+  const texto = useFrasesStore((store) => store.texto);
+
+  const precision = comparacion_de_frases(frases[fraseActual]?.fraseIngles ?? '', texto ?? '');
+  const [displayValue, setDisplayValue] = useState(0);
+  const color = colorSegunPrecision(precision);
+  const offset = CIRCUNFERENCIA - (precision / 100) * CIRCUNFERENCIA;
+
+  useEffect(() => {
+    const to = precision;
+    const duration = 600;
+    const start = performance.now();
+    let frame: number;
+    function tick(now: number) {
+      const elapsed = now - start;
+      const t = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplayValue(to * eased);
+      if (t < 1) frame = requestAnimationFrame(tick);
+    }
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [precision]);
+
   return (
     <div className="mobile-panel ani d3 flex-col gap-2.5 mt-3">
       <div className="flex bg-surface-2 border border-white/6 rounded-lg p-1 gap-1">
@@ -35,20 +73,33 @@ export function ControlesCelular({
       >
         <div className="relative w-17.5 h-17.5 shrink-0" style={{ transform: 'rotate(-90deg)' }}>
           <svg width="70" height="70" viewBox="0 0 70 70">
-            <circle cx="35" cy="35" r="28" className="ring-track" style={{ strokeWidth: 5 }} />
+            <circle cx="35" cy="35" r={RADIO} fill="none" stroke="#1f2535" strokeWidth="5" />
             <circle
               cx="35"
               cy="35"
-              r="28"
-              className="ring-progress"
-              style={{ strokeWidth: 5, strokeDasharray: 159, strokeDashoffset: 130 }}
+              r={RADIO}
+              fill="none"
+              stroke={color}
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeDasharray={CIRCUNFERENCIA}
+              strokeDashoffset={offset}
+              style={{
+                filter: `drop-shadow(0 0 6px ${color}99)`,
+                transition: 'stroke-dashoffset 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              }}
             />
           </svg>
           <div
             className="absolute inset-0 flex items-center justify-center"
             style={{ transform: 'rotate(90deg)' }}
           >
-            <span className="font-display text-body-standard font-bold text-brand-green">94</span>
+            <span
+              className="font-display text-body-standard font-bold leading-none"
+              style={{ color }}
+            >
+              {displayValue.toFixed(0)}
+            </span>
           </div>
         </div>
       </div>

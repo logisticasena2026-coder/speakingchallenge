@@ -1,4 +1,53 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useFrasesStore } from '@/store/useFrasesStore';
+import { comparacion_de_frases } from '@/utils/comparacion-de-frases';
+
+const RADIO = 45;
+const CIRCUNFERENCIA = 2 * Math.PI * RADIO;
+
+function colorSegunPrecision(pct: number): string {
+  if (pct >= 80) return '#3dd68c';
+  if (pct >= 60) return '#f5a623';
+  return '#ef4444';
+}
+
+function textShadowSegunPrecision(pct: number): string {
+  if (pct >= 80) return '0 0 20px rgba(61,214,140,0.6)';
+  if (pct >= 60) return '0 0 20px rgba(245,166,35,0.6)';
+  return '0 0 20px rgba(239,68,68,0.6)';
+}
+
 export function EstadisticasDeFrases() {
+  const fraseActual = useFrasesStore((state) => state.indiceActual);
+  const frases = useFrasesStore((store) => store.frases);
+  const texto = useFrasesStore((store) => store.texto);
+
+  const precision = comparacion_de_frases(frases[fraseActual]?.fraseIngles ?? '', texto ?? '');
+  const [displayValue, setDisplayValue] = useState(0);
+
+  const color = colorSegunPrecision(precision);
+  const textShadow = textShadowSegunPrecision(precision);
+  const offset = CIRCUNFERENCIA - (precision / 100) * CIRCUNFERENCIA;
+
+  useEffect(() => {
+    const from = 0;
+    const to = precision;
+    const duration = 800;
+    const start = performance.now();
+    let frame: number;
+    function tick(now: number) {
+      const elapsed = now - start;
+      const t = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplayValue(from + (to - from) * eased);
+      if (t < 1) frame = requestAnimationFrame(tick);
+    }
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [precision]);
+
   return (
     <div
       className="ani d3 text-center rounded-2xl border border-white/10 p-5"
@@ -14,17 +63,32 @@ export function EstadisticasDeFrases() {
 
       <div className="relative w-27.5 h-27.5 mx-auto mb-3" style={{ transform: 'rotate(-90deg)' }}>
         <svg width="110" height="110" viewBox="0 0 110 110">
-          <circle cx="55" cy="55" r="45" className="ring-track" />
-          <circle cx="55" cy="55" r="45" className="ring-progress" />
+          <circle cx="55" cy="55" fill="none" stroke="#1f2535" strokeWidth="6" r={RADIO} />
+          <circle
+            cx="55"
+            cy="55"
+            fill="none"
+            r={RADIO}
+            stroke={color}
+            strokeDasharray={CIRCUNFERENCIA}
+            strokeDashoffset={offset}
+            style={{
+              filter: `drop-shadow(0 0 8px ${color}99)`,
+              transition: 'stroke-dashoffset 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            }}
+          />
         </svg>
         <div
           className="absolute inset-0 flex flex-col items-center justify-center"
           style={{ transform: 'rotate(90deg)' }}
         >
-          <span className="font-display text-[28px] font-bold text-brand-green score-glow">94</span>
-          <span className="font-ui text-[8px] font-semibold tracking-[0.12em] uppercase text-text-muted">
-            %
+          <span
+            className="font-display text-[28px] font-bold leading-none"
+            style={{ color, textShadow }}
+          >
+            {displayValue.toFixed(0)}
           </span>
+
         </div>
       </div>
 
@@ -34,44 +98,6 @@ export function EstadisticasDeFrases() {
         resonancia perfecta.
       </p>
 
-      <div className="mt-3.5 flex flex-col gap-1.5 text-left">
-        <div className="flex items-center justify-between">
-          <span className="font-ui text-ui-badge text-text-muted">Linking sounds</span>
-          <div className="flex items-center gap-1.5">
-            <div className="w-15 h-1.25 rounded bg-surface-4 overflow-hidden">
-              <div
-                className="h-full rounded bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]"
-                style={{ width: '88%' }}
-              ></div>
-            </div>
-            <span className="font-ui text-[9px] font-semibold text-brand-green">88%</span>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="font-ui text-ui-badge text-text-muted">Entonación</span>
-          <div className="flex items-center gap-1.5">
-            <div className="w-15 h-1.25 rounded bg-surface-4 overflow-hidden">
-              <div
-                className="h-full rounded bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]"
-                style={{ width: '96%' }}
-              ></div>
-            </div>
-            <span className="font-ui text-[9px] font-semibold text-brand-green">96%</span>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="font-ui text-ui-badge text-text-muted">Fonema /ð/</span>
-          <div className="flex items-center gap-1.5">
-            <div className="w-15 h-1.25 rounded bg-surface-4 overflow-hidden">
-              <div
-                className="h-full rounded bg-brand-amber shadow-[0_0_6px_rgba(245,166,35,0.4)]"
-                style={{ width: '72%' }}
-              ></div>
-            </div>
-            <span className="font-ui text-[9px] font-semibold text-brand-amber">72%</span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
