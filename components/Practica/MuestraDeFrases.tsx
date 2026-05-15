@@ -74,27 +74,6 @@ export function MuestraDeFrases() {
             </div>
           </div>
 
-          <div className="ani d4 rounded-3xl p-3 bg-brand-green/5 border border-brand-green/12">
-            <div className="flex gap-2.5 items-start">
-              <div
-                className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center font-display text-ui-badge text-brand-green border-[1.5px] border-brand-green/30"
-                style={{
-                  background: 'linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05))',
-                }}
-              >
-                S
-              </div>
-              <div>
-                <p className="font-ui text-[9px] font-bold text-brand-green tracking-widest mb-1">
-                  SOPHIA DICE
-                </p>
-                <p className="text-[11px] text-text-secondary leading-relaxed">
-                  El fonema <strong className="text-text-primary">/ð/</strong> en &ldquo;the&rdquo;
-                  se forma con la lengua entre los dientes. ¡Casi lo tienes!
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <ControlesCelular siguiente={siguiente} anterior={anterior} />

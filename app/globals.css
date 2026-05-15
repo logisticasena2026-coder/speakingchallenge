@@ -331,7 +331,7 @@ body {
   background-color: var(--surface-0);
   color: var(--text-primary);
   font-family: 'Space Grotesk', sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body::before {
@@ -1651,7 +1651,7 @@ button:focus-visible,
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  align-items: center;
+  align-items: start;
 }
 
 @media (max-width:767px) {

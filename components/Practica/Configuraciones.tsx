@@ -8,8 +8,8 @@ import {
 
 export function Configuraciónes() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 ani delay-anim-3">
-      <div className="relative rounded-xl border border-white/6 bg-surface-2/70 backdrop-blur-xl p-6 flex flex-col gap-4 transition-all duration-300 hover:border-white/10 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.35)]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 ani delay-anim-3">
+      <div className="relative rounded-xl border border-white/6 bg-surface-2/70 backdrop-blur-xl p-4 sm:p-6 flex flex-col gap-4 transition-all duration-300 hover:border-white/10 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.35)]">
         <div className="hud-corner-sm hud-corner-tl-sm"></div>
         <div className="hud-corner-sm hud-corner-tr-sm"></div>
         <div className="hud-corner-sm hud-corner-bl-sm"></div>
@@ -17,13 +17,11 @@ export function Configuraciónes() {
 
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <h3 className="flex items-center gap-2.5 cursor-help relative">
-                <Users className="w-4 h-4 text-brand-green" />
-                <span className="font-display text-sm font-semibold text-text-primary">
-                  Protocolo de Grupo
-                </span>
-              </h3>
+            <TooltipTrigger className="flex items-center gap-2.5 cursor-help relative">
+              <Users className="w-4 h-4 text-brand-green" />
+              <span className="font-display text-sm font-semibold text-text-primary">
+                Protocolo de Grupo
+              </span>
             </TooltipTrigger>
             <TooltipContent side="top">
               <p>Elige entre práctica individual o en grupo. Afecta la dificultad y recompensas.</p>
@@ -50,7 +48,7 @@ export function Configuraciónes() {
         </div>
       </div>
 
-      <div className="relative rounded-xl border border-white/6 bg-surface-2/70 backdrop-blur-xl p-6 flex flex-col gap-4 transition-all duration-300 hover:border-white/10 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.35)]">
+      <div className="relative rounded-xl border border-white/6 bg-surface-2/70 backdrop-blur-xl p-4 sm:p-6 flex flex-col gap-4 transition-all duration-300 hover:border-white/10 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.35)]">
         <div className="hud-corner-sm hud-corner-tl-sm"></div>
         <div className="hud-corner-sm hud-corner-tr-sm"></div>
         <div className="hud-corner-sm hud-corner-bl-sm"></div>
@@ -58,13 +56,11 @@ export function Configuraciónes() {
 
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <h3 className="flex items-center gap-2.5 cursor-help relative">
-                <Zap className="w-4 h-4 text-brand-amber" />
-                <span className="font-display text-sm font-semibold text-text-primary">
-                  Intensidad de Sincronización
-                </span>
-              </h3>
+            <TooltipTrigger className="flex items-center gap-2.5 cursor-help relative">
+              <Zap className="w-4 h-4 text-brand-amber" />
+              <span className="font-display text-sm font-semibold text-text-primary">
+                Intensidad de Sincronización
+              </span>
             </TooltipTrigger>
             <TooltipContent side="top">
               <p>Número de frases por sesión. Más intensidad = más XP pero mayor fatiga mental.</p>
@@ -72,7 +68,7 @@ export function Configuraciónes() {
           </Tooltip>
         </TooltipProvider>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <button className="flex-1 p-3 bg-white/3 border border-white/6 rounded-lg cursor-pointer transition-all duration-200 hover:bg-white/5 text-center">
             <p className="font-ui text-[9px] font-semibold tracking-[0.18em] uppercase text-text-muted mb-1">
               Cápsula
@@ -98,7 +94,7 @@ export function Configuraciónes() {
         </div>
       </div>
 
-      <div className="relative rounded-xl border border-white/6 bg-surface-2/70 backdrop-blur-xl p-6 flex flex-col gap-4 transition-all duration-300 hover:border-white/10 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.35)]">
+      <div className="relative rounded-xl border border-white/6 bg-surface-2/70 backdrop-blur-xl p-4 sm:p-6 flex flex-col gap-4 transition-all duration-300 hover:border-white/10 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.35)]">
         <div className="hud-corner-sm hud-corner-tl-sm"></div>
         <div className="hud-corner-sm hud-corner-tr-sm"></div>
         <div className="hud-corner-sm hud-corner-bl-sm"></div>
@@ -106,13 +102,11 @@ export function Configuraciónes() {
 
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <h3 className="flex items-center gap-2.5 cursor-help relative">
-                <Grid3X3 className="w-4 h-4 text-brand-purple" />
-                <span className="font-display text-sm font-semibold text-text-primary">
-                  Matriz de Dificultad
-                </span>
-              </h3>
+            <TooltipTrigger className="flex items-center gap-2.5 cursor-help relative">
+              <Grid3X3 className="w-4 h-4 text-brand-purple" />
+              <span className="font-display text-sm font-semibold text-text-primary">
+                Matriz de Dificultad
+              </span>
             </TooltipTrigger>
             <TooltipContent side="top">
               <p>Nivel de complejidad léxica y gramatical. Avança bertahap untuk unlock difícil.</p>
