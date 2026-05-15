@@ -1,4 +1,4 @@
-import { Bell, Flame, Timer, X } from "lucide-react";
+import { Bell, Flame, Timer } from "lucide-react";
 import { Temporizador } from "./temporizador";
 
 export function HeaderPractica() {
@@ -6,7 +6,6 @@ export function HeaderPractica() {
       <header className="sticky top-0 h-16 bg-[rgba(7,9,15,0.92)] border-b border-white/10 backdrop-blur-xl z-40 flex items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-2.5">
           <button aria-label="Cerrar práctica" className="flex items-center gap-2 bg-transparent border-none cursor-pointer">
-            <X className="w-5 h-5 text-brand-green" />
             <div className="hidden sm:flex flex-col gap-px">
               <span className="font-display text-3.25 font-bold text-brand-green tracking-[0.06em]">
                 PlayLenguage
