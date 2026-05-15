@@ -69,13 +69,15 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   },
 
   siguiente: async () => {
-    const { indiceActual, frases, offset, tieneMasFrases, totalFrases, estaCargando } = get();
+    const { indiceActual, frases, offset, tieneMasFrases, totalFrases, estaCargando, setTexto } =
+      get();
 
     // Si ya está cargando, no hacer nada
     if (estaCargando) return;
 
     // Si hay más frases en el array actual, simplemente avanzar
     if (indiceActual < frases.length - 1) {
+      setTexto('');
       set({ indiceActual: indiceActual + 1 });
       return;
     }
@@ -98,8 +100,9 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   },
 
   anterior: () => {
-    const { indiceActual } = get();
+    const { indiceActual, setTexto } = get();
     if (indiceActual > 0) {
+      setTexto('');
       set({ indiceActual: indiceActual - 1 });
     }
   },
