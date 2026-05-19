@@ -10,7 +10,7 @@ export interface ChromeSpeechCallbacks {
 }
 
 export class ChromeSpeechRecognizer {
-  private recognition: SpeechRecognition | null = null;
+  private recognition: unknown = null;
   private callbacks: ChromeSpeechCallbacks;
   private isConnected = false;
   private shouldRestart = false;
@@ -20,9 +20,10 @@ export class ChromeSpeechRecognizer {
   }
 
   startConnection(language = 'en') {
+    const w = window as unknown as Record<string, unknown>;
     const SpeechRecognitionConstructor =
-      (window as unknown as { webkitSpeechRecognition: typeof SpeechRecognition })
-        .webkitSpeechRecognition ?? (window as unknown as { SpeechRecognition: typeof SpeechRecognition }).SpeechRecognition;
+      (w.webkitSpeechRecognition as new () => object) ??
+      (w.SpeechRecognition as new () => object);
 
     if (!SpeechRecognitionConstructor) {
       this.callbacks.onError?.('Reconocimiento de voz no disponible en este navegador');
@@ -31,55 +32,63 @@ export class ChromeSpeechRecognizer {
 
     this.callbacks.onConnecting?.();
 
-    this.recognition = new SpeechRecognitionConstructor();
-    this.recognition.continuous = true;
-    this.recognition.interimResults = true;
-    this.recognition.lang = language === 'es' ? 'es-ES' : 'en-US';
-    this.recognition.maxAlternatives = 1;
+    const recognition = new SpeechRecognitionConstructor() as Record<string, unknown>;
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = language === 'es' ? 'es-ES' : 'en-US';
+    recognition.maxAlternatives = 1;
 
     this.shouldRestart = true;
 
-    this.recognition.onstart = () => {
+    recognition.onstart = () => {
       this.isConnected = true;
       this.callbacks.onOpen?.();
     };
 
-    this.recognition.onresult = (event) => {
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const transcript = event.results[i][0].transcript;
-        const isFinal = event.results[i].isFinal;
-        if (transcript.trim()) {
+    recognition.onresult = (event: Record<string, unknown>) => {
+      const results = event.results as Record<string, unknown>[];
+      const resultIndex = event.resultIndex as number;
+      for (let i = resultIndex; i < results.length; i++) {
+        const result = results[i] as Record<string, unknown>;
+        const alt = (result[0] as Record<string, unknown>) ?? {};
+        const transcript = alt.transcript as string;
+        const isFinal = result.isFinal as boolean;
+        if (transcript?.trim()) {
           this.callbacks.onTranscript(transcript, isFinal);
         }
       }
     };
 
-    this.recognition.onaudioend = () => {
+    recognition.onaudioend = () => {
       this.callbacks.onSilence?.();
     };
 
-    this.recognition.onerror = (event) => {
-      if (event.error === 'no-speech' || event.error === 'aborted') return;
+    recognition.onerror = (event: Record<string, unknown>) => {
+      const error = event.error as string;
+      if (error === 'no-speech' || error === 'aborted') return;
       this.isConnected = false;
-      this.callbacks.onError?.(`Error: ${event.message || event.error}`);
+      this.callbacks.onError?.(`Error: ${(event.message as string) || error}`);
     };
 
-    this.recognition.onend = () => {
+    recognition.onend = () => {
       this.isConnected = false;
       this.callbacks.onClose?.();
-      if (this.shouldRestart && this.recognition) {
+      const rec = this.recognition as Record<string, unknown> | null;
+      if (this.shouldRestart && rec) {
         try {
-          this.recognition.start();
+          (rec.start as () => void)();
         } catch {}
       }
     };
 
     try {
-      this.recognition.start();
-    } catch (err) {
+      (recognition.start as () => void)();
+    } catch {
       this.isConnected = false;
       this.callbacks.onError?.('Error al iniciar reconocimiento de voz');
     }
+
+    this.recognition = recognition;
   }
 
   startMic() {
@@ -88,18 +97,20 @@ export class ChromeSpeechRecognizer {
 
   stopMic() {
     this.shouldRestart = false;
-    if (this.recognition) {
+    const rec = this.recognition as Record<string, unknown> | null;
+    if (rec) {
       try {
-        this.recognition.stop();
+        (rec.stop as () => void)();
       } catch {}
     }
   }
 
   close() {
     this.shouldRestart = false;
-    if (this.recognition) {
+    const rec = this.recognition as Record<string, unknown> | null;
+    if (rec) {
       try {
-        this.recognition.abort();
+        (rec.abort as () => void)();
       } catch {}
       this.recognition = null;
     }
