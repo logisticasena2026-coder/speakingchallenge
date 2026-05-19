@@ -5,7 +5,7 @@ import { Mic, MicOff, RotateCcw, Volume2, Loader2 } from 'lucide-react';
 import { logger } from '@/lib/logger';
 import { sileo } from 'sileo';
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { DeepgramStreamer } from '@/lib/deepGrem2';
+import { ChromeSpeechRecognizer } from '@/lib/chromeSpeech';
 import { usePathname } from 'next/navigation';
 
 type EstadoConexion = 'disconnected' | 'connecting' | 'connected' | 'paused';
@@ -19,8 +19,7 @@ export function OpcionesMicrofono({
   const grabando = useFrasesStore((state) => state.grabando);
   const setGrabando = useFrasesStore((state) => state.setGrabando);
   const NuevoTexto = useFrasesStore((state) => state.setTexto);
-  const streamerRef = useRef<DeepgramStreamer | null>(null);
-  const DEEPGRAM_API_KEY = process.env.NEXT_PUBLIC_DEEPGRAM_KEY ?? '';
+  const streamerRef = useRef<ChromeSpeechRecognizer | null>(null);
   const pathname = usePathname();
 
   const texto = frase[indiceActual]?.fraseIngles;
@@ -60,37 +59,21 @@ export function OpcionesMicrofono({
     // disconnected
     setEstadoConexion('connecting');
     setGrabando(true);
-    const streamer = new DeepgramStreamer(DEEPGRAM_API_KEY, {
+    const streamer = new ChromeSpeechRecognizer({
       onTranscript(text) {
         if (text.trim()) {
           NuevoTexto(text);
         }
       },
-      onSilence() {
-        streamerRef.current?.stopMic();
-        setEstadoConexion('paused');
-        setGrabando(false);
-      },
       onOpen() {
         setEstadoConexion('connected');
-        streamerRef.current?.startMic().catch((err: unknown) => {
-          logger.error('Error al iniciar micrófono', err as Error);
-          setEstadoConexion('disconnected');
-          setGrabando(false);
-          streamerRef.current?.close();
-          streamerRef.current = null;
-          const error = err as { name?: string; message?: string };
-          sileo.error({
-            title: 'Error al iniciar',
-            description: error.message ?? 'No se pudo acceder al micrófono',
-          });
-        });
+        streamerRef.current?.startMic();
       },
       onConnecting() {
         setEstadoConexion('connecting');
       },
       onError(err) {
-        logger.error('Deepgram error', new Error(err));
+        logger.error('Chrome Speech error', new Error(err));
         setEstadoConexion('disconnected');
         setGrabando(false);
         streamerRef.current?.close();
@@ -107,7 +90,7 @@ export function OpcionesMicrofono({
     });
     streamerRef.current = streamer;
     streamer.startConnection('en');
-  }, [estadoConexion, grabando, DEEPGRAM_API_KEY, NuevoTexto, setGrabando]);
+  }, [estadoConexion, grabando, NuevoTexto, setGrabando]);
 
   useEffect(() => {
     if (pathname !== '/dashboard/estudiar/practicando') {
@@ -170,7 +153,7 @@ export function OpcionesMicrofono({
 
   const micTooltip =
     estadoConexion === 'connecting'
-      ? 'Conectando con Deepgram...'
+      ? 'Conectando...'
       : estadoConexion === 'connected'
         ? 'Pausar grabación'
         : estadoConexion === 'paused'
@@ -179,7 +162,7 @@ export function OpcionesMicrofono({
 
   const micAria =
     estadoConexion === 'connecting'
-      ? 'Conectando con Deepgram'
+      ? 'Conectando'
       : estadoConexion === 'connected'
         ? 'Pausar grabación'
         : estadoConexion === 'paused'
@@ -247,7 +230,7 @@ export function OpcionesMicrofono({
               className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap"
             >
               <span className="font-ui text-ui-badge text-brand-green/70 animate-pulse">
-                Conectando con Deepgram...
+                Conectando...
               </span>
             </div>
           )}

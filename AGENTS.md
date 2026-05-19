@@ -49,7 +49,6 @@ npx prisma migrate dev --name <name>
 | Route | Purpose |
 |---|---|
 | `GET /api/vos?text=...` | TTS via Deepgram `aura-2-thalia-en`, returns `audio/mpeg` |
-| `GET /api/transcriptor` | Returns transient Deepgram API token (for client-side STT) |
 
 Both validate session cookie before processing.
 
