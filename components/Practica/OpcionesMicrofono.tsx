@@ -1,77 +1,124 @@
 'use client';
 
 import { useFrasesStore, type Frase } from '@/store/useFrasesStore';
-import { Mic, RotateCcw, Volume2 } from 'lucide-react';
+import { Mic, MicOff, RotateCcw, Volume2, Loader2 } from 'lucide-react';
 import { logger } from '@/lib/logger';
 import { sileo } from 'sileo';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { DeepgramStreamer } from '@/lib/deepGrem2';
+import { usePathname } from 'next/navigation';
+
+type EstadoConexion = 'disconnected' | 'connecting' | 'connected' | 'paused';
 
 export function OpcionesMicrofono({
   frase,
   indiceActual,
 }: Readonly<{ frase: Frase[]; indiceActual: number }>) {
   const [boton, setBoton] = useState(false);
+  const [estadoConexion, setEstadoConexion] = useState<EstadoConexion>('disconnected');
   const grabando = useFrasesStore((state) => state.grabando);
   const setGrabando = useFrasesStore((state) => state.setGrabando);
   const NuevoTexto = useFrasesStore((state) => state.setTexto);
   const streamerRef = useRef<DeepgramStreamer | null>(null);
   const DEEPGRAM_API_KEY = process.env.NEXT_PUBLIC_DEEPGRAM_KEY ?? '';
+  const pathname = usePathname();
 
   const texto = frase[indiceActual]?.fraseIngles;
 
   const toggleMic = useCallback(async () => {
-    if (grabando) {
-      streamerRef.current?.stop();
-      streamerRef.current = null;
+    if (estadoConexion === 'connected' || grabando) {
+      streamerRef.current?.stopMic();
+      setEstadoConexion('paused');
       setGrabando(false);
       return;
     }
 
-    setGrabando(true);
-    try {
-      const streamer = new DeepgramStreamer(DEEPGRAM_API_KEY, {
-        onTranscript(text) {
-          if (text.trim()) {
-            NuevoTexto(text);
-          }
-        },
-        onSilence() {
-          streamerRef.current?.stop();
-          streamerRef.current = null;
-          setGrabando(false);
-        },
-        onError(err) {
-          logger.error('Deepgram error', new Error(err));
-          setGrabando(false);
+    if (estadoConexion === 'paused') {
+      setEstadoConexion('connected');
+      setGrabando(true);
+      try {
+        await streamerRef.current?.startMic();
+      } catch (err: unknown) {
+        setEstadoConexion('paused');
+        setGrabando(false);
+        const error = err as { name?: string; message?: string };
+        if (error.name === 'NotAllowedError') {
           sileo.error({
-            title: 'Error de transcripción',
-            description: err,
+            title: 'Permiso denegado',
+            description: 'Debes permitir el acceso al micrófono',
           });
-        },
-      });
-      streamerRef.current = streamer;
-      await streamer.start('en');
-    } catch (err: unknown) {
-      setGrabando(false);
-      const error = err as { name?: string; message?: string };
-      if (error.name === 'NotAllowedError') {
-        sileo.error({
-          title: 'Permiso denegado',
-          description: 'Debes permitir el acceso al micrófono',
-        });
-      } else {
-        sileo.error({
-          title: 'Error al iniciar',
-          description: error.message ?? 'No se pudo conectar con Deepgram',
-        });
+        } else {
+          sileo.error({
+            title: 'Error al reanudar',
+            description: error.message ?? 'No se pudo acceder al micrófono',
+          });
+        }
       }
+      return;
     }
-  }, [grabando, DEEPGRAM_API_KEY, NuevoTexto, setGrabando]);
+
+    // disconnected
+    setEstadoConexion('connecting');
+    setGrabando(true);
+    const streamer = new DeepgramStreamer(DEEPGRAM_API_KEY, {
+      onTranscript(text) {
+        if (text.trim()) {
+          NuevoTexto(text);
+        }
+      },
+      onSilence() {
+        streamerRef.current?.stopMic();
+        setEstadoConexion('paused');
+        setGrabando(false);
+      },
+      onOpen() {
+        setEstadoConexion('connected');
+        streamerRef.current?.startMic().catch((err: unknown) => {
+          logger.error('Error al iniciar micrófono', err as Error);
+          setEstadoConexion('disconnected');
+          setGrabando(false);
+          streamerRef.current?.close();
+          streamerRef.current = null;
+          const error = err as { name?: string; message?: string };
+          sileo.error({
+            title: 'Error al iniciar',
+            description: error.message ?? 'No se pudo acceder al micrófono',
+          });
+        });
+      },
+      onConnecting() {
+        setEstadoConexion('connecting');
+      },
+      onError(err) {
+        logger.error('Deepgram error', new Error(err));
+        setEstadoConexion('disconnected');
+        setGrabando(false);
+        streamerRef.current?.close();
+        streamerRef.current = null;
+        sileo.error({
+          title: 'Error de transcripción',
+          description: err,
+        });
+      },
+      onClose() {
+        setEstadoConexion('disconnected');
+        setGrabando(false);
+      },
+    });
+    streamerRef.current = streamer;
+    streamer.startConnection('en');
+  }, [estadoConexion, grabando, DEEPGRAM_API_KEY, NuevoTexto, setGrabando]);
+
+  useEffect(() => {
+    if (pathname !== '/dashboard/estudiar/practicando') {
+      streamerRef.current?.close();
+      streamerRef.current = null;
+    }
+  }, [pathname]);
 
   useEffect(() => {
     return () => {
-      streamerRef.current?.stop();
+      streamerRef.current?.close();
       streamerRef.current = null;
     };
   }, []);
@@ -121,6 +168,24 @@ export function OpcionesMicrofono({
     }
   };
 
+  const micTooltip =
+    estadoConexion === 'connecting'
+      ? 'Conectando con Deepgram...'
+      : estadoConexion === 'connected'
+        ? 'Pausar grabación'
+        : estadoConexion === 'paused'
+          ? 'Reanudar grabación'
+          : 'Grabar pronunciación';
+
+  const micAria =
+    estadoConexion === 'connecting'
+      ? 'Conectando con Deepgram'
+      : estadoConexion === 'connected'
+        ? 'Pausar grabación'
+        : estadoConexion === 'paused'
+          ? 'Reanudar grabación'
+          : 'Grabar pronunciación';
+
   return (
     <>
       <div className="flex items-center justify-center gap-5 mt-5">
@@ -156,16 +221,47 @@ export function OpcionesMicrofono({
           <button
             id="micBtn"
             onClick={toggleMic}
-            title={grabando ? 'Detener grabación' : 'Grabar pronunciación'}
-            aria-label={grabando ? 'Detener grabación' : 'Grabar pronunciación'}
-            className={`mic-btn relative w-18 h-18 rounded-full flex items-center justify-center border-none cursor-pointer transition-all duration-200 shrink-0 hover:scale-[1.06] active:scale-[0.96] ${
-              grabando
+            disabled={estadoConexion === 'connecting'}
+            title={micTooltip}
+            aria-label={micAria}
+            className={`mic-btn relative w-18 h-18 rounded-full flex items-center justify-center border-none cursor-pointer transition-all duration-200 shrink-0 hover:scale-[1.06] active:scale-[0.96] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+              estadoConexion === 'connected'
                 ? 'bg-red-500 hover:shadow-[0_0_40px_rgba(239,68,68,0.5)]'
-                : 'bg-brand-green hover:shadow-[0_0_40px_rgba(61,214,140,0.5)]'
+                : estadoConexion === 'paused'
+                  ? 'bg-amber-500 hover:shadow-[0_0_40px_rgba(251,191,36,0.5)]'
+                  : 'bg-brand-green hover:shadow-[0_0_40px_rgba(61,214,140,0.5)]'
             }`}
           >
-            <Mic id="micIcon" className="w-7.5 h-7.5 text-surface-0" />
+            {estadoConexion === 'connecting' ? (
+              <Loader2 className="w-7.5 h-7.5 text-surface-0 animate-spin" />
+            ) : estadoConexion === 'paused' ? (
+              <MicOff className="w-7.5 h-7.5 text-surface-0" />
+            ) : (
+              <Mic id="micIcon" className="w-7.5 h-7.5 text-surface-0" />
+            )}
           </button>
+
+          {estadoConexion === 'connecting' && (
+            <div
+              aria-live="polite"
+              className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap"
+            >
+              <span className="font-ui text-ui-badge text-brand-green/70 animate-pulse">
+                Conectando con Deepgram...
+              </span>
+            </div>
+          )}
+
+          {estadoConexion === 'paused' && (
+            <div
+              aria-live="polite"
+              className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap"
+            >
+              <span className="font-ui text-ui-badge text-amber-400/70">
+                Micrófono en pausa
+              </span>
+            </div>
+          )}
         </div>
 
         <button
