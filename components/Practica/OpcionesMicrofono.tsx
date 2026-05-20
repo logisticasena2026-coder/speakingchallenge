@@ -1,161 +1,29 @@
 'use client';
 
-import { useFrasesStore, type Frase } from '@/store/useFrasesStore';
-import { Mic, MicOff, RotateCcw, Volume2, Loader2 } from 'lucide-react';
-import { logger } from '@/lib/logger';
+import { type Frase } from '@/store/useFrasesStore';
+import { useFrasesStore } from '@/store/useFrasesStore';
+import { useSpeechToText } from '@/hooks/useSpeechToText';
+import { useTextToSpeech } from '@/hooks/useTextToSpeech';
+import { useValidarNavegador } from '@/hooks/useValidarNavegador';
 import { sileo } from 'sileo';
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { ChromeSpeechRecognizer } from '@/lib/chromeSpeech';
-import { usePathname, useRouter } from 'next/navigation';
-import { supportsAudioTranscription } from '@/lib/NavegadorValido';
-
-type EstadoConexion = 'disconnected' | 'connecting' | 'connected' | 'paused';
+import { useCallback } from 'react';
+import { Mic, MicOff, RotateCcw, Volume2, Loader2 } from 'lucide-react';
 
 export function OpcionesMicrofono({
   frase,
   indiceActual,
 }: Readonly<{ frase: Frase[]; indiceActual: number }>) {
-  const [boton, setBoton] = useState(false);
-  const [estadoConexion, setEstadoConexion] = useState<EstadoConexion>('disconnected');
-  const grabando = useFrasesStore((state) => state.grabando);
-  const setGrabando = useFrasesStore((state) => state.setGrabando);
-  const NuevoTexto = useFrasesStore((state) => state.setTexto);
-  const streamerRef = useRef<ChromeSpeechRecognizer | null>(null);
-  const pathname = usePathname();
-
+  const { estadoConexion, toggleMic, pauseMic } = useSpeechToText();
   const texto = frase[indiceActual]?.fraseIngles;
-  const router = useRouter()
-  const toggleMic = useCallback(async () => {
-    if (estadoConexion === 'connected' || grabando) {
-      streamerRef.current?.stopMic();
-      setEstadoConexion('paused');
-      setGrabando(false);
-      return;
-    }
+  const { cargando, reproducir } = useTextToSpeech(texto);
+  const NuevoTexto = useFrasesStore((state) => state.setTexto);
 
-    if (estadoConexion === 'paused') {
-      setEstadoConexion('connected');
-      setGrabando(true);
-      try {
-        await streamerRef.current?.startMic();
-      } catch (err: unknown) {
-        setEstadoConexion('paused');
-        setGrabando(false);
-        const error = err as { name?: string; message?: string };
-        if (error.name === 'NotAllowedError') {
-          sileo.error({
-            title: 'Permiso denegado',
-            description: 'Debes permitir el acceso al micrófono',
-          });
-        } else {
-          sileo.error({
-            title: 'Error al reanudar',
-            description: error.message ?? 'No se pudo acceder al micrófono',
-          });
-        }
-      }
-      return;
-    }
-
-    // disconnected
-    setEstadoConexion('connecting');
-    setGrabando(true);
-    const streamer = new ChromeSpeechRecognizer({
-      onTranscript(text) {
-        if (text.trim()) {
-          NuevoTexto(text);
-        }
-      },
-      onOpen() {
-        setEstadoConexion('connected');
-        streamerRef.current?.startMic();
-      },
-      onConnecting() {
-        setEstadoConexion('connecting');
-      },
-      onError(err) {
-        logger.error('Chrome Speech error', new Error(err));
-        setEstadoConexion('disconnected');
-        setGrabando(false);
-        streamerRef.current?.close();
-        streamerRef.current = null;
-        sileo.error({
-          title: 'Error de transcripción',
-          description: err,
-        });
-      },
-      onClose() {
-        setEstadoConexion('disconnected');
-        setGrabando(false);
-      },
-    });
-    streamerRef.current = streamer;
-    streamer.startConnection('en');
-  }, [estadoConexion, grabando, NuevoTexto, setGrabando]);
-
-  useEffect(() => {
-    const valido = supportsAudioTranscription()
-    if (!valido) router.replace('/navegador-no-valido')
-  },[router])
-
-  useEffect(() => {
-    if (pathname !== '/dashboard/estudiar/practicando') {
-      streamerRef.current?.close();
-      streamerRef.current = null;
-    }
-  }, [pathname]);
-
-  useEffect(() => {
-    return () => {
-      streamerRef.current?.close();
-      streamerRef.current = null;
-    };
-  }, []);
+  useValidarNavegador();
 
   const resetTexto = useCallback(() => {
+    pauseMic();
     NuevoTexto('');
-  }, [NuevoTexto]);
-
-  const reproducir = async () => {
-    setBoton(true);
-    try {
-      const res = await fetch(`/api/vos?text=${encodeURIComponent(texto)}`);
-
-      if (res.status === 401) {
-        return {
-          ok: false,
-          message: 'Sesión inválida o expirada',
-        };
-      }
-
-      if (res.status === 400) {
-        return {
-          ok: false,
-          message: 'Solicitud inválida',
-        };
-      }
-
-      if (res.status >= 500) {
-        return {
-          ok: false,
-          message: 'Error del servidor',
-        };
-      }
-
-      const blob = await res.blob();
-
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      audio.play();
-
-      return { ok: true, message: 'Reproduciendo audio' };
-    } catch (err) {
-      logger.error('Error al generar audio', err as Error);
-      throw err;
-    } finally {
-      setBoton(false);
-    }
-  };
+  }, [NuevoTexto, pauseMic]);
 
   const micTooltip =
     estadoConexion === 'connecting'
@@ -180,25 +48,20 @@ export function OpcionesMicrofono({
       <div className="flex items-center justify-center gap-5 mt-5">
         <button
           onClick={() => {
+            pauseMic();
             sileo.promise(() => reproducir(), {
               loading: { title: 'Cargando audio' },
               success: (res: { ok: boolean; message: string }) => {
                 if (!res.ok) throw new Error(res.message);
-                return {
-                  title: 'Reproduciendo audio',
-                };
+                return { title: 'Reproduciendo audio' };
               },
               error: (err: unknown) => {
                 const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado';
-                return {
-                  title: 'Error al reproducir audio',
-                  description: message,
-                };
+                return { title: 'Error al reproducir audio', description: message };
               },
             });
           }}
-          disabled={boton}
-
+          disabled={cargando}
           title="Escuchar frase"
           aria-label="Escuchar frase"
           className="w-12 h-12 rounded-full flex items-center justify-center border border-white/10 bg-white/5 text-text-secondary cursor-pointer transition-all duration-200 shrink-0 hover:border-brand-green/30 hover:text-brand-green hover:bg-brand-green/8"
