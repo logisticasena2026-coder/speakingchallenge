@@ -6,9 +6,8 @@ import { logger } from '@/lib/logger';
 import { sileo } from 'sileo';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { ChromeSpeechRecognizer } from '@/lib/chromeSpeech';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { supportsAudioTranscription } from '@/lib/NavegadorValido';
-import { useRouter } from 'next/navigation';
 
 type EstadoConexion = 'disconnected' | 'connecting' | 'connected' | 'paused';
 
