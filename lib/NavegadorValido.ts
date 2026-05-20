@@ -1,18 +1,17 @@
 'use client'
+
 declare global {
   interface Window {
-    SpeechRecognition: any;
-    webkitSpeechRecognition: any;
+    SpeechRecognition: typeof SpeechRecognition;
+    webkitSpeechRecognition: typeof SpeechRecognition;
   }
 }
 
 export function supportsAudioTranscription(): boolean {
-    if (typeof globalThis === 'undefined') {
-        return false
-    }
+  // Evitar ejecución en SSR (Next.js)
+  if (typeof window === 'undefined') {
+    return false
+  }
 
-    return !!(
-        globalThis.SpeechRecognitionEvent ||
-        globalThis.webkitSpeechRecognition
-    )
+  return !!(window.SpeechRecognition || window.webkitSpeechRecognition)
 }
