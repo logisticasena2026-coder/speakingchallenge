@@ -1,3 +1,4 @@
+
 import { requiereIngreso } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 

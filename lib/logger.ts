@@ -17,17 +17,18 @@ class Logger {
 
   private formatEntry(entry: LogEntry): string {
     const base = `[${entry.timestamp}] [${entry.level.toUpperCase()}] ${entry.message}`;
-    
+    const parts: string[] = [];
+
     if (entry.context) {
-      return `${base} | ${JSON.stringify(entry.context)}`;
+      parts.push(`context=${JSON.stringify(entry.context)}`);
     }
-    
+
     if (entry.error) {
       const errorInfo = `${entry.error.name}: ${entry.error.message}`;
-      return `${base} | ${entry.error.stack || errorInfo}`;
+      parts.push(entry.error.stack || errorInfo);
     }
-    
-    return base;
+
+    return parts.length > 0 ? `${base} | ${parts.join(' | ')}` : base;
   }
 
   private log(level: LogLevel, message: string, context?: Record<string, unknown>, error?: Error) {
@@ -54,7 +55,7 @@ class Logger {
     } else if (level === 'info') {
       console.info(formatted);
     } else if (this.isDevelopment) {
-      console.log(formatted);
+      console.debug(formatted);
     }
   }
 

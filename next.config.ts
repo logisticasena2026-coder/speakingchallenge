@@ -28,6 +28,9 @@ const ContentSecurityPolicy = `
     https://www.speakingchallenge.online
     https://vercel.live
     https://api.deepgram.com
+    https://www.google.com
+    https://www.googleapis.com
+    https://speech.googleapis.com
     ${isDev ? 'ws: wss:' : ''};
 
   frame-src 'self' https://vercel.live;
