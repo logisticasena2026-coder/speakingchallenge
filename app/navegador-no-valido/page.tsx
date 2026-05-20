@@ -154,8 +154,8 @@ export default function NavegadorNoValido() {
                   <strong className="text-text-primary">¿Por qué?</strong> La transcripción en tiempo real usa{' '}
                   <code className="font-ui-label text-ui-label bg-surface-4 px-1.5 py-0.5 rounded text-brand-cyan">
                     Web Speech API
-                  </code>{' '}
-                  o conexiones WebSocket con Deepgram. Navegadores basados en Chromium (Chrome, Edge) ofrecen el mejor soporte y precisión.
+                  </code>
+                  {' '}que requiere navegadores basados en Chromium (Chrome, Edge) para el mejor soporte y precisión.
                 </p>
               </div>
             </div>
