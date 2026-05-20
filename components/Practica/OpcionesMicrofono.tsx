@@ -8,7 +8,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { ChromeSpeechRecognizer } from '@/lib/chromeSpeech';
 import { usePathname } from 'next/navigation';
 import { supportsAudioTranscription } from '@/lib/NavegadorValido';
-
+import { useRouter } from 'next/navigation';
 
 type EstadoConexion = 'disconnected' | 'connecting' | 'connected' | 'paused';
 
@@ -25,11 +25,9 @@ export function OpcionesMicrofono({
   const pathname = usePathname();
 
   const texto = frase[indiceActual]?.fraseIngles;
-
+  const router = useRouter()
   const toggleMic = useCallback(async () => {
-    console.log('[OpcionesMicrofono] toggleMic called, estadoConexion:', estadoConexion, 'grabando:', grabando);
     if (estadoConexion === 'connected' || grabando) {
-      console.log('[OpcionesMicrofono] stopping mic');
       streamerRef.current?.stopMic();
       setEstadoConexion('paused');
       setGrabando(false);
@@ -37,14 +35,11 @@ export function OpcionesMicrofono({
     }
 
     if (estadoConexion === 'paused') {
-      console.log('[OpcionesMicrofono] resuming from paused');
       setEstadoConexion('connected');
       setGrabando(true);
       try {
         await streamerRef.current?.startMic();
-        console.log('[OpcionesMicrofono] startMic resolved');
       } catch (err: unknown) {
-        console.warn('[OpcionesMicrofono] startMic threw:', err);
         setEstadoConexion('paused');
         setGrabando(false);
         const error = err as { name?: string; message?: string };
@@ -64,27 +59,22 @@ export function OpcionesMicrofono({
     }
 
     // disconnected
-    console.log('[OpcionesMicrofono] starting fresh connection');
     setEstadoConexion('connecting');
     setGrabando(true);
     const streamer = new ChromeSpeechRecognizer({
       onTranscript(text) {
-        console.log('[OpcionesMicrofono] onTranscript callback:', text);
         if (text.trim()) {
           NuevoTexto(text);
         }
       },
       onOpen() {
-        console.log('[OpcionesMicrofono] onOpen callback fired');
         setEstadoConexion('connected');
         streamerRef.current?.startMic();
       },
       onConnecting() {
-        console.log('[OpcionesMicrofono] onConnecting callback fired');
         setEstadoConexion('connecting');
       },
       onError(err) {
-        console.warn('[OpcionesMicrofono] onError callback:', err);
         logger.error('Chrome Speech error', new Error(err));
         setEstadoConexion('disconnected');
         setGrabando(false);
@@ -96,7 +86,6 @@ export function OpcionesMicrofono({
         });
       },
       onClose() {
-        console.log('[OpcionesMicrofono] onClose callback fired');
         setEstadoConexion('disconnected');
         setGrabando(false);
       },
@@ -107,15 +96,11 @@ export function OpcionesMicrofono({
 
   useEffect(() => {
     const valido = supportsAudioTranscription()
-    console.log('[OpcionesMicrofono] supportsAudioTranscription:', valido)
-    console.log('[OpcionesMicrofono] location:', window.location.origin, window.location.protocol)
-    console.log('[OpcionesMicrofono] is secure context:', window.isSecureContext)
-  },[])
+    if (!valido) router.replace('/navegador-no-valido')
+  },[router])
 
   useEffect(() => {
-    console.log('[OpcionesMicrofono] pathname changed:', pathname);
     if (pathname !== '/dashboard/estudiar/practicando') {
-      console.log('[OpcionesMicrofono] closing streamer due to pathname mismatch');
       streamerRef.current?.close();
       streamerRef.current = null;
     }
@@ -123,7 +108,6 @@ export function OpcionesMicrofono({
 
   useEffect(() => {
     return () => {
-      console.log('[OpcionesMicrofono] cleanup on unmount');
       streamerRef.current?.close();
       streamerRef.current = null;
     };
