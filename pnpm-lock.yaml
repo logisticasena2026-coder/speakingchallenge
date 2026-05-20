@@ -93,9 +93,6 @@ importers:
       '@types/bcrypt':
         specifier: ^6.0.0
         version: 6.0.0
-      '@types/dom-speech-recognition':
-        specifier: ^0.0.11
-        version: 0.0.11
       '@types/node':
         specifier: ^20
         version: 20.19.39
@@ -1963,9 +1960,6 @@ packages:
 
   '@types/bcrypt@6.0.0':
     resolution: {integrity: sha512-/oJGukuH3D2+D+3H4JWLaAsJ/ji86dhRidzZ/Od7H/i8g+aCmvkeCc6Ni/f9uxGLSQVCRZkX2/lqEFG2BvWtlQ==}
-
-  '@types/dom-speech-recognition@0.0.11':
-    resolution: {integrity: sha512-PyLFPLM9F5D+qEmkNLX/ZC3uiEV/2B/UhZA9uhWkFVOxUyDVj+UBKI2pF1dnhKhliOiIoR1d/QsOZQfOtQPE3A==}
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
@@ -6510,8 +6504,6 @@ snapshots:
   '@types/bcrypt@6.0.0':
     dependencies:
       '@types/node': 20.19.39
-
-  '@types/dom-speech-recognition@0.0.11': {}
 
   '@types/estree@1.0.8': {}
 

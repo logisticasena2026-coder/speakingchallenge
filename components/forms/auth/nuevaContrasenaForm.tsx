@@ -1,7 +1,7 @@
 'use client';
 
 import { Lock, Eye, EyeOff } from 'lucide-react';
-import { useVerContrasena } from '@/hook/VerContrasena';
+import { useVerContrasena } from '@/hooks/VerContrasena';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormNuevaContrasenaSchema, FormNuevaContrasenaData } from '@/schemas/auth/nuevaContrasena';
