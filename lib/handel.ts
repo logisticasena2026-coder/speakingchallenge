@@ -1,4 +1,12 @@
 'use client'
+
+
+declare global {
+  interface Window {
+    webkitAudioContext: typeof AudioContext;
+  }
+}
+
 export class MediaHandler {
   audioContext: AudioContext | null = null;
   mediaStream: MediaStream | null = null;

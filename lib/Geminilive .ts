@@ -80,27 +80,24 @@ export async function createSession(callbacks?: SessionCallbacks) {
           }
         }
       },
-        onerror: (error: unknown) => {
-            if (error instanceof Error) {
-
-                console.error('[Gemini] error', error.message);
-                callbacks?.onError?.(error.message);
-          }
+      onerror: (error: unknown) => {
+        if (error instanceof Error) {
+          console.error('[Gemini] error', error.message);
+          callbacks?.onError?.(error.message);
+        }
       },
-        onclose: (error: unknown) => {
-          if (error instanceof Error) {
-
-
-              console.log('[Gemini] cerrado', error.cause);
-              mh.stopAudio();
-          }
+      onclose: (error: unknown) => {
+        if (error instanceof Error) {
+          console.log('[Gemini] cerrado', error.cause);
+          mh.stopAudio();
+        }
       },
     },
     config: {
       responseModalities: [Modality.AUDIO],
       speechConfig: {
         voiceConfig: {
-          prebuiltVoiceConfig: { voiceName: 'Zubenelgenubi' },
+          prebuiltVoiceConfig: { voiceName: 'Leda' },
         },
       },
       inputAudioTranscription: {},

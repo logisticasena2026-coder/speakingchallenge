@@ -35,7 +35,9 @@ export function Enlaces() {
     { label: 'Logros', href: '#', icon: Medal },
     { label: 'Estadisticas', href: '#', icon: ChartNoAxesCombined },
   ];
-  const systemItems = [{ label: 'Configuración', href: '#', icon: Settings }];
+  const systemItems = [
+    { label: 'Configuración', href: '/dashboard/configuracion', icon: Settings },
+  ];
   const pathname = usePathname();
 
   return (
