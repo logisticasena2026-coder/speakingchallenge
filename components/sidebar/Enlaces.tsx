@@ -27,7 +27,7 @@ import Link from 'next/link';
 export function Enlaces() {
   const terminalItems = [
     { label: 'Inicio', href: '/dashboard', icon: Home },
-    { label: 'Sophia Chat', href: '#', icon: MessageCircle },
+    { label: 'Sophia Chat', href: '/dashboard/sophia', icon: MessageCircle },
     { label: 'Estudiar', href: '/dashboard/estudiar', icon: Dumbbell },
     { label: 'Juegos', href: '#', icon: Gamepad },
   ];

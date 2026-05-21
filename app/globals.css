@@ -1724,3 +1724,56 @@ button:focus-visible,
   border-bottom: 1px solid rgba(61, 214, 140, 0.4);
   border-right: 1px solid rgba(61, 214, 140, 0.4);
 }
+
+.message-ai {
+  background: #121620;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #f0ede8;
+}
+
+.message-user {
+  background: rgba(61, 214, 140, 0.12);
+  border: 1px solid rgba(61, 214, 140, 0.25);
+  color: #60f3a6;
+}
+
+.btn-mic {
+  background: #121620;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: #9ca3a0;
+  transition: all 200ms ease;
+}
+
+.btn-mic:hover {
+  background: rgba(61, 214, 140, 0.10);
+  border-color: rgba(61, 214, 140, 0.30);
+  color: #3dd68c;
+}
+
+.btn-mic.active {
+  background: rgba(61, 214, 140, 0.15);
+  border-color: rgba(61, 214, 140, 0.40);
+  color: #3dd68c;
+  box-shadow: 0 0 24px rgba(61, 214, 140, 0.20);
+}
+
+.btn-mic.active .mic-pulse {
+  animation: mic-pulse 2s ease-in-out infinite;
+}
+
+@keyframes mic-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.streaming-cursor::after {
+  content: '|';
+  animation: blink 1s infinite;
+  color: #3dd68c;
+  font-weight: 700;
+}
