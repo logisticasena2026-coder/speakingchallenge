@@ -15,21 +15,19 @@ import {
   Shield,
   Sun,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { SectionCard } from '@/components/configuracion-usuario/SectionCard';
 import { FontSizeSelector } from '@/components/configuracion-usuario/FontSizeSelector';
 import { ThemeSelector } from '@/components/configuracion-usuario/ThemeSelector';
-
-
-
-
-
-
+import { sileo } from 'sileo';
+import { CerrarSesion } from '@/actions/auth/CerrarSesion';
 
 export default function ConfiguracionUsuario() {
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="min-h-full relative">
@@ -168,6 +166,27 @@ export default function ConfiguracionUsuario() {
 
             <button
               type="button"
+              onClick={() => {
+                sileo.promise(() => CerrarSesion(), {
+                  loading: { title: 'Cerrando sesion' },
+                  success: (res: { ok: boolean; message: string }) => {
+                    if (!res.ok) throw new Error(res.message);
+                    router.replace('/');
+                    return {
+                      title: res.message,
+                      description: 'Hasta la proxima',
+                    };
+                  },
+                  error: (err: unknown) => {
+                    const message =
+                      err instanceof Error ? err.message : 'Ocurrió un error inesperado';
+                    return {
+                      title: 'Error al cerrar sesión',
+                      description: message,
+                    };
+                  },
+                });
+              }}
               className="w-full flex items-center justify-center gap-2.5 py-3.5 px-6 rounded-2xl border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/30 text-red-400 hover:text-red-300 font-semibold text-sm transition-all duration-200 cursor-pointer group"
             >
               <LogOut className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
