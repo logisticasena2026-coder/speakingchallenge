@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useFrasesStore } from '@/store/useFrasesStore';
+import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
 import { comparacion_de_frases } from '@/utils/comparacion-de-frases';
 
 const RADIO = 45;
@@ -20,6 +21,7 @@ function textShadowSegunPrecision(pct: number): string {
 }
 
 export function EstadisticasDeFrases() {
+  const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
   const fraseActual = useFrasesStore((state) => state.indiceActual);
   const frases = useFrasesStore((store) => store.frases);
   const texto = useFrasesStore((store) => store.texto);
@@ -57,7 +59,7 @@ export function EstadisticasDeFrases() {
         backdropFilter: 'blur(20px)',
       }}
     >
-      <p className="font-ui text-[9px] font-semibold tracking-[0.2em] uppercase text-brand-green mb-3.5">
+      <p className={`font-ui ${fuente} font-semibold tracking-[0.2em] uppercase text-brand-green mb-3.5`}>
         Precisión
       </p>
 
@@ -93,7 +95,7 @@ export function EstadisticasDeFrases() {
       </div>
 
       <h3 className="font-display text-sm font-bold text-text-primary mb-1">Precisión Arcana</h3>
-      <p className="text-[11px] text-text-secondary leading-relaxed">
+      <p className={`${fuente} text-text-secondary leading-relaxed`}>
         Tu pronunciación de <em className="text-brand-green">&ldquo;fate&rdquo;</em> alcanzó
         resonancia perfecta.
       </p>
