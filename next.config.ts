@@ -31,6 +31,8 @@ const ContentSecurityPolicy = `
     https://www.google.com
     https://www.googleapis.com
     https://speech.googleapis.com
+    https://generativelanguage.googleapis.com
+    wss://generativelanguage.googleapis.com
     ${isDev ? 'ws: wss:' : ''};
 
   frame-src 'self' https://vercel.live;
