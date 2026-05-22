@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { SileoToaster } from '@/components/SileoToaster';
 import Link from 'next/link';
+import { Analytics } from '@vercel/analytics/next';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -113,6 +114,7 @@ export default function RootLayout({
 
         {children}
         <SileoToaster />
+        <Analytics />
       </body>
     </html>
   );
