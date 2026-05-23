@@ -8,6 +8,7 @@ import { sileo } from 'sileo';
 import { recuperarCuenta } from '@/actions/auth/email/recuperacion/recuperarCuenta';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 export function RecuperarContrasenaForm() {
   const { prefetch, push } = useRouter();
@@ -68,29 +69,38 @@ export function RecuperarContrasenaForm() {
   };
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <div className="space-y-2">
-        <label
-          htmlFor="email"
-          className="font-ui-label text-ui-label text-on-surface-variant block ml-1"
-        >
-          Correo electrónico
-        </label>
-        <div className="relative flex items-center">
-          <Mail className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
-          <input
-            className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
-              errors.email ? 'ring-2 ring-error animate-shake' : ''
-            }`}
-            id="email"
-            placeholder="viajero@tiempos.com"
-            type="email"
-            autoComplete="email"
-            aria-invalid={!!errors.email}
-            aria-describedby={errors.email ? 'email-error' : undefined}
-            {...register('email')}
-          />
-        </div>
+    <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <HoverCard openDelay={100} closeDelay={50}>
+          <HoverCardTrigger asChild>
+            <div className="relative flex items-center">
+              <Mail className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
+              <input
+                className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
+                  errors.email ? 'ring-2 ring-error animate-shake' : ''
+                }`}
+                id="email"
+                placeholder="viajero@tiempos.com"
+                type="email"
+                autoComplete="email"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'email-error' : undefined}
+                {...register('email')}
+              />
+            </div>
+          </HoverCardTrigger>
+          <HoverCardContent side='top'>
+            <div className="relative">
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-brand-green to-transparent"></div>
+              <div className="p-3 pt-3.5 space-y-1.5">
+                <span className="block font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-green">Correo</span>
+                <p className="font-body text-xs leading-relaxed text-text-secondary/90">
+                  Ingresa el correo de tu cuenta. Te enviaremos un enlace mágico para restaurar tu acceso.
+                </p>
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
         {errors.email && (
           <p
             id="email-error"

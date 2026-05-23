@@ -9,6 +9,7 @@ import { sileo } from 'sileo';
 import { cambiarContrasena } from '@/actions/auth/nuevaContrasena';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 export function NuevaContrasenaForm({ token }: Readonly<{ token: string }>) {
   const { prefetch, push } = useRouter();
@@ -64,39 +65,48 @@ export function NuevaContrasenaForm({ token }: Readonly<{ token: string }>) {
   };
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <div className="space-y-2">
-        <label
-          htmlFor="password"
-          className="font-ui-label text-ui-label text-on-surface-variant block ml-1"
-        >
-          Nueva contraseña
-        </label>
-        <div className="relative flex items-center">
-          <Lock className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
-          <input
-            className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
-              errors.password ? 'ring-2 ring-error animate-shake' : ''
-            }`}
-            id="password"
-            placeholder="••••••••"
-            type={verContrasena ? 'text' : 'password'}
-            autoComplete="new-password"
-            aria-invalid={!!errors.password}
-            aria-describedby={errors.password ? 'password-error' : undefined}
-            {...register('password')}
-          />
-          <button
-            className="absolute right-3 text-text-muted hover:text-primary transition-colors"
-            type="button"
-            onClick={toggleVerContrasena}
-            aria-label={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-            aria-pressed={verContrasena}
-            disabled={boton}
-          >
-            {verContrasena ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
-          </button>
-        </div>
+    <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <HoverCard openDelay={100} closeDelay={50}>
+          <HoverCardTrigger asChild>
+            <div className="relative flex items-center">
+              <Lock className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
+              <input
+                className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
+                  errors.password ? 'ring-2 ring-error animate-shake' : ''
+                }`}
+                id="password"
+                placeholder="••••••••"
+                type={verContrasena ? 'text' : 'password'}
+                autoComplete="new-password"
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? 'password-error' : undefined}
+                {...register('password')}
+              />
+              <button
+                className="absolute right-3 text-text-muted hover:text-primary transition-colors"
+                type="button"
+                onClick={toggleVerContrasena}
+                aria-label={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                aria-pressed={verContrasena}
+                disabled={boton}
+              >
+                {verContrasena ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+              </button>
+            </div>
+          </HoverCardTrigger>
+          <HoverCardContent side='top'>
+            <div className="relative">
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-brand-green to-transparent"></div>
+              <div className="p-3 pt-3.5 space-y-1.5">
+                <span className="block font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-green">Nueva Contraseña</span>
+                <p className="font-body text-xs leading-relaxed text-text-secondary/90">
+                  Mínimo 8 caracteres con mayúscula y número. Que sea segura pero memorable.
+                </p>
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
         {errors.password && (
           <p
             id="password-error"
@@ -108,28 +118,37 @@ export function NuevaContrasenaForm({ token }: Readonly<{ token: string }>) {
           </p>
         )}
       </div>
-      <div className="space-y-2">
-        <label
-          htmlFor="confirmPassword"
-          className="font-ui-label text-ui-label text-on-surface-variant block ml-1"
-        >
-          Confirmar contraseña
-        </label>
-        <div className="relative flex items-center">
-          <Lock className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
-          <input
-            className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
-              errors.confirmPassword ? 'ring-2 ring-error animate-shake' : ''
-            }`}
-            id="confirmPassword"
-            placeholder="••••••••"
-            type={verContrasena ? 'text' : 'password'}
-            autoComplete="new-password"
-            aria-invalid={!!errors.confirmPassword}
-            aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
-            {...register('confirmPassword')}
-          />
-        </div>
+      <div>
+        <HoverCard openDelay={100} closeDelay={50}>
+          <HoverCardTrigger asChild>
+            <div className="relative flex items-center">
+              <Lock className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
+              <input
+                className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-4 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
+                  errors.confirmPassword ? 'ring-2 ring-error animate-shake' : ''
+                }`}
+                id="confirmPassword"
+                placeholder="••••••••"
+                type={verContrasena ? 'text' : 'password'}
+                autoComplete="new-password"
+                aria-invalid={!!errors.confirmPassword}
+                aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
+                {...register('confirmPassword')}
+              />
+            </div>
+          </HoverCardTrigger>
+          <HoverCardContent side='top'>
+            <div className="relative">
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-brand-green to-transparent"></div>
+              <div className="p-3 pt-3.5 space-y-1.5">
+                <span className="block font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-green">Confirmar</span>
+                <p className="font-body text-xs leading-relaxed text-text-secondary/90">
+                  Escribe la misma contraseña para confirmar que no hay errores.
+                </p>
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
         {errors.confirmPassword && (
           <p
             id="confirmPassword-error"

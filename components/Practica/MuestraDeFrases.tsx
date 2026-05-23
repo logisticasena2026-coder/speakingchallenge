@@ -25,6 +25,25 @@ export function MuestraDeFrases() {
     }
   }, [cargarFrasesInicial, frases.length]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      if (e.key.toLowerCase() === 'd') {
+        e.preventDefault();
+        siguiente();
+      }
+
+      if (e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        anterior();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [siguiente, anterior]);
+
   return (
     <>
       <EstadisticaEstudiantePractica

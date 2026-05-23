@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Mail, Clock, LogIn, ExternalLink } from 'lucide-react';
+import { Mail, Clock, LogIn, ExternalLink, ArrowLeft } from 'lucide-react';
 import { Sonido } from '@/components/sonido';
 
 export const metadata: Metadata = {
@@ -21,13 +21,7 @@ export default async function ConfirmarCorreoContrasena({ searchParams }: Readon
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-emerald-500/20 shadow-2xl shadow-black/50">
-        <div className="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
-          <div className="font-['Cinzel'] font-bold text-xl tracking-widest text-[#3dd68c] drop-shadow-[0_0_8px_rgba(61,214,140,0.5)]">
-            CHRONO-LINGUA
-          </div>
-        </div>
-      </header>
+
       <main id="main-content" className="grow flex items-center justify-center relative px-container-px-mobile md:px-container-px-desktop pt-24 pb-12 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-primary/5 rounded-full blur-[120px]"></div>
@@ -35,6 +29,14 @@ export default async function ConfirmarCorreoContrasena({ searchParams }: Readon
         </div>
         <div className="relative w-full max-w-2xl z-10">
           <div className="bg-surface-2/40 backdrop-blur-xl border border-border-strong rounded-xl p-8 md:p-12 shadow-2xl shadow-black/80 flex flex-col items-center text-center gap-y-8">
+            <div className="flex items-center justify-between w-full">
+              <Link href="/auth/iniciar_sesion" className="flex items-center gap-1.5 group">
+                <ArrowLeft className="text-primary w-4 h-4 group-hover:-translate-x-0.5 transition-transform" aria-hidden="true" />
+                <span className="font-serif text-xs font-bold tracking-widest text-emerald-400/80 group-hover:text-emerald-400 transition-colors">
+                  speakingchallenge
+                </span>
+              </Link>
+            </div>
             <div className="relative">
               <div className="w-24 h-24 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center animate-pulse shadow-[0_0_40px_rgba(96,243,166,0.2)]">
                 <Mail className="w-12 h-12 text-primary" aria-hidden="true" />

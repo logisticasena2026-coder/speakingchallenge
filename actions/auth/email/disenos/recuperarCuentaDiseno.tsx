@@ -30,10 +30,7 @@ const colors = {
   brandAmber: '#f5a623',
 };
 
-export const RecuperarCuentaEmailDiseno = ({
-  resetLink,
-  nombreUsuario,
-}: RecuperarCuentaEmailProps) => (
+export const RecuperarCuentaEmailDiseno = ({ resetLink, nombreUsuario }: RecuperarCuentaEmailProps) => (
   <Html>
     <Head>
       {/* Google Fonts via CDN - required for email templates since next/font doesn't work in email clients */}
@@ -48,7 +45,7 @@ export const RecuperarCuentaEmailDiseno = ({
         <Section style={headerSection}>
           <div style={logoContainer}>
             <Img
-              src="https://cdn.jsdelivr.net/gh/luisangelf17/imagenesWebICFES/logo.webp"
+              src="https://www.speakingchallenge.online/FoundPage.webp"
               width="48"
               height="48"
               alt="speakingchallenge Logo"
@@ -64,9 +61,7 @@ export const RecuperarCuentaEmailDiseno = ({
             <span style={badgeWarning}>Solicitud de Restablecimiento</span>
           </div>
 
-          <Heading style={h1}>
-            {nombreUsuario ? `${nombreUsuario}` : 'Viajero del Tiempo'}
-          </Heading>
+          <Heading style={h1}>{nombreUsuario ? `${nombreUsuario}` : 'Viajero del Tiempo'}</Heading>
 
           <Text style={textGreeting}>
             Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en{' '}
@@ -74,7 +69,8 @@ export const RecuperarCuentaEmailDiseno = ({
           </Text>
 
           <Text style={textBody}>
-            Si fuiste tú quien solicitó este cambio, haz clic en el botón de abajo para crear una nueva contraseña.
+            Si fuiste tú quien solicitó este cambio, haz clic en el botón de abajo para crear una
+            nueva contraseña.
           </Text>
 
           <div style={buttonWrapper}>
@@ -98,15 +94,18 @@ export const RecuperarCuentaEmailDiseno = ({
               Este enlace expira en <strong style={{ color: colors.brandAmber }}>1 hora</strong>
             </Text>
           </div>
-          
+
           <Text style={footerNote}>
-            Si no solicitaste un restablecimiento de contraseña, puedes ignorar este correo. Tu contraseña actual seguirá siendo la misma.
+            Si no solicitaste un restablecimiento de contraseña, puedes ignorar este correo. Tu
+            contraseña actual seguirá siendo la misma.
           </Text>
-          
+
           <Section style={{ borderTop: `1px solid ${colors.borderSubtle}`, margin: '20px 0' }} />
-          
+
           <Text style={footerBrand}>PLAYLENGUAGE</Text>
-          <Text style={footerCopyright}>© 2024 Speaking Challenge Online. Todos los derechos reservados.</Text>
+          <Text style={footerCopyright}>
+            © 2024 Speaking Challenge Online. Todos los derechos reservados.
+          </Text>
         </Section>
       </Container>
     </Body>

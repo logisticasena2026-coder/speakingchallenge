@@ -6,7 +6,7 @@ import { useSpeechToText } from '@/hooks/useSpeechToText';
 import { useTextToSpeech } from '@/hooks/useTextToSpeech';
 import { useValidarNavegador } from '@/hooks/useValidarNavegador';
 import { sileo } from 'sileo';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Mic, MicOff, RotateCcw, Volume2, Loader2 } from 'lucide-react';
 
 export function OpcionesMicrofono({
@@ -19,11 +19,45 @@ export function OpcionesMicrofono({
   const NuevoTexto = useFrasesStore((state) => state.setTexto);
 
   useValidarNavegador();
-
   const resetTexto = useCallback(() => {
     pauseMic();
     NuevoTexto('');
   }, [NuevoTexto, pauseMic]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      if (e.key.toLowerCase() === 'w') {
+        e.preventDefault();
+        pauseMic();
+        sileo.promise(() => reproducir(), {
+          loading: { title: 'Cargando audio' },
+          success: (res: { ok: boolean; message: string }) => {
+            if (!res.ok) throw new Error(res.message);
+            return { title: 'Reproduciendo audio' };
+          },
+          error: (err: unknown) => {
+            const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado';
+            return { title: 'Error al reproducir audio', description: message };
+          },
+        });
+      }
+
+      if (e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        toggleMic();
+      }
+
+      if (e.key.toLowerCase() === 'z') {
+        e.preventDefault();
+        resetTexto();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [reproducir, pauseMic, toggleMic, resetTexto]);
 
   const micTooltip =
     estadoConexion === 'connecting'
@@ -99,7 +133,7 @@ export function OpcionesMicrofono({
               className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap"
             >
               <span className="font-ui text-ui-badge text-brand-green/70 animate-pulse">
-Conectando…
+                Conectando…
               </span>
             </div>
           )}
@@ -109,9 +143,7 @@ Conectando…
               aria-live="polite"
               className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap"
             >
-              <span className="font-ui text-ui-badge text-amber-400/70">
-                Micrófono en pausa
-              </span>
+              <span className="font-ui text-ui-badge text-amber-400/70">Micrófono en pausa</span>
             </div>
           )}
         </div>

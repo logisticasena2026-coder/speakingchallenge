@@ -7,6 +7,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormLoginSchema, FormLoginData } from '@/schemas/auth/login';
 import { sileo } from 'sileo';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+
 
 import Link from 'next/link';
 import { iniciar_session } from '@/actions/auth/iniciarSesion';
@@ -72,29 +74,38 @@ export function IniciarSesionForm() {
   };
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <div className="space-y-2">
-        <label
-          htmlFor="email"
-          className="font-ui-label text-ui-label text-on-surface-variant block ml-1"
-        >
-          Email
-        </label>
-        <div className="relative flex items-center">
-          <Mail className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
-          <input
-            className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
-              errors.email ? 'ring-2 ring-error animate-shake' : ''
-            }`}
-            id="email"
-            placeholder="viajero@tiempos.com"
-            type="email"
-            autoComplete="email"
-            aria-invalid={!!errors.email}
-            aria-describedby={errors.email ? 'email-error' : undefined}
-            {...register('email')}
-          />
-        </div>
+    <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <HoverCard openDelay={100} closeDelay={50}>
+          <HoverCardTrigger asChild>
+            <div className="relative flex items-center">
+              <Mail className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
+              <input
+                className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
+                  errors.email ? 'ring-2 ring-error animate-shake' : ''
+                }`}
+                id="email"
+                placeholder="viajero@tiempos.com"
+                type="email"
+                autoComplete="email"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'email-error' : undefined}
+                {...register('email')}
+              />
+            </div>
+          </HoverCardTrigger>
+          <HoverCardContent side='top'>
+            <div className="relative">
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-brand-green to-transparent"></div>
+              <div className="p-3 pt-3.5 space-y-1.5">
+                <span className="block font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-green">Correo</span>
+                <p className="font-body text-xs leading-relaxed text-text-secondary/90">
+                  Tu correo registrado en el viaje. Lo usamos para identificar tu cuenta y enviarte coordenadas.
+                </p>
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
         {errors.email && (
           <p
             id="email-error"
@@ -106,37 +117,46 @@ export function IniciarSesionForm() {
           </p>
         )}
       </div>
-      <div className="space-y-2">
-        <label
-          htmlFor="password"
-          className="font-ui-label text-ui-label text-on-surface-variant block ml-1"
-        >
-          Contraseña
-        </label>
-        <div className="relative flex items-center">
-          <Lock className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
-          <input
-            className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
-              errors.password ? 'ring-2 ring-error animate-shake' : ''
-            }`}
-            id="password"
-            placeholder="••••••••"
-            type={verContrasena ? 'text' : 'password'}
-            autoComplete="current-password"
-            aria-invalid={!!errors.password}
-            aria-describedby={errors.password ? 'password-error' : undefined}
-            {...register('password')}
-          />
-          <button
-            className="absolute right-3 text-text-muted hover:text-primary transition-colors"
-            type="button"
-            onClick={toggleVerContrasena}
-            aria-label={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-            aria-pressed={verContrasena}
-          >
-            {verContrasena ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
-          </button>
-        </div>
+      <div>
+        <HoverCard openDelay={100} closeDelay={50}>
+          <HoverCardTrigger asChild>
+            <div className="relative flex items-center">
+              <Lock className="absolute left-3 text-text-muted size-5" aria-hidden="true" />
+              <input
+                className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 pl-10 pr-12 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 ${
+                  errors.password ? 'ring-2 ring-error animate-shake' : ''
+                }`}
+                id="password"
+                placeholder="••••••••"
+                type={verContrasena ? 'text' : 'password'}
+                autoComplete="current-password"
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? 'password-error' : undefined}
+                {...register('password')}
+              />
+              <button
+                className="absolute right-3 text-text-muted hover:text-primary transition-colors"
+                type="button"
+                onClick={toggleVerContrasena}
+                aria-label={verContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                aria-pressed={verContrasena}
+              >
+                {verContrasena ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+              </button>
+            </div>
+          </HoverCardTrigger>
+          <HoverCardContent side='top'>
+            <div className="relative">
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-brand-green to-transparent"></div>
+              <div className="p-3 pt-3.5 space-y-1.5">
+                <span className="block font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-green">Contraseña</span>
+                <p className="font-body text-xs leading-relaxed text-text-secondary/90">
+                  Tu clave de acceso temporal. Debe tener al menos 8 caracteres con mayúscula y número.
+                </p>
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
         {errors.password && (
           <p
             id="password-error"
