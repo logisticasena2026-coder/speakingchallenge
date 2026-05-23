@@ -94,6 +94,7 @@ export function IniciarSesionForm() {
               />
             </div>
           </HoverCardTrigger>
+          
           <HoverCardContent side='top'>
             <div className="relative">
               <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-brand-green to-transparent"></div>
