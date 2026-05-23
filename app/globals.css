@@ -519,6 +519,24 @@ body::before {
   animation-delay: -3s;
 }
 
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 30s linear infinite;
+}
+
 .input-glow:focus {
   box-shadow: 0 0 15px rgba(61, 214, 140, 0.2);
   border-color: var(--brand-green);
@@ -1288,7 +1306,9 @@ button:focus-visible,
   .animate-pulse-glow,
   .animate-float,
   .float-slow,
-  .float-delayed {
+  .float-delayed,
+  .animate-spin-slow,
+  .animate-spin-reverse {
     animation: none !important;
   }
 }

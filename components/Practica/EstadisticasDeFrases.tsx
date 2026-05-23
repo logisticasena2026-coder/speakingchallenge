@@ -67,7 +67,7 @@ export function EstadisticasDeFrases() {
       style={{
         background: 'linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))',
         boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-        backdropFilter: 'blur(20px)',
+        backdropFilter: 'blur(8px)',
       }}
     >
       <p
@@ -89,7 +89,7 @@ export function EstadisticasDeFrases() {
             strokeDashoffset={offset}
             style={{
               filter: `drop-shadow(0 0 8px ${color}99)`,
-              transition: 'stroke-dashoffset 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              transition: 'stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           />
         </svg>

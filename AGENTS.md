@@ -4,92 +4,108 @@
 
 ```bash
 pnpm dev          # http://localhost:3000 (not 3002 despite .env)
-pnpm build        # prisma generate && next build — always run after schema changes
+pnpm build        # prisma generate && next build — always after schema changes
 pnpm lint         # ESLint flat config v9 — run before committing
-pnpm install      # sync pnpm-lock.yaml after pulling
+pnpm start        # production server
 ```
 
-No test runner exists. Manual verification via `pnpm dev`.
+No test runner. Manual via `pnpm dev`.
 
 ## Required Environment (.env)
 
-Live credentials committed to `.env` (gitignored by `.env*` but file is committed — treat with care).
+Live credentials committed — treat with care.
 
 | Variable | Purpose |
 |---|---|
-| `DATABASE_URL` | Prisma Postgres (SSL required) |
+| `DATABASE_URL` | Prisma Postgres (SSL) |
 | `EMAIL_USER` / `EMAIL_PASS` | SMTP (Gmail app password) |
 | `NEXT_PUBLIC_APP_URL` | Public URL |
-| `DEEPGREEM_KEY` | Deepgram API key (typo in name intentional) |
+| `DEEPGREEM_KEY` | Deepgram API key (typo intentional) |
 | `NEXT_PUBLIC_DEEPGRAM_KEY` | Same key exposed client-side |
+
+## Middleware (`proxy.ts`, not `middleware.ts`)
+
+- Matcher: `/dashboard/:path*`
+- **Browser check first**: allows Chrome / Edge / Safari only. Firefox, Opera, etc. → `/navegador-no-valido`
+- Then checks `sessions_id` cookie → `/auth/iniciar_sesion` if missing
+- No standard `middleware.ts` file exists
+
+## Auth
+
+- Custom session auth (no NextAuth). 24h expiry. Passwords hashed with `bcrypt`.
+- Server actions (`actions/auth/`) accept plain objects, not FormData. Return `{ ok, message, avatar? }`.
+- `actions/auth/iniciarSesion.ts` → exported `iniciar_session({ correo, contrasena })`
+- `actions/auth/registro.ts` → exported `registro({ nombre_usuario, correo, contrasena })`
+- `actions/auth/CerrarSesion.ts` → exported `CerrarSesion()`
+- `lib/auth.ts` → `DatosDelAutenticado()` (returns user or redirects), `requiereIngreso()` (boolean)
+- `lib/apiVos.ts` → `getSession(sessionId)` with in-memory cache for API routes
+- `lib/errors.ts` → custom error classes: `AppError`, `ValidationError`, `UnauthorizedError`, `NotFoundError`, `ConflictError`, `DatabaseError`, `ExternalServiceError`
 
 ## Prisma
 
 ```bash
-npx prisma generate   # Output: generated/prisma/ (non-standard path, gitignored)
+npx prisma generate   # Output: generated/prisma/ (gitignored)
 npx prisma studio     # Web DB GUI
 npx prisma migrate dev --name <name>
 ```
 
-- Uses `@prisma/adapter-pg` (not `@prisma/client` default driver). See `lib/prisma.ts`.
-- 4 models: `user`, `Session`, `ResetearContrasenaToken`, `FrasesDePractica` + 2 enums.
-- `pnpm build` auto-runs `prisma generate`.
-- Seed file `prisma/seed.ts` exists but is fully commented out.
+- Uses `@prisma/adapter-pg` with custom connection string. See `lib/prisma.ts`.
+- 4 models: `user`, `Session`, `ResetearContrasenaToken`, `FrasesDePractica`
+- 2 enums: `Nivel` (5 values), `Skin` (18 empire values)
+- `pnpm build` auto-runs `prisma generate`. Seed file `prisma/seed.ts` is commented out.
 
-## Middleware & Auth
+## App Routes
 
-- `proxy.ts` exports `proxy` (not `middleware`). Standard Next.js `middleware.ts` does **not** exist.
-- Matcher: `/dashboard/:path*`. Checks `sessions_id` cookie; redirects to `/auth/iniciar_sesion` if missing.
-- Custom session auth (no NextAuth). Sessions expire in 24h. Passwords hashed with `bcrypt`.
-- `actions/auth/iniciarSesion.ts` returns `{ ok, message, avatar }` pattern — not throwing errors for most cases.
-- `lib/apiVos.ts` provides `getSession()` with in-memory cache for API routes.
+| Route | What it does | Key imports |
+|---|---|---|
+| `/` | Landing page (hero, eras, systems, activities, Mapa, games) | All `@/components/Landing/*` |
+| `/auth/iniciar_sesion` | Login form | `IniciarSesionForm`, `Particles` |
+| `/auth/register` | Registration form | `RegistrarseForm`, `Particles` |
+| `/auth` layout | Redirects to `/dashboard` if already authenticated | `requiereIngreso` |
+| `/dashboard` | Stats, skill tree, rituals, ranking | Inline JSX (no component imports) |
+| `/dashboard/configuracion` | Settings (avatar, theme, font size) | `AvatarStudio`, `SectionCard`, `FontSizeSelector`, `ThemeSelector`, `CerrarSesion` |
+| `/dashboard/estudiar` | Study mission config | `Configuraciónes`, `ErasPractica`, `Stasts` |
+| `/dashboard/estudiar/practicando` | Practice mode (phrase-by-phrase) | `HeaderPractica`, `MuestraDeFrases`, `Nivel` |
+| `/dashboard/sophia` | AI chat with real-time audio | `TextAi`, `TextUser`, `lib/Geminilive .ts`, `lib/handel.ts` |
+| `/navegador-no-valido` | Unsupported browser page | `Particles` |
+| `GET /api/vos?text=...` | TTS via Deepgram, returns `audio/mpeg` | `lib/apiVos`, `lib/logger` |
 
-## API Routes
+## Practica Component Chain
 
-| Route | Purpose |
-|---|---|
-| `GET /api/vos?text=...` | TTS via Deepgram `aura-2-thalia-en`, returns `audio/mpeg` |
+`MuestraDeFrases` (at `practicando/page.tsx`) imports these internally:
+- `ControlesCelular`, `EstadisticaEstudiantePractica`, `Frase`, `TuPronunciacion`, `OpcionesMicrofono`, `EstadisticasDeFrases`
+- Store: `useFrasesStore` (Zustand — holds `texto`, `grabando`, frase pagination)
+- Actions: `obtenerFrases`, `contarFrases` from `actions/frases.ts`
 
-Both validate session cookie before processing.
+## Google Gemini Live Audio (Sophia)
 
-## Deepgram STT (Client-side)
-
-- `lib/deepGrem2.ts` — WebSocket streaming client. Used in `OpcionesMicrofono.tsx` via mic button.
-- Connects to `wss://api.deepgram.com/v1/listen` with model `nova-3`.
-- Uses callbacks: `onTranscript(text, isFinal)`, `onError`, `onOpen`, `onClose`.
-- Language defaults to `'en'`. Auto-detects audio codec (no `encoding` param sent).
-- Mic permission denied → `sileo.error()` toast. Runtime errors also toast via `sileo.error()`.
-- CSP in `next.config.ts` whitelists `wss://api.deepgram.com` and `microphone=(self)`.
+- `lib/Geminilive .ts` (space in filename — treat path as-is) → Google GenAI client
+  - Model: `gemini-2.5-flash-native-audio-preview-12-2025`. API key hardcoded in file.
+  - Exports `createSession(callbacks)` → `{ session, mediaHandler }`
+- `lib/handel.ts` → `MediaHandler` class for Web Audio API (PCM capture/playback via AudioWorklet)
+  - AudioWorklet module: `public/static/pcm-processor.js` (included in tsconfig)
 
 ## Key Architecture
 
 - **App Router only** — no `pages/`. All routes under `app/`.
 - **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`.
-- **Spanish naming** everywhere: routes (`iniciar_sesion/`, `recuperar_contrasena/`), DB models, server actions.
-- **Toast** — `sileo` package. Pattern: `sileo.promise(() => asyncFn(), { loading, success, error })` or `sileo.error({ title, description })`.
-- **State** — Zustand at `store/useFrasesStore.ts` (holds `texto`, `grabando`, frase pagination).
-- **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry includes `@magicui`. MCP configured in `opencode.json`.
-- **Fonts** — `font-display` (Cinzel), `font-body` (Space Grotesk), `font-ui` (Inter). Configured in `app/layout.tsx`.
-
-## WIP / Dormant Files
-
-| File | Status |
-|---|---|
-| `lib/gemini.ts` | Fully commented out |
-| `lib/Geminilive .ts` | Space in filename — treat as dormant |
-| `lib/streaming/` | Directory exists but unused |
-| `lib/text/` | Directory exists but unused |
-| `lib/audio/` | Directory exists but unused |
-| `prisma/seed.ts` | Fully commented out |
+- **Spanish naming** everywhere: routes, DB models, server actions.
+- **Toast** — `sileo`. Pattern: `sileo.promise(fn, { loading, success, error })` or `sileo.error({ title, description })`.
+- **State** — Zustand stores at `store/`: `useFrasesStore`, `useConfiguracionUsuario` (persisted), `useSophiaStore`.
+- **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry `@magicui`. See `components.json`.
+- **Fonts** — Cinzel (`font-display`), Space Grotesk (`font-body`), Inter (`font-ui`), Geist (`font-sans`). Configured in `app/layout.tsx`.
+- **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts` (not `next.config.mjs`).
 
 ## Conventions
 
 - Path alias: `@/*` → project root.
-- All custom CSS lives in `app/globals.css` (single source of truth, ~1758 lines) — no `*.module.css` or other CSS files.
-- 4 era themes in globals.css: **Viking** (cyan), **Egypt** (gold/brown), **Rome** (dark red), **Cyber** (deep blue/neon).
-- Design token reference: `DESIGN.md` (321 lines) — comprehensive surface/text/border tokens.
-- `generated/prisma/` is gitignored — must run `prisma generate` after schema changes.
+- All custom CSS in `app/globals.css` (~1758 lines) — no `*.module.css`.
+- 4 era themes: **Viking** (cyan), **Egypt** (gold/brown), **Rome** (dark red), **Cyber** (deep blue/neon).
+- Design token reference: `DESIGN.md` (321 lines).
+- `generated/prisma/` gitignored — must run `prisma generate` after schema changes.
 - ESLint flat config at `eslint.config.mjs` — no `.eslintrc.*`.
+- `lib/utils.ts` — standard `cn()` helper using `clsx` + `tailwind-merge`.
+- `lib/logger.ts` — structured logger (debug/info/warn/error) with context and error support.
 
 ## Already Implemented (Do Not Repeat)
 
@@ -98,3 +114,12 @@ Skip link, `prefers-reduced-motion`, semantic landmarks (`main`, `nav`, `footer`
 
 ### SEO
 Full metadata in `layout.tsx` (OG, Twitter Cards, canonical, robots). Auth pages: `robots: { index: false }`. `public/robots.txt` + `public/sitemap.xml` exist. OG image: `/FoundPage.webp`.
+
+## Dormant / Removed
+
+| Path | Notes |
+|---|---|
+| `lib/deepGrem2.ts` | **Removed** — STT replaced by Google Gemini Live Audio |
+| `lib/gemini.ts` | **Removed** — no longer exists |
+| `lib/streaming/`, `lib/text/`, `lib/audio/` | **Removed** — directories no longer exist |
+| `prisma/seed.ts` | Exists but fully commented out |

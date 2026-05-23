@@ -10,7 +10,7 @@ export function Mapa() {
           className="text-sm sm:text-base max-w-2xl mx-auto mb-16"
           style={{ color: 'var(--text-secondary)' }}
         >
-          Cada tema gramatical se conquista en 5 pasos. Avanzas en un mapa visual estilo árbol —
+          Cada tema gramatical se conquista en 5 pasos. Avanzas en un mapa visual estilo árbol;
           perfecto para sentir el progreso.
         </p>
 

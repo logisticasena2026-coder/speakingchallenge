@@ -1,11 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 
 export function useValidarNavegador() {
-  const router = useRouter();
-
   useEffect(() => {
     async function checkBrowser() {
       const isBrave = await navigator.brave?.isBrave?.();
@@ -18,10 +15,10 @@ export function useValidarNavegador() {
       const allowed = isChrome || isEdge || isSafari || isFirefox;
 
       if (!allowed) {
-        router.replace('/navegador-no-valido');
+        window.location.replace('/navegador-no-valido');
       }
     }
 
     checkBrowser();
-  }, [router]);
+  }, []);
 }

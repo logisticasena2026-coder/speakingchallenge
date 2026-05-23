@@ -88,7 +88,7 @@ export function ControlesCelular({
               strokeDashoffset={offset}
               style={{
                 filter: `drop-shadow(0 0 6px ${color}99)`,
-                transition: 'stroke-dashoffset 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                transition: 'stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             />
           </svg>

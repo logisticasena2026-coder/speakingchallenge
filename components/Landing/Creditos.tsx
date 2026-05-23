@@ -127,19 +127,10 @@ export function Creditos() {
             <div className="photo-placeholder era-egypt" style={{ height: '180px' }}>
               <div style={{ textAlign: 'center' }}>
                 <div
+                  className="w-15 h-15 rounded-full flex items-center justify-center mx-auto font-display text-xl text-brand-amber"
                   style={{
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
                     background: 'linear-gradient(135deg,#3d2800,#5c3d00)',
                     border: '2px solid rgba(245,166,35,0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: "'Cinzel',serif",
-                    fontSize: '20px',
-                    color: 'var(--brand-amber)',
-                    margin: '0 auto',
                   }}
                 >
                   V
@@ -184,19 +175,10 @@ export function Creditos() {
             <div className="photo-placeholder era-cyber" style={{ height: '180px' }}>
               <div style={{ textAlign: 'center' }}>
                 <div
+                  className="w-15 h-15 rounded-full flex items-center justify-center mx-auto font-display text-xl text-brand-cyan"
                   style={{
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
                     background: 'linear-gradient(135deg,#0d1a3d,#0a1628)',
                     border: '2px solid rgba(34,211,238,0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: "'Cinzel',serif",
-                    fontSize: '20px',
-                    color: 'var(--brand-cyan)',
-                    margin: '0 auto',
                   }}
                 >
                   I
@@ -228,20 +210,10 @@ export function Creditos() {
             >
               <div style={{ textAlign: 'center' }}>
                 <div
+                  className="w-15 h-15 rounded-full flex items-center justify-center mx-auto font-display text-xl text-brand-green"
                   style={{
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
-                    background:
-                      'linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05))',
+                    background: 'linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05))',
                     border: '2px solid rgba(61,214,140,0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: "'Cinzel',serif",
-                    fontSize: '20px',
-                    color: 'var(--brand-green)',
-                    margin: '0 auto',
                   }}
                 >
                   S

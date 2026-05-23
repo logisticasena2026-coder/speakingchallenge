@@ -99,7 +99,7 @@ export function OpcionesMicrofono({
               className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap"
             >
               <span className="font-ui text-ui-badge text-brand-green/70 animate-pulse">
-                Conectando...
+Conectando…
               </span>
             </div>
           )}

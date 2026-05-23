@@ -98,8 +98,9 @@ export function useSpeechToText() {
   }, [pathname]);
 
   useEffect(() => {
+    const streamer = streamerRef.current;
     return () => {
-      streamerRef.current?.close();
+      streamer?.close();
       streamerRef.current = null;
     };
   }, []);

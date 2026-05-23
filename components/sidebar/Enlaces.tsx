@@ -118,7 +118,7 @@ export function Enlaces() {
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton
                     asChild
-                    className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-green transition-all duration-250"
+                    className="flex items-center gap-4 p-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-green transition-all duration-250"
                   >
                     <Link href={item.href}>
                       <Icon className="w-5 h-5 shrink-0" aria-hidden="true" />

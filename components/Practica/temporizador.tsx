@@ -18,18 +18,18 @@ export function Temporizador() {
   })();
 
   useEffect(() => {
-    setTiempo(seconds);
-  }, [seconds, setTiempo]);
-
-  useEffect(() => {
     intervalRef.current = setInterval(() => {
-      setSeconds((prev) => prev + 1);
+      setSeconds((prev) => {
+        const next = prev + 1;
+        setTiempo(next);
+        return next;
+      });
     }, 1000);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, []);
+  }, [setTiempo]);
 
   return (
     <div className="flex items-center gap-1.5 bg-[rgba(18,22,32,0.6)] border border-white/6 rounded-full px-3.5 py-1.25 backdrop-blur-sm">
