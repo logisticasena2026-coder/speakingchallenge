@@ -41,7 +41,7 @@ export function FontSizeSelector() {
           vex chumps quickly in fog.
         </p>
         <p className={`text-text-muted-alt mt-2 transition-all ${fuente}`}>
-          Vista previa — {sizes.find((s) => s.value === fuente)?.desc}
+          Vista previa: {sizes.find((s) => s.value === fuente)?.desc}
         </p>
       </div>
     </span>

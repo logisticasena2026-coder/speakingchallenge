@@ -103,7 +103,7 @@ export const RecuperarCuentaEmailDiseno = ({
             Si no solicitaste un restablecimiento de contraseña, puedes ignorar este correo. Tu contraseña actual seguirá siendo la misma.
           </Text>
           
-          <Text style={footerDivider}>—</Text>
+          <Section style={{ borderTop: `1px solid ${colors.borderSubtle}`, margin: '20px 0' }} />
           
           <Text style={footerBrand}>PLAYLENGUAGE</Text>
           <Text style={footerCopyright}>© 2024 Speaking Challenge Online. Todos los derechos reservados.</Text>
@@ -290,12 +290,6 @@ const footerNote = {
   fontSize: '13px',
   marginBottom: '20px',
   lineHeight: '1.5',
-};
-
-const footerDivider = {
-  color: colors.textMuted,
-  fontSize: '18px',
-  margin: '20px 0',
 };
 
 const footerBrand = {

@@ -117,6 +117,7 @@ export function AvatarStudio() {
                 accept="image/*"
                 onChange={handleFileChange}
                 className="hidden"
+                aria-label="Seleccionar imagen de avatar"
               />
             </div>
           </div>
