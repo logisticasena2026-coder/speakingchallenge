@@ -25,24 +25,10 @@ export function Sophia() {
                 <Clock />
               </OrbitingCircles>
               <div
+                className="w-30 h-30 rounded-full flex items-center justify-center mx-auto font-display text-4xl text-brand-green absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
                 style={{
-                  width: '120px',
-                  height: '120px',
-                  borderRadius: '50%',
                   background: 'linear-gradient(135deg, #1a3a5c, #0d2240)',
                   border: '2px solid rgba(61,214,140,0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto',
-                  fontFamily: "'Cinzel',serif",
-                  fontSize: '36px',
-                  color: 'var(--brand-green)',
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  zIndex: 10,
                 }}
               >
                 <Image src="/Sophia.png" alt="Sophia" width={500} height={500} />

@@ -26,7 +26,7 @@ export function EstadisticaEstudiantePractica({
       <div className="h-1.25 rounded bg-surface-4 overflow-hidden">
         <div
           className="h-full rounded bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]"
-          style={{ width: `${((frase + 1) / TotalFrases) * 100}%`, transition: 'width 0.8s ease' }}
+          style={{ transform: `scaleX(${(frase + 1) / TotalFrases})`, transition: 'transform 0.8s ease', transformOrigin: 'left' }}
         ></div>
       </div>
     </div>

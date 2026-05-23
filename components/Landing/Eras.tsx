@@ -22,7 +22,6 @@ export function Eras() {
           <div 
             className="era-card" 
             role="listitem"
-            tabIndex={0}
             aria-label="Era Vikinga - Nivel Bronce - Activa"
           >
             <div
@@ -94,7 +93,6 @@ export function Eras() {
           <div 
             className="era-card" 
             role="listitem"
-            tabIndex={0}
             aria-label="Antiguo Egipto - Nivel Plata - Activa"
           >
             <div
