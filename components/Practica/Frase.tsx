@@ -1,6 +1,6 @@
 import type { Frase } from "@/store/useFrasesStore";
 
-export function Frase({ frases, indice }: Readonly<{ frases: Frase[]; indice: number }>) {
+export function Frase({ frases, indice, fuente }: Readonly<{ frases: Frase[]; indice: number; fuente: string }>) {
   return (
     <div className="glass-crystal relative rounded-3xl overflow-hidden p-8 md:px-7">
       <div className="hud-corner tl"></div>
@@ -20,7 +20,9 @@ export function Frase({ frases, indice }: Readonly<{ frases: Frase[]; indice: nu
       ></div>
 
       <div className="relative z-1 text-center">
-        <p className="font-ui text-[9px] font-semibold tracking-[0.2em] uppercase text-brand-green mb-4">
+        <p
+          className={`font-ui ${fuente} font-semibold tracking-[0.2em] uppercase text-brand-green mb-4`}
+        >
           Encantamiento Objetivo
         </p>
 
@@ -39,11 +41,13 @@ export function Frase({ frases, indice }: Readonly<{ frases: Frase[]; indice: nu
         ></div>
 
         <div className="flex flex-wrap gap-1.5 justify-center mb-1">
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-ui text-[11px] font-semibold tracking-[0.04em] bg-brand-green/12 text-brand-green border border-brand-green/25">
+          <span
+            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md font-ui font-semibold tracking-[0.04em] bg-brand-green/12 text-brand-green border border-brand-green/25 ${fuente}`}
+          >
             {frases[indice]?.fraseEspanol || 'Cargando...'}
           </span>
         </div>
-        <p className="font-ui text-ui-badge text-text-muted mt-2">Ve la traduccion</p>
+        <p className={`font-ui text-text-muted mt-2 ${fuente}`}>Ve la traduccion</p>
       </div>
     </div>
   );

@@ -20,6 +20,16 @@ function textShadowSegunPrecision(pct: number): string {
   return '0 0 20px rgba(239,68,68,0.6)';
 }
 
+function mensajeSegunPrecision(pct: number): string {
+  if (pct >= 90) return 'Tu pronunciación alcanzó resonancia perfecta.';
+  if (pct >= 80) return 'Excelente trabajo. Tu acento es muy preciso.';
+  if (pct >= 70) return 'Muy bien, suena clara. Casi perfecto.';
+  if (pct >= 60) return 'Buen intento. Intenta pronunciarlo un poco más claramente.';
+  if (pct >= 40) return 'Necesita más trabajo. Escúchalo de nuevo e intenta mejorar.';
+  if (pct >= 20) return 'Necesita considerable mejora. Practica más.';
+  return 'Requiere más práctica. Intenta de nuevo con más cuidado.';
+}
+
 export function EstadisticasDeFrases() {
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
   const fraseActual = useFrasesStore((state) => state.indiceActual);
@@ -32,6 +42,7 @@ export function EstadisticasDeFrases() {
   const color = colorSegunPrecision(precision);
   const textShadow = textShadowSegunPrecision(precision);
   const offset = CIRCUNFERENCIA - (precision / 100) * CIRCUNFERENCIA;
+  const mensaje = mensajeSegunPrecision(precision);
 
   useEffect(() => {
     const from = 0;
@@ -59,7 +70,9 @@ export function EstadisticasDeFrases() {
         backdropFilter: 'blur(20px)',
       }}
     >
-      <p className={`font-ui ${fuente} font-semibold tracking-[0.2em] uppercase text-brand-green mb-3.5`}>
+      <p
+        className={`font-ui ${fuente} font-semibold tracking-[0.2em] uppercase text-brand-green mb-3.5`}
+      >
         Precisión
       </p>
 
@@ -90,16 +103,11 @@ export function EstadisticasDeFrases() {
           >
             {displayValue.toFixed(0)}
           </span>
-
         </div>
       </div>
 
       <h3 className="font-display text-sm font-bold text-text-primary mb-1">Precisión Arcana</h3>
-      <p className={`${fuente} text-text-secondary leading-relaxed`}>
-        Tu pronunciación de <em className="text-brand-green">&ldquo;fate&rdquo;</em> alcanzó
-        resonancia perfecta.
-      </p>
-
+      <p className={`${fuente} text-text-secondary leading-relaxed`}>{mensaje}</p>
     </div>
   );
 }

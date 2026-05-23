@@ -1,15 +1,17 @@
 export function EstadisticaEstudiantePractica({
   frase,
   TotalFrases,
+  fuente
 }: Readonly<{
   frase: number;
   TotalFrases: number;
+  fuente: string;
 }>) {
   return (
     <div className="ani d1 mb-4 w-full max-w-250 mx-auto">
       <div className="flex items-center justify-between flex-wrap gap-2 mb-1.5">
         <div className="flex items-center gap-2.5">
-          <span className="font-ui text-ui-badge text-text-muted">
+          <span className={`font-ui ${fuente} text-text-muted`}>
             Frase {frase + 1} de {TotalFrases}
           </span>
         </div>
@@ -20,7 +22,7 @@ export function EstadisticaEstudiantePractica({
             <span className="text-[13px]">❤️</span>
           </div>
           <div className="w-px h-3.5 bg-white/6"></div>
-          <span className="font-ui text-[11px] font-semibold text-brand-green">+50 XP</span>
+          <span className={`font-ui font-semibold text-brand-green ${fuente}`}>+50 XP</span>
         </div>
       </div>
       <div className="h-1.25 rounded bg-surface-4 overflow-hidden">

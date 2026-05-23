@@ -32,7 +32,7 @@ export function Temporizador() {
   }, []);
 
   return (
-    <div className="hidden md:flex items-center gap-1.5 bg-[rgba(18,22,32,0.6)] border border-white/6 rounded-full px-3.5 py-1.25 backdrop-blur-sm">
+    <div className="flex items-center gap-1.5 bg-[rgba(18,22,32,0.6)] border border-white/6 rounded-full px-3.5 py-1.25 backdrop-blur-sm">
       <Timer className="w-3.5 h-3.5 text-brand-green" />
 
       <span className="font-ui text-xs font-semibold tracking-[0.12em] text-text-secondary">

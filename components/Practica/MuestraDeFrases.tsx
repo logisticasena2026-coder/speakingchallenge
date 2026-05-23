@@ -3,6 +3,8 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect } from 'react';
 import { useFrasesStore } from '@/store/useFrasesStore';
+import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
+
 import { ControlesCelular } from './ControlcesCelular';
 import { EstadisticaEstudiantePractica } from './EstadisticasEStudiantePracticando';
 import { Frase } from './Frase';
@@ -16,6 +18,7 @@ export function MuestraDeFrases() {
   const anterior = useFrasesStore((state) => state.anterior);
   const cargarFrasesInicial = useFrasesStore((state) => state.cargarFrasesInicial);
   const TotalFrases = useFrasesStore((store) => store.totalFrases);
+  const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
   useEffect(() => {
     if (frases.length === 0) {
       cargarFrasesInicial();
@@ -24,10 +27,14 @@ export function MuestraDeFrases() {
 
   return (
     <>
-      <EstadisticaEstudiantePractica frase={indiceActual} TotalFrases={TotalFrases} />
+      <EstadisticaEstudiantePractica
+        frase={indiceActual}
+        TotalFrases={TotalFrases}
+        fuente={fuente}
+      />
       <div className="practice-grid ani d2 flex-1 min-h-0">
         <div className="flex flex-col gap-4 h-full justify-center">
-          <Frase frases={frases} indice={indiceActual} />
+          <Frase frases={frases} indice={indiceActual} fuente={fuente} />
 
           <TuPronunciacion />
 
@@ -50,9 +57,15 @@ export function MuestraDeFrases() {
 
               <div className="flex-1 flex flex-col items-center">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="font-display text-xs text-brand-green">{indiceActual + 1}</span>
-                  <span className="text-text-muted text-[10px]">/</span>
-                  <span className="font-ui text-[10px] text-text-muted">{TotalFrases}</span>
+                  <span className={`font-display ${fuente} text-brand-green`}>
+                    {indiceActual + 1}
+                  </span>
+                  <span className={`font-ui text-text-muted ${fuente}`}>
+                    /
+                  </span>
+                  <span className={`font-ui text-text-muted ${fuente}`}>
+                    {TotalFrases}
+                  </span>
                 </div>
                 <div className="progress-bar w-full h-1 bg-white/10 rounded-full overflow-hidden">
                   <div
@@ -73,7 +86,6 @@ export function MuestraDeFrases() {
               </button>
             </div>
           </div>
-
         </div>
       </div>
       <ControlesCelular siguiente={siguiente} anterior={anterior} />
