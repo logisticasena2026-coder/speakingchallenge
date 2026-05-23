@@ -96,14 +96,16 @@ export default function Sophia() {
   };
 
   useEffect(() => {
+    const session = sessionRef.current;
+    const handler = mediaHandlerRef.current;
     return () => {
-      if (sessionRef.current) {
+      if (session) {
         try {
-          sessionRef.current.close();
+          session.close();
         } catch {}
         sessionRef.current = null;
       }
-      mediaHandlerRef.current?.stopAudio();
+      handler?.stopAudio();
       mediaHandlerRef.current = null;
     };
   }, []);

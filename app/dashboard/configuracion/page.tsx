@@ -27,7 +27,7 @@ import { CerrarSesion } from '@/actions/auth/CerrarSesion';
 export default function ConfiguracionUsuario() {
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
-  const router = useRouter();
+  const {replace} = useRouter();
 
   return (
     <div className="min-h-full relative">
@@ -171,7 +171,7 @@ export default function ConfiguracionUsuario() {
                   loading: { title: 'Cerrando sesion' },
                   success: (res: { ok: boolean; message: string }) => {
                     if (!res.ok) throw new Error(res.message);
-                    router.replace('/');
+                    replace('/');
                     return {
                       title: res.message,
                       description: 'Hasta la proxima',

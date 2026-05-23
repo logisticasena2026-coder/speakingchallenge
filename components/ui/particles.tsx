@@ -122,11 +122,13 @@ export const Particles: React.FC<ParticlesProps> = ({
     window.addEventListener("resize", handleResize)
 
     return () => {
-      if (rafID.current != null) {
-        window.cancelAnimationFrame(rafID.current)
+      const raf = rafID.current
+      const rt = resizeTimeout.current
+      if (raf != null) {
+        window.cancelAnimationFrame(raf)
       }
-      if (resizeTimeout.current) {
-        clearTimeout(resizeTimeout.current)
+      if (rt) {
+        clearTimeout(rt)
       }
       window.removeEventListener("resize", handleResize)
     }
