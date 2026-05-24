@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-
 export interface Frase {
   id: number;
   fraseIngles: string;
@@ -15,16 +14,18 @@ interface FrasesStore {
   totalFrases: number;
   estaCargando: boolean;
   tieneMasFrases: boolean;
-  texto: string;
-  tiempo: number;
-  setTiempo: (tiempo: number) => void;
-  setTexto: (texto: string) => void;
-  grabando: boolean;
-  setGrabando: (grabando: boolean) => void;
+  tematica: string;
+  dificultad: number | '';
+  edad: number | '';
+  creador: string;
   cargarFrasesInicial: () => Promise<void>;
   siguiente: () => Promise<void>;
   anterior: () => void;
   reiniciar: () => void;
+  setTematica: (tematica: string) => void;
+  setDificultad: (dificultad: number | '') => void;
+  setEdad: (edad: number | '') => void;
+  setCreador: (creador: string) => void;
 }
 
 export const useFrasesStore = create<FrasesStore>((set, get) => ({
@@ -34,29 +35,20 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   totalFrases: 0,
   estaCargando: false,
   tieneMasFrases: true,
-  texto: '',
-  grabando: false,
-  tiempo: 0,
-
-  setTiempo: (tiempo: number) =>
-    set((state) => {
-      if (state.tiempo === tiempo) return state;
-      return { tiempo };
-    }),
-
-  setTexto: (texto) => {
-    set({ texto });
-  },
-
-  setGrabando: (grabando) => {
-    set({ grabando });
-  },
+  tematica: '',
+  dificultad: '',
+  edad: '',
+  creador: '',
   cargarFrasesInicial: async () => {
     set({ estaCargando: true });
+    const { tematica, dificultad, edad, creador } = get();
 
     const { obtenerFrases, contarFrases } = await import('../actions/frases');
 
-    const [frases, total] = await Promise.all([obtenerFrases(0, 50), contarFrases()]);
+    const [frases, total] = await Promise.all([
+      obtenerFrases(0, 50, dificultad, tematica, edad, creador),
+      contarFrases(dificultad, tematica, edad, creador),
+    ]);
 
     set({
       frases,
@@ -69,15 +61,22 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   },
 
   siguiente: async () => {
-    const { indiceActual, frases, offset, tieneMasFrases, totalFrases, estaCargando, setTexto } =
-      get();
+    const {
+      indiceActual,
+      frases,
+      offset,
+      tieneMasFrases,
+      totalFrases,
+      estaCargando,
+      tematica,
+      dificultad,
+      edad,
+      creador,
+    } = get();
 
-    // Si ya está cargando, no hacer nada
     if (estaCargando) return;
 
-    // Si hay más frases en el array actual, simplemente avanzar
     if (indiceActual < frases.length - 1) {
-      setTexto('');
       set({ indiceActual: indiceActual + 1 });
       return;
     }
@@ -87,7 +86,7 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
       set({ estaCargando: true });
 
       const { obtenerFrases } = await import('../actions/frases');
-      const nuevasFrases = await obtenerFrases(offset, 50);
+      const nuevasFrases = await obtenerFrases(offset, 50, dificultad, tematica, edad, creador);
 
       set({
         frases: [...frases, ...nuevasFrases],
@@ -100,12 +99,16 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   },
 
   anterior: () => {
-    const { indiceActual, setTexto } = get();
+    const { indiceActual } = get();
     if (indiceActual > 0) {
-      setTexto('');
       set({ indiceActual: indiceActual - 1 });
     }
   },
+
+  setTematica: (tematica) => set({ tematica }),
+  setDificultad: (dificultad) => set({ dificultad }),
+  setEdad: (edad) => set({ edad }),
+  setCreador: (creador) => set({ creador }),
 
   reiniciar: () =>
     set({

@@ -1,8 +1,9 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useFrasesStore } from '@/store/useFrasesStore';
+import { usePracticaStore } from '@/store/usePracticaStore';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
 
 import { ControlesCelular } from './ControlcesCelular';
@@ -18,12 +19,21 @@ export function MuestraDeFrases() {
   const anterior = useFrasesStore((state) => state.anterior);
   const cargarFrasesInicial = useFrasesStore((state) => state.cargarFrasesInicial);
   const TotalFrases = useFrasesStore((store) => store.totalFrases);
+  const setTexto = usePracticaStore((state) => state.setTexto);
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
+
+  const irSiguiente = useCallback(async () => {
+    setTexto('');
+    await siguiente();
+  }, [setTexto, siguiente]);
+
+  const irAnterior = useCallback(() => {
+    setTexto('');
+    anterior();
+  }, [setTexto, anterior]);
   useEffect(() => {
-    if (frases.length === 0) {
-      cargarFrasesInicial();
-    }
-  }, [cargarFrasesInicial, frases.length]);
+    cargarFrasesInicial();
+  }, [cargarFrasesInicial]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -31,18 +41,18 @@ export function MuestraDeFrases() {
 
       if (e.key.toLowerCase() === 'd') {
         e.preventDefault();
-        siguiente();
+        irSiguiente();
       }
 
       if (e.key.toLowerCase() === 'a') {
         e.preventDefault();
-        anterior();
+        irAnterior();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [siguiente, anterior]);
+    globalThis.addEventListener('keydown', handleKeyDown);
+    return () => globalThis.removeEventListener('keydown', handleKeyDown);
+  }, [irSiguiente, irAnterior]);
 
   return (
     <>
@@ -66,7 +76,7 @@ export function MuestraDeFrases() {
           <div className="nav-controls ani d4 w-full">
             <div className="flex items-center justify-between gap-3 p-1">
               <button
-                onClick={anterior}
+                onClick={irAnterior}
                 disabled={indiceActual === 0}
                 aria-label="Frase anterior"
                 className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20 disabled:opacity-30 disabled:cursor-not-allowed"
@@ -97,7 +107,7 @@ export function MuestraDeFrases() {
               </div>
 
               <button
-                onClick={siguiente}
+                onClick={irSiguiente}
                 aria-label="Siguiente frase"
                 className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20"
               >
@@ -107,7 +117,7 @@ export function MuestraDeFrases() {
           </div>
         </div>
       </div>
-      <ControlesCelular siguiente={siguiente} anterior={anterior} />
+      <ControlesCelular siguiente={irSiguiente} anterior={irAnterior} />
     </>
   );
 }
