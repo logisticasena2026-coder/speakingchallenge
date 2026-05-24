@@ -10,7 +10,8 @@ const ContentSecurityPolicy = `
   script-src 'self'
     ${isDev ? "'unsafe-eval' 'unsafe-inline'" : "'unsafe-inline'"}
     https://static.cloudflareinsights.com
-    https://vercel.live;
+    https://vercel.live
+    https://va.vercel-scripts.com;
 
   style-src 'self' 'unsafe-inline';
 

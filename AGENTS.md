@@ -74,7 +74,7 @@ npx prisma migrate dev --name <name>
 
 `MuestraDeFrases` (at `practicando/page.tsx`) imports these internally:
 - `ControlesCelular`, `EstadisticaEstudiantePractica`, `Frase`, `TuPronunciacion`, `OpcionesMicrofono`, `EstadisticasDeFrases`
-- Store: `useFrasesStore` (Zustand — holds `texto`, `grabando`, frase pagination)
+- Stores: `useFrasesStore` (Zustand — frase data/pagination), `usePracticaStore` (Zustand — `texto`, `grabando`, `tiempo` for practice session state)
 - Actions: `obtenerFrases`, `contarFrases` from `actions/frases.ts`
 
 ## Google Gemini Live Audio (Sophia)
@@ -91,7 +91,7 @@ npx prisma migrate dev --name <name>
 - **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`.
 - **Spanish naming** everywhere: routes, DB models, server actions.
 - **Toast** — `sileo`. Pattern: `sileo.promise(fn, { loading, success, error })` or `sileo.error({ title, description })`.
-- **State** — Zustand stores at `store/`: `useFrasesStore`, `useConfiguracionUsuario` (persisted), `useSophiaStore`.
+- **State** — Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useConfiguracionUsuario` (persisted), `useSophiaStore`.
 - **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry `@magicui`. See `components.json`.
 - **Fonts** — Cinzel (`font-display`), Space Grotesk (`font-body`), Inter (`font-ui`), Geist (`font-sans`). Configured in `app/layout.tsx`.
 - **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts` (not `next.config.mjs`).
