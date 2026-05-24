@@ -1,15 +1,12 @@
-"use client";
+'use client';
 
-import { CheckCircle, Hourglass, Lock } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { CheckCircle, Hourglass, Lock } from 'lucide-react';
+import { EnDesarrollo } from '@/components/EnDesarrollo';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export function ErasPractica() {
-    return (
+  return (
+    <EnDesarrollo className='mt-3'>
       <div className="mt-5 relative rounded-xl border border-white/6 bg-surface-2/70 backdrop-blur-xl p-4 sm:p-6 ani delay-anim-3">
         <div className="hud-corner-sm hud-corner-tl-sm"></div>
         <div className="hud-corner-sm hud-corner-tr-sm"></div>
@@ -27,7 +24,10 @@ export function ErasPractica() {
               </h3>
             </TooltipTrigger>
             <TooltipContent side="top">
-              <p>Selecciona la era histórica para tu inmersión lingüística. Cada era tiene vocabulario único.</p>
+              <p>
+                Selecciona la era histórica para tu inmersión lingüística. Cada era tiene
+                vocabulario único.
+              </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -91,5 +91,6 @@ export function ErasPractica() {
           </div>
         </div>
       </div>
-    );
+    </EnDesarrollo>
+  );
 }
