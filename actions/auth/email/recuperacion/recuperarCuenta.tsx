@@ -5,9 +5,16 @@ import crypto from 'node:crypto';
 import prisma from '@/lib/prisma';
 import { render } from '@react-email/components';
 import { RecuperarCuentaEmailDiseno } from '../disenos/recuperarCuentaDiseno';
+import { FormRecuperarSchema } from '@/schemas/auth/recuperarContrasena';
+import { ExternalServiceError, NotFoundError, ValidationError } from '@/lib/errors';
 import { logger } from '@/lib/logger';
 
 export async function recuperarCuenta(Destinatario: string) {
+  const parsed = FormRecuperarSchema.safeParse({ email: Destinatario });
+  if (!parsed.success) {
+    throw new ValidationError(parsed.error.errors[0]?.message || 'Correo invalido');
+  }
+
   try {
     const user = await prisma.user.findFirst({
       where: { email: Destinatario },
@@ -18,10 +25,7 @@ export async function recuperarCuenta(Destinatario: string) {
     });
 
     if (!user) {
-      return {
-        ok: false,
-        message: 'Este correo no está registrado.',
-      };
+      throw new NotFoundError('Usuario');
     }
 
     const token = crypto.randomUUID();
@@ -59,6 +63,7 @@ export async function recuperarCuenta(Destinatario: string) {
     };
   } catch (error) {
     logger.error('Error en enviar correo de recuperación', error as Error, { Destinatario });
-    throw new Error('No se pudo enviar el correo de recuperación de cuenta');
+    if (error instanceof NotFoundError) throw error;
+    throw new ExternalServiceError('Email', 'No se pudo enviar el correo de recuperación de cuenta');
   }
 }
