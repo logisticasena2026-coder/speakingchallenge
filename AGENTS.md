@@ -5,7 +5,7 @@
 ```bash
 pnpm dev          # http://localhost:3000 (not 3002 despite .env)
 pnpm build        # prisma generate && next build — always after schema changes
-pnpm lint         # ESLint flat config v9 — run before committing
+pnpm lint         # ESLint flat config v9
 pnpm start        # production server
 ```
 
@@ -13,7 +13,7 @@ No test runner. Manual via `pnpm dev`.
 
 ## Required Environment (.env)
 
-Live credentials committed — treat with care.
+`.env*` is gitignored. If missing, copy from a teammate. Live credentials — treat with care.
 
 | Variable | Purpose |
 |---|---|
@@ -25,6 +25,7 @@ Live credentials committed — treat with care.
 
 ## Middleware (`proxy.ts`, not `middleware.ts`)
 
+- Named `proxy.ts`, not `middleware.ts`. Function is exported as `proxy`, not `middleware`. Next.js won't auto-register this — if it currently works something else wires it in.
 - Matcher: `/dashboard/:path*`
 - **Browser check first**: allows Chrome / Edge / Safari only. Firefox, Opera, etc. → `/navegador-no-valido`
 - Then checks `sessions_id` cookie → `/auth/iniciar_sesion` if missing
@@ -34,9 +35,11 @@ Live credentials committed — treat with care.
 
 - Custom session auth (no NextAuth). 24h expiry. Passwords hashed with `bcrypt`.
 - Server actions (`actions/auth/`) accept plain objects, not FormData. Return `{ ok, message, avatar? }`.
-- `actions/auth/iniciarSesion.ts` → exported `iniciar_session({ correo, contrasena })`
-- `actions/auth/registro.ts` → exported `registro({ nombre_usuario, correo, contrasena })`
-- `actions/auth/CerrarSesion.ts` → exported `CerrarSesion()`
+- `actions/auth/iniciarSesion.ts` → `iniciar_session({ correo, contrasena })`
+- `actions/auth/registro.ts` → `registro({ nombre_usuario, correo, contrasena })`
+- `actions/auth/CerrarSesion.ts` → `CerrarSesion()` **BUG**: deletes `session_id` cookie but the real cookie is `sessions_id`
+- `actions/auth/nuevaContrasena.ts` → password reset action (also `schemas/auth/` for Zod schemas)
+- `schemas/auth/login.ts`, `schemas/auth/register.ts` → Zod schemas for form validation
 - `lib/auth.ts` → `DatosDelAutenticado()` (returns user or redirects), `requiereIngreso()` (boolean)
 - `lib/apiVos.ts` → `getSession(sessionId)` with in-memory cache for API routes
 - `lib/errors.ts` → custom error classes: `AppError`, `ValidationError`, `UnauthorizedError`, `NotFoundError`, `ConflictError`, `DatabaseError`, `ExternalServiceError`
@@ -49,10 +52,11 @@ npx prisma studio     # Web DB GUI
 npx prisma migrate dev --name <name>
 ```
 
-- Uses `@prisma/adapter-pg` with custom connection string. See `lib/prisma.ts`.
+- `pnpm build` auto-runs `prisma generate`. Seed file `prisma/seed.ts` is commented out.
+- `prisma.config.ts` loads `dotenv` — needed for `prisma migrate` outside of Next.js.
+- `pnpm-workspace.yaml` whitelists `prisma` and `@prisma/engines` in `onlyBuiltDependencies`.
 - 4 models: `user`, `Session`, `ResetearContrasenaToken`, `FrasesDePractica`
 - 2 enums: `Nivel` (5 values), `Skin` (18 empire values)
-- `pnpm build` auto-runs `prisma generate`. Seed file `prisma/seed.ts` is commented out.
 
 ## App Routes
 
@@ -72,7 +76,7 @@ npx prisma migrate dev --name <name>
 
 ## Practica Component Chain
 
-`MuestraDeFrases` (at `practicando/page.tsx`) imports these internally:
+`MuestraDeFrases` (at `practicando/page.tsx`) imports internally:
 - `ControlesCelular`, `EstadisticaEstudiantePractica`, `Frase`, `TuPronunciacion`, `OpcionesMicrofono`, `EstadisticasDeFrases`
 - Stores: `useFrasesStore` (Zustand — frase data/pagination), `usePracticaStore` (Zustand — `texto`, `grabando`, `tiempo` for practice session state)
 - Actions: `obtenerFrases`, `contarFrases` from `actions/frases.ts`
@@ -94,26 +98,24 @@ npx prisma migrate dev --name <name>
 - **State** — Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useConfiguracionUsuario` (persisted), `useSophiaStore`.
 - **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry `@magicui`. See `components.json`.
 - **Fonts** — Cinzel (`font-display`), Space Grotesk (`font-body`), Inter (`font-ui`), Geist (`font-sans`). Configured in `app/layout.tsx`.
-- **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts` (not `next.config.mjs`).
+- **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts`.
+- **Design tokens** — see `DESIGN.md` for surface colors, spacing, era themes, animations.
 
 ## Conventions
 
 - Path alias: `@/*` → project root.
-- All custom CSS in `app/globals.css` (~1758 lines) — no `*.module.css`.
+- All custom CSS in `app/globals.css` (~1832 lines) — no `*.module.css`.
 - 4 era themes: **Viking** (cyan), **Egypt** (gold/brown), **Rome** (dark red), **Cyber** (deep blue/neon).
-- Design token reference: `DESIGN.md` (321 lines).
 - `generated/prisma/` gitignored — must run `prisma generate` after schema changes.
 - ESLint flat config at `eslint.config.mjs` — no `.eslintrc.*`.
-- `lib/utils.ts` — standard `cn()` helper using `clsx` + `tailwind-merge`.
-- `lib/logger.ts` — structured logger (debug/info/warn/error) with context and error support.
+- `lib/utils.ts` → `cn()` helper (`clsx` + `tailwind-merge`).
+- `lib/logger.ts` → structured logger (debug/info/warn/error) with context.
 
 ## Already Implemented (Do Not Repeat)
 
-### Accessibility (WCAG AA)
-Skip link, `prefers-reduced-motion`, semantic landmarks (`main`, `nav`, `footer`), `aria-invalid` + `aria-live` on forms, decorative icons with `aria-hidden`, focus-visible `outline brand-green`.
+**Accessibility (WCAG AA):** Skip link, `prefers-reduced-motion`, semantic landmarks, `aria-invalid` + `aria-live` on forms, decorative icons with `aria-hidden`, focus-visible outline `brand-green`.
 
-### SEO
-Full metadata in `layout.tsx` (OG, Twitter Cards, canonical, robots). Auth pages: `robots: { index: false }`. `public/robots.txt` + `public/sitemap.xml` exist. OG image: `/FoundPage.webp`.
+**SEO:** Full metadata in `layout.tsx` (OG, Twitter Cards, canonical, robots). Auth pages: `robots: { index: false }`. `public/robots.txt` + `public/sitemap.xml` exist. OG image: `/FoundPage.webp`.
 
 ## Dormant / Removed
 
