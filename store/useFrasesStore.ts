@@ -11,6 +11,7 @@ interface FrasesStore {
   frases: Frase[];
   indiceActual: number;
   offset: number;
+  modoDeEstudio: 'Estudio' | 'Practica';
   totalFrases: number;
   estaCargando: boolean;
   tieneMasFrases: boolean;
@@ -26,6 +27,7 @@ interface FrasesStore {
   setDificultad: (dificultad: number | '') => void;
   setEdad: (edad: number | '') => void;
   setCreador: (creador: string) => void;
+  setModoDeEstudio: (modo: 'Estudio' | 'Practica') => void;
 }
 
 export const useFrasesStore = create<FrasesStore>((set, get) => ({
@@ -39,6 +41,9 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   dificultad: '',
   edad: '',
   creador: '',
+  modoDeEstudio: 'Estudio',
+
+  setModoDeEstudio: (modo) => set({ modoDeEstudio: modo }),
   cargarFrasesInicial: async () => {
     set({ estaCargando: true });
     const { tematica, dificultad, edad, creador } = get();
