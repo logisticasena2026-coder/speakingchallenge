@@ -83,7 +83,7 @@ model ResetearContrasenaToken {
 
 model FrasesDePractica {
   id           Int    @id @default(autoincrement())
-  fraseIngles  String
+  fraseIngles  String @unique
   fraseEspanol String
   dificultad   Int
   tematica     String
