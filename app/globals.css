@@ -96,13 +96,13 @@
   --spacing-padding-card-lg: 24px;
   --spacing-container-px-mobile: 16px;
 
-  --font-body-large: "Space Grotesk", sans-serif;
-  --font-h1-hero: "Cinzel", serif;
-  --font-h2-section: "Cinzel", serif;
-  --font-ui-badge: "Inter", sans-serif;
-  --font-h3-card: "Cinzel", serif;
-  --font-body-standard: "Space Grotesk", sans-serif;
-  --font-ui-label: "Inter", sans-serif;
+  --font-body-large: var(--font-body);
+  --font-h1-hero: var(--font-display);
+  --font-h2-section: var(--font-display);
+  --font-ui-badge: var(--font-ui-label);
+  --font-h3-card: var(--font-display);
+  --font-body-standard: var(--font-body);
+  --font-ui-label: var(--font-ui-label);
 
   --text-body-large: 18px;
   --text-h1-hero: clamp(36px, 7vw, 80px);
@@ -114,9 +114,8 @@
 
   --font-display: var(--font-cinzel), serif;
   --font-body: var(--font-space), sans-serif;
-  --font-body: var(--font-inter), sans-serif;
+  --font-ui-label: var(--font-inter), sans-serif;
   --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -330,7 +329,7 @@ html {
 body {
   background-color: var(--surface-0);
   color: var(--text-primary);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-body);
   overflow-x: clip;
 }
 
@@ -559,7 +558,7 @@ body::before {
 }
 
 .badge {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-ui-label);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -675,7 +674,7 @@ body::before {
 }
 
 .section-label {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-ui-label);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -684,7 +683,7 @@ body::before {
 }
 
 .display-heading {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.15;
   color: var(--text-primary);
@@ -753,7 +752,7 @@ body::before {
 }
 
 .era-tag {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-ui-label);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -763,7 +762,7 @@ body::before {
 }
 
 .era-title {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display);
   font-size: 20px;
   font-weight: 700;
   color: var(--text-primary);
@@ -831,7 +830,7 @@ body::before {
 }
 
 .system-num {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display);
   font-size: 32px;
   font-weight: 400;
   color: var(--surface-4);
@@ -1062,7 +1061,7 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-ui-label);
   font-size: 11px;
   font-weight: 500;
   color: var(--text-secondary);
@@ -1154,7 +1153,7 @@ body::before {
   align-items: center;
   justify-content: center;
   font-size: 48px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display);
 }
 
 .text-highlight-green {
@@ -1174,7 +1173,7 @@ body::before {
   border: 1px solid var(--border-default);
   border-radius: 8px;
   color: var(--text-primary);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-body);
   font-size: 14px;
   padding: 12px 16px;
   outline: none;
@@ -1322,7 +1321,7 @@ button:focus-visible,
   align-items: center;
   justify-content: center;
   margin: 0 auto 12px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display);
   border: 2px solid rgba(61,214,140,0.3);
 }
 
