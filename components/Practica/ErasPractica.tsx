@@ -1,3 +1,5 @@
+"use client";
+
 import { CheckCircle, Hourglass, Lock } from "lucide-react";
 import {
   Tooltip,

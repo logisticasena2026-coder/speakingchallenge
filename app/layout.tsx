@@ -99,6 +99,7 @@ export default function RootLayout({
     <html
       lang="es"
       className={cn(
+        'dark',
         cinzel.variable,
         spaceGrotesk.variable,
         inter.variable,
