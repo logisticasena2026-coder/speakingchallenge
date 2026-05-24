@@ -1,7 +1,7 @@
 'use client';
 
 import { type Frase } from '@/store/useFrasesStore';
-import { useFrasesStore } from '@/store/useFrasesStore';
+import { usePracticaStore } from '@/store/usePracticaStore';
 import { useSpeechToText } from '@/hooks/useSpeechToText';
 import { useTextToSpeech } from '@/hooks/useTextToSpeech';
 import { useValidarNavegador } from '@/hooks/useValidarNavegador';
@@ -16,7 +16,7 @@ export function OpcionesMicrofono({
   const { estadoConexion, toggleMic, pauseMic } = useSpeechToText();
   const texto = frase[indiceActual]?.fraseIngles;
   const { cargando, reproducir } = useTextToSpeech(texto);
-  const NuevoTexto = useFrasesStore((state) => state.setTexto);
+  const NuevoTexto = usePracticaStore((state) => state.setTexto);
 
   useValidarNavegador();
   const resetTexto = useCallback(() => {
@@ -55,8 +55,8 @@ export function OpcionesMicrofono({
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    globalThis.addEventListener('keydown', handleKeyDown);
+    return () => globalThis.removeEventListener('keydown', handleKeyDown);
   }, [reproducir, pauseMic, toggleMic, resetTexto]);
 
   const micTooltip =

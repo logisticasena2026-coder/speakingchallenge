@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useFrasesStore } from '@/store/useFrasesStore';
+import { usePracticaStore } from '@/store/usePracticaStore';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
 import { comparacion_de_frases } from '@/utils/comparacion-de-frases';
 
@@ -34,7 +35,7 @@ export function EstadisticasDeFrases() {
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
   const fraseActual = useFrasesStore((state) => state.indiceActual);
   const frases = useFrasesStore((store) => store.frases);
-  const texto = useFrasesStore((store) => store.texto);
+  const texto = usePracticaStore((store) => store.texto);
 
   const precision = comparacion_de_frases(frases[fraseActual]?.fraseIngles ?? '', texto ?? '');
   const [displayValue, setDisplayValue] = useState(0);

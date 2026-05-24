@@ -1,12 +1,12 @@
 'use client';
 
-import { useFrasesStore } from '@/store/useFrasesStore';
+import { usePracticaStore } from '@/store/usePracticaStore';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
 
 export function TuPronunciacion() {
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
-  const texto = useFrasesStore((state) => state.texto);
-  const grabando = useFrasesStore((state) => state.grabando);
+  const texto = usePracticaStore((state) => state.texto);
+  const grabando = usePracticaStore((state) => state.grabando);
   return (
     <div className="bg-surface-2 border border-white/6 rounded-xl px-5 py-3.5">
       <div className="flex items-center justify-between mb-2.5">

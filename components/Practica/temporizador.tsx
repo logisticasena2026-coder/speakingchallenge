@@ -1,11 +1,11 @@
 'use client';
 
-import { useFrasesStore } from '@/store/useFrasesStore';
+import { usePracticaStore } from '@/store/usePracticaStore';
 import { Timer } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 export function Temporizador() {
-  const setTiempo = useFrasesStore((state) => state.setTiempo);
+  const setTiempo = usePracticaStore((state) => state.setTiempo);
   const [seconds, setSeconds] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 

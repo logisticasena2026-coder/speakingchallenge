@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { ChromeSpeechRecognizer } from '@/lib/chromeSpeech';
-import { useFrasesStore } from '@/store/useFrasesStore';
+import { usePracticaStore } from '@/store/usePracticaStore';
 import { logger } from '@/lib/logger';
 import { sileo } from 'sileo';
 
@@ -11,9 +11,9 @@ export type EstadoConexion = 'disconnected' | 'connecting' | 'connected' | 'paus
 
 export function useSpeechToText() {
   const [estadoConexion, setEstadoConexion] = useState<EstadoConexion>('disconnected');
-  const grabando = useFrasesStore((state) => state.grabando);
-  const setGrabando = useFrasesStore((state) => state.setGrabando);
-  const NuevoTexto = useFrasesStore((state) => state.setTexto);
+  const grabando = usePracticaStore((state) => state.grabando);
+  const setGrabando = usePracticaStore((state) => state.setGrabando);
+  const NuevoTexto = usePracticaStore((state) => state.setTexto);
   const streamerRef = useRef<ChromeSpeechRecognizer | null>(null);
   const pathname = usePathname();
 
