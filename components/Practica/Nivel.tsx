@@ -1,3 +1,5 @@
+'use client';
+
 export function Nivel() {
   return (
     <div className="absolute bottom-0 left-0 right-0 pointer-events-none px-6 pb-4 hidden md:flex justify-between items-end">

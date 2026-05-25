@@ -1,13 +1,21 @@
 'use server';
 
+import { z } from 'zod';
 import { DatabaseError, UnauthorizedError, ValidationError } from '@/lib/errors';
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcrypt';
 
+const PasswordSchema = z.string().min(6, 'Minimo 6 caracteres').max(100, 'Maximo 100 caracteres');
+
 export async function cambiarContrasena(token: string, nuevaContrasena: string) {
-  if (!token || !nuevaContrasena) {
-    return { ok: false, message: 'Datos incompletos' };
+  if (!token) {
+    return { ok: false, message: 'Token requerido' };
+  }
+
+  const parsed = PasswordSchema.safeParse(nuevaContrasena);
+  if (!parsed.success) {
+    return { ok: false, message: parsed.error.errors[0]?.message || 'Contrasena invalida' };
   }
   try {
     const tokenValido = await prisma.resetearContrasenaToken.findFirst({

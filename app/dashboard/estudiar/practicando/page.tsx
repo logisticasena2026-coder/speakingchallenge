@@ -4,7 +4,7 @@ import { MuestraDeFrases } from '@/components/Practica/MuestraDeFrases';
 import { Nivel } from '@/components/Practica/Nivel';
 
 export const metadata: Metadata = {
-  title: 'Practicando',
+  title: 'Practicando | speakingchallenge',
   description:
     'Modo de práctica inmersiva con frases en inglés. Mejora tu pronunciación y comprensión mientras viajas a través del tiempo.',
   robots: { index: false, follow: false },

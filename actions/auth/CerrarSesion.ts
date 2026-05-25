@@ -10,7 +10,7 @@ export async function CerrarSesion() {
       where: { id: session.value },
     });
 
-    (await cookies()).delete('session_id');
+    (await cookies()).delete('sessions_id');
 
     return {
       ok: true,

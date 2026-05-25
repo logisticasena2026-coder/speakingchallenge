@@ -1,3 +1,5 @@
+'use client';
+
 import type { Frase } from "@/store/useFrasesStore";
 
 export function Frase({ frases, indice, fuente }: Readonly<{ frases: Frase[]; indice: number; fuente: string }>) {

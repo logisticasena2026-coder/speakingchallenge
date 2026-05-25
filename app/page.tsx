@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: 'speakingchallenge - Speaking Challenge Online',
   description:
     'Aprende inglés viajando por el tiempo. Cuatro eras históricas te esperan: Vikings, Egypt, Rome y Cyber. Únete al desafío ahora.',
+  robots: { index: true, follow: true },
 };
 
 export default function Home() {
@@ -117,7 +118,7 @@ export default function Home() {
                 P
               </div>
               <div>
-                <p className="text-sm font-semibold" style={{ fontFamily: "'Cinzel',serif" }}>
+                <p className="text-sm font-semibold font-display">
                   speakingchallenge
                 </p>
                 <p className="text-xs" style={{ color: 'var(--text-muted)' }}>

@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 import { Prisma } from '@/generated/prisma/client';
 import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
+import { FormRegisterSchema } from '@/schemas/auth/register';
 import { DatabaseError, ConflictError, ValidationError } from '../../lib/errors';
 
 async function getSesion() {
@@ -41,13 +42,37 @@ export async function registro({
     };
   }
 
-  if (!nombre_usuario || !correo || !contrasena) {
+  const parsed = FormRegisterSchema.safeParse({
+    username: nombre_usuario,
+    email: correo,
+    password: contrasena,
+    confirmPassword: contrasena,
+  });
+  if (!parsed.success) {
     return {
       ok: false,
-      message: 'Faltan datos requeridos',
+      message: parsed.error.errors[0]?.message || 'Datos invalidos',
     };
   }
   try {
+    const [usuarioExistente, correoExistente] = await Promise.all([
+      prisma.user.findFirst({ where: { name: nombre_usuario } }),
+      prisma.user.findUnique({ where: { email: correo } }),
+    ]);
+
+    if (usuarioExistente) {
+      return {
+        ok: false,
+        message: 'Este nombre de usuario ya está en uso',
+      };
+    }
+
+    if (correoExistente) {
+      return {
+        ok: false,
+        message: 'Este correo electrónico ya está registrado',
+      };
+    }
 
     const contrasenaHasheada = await bcrypt.hash(contrasena, 10);
     const nombre = nombre_usuario.split(' ').join('%20');
@@ -66,13 +91,6 @@ export async function registro({
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      return {
-        ok: false,
-        message: 'Ya existe un usuario con este correo o nombre',
-      };
-    }
-
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         return {
           ok: false,
@@ -85,6 +103,10 @@ export async function registro({
           message: 'El correo electronico es invalido',
         };
       }
+      return {
+        ok: false,
+        message: 'Error en la base de datos',
+      };
     }
 
     if (error instanceof ValidationError || error instanceof ConflictError) {

@@ -8,19 +8,20 @@ export default async function EstudianteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const propietario = await DatosDelAutenticado();
-  if (propietario) {
-    return (
-      <div className="flex h-screen overflow-hidden">
-        <SidebarProvider defaultOpen={true}>
-          <AppSidebar user={propietario} />
-          <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-            <HeaderDashboard />
-            {children}
-          </main>
-        </SidebarProvider>
-      </div>
-    );
+
+  if (!propietario) {
+    redirect('/auth/iniciar_sesion');
   }
 
-  redirect('/');
+  return (
+    <div className="flex h-screen overflow-hidden">
+      <SidebarProvider defaultOpen={true}>
+        <AppSidebar user={propietario} />
+        <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+          <HeaderDashboard />
+          {children}
+        </main>
+      </SidebarProvider>
+    </div>
+  );
 }

@@ -1,6 +1,8 @@
 'use server';
 
 import prisma from '@/lib/prisma';
+import { DatabaseError } from '@/lib/errors';
+import { logger } from '@/lib/logger';
 
 export async function obtenerFrases(
   offset: number,
@@ -16,19 +18,24 @@ export async function obtenerFrases(
   if (edad) where.edad = Number(edad);
   if (creador) where.creador = creador;
 
-  return await prisma.frasesDePractica.findMany({
-    skip: offset,
-    take,
-    where,
-    select: {
-      id: true,
-      fraseIngles: true,
-      fraseEspanol: true,
-      dificultad: true,
-      tematica: true,
-    },
-    orderBy: { id: 'asc' },
-  });
+  try {
+    return await prisma.frasesDePractica.findMany({
+      skip: offset,
+      take,
+      where,
+      select: {
+        id: true,
+        fraseIngles: true,
+        fraseEspanol: true,
+        dificultad: true,
+        tematica: true,
+      },
+      orderBy: { id: 'asc' },
+    });
+  } catch (error) {
+    logger.error('Error al obtener frases', error as Error);
+    throw new DatabaseError('Error al obtener frases');
+  }
 }
 
 export async function contarFrases(
@@ -43,41 +50,66 @@ export async function contarFrases(
   if (edad) where.edad = Number(edad);
   if (creador) where.creador = creador;
 
-  return await prisma.frasesDePractica.count({ where });
+  try {
+    return await prisma.frasesDePractica.count({ where });
+  } catch (error) {
+    logger.error('Error al contar frases', error as Error);
+    throw new DatabaseError('Error al contar frases');
+  }
 }
 
 export async function obtenerCreadores(): Promise<string[]> {
-  const result = await prisma.frasesDePractica.findMany({
-    select: { creador: true },
-    distinct: ['creador'],
-    orderBy: { creador: 'asc' },
-  });
-  return result.map((r) => r.creador);
+  try {
+    const result = await prisma.frasesDePractica.findMany({
+      select: { creador: true },
+      distinct: ['creador'],
+      orderBy: { creador: 'asc' },
+    });
+    return result.map((r) => r.creador);
+  } catch (error) {
+    logger.error('Error al obtener creadores', error as Error);
+    throw new DatabaseError('Error al obtener creadores');
+  }
 }
 
 export async function obtenerTematicas(): Promise<string[]> {
-  const result = await prisma.frasesDePractica.findMany({
-    select: { tematica: true },
-    distinct: ['tematica'],
-    orderBy: { tematica: 'asc' },
-  });
-  return result.map((r) => r.tematica);
+  try {
+    const result = await prisma.frasesDePractica.findMany({
+      select: { tematica: true },
+      distinct: ['tematica'],
+      orderBy: { tematica: 'asc' },
+    });
+    return result.map((r) => r.tematica);
+  } catch (error) {
+    logger.error('Error al obtener tematicas', error as Error);
+    throw new DatabaseError('Error al obtener tematicas');
+  }
 }
 
 export async function obtenerDificultades(): Promise<number[]> {
-  const result = await prisma.frasesDePractica.findMany({
-    select: { dificultad: true },
-    distinct: ['dificultad'],
-    orderBy: { dificultad: 'asc' },
-  });
-  return result.map((r) => r.dificultad);
+  try {
+    const result = await prisma.frasesDePractica.findMany({
+      select: { dificultad: true },
+      distinct: ['dificultad'],
+      orderBy: { dificultad: 'asc' },
+    });
+    return result.map((r) => r.dificultad);
+  } catch (error) {
+    logger.error('Error al obtener dificultades', error as Error);
+    throw new DatabaseError('Error al obtener dificultades');
+  }
 }
 
 export async function obtenerEdades(): Promise<number[]> {
-  const result = await prisma.frasesDePractica.findMany({
-    select: { edad: true },
-    distinct: ['edad'],
-    orderBy: { edad: 'asc' },
-  });
-  return result.filter((r) => r.edad !== null).map((r) => r.edad!);
+  try {
+    const result = await prisma.frasesDePractica.findMany({
+      select: { edad: true },
+      distinct: ['edad'],
+      orderBy: { edad: 'asc' },
+    });
+    return result.filter((r) => r.edad !== null).map((r) => r.edad!);
+  } catch (error) {
+    logger.error('Error al obtener edades', error as Error);
+    throw new DatabaseError('Error al obtener edades');
+  }
 }

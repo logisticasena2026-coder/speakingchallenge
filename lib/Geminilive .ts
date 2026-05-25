@@ -3,7 +3,7 @@
 import { GoogleGenAI, Modality } from '@google/genai';
 import { MediaHandler } from './handel';
 
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyCQKF36HHANZLA54mNP9e4g9wku7cAyQ6w' });
+const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY! });
 const MODEL = 'gemini-2.5-flash-native-audio-preview-12-2025';
 
 let mediaHandler: MediaHandler | null = null;

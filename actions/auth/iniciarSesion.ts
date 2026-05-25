@@ -3,6 +3,7 @@
 import bcrypt from 'bcrypt';
 import prisma from '@/lib/prisma';
 import { cookies } from 'next/headers';
+import { FormLoginSchema } from '@/schemas/auth/login';
 import { DatabaseError, ValidationError, UnauthorizedError } from '@/lib/errors';
 import { logger } from '@/lib/logger';
 
@@ -38,10 +39,11 @@ export async function iniciar_session({
     };
   }
 
-  if (!correo || !contrasena) {
+  const parsed = FormLoginSchema.safeParse({ email: correo, password: contrasena });
+  if (!parsed.success) {
     return {
       ok: false,
-      message: 'Faltan datos requeridos',
+      message: parsed.error.errors[0]?.message || 'Datos invalidos',
       avatar: '',
     };
   }
@@ -94,8 +96,7 @@ export async function iniciar_session({
     // Línea 95-101 podría ser:
     logger.error('Error en iniciar sesión', error as Error, { correo });
 
-    // Loguear error original para debugging
-    console.error('Error original:', error);
+
     if (error instanceof ValidationError || error instanceof UnauthorizedError) {
       throw error;
     }
