@@ -55,6 +55,24 @@ export async function registro({
     };
   }
   try {
+    const [usuarioExistente, correoExistente] = await Promise.all([
+      prisma.user.findFirst({ where: { name: nombre_usuario } }),
+      prisma.user.findUnique({ where: { email: correo } }),
+    ]);
+
+    if (usuarioExistente) {
+      return {
+        ok: false,
+        message: 'Este nombre de usuario ya está en uso',
+      };
+    }
+
+    if (correoExistente) {
+      return {
+        ok: false,
+        message: 'Este correo electrónico ya está registrado',
+      };
+    }
 
     const contrasenaHasheada = await bcrypt.hash(contrasena, 10);
     const nombre = nombre_usuario.split(' ').join('%20');
