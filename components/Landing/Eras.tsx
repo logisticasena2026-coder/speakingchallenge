@@ -22,7 +22,7 @@ export function Eras() {
           <div 
             className="era-card" 
             role="listitem"
-            aria-label="Era Vikinga - Nivel Bronce - Activa"
+            aria-label="Era Antigua - Nivel Bronce - Activa"
           >
             <div
               className="era-bg era-viking flex items-end p-0"
