@@ -1,7 +1,7 @@
 'use client';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
 
-import { Bell, Flame, Timer } from 'lucide-react';
+import { Bell, Flame } from 'lucide-react';
 import { Temporizador } from './temporizador';
 
 export function HeaderPractica() {

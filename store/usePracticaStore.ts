@@ -6,6 +6,7 @@ interface PracticaStore {
   grabando: boolean;
   setTexto: (texto: string) => void;
   setTiempo: (tiempo: number) => void;
+  resetTiempo: () => void;
   setGrabando: (grabando: boolean) => void;
 }
 
@@ -21,6 +22,8 @@ export const usePracticaStore = create<PracticaStore>((set) => ({
       if (state.tiempo === tiempo) return state;
       return { tiempo };
     }),
+
+  resetTiempo: () => set({ tiempo: 0 }),
 
   setGrabando: (grabando) => set({ grabando }),
 }));

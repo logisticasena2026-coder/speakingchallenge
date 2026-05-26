@@ -2,34 +2,44 @@
 
 import { usePracticaStore } from '@/store/usePracticaStore';
 import { Timer } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
+
+let intervalId: ReturnType<typeof setInterval> | null = null;
+let activeCount = 0;
+
+function startGlobalInterval() {
+  if (intervalId !== null) return;
+  intervalId = setInterval(() => {
+    const current = usePracticaStore.getState().tiempo;
+    usePracticaStore.getState().setTiempo(current + 1);
+  }, 1000);
+}
+
+function stopGlobalInterval() {
+  if (intervalId === null) return;
+  clearInterval(intervalId);
+  intervalId = null;
+}
 
 export function Temporizador() {
-  const setTiempo = usePracticaStore((state) => state.setTiempo);
-  const [seconds, setSeconds] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const tiempo = usePracticaStore((state) => state.tiempo);
 
   const formatted = (() => {
-    const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-    const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-    const sec = String(seconds % 60).padStart(2, '0');
+    const h = String(Math.floor(tiempo / 3600)).padStart(2, '0');
+    const m = String(Math.floor((tiempo % 3600) / 60)).padStart(2, '0');
+    const sec = String(tiempo % 60).padStart(2, '0');
 
     return `${h}:${m}:${sec}`;
   })();
 
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setSeconds((prev) => {
-        const next = prev + 1;
-        setTiempo(next);
-        return next;
-      });
-    }, 1000);
-
+    activeCount++;
+    if (activeCount === 1) startGlobalInterval();
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      activeCount--;
+      if (activeCount === 0) stopGlobalInterval();
     };
-  }, [setTiempo]);
+  }, []);
 
   return (
     <div className="flex items-center gap-1.5 bg-[rgba(18,22,32,0.6)] border border-white/6 rounded-full px-3.5 py-1.25 backdrop-blur-sm">

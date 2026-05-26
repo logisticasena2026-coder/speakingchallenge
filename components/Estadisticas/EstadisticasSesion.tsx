@@ -1,0 +1,264 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Calendar, Clock, Hourglass, Target, Trophy, Zap } from 'lucide-react';
+
+const RADIO = 42;
+const CIRCUNFERENCIA = 2 * Math.PI * RADIO;
+
+const WAVE_HEIGHTS = [12, 22, 34, 42, 50, 46, 38, 28, 18, 22, 30, 40, 48, 44, 36, 26, 16, 20, 28, 38, 46, 42, 34, 24];
+
+const MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+function formatearTiempo(segundos: number): string {
+  const h = Math.floor(segundos / 3600);
+  const m = Math.floor((segundos % 3600) / 60);
+  const s = segundos % 60;
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  return `${pad(h)}:${pad(m)}:${pad(s)}`;
+}
+
+function colorPrecision(pct: number): string {
+  if (pct >= 95) return '#22d3ee';
+  if (pct >= 80) return '#3dd68c';
+  if (pct >= 60) return '#f5a623';
+  return '#ef4444';
+}
+
+function sombraPrecision(pct: number): string {
+  if (pct >= 95) return 'drop-shadow(0 0 12px rgba(34,211,238,0.5))';
+  if (pct >= 80) return 'drop-shadow(0 0 10px rgba(61,214,140,0.5))';
+  if (pct >= 60) return 'drop-shadow(0 0 10px rgba(245,166,35,0.5))';
+  return 'drop-shadow(0 0 10px rgba(239,68,68,0.5))';
+}
+
+function rating(pct: number): { letra: string; clase: string } {
+  if (pct >= 95) return { letra: 'S', clase: 'text-brand-cyan border-cyan-500/25 bg-cyan-500/8' };
+  if (pct >= 85) return { letra: 'A', clase: 'text-brand-green border-green-500/25 bg-green-500/8' };
+  if (pct >= 75) return { letra: 'B', clase: 'text-brand-amber border-amber-500/25 bg-amber-500/8' };
+  if (pct >= 60) return { letra: 'C', clase: 'text-yellow-400 border-yellow-400/25 bg-yellow-400/8' };
+  return { letra: 'D', clase: 'text-red-400 border-red-400/25 bg-red-400/8' };
+}
+
+function mensajePrecision(pct: number): string {
+  if (pct >= 95) return 'Pronunciación de élite. Dominio absoluto.';
+  if (pct >= 85) return 'Excelente. Precisión muy alta.';
+  if (pct >= 75) return 'Muy buen trabajo. Pulir detalles.';
+  if (pct >= 60) return 'Bien, pero puedes mejorar.';
+  return 'Requiere más práctica. Intenta de nuevo.';
+}
+
+function AnilloPrecision({ precision }: { precision: number }) {
+  const [valor, setValor] = useState(0);
+  const color = colorPrecision(precision);
+  const sombra = sombraPrecision(precision);
+  const offset = CIRCUNFERENCIA - (precision / 100) * CIRCUNFERENCIA;
+
+  useEffect(() => {
+    const desde = 0;
+    const hasta = precision;
+    const duracion = 1200;
+    const inicio = performance.now();
+    let id: number;
+    function tick(ahora: number) {
+      const t = Math.min((ahora - inicio) / duracion, 1);
+      const suave = 1 - Math.pow(1 - t, 3);
+      setValor(desde + (hasta - desde) * suave);
+      if (t < 1) id = requestAnimationFrame(tick);
+    }
+    id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(id);
+  }, [precision]);
+
+  return (
+    <div className="relative w-25 h-25 mx-auto mb-2" style={{ transform: 'rotate(-90deg)' }}>
+      <svg width="100" height="100" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" fill="none" stroke="#1f2535" strokeWidth="5" r={RADIO} />
+        <circle
+          cx="50"
+          cy="50"
+          fill="none"
+          r={RADIO}
+          stroke={color}
+          strokeDasharray={CIRCUNFERENCIA}
+          strokeDashoffset={offset}
+          style={{
+            filter: sombra,
+            transition: 'stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1)',
+            strokeLinecap: 'round',
+          }}
+        />
+      </svg>
+      <div
+        className="absolute inset-0 flex items-center justify-center"
+        style={{ transform: 'rotate(90deg)' }}
+      >
+        <span
+          className="font-display text-[28px] font-bold leading-none tracking-tight"
+          style={{ color, textShadow: `0 0 16px ${color}55` }}
+        >
+          {valor.toFixed(0)}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function fechaFormateada(): string {
+  const d = new Date();
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const HUD_CORNERS = [
+  'top-2.5 left-2.5 border-t border-l rounded-tl',
+  'top-2.5 right-2.5 border-t border-r rounded-tr',
+  'bottom-2.5 left-2.5 border-b border-l rounded-bl',
+  'bottom-2.5 right-2.5 border-b border-r rounded-br',
+] as const;
+
+function HudCorners() {
+  return (
+    <>
+      {HUD_CORNERS.map((pos, i) => (
+        <div
+          key={i}
+          className={`absolute ${pos} w-3 h-3 border-white/8 opacity-0 transition-all duration-350 ease-out group-hover:opacity-100 pointer-events-none`}
+        />
+      ))}
+    </>
+  );
+}
+
+export function EstadisticasSesion() {
+  // TODO: Reemplazar con datos reales del store/API
+  const sesion = {
+    tiempoSegundos: 754,
+    totalFrases: 25,
+    precisionMedia: 81,
+    xpGanado: 180,
+    nivel: 'Básico',
+  };
+
+  const promedioPorFrase = sesion.tiempoSegundos / sesion.totalFrases;
+  const { letra, clase } = rating(sesion.precisionMedia);
+
+  return (
+    <>
+      <div className="orb orb--1" />
+      <div className="orb orb--2" />
+      <div className="orb orb--3" />
+
+      <div className="fixed bottom-0 left-0 right-0 h-22 flex items-end justify-center gap-[3px] opacity-15 pointer-events-none z-0 px-6">
+        {WAVE_HEIGHTS.map((h, i) => (
+          <span
+            key={i}
+            className="waveform-bar"
+            style={{
+              height: `${h}px`,
+              animationDelay: `${i * 0.1}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <main className="relative z-10 px-6 py-8 max-w-250 mx-auto w-full min-w-0">
+        <div className="mb-6 ani d1">
+          <h1 className="font-display text-[28px] sm:text-[36px] font-bold text-text-primary mb-2">
+            Estadísticas de Práctica
+          </h1>
+          <p className="text-sm text-text-secondary max-w-100">
+            Resultados de tu sesión de práctica de pronunciación
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3 flex-wrap text-[11px] font-ui text-text-muted mb-7 ani d2">
+          <span className="flex items-center gap-1.5">
+            <Calendar className="w-3.5 h-3.5 text-text-muted-alt" />
+            {fechaFormateada()}
+          </span>
+          <span className="w-px h-3.5 bg-white/8" />
+          <span className="flex items-center gap-1.5">
+            <Target className="w-3.5 h-3.5 text-text-muted-alt" />
+            {sesion.totalFrases} frases
+          </span>
+          <span className="w-px h-3.5 bg-white/8" />
+          <span className="flex items-center gap-1.5">
+            <Zap className="w-3.5 h-3.5 text-brand-green" />
+            +{sesion.xpGanado}
+            <span className="text-brand-green font-semibold">XP</span>
+          </span>
+          <span className="w-px h-3.5 bg-white/8" />
+          <span className="flex items-center gap-1.5">
+            <Trophy className="w-3.5 h-3.5 text-brand-amber" />
+            Nivel {sesion.nivel}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="group relative overflow-hidden rounded-xl border border-white/6 bg-white/3 p-5 ani-scale d2 transition-all duration-250 ease-out hover:-translate-y-1 hover:border-white/10 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4),0_0_0_1px_rgba(61,214,140,0.06)]">
+            <HudCorners />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-0 bg-linear-to-r from-transparent via-brand-cyan to-transparent rounded-full transition-all duration-350 ease-out group-hover:w-4/5 pointer-events-none" />
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-brand-cyan/15 to-brand-cyan/5 border border-brand-cyan/20 flex items-center justify-center shrink-0 transition-all duration-250 group-hover:shadow-[0_0_16px_rgba(34,211,238,0.15)] group-hover:border-brand-cyan/30">
+                <Clock className="w-5 h-5 text-brand-cyan" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-ui text-[9px] font-semibold tracking-[0.18em] uppercase text-text-muted mb-1">
+                  Tiempo de Práctica
+                </p>
+                <p className="font-display text-2xl font-bold text-text-primary tracking-wider">
+                  {formatearTiempo(sesion.tiempoSegundos)}
+                </p>
+                <p className="font-body text-[11px] text-text-muted mt-0.5">
+                  duración total de la sesión
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="group relative overflow-hidden rounded-xl border border-white/6 bg-white/3 p-5 ani-scale d3 transition-all duration-250 ease-out hover:-translate-y-1 hover:border-white/10 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4),0_0_0_1px_rgba(61,214,140,0.06)]">
+            <HudCorners />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-0 bg-linear-to-r from-transparent via-brand-purple to-transparent rounded-full transition-all duration-350 ease-out group-hover:w-4/5 pointer-events-none" />
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-brand-purple/15 to-brand-purple/5 border border-brand-purple/20 flex items-center justify-center shrink-0 transition-all duration-250 group-hover:shadow-[0_0_16px_rgba(168,85,247,0.15)] group-hover:border-brand-purple/30">
+                <Hourglass className="w-5 h-5 text-brand-purple" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-ui text-[9px] font-semibold tracking-[0.18em] uppercase text-text-muted mb-1">
+                  Promedio por Frase
+                </p>
+                <p className="font-display text-2xl font-bold text-text-primary">
+                  {promedioPorFrase.toFixed(1)}
+                  <span className="text-lg font-body text-text-muted ml-0.5">s</span>
+                </p>
+                <p className="font-body text-[11px] text-text-muted mt-0.5">
+                  tiempo medio por pronunciación
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="group relative overflow-hidden rounded-xl border border-white/6 bg-white/3 p-5 text-center ani-scale d4 transition-all duration-250 ease-out hover:-translate-y-1 hover:border-white/10 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4),0_0_0_1px_rgba(61,214,140,0.06)]">
+            <HudCorners />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-0 bg-linear-to-r from-transparent via-brand-green to-transparent rounded-full transition-all duration-350 ease-out group-hover:w-4/5 pointer-events-none" />
+            <div className="absolute top-3 right-3">
+              <span
+                className={`inline-flex items-center justify-center w-7 h-7 rounded-lg border text-[11px] font-bold font-display transition-all duration-250 group-hover:scale-110 ${clase}`}
+              >
+                {letra}
+              </span>
+            </div>
+            <p className="font-ui text-[9px] font-semibold tracking-[0.18em] uppercase text-brand-green mb-2">
+              Precisión de Pronunciación
+            </p>
+            <AnilloPrecision precision={sesion.precisionMedia} />
+            <p className="font-body text-[11px] text-text-muted">
+              {mensajePrecision(sesion.precisionMedia)}
+            </p>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
