@@ -29,10 +29,11 @@ export function proxy(req: NextRequest) {
     !isEdge &&
     !isOpera;
 
+  const isBrave = ua.includes('Brave');
+
   const allowed =
-    isChrome ||
-    isEdge ||
-    isSafari;
+    (isChrome || isEdge || isSafari) &&
+    !isBrave;
 
   if (!allowed || isFirefox || isOpera) {
     return NextResponse.redirect(

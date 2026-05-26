@@ -39,15 +39,17 @@ export default function NavegadorNoValido() {
   const router = useRouter();
 
   useEffect(() => {
-    if (navegadorEsCompatible()) {
-      router.replace('/dashboard');
-    }
+    navegadorEsCompatible().then((compatible) => {
+      if (compatible) {
+        router.replace('/dashboard');
+      }
+    });
   }, [router]);
 
   return (
     <>
       <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-emerald-900/20">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/auth/iniciar_sesion" className="flex items-center gap-2">
           <ArrowLeft className="text-primary w-5 h-5" aria-hidden="true" />
           <span className="font-serif text-2xl font-bold tracking-widest text-emerald-400 drop-shadow-[0_0_8px_rgba(61,214,140,0.5)]">
             speakingchallenge
@@ -80,7 +82,12 @@ export default function NavegadorNoValido() {
                 Navegador no compatible
               </h1>
               <p className="font-body-large text-body-standard text-text-secondary max-w-lg mx-auto leading-relaxed">
-                Tu navegador actual no soporta la <strong className="text-primary font-semibold">transcripción de audio a texto</strong> necesaria para usar speakingchallenge. Esta funcionalidad requiere la API Web Speech o compatibilidad con WebSocket de Deepgram.
+                Tu navegador actual no soporta la{' '}
+                <strong className="text-primary font-semibold">
+                  transcripción de audio a texto
+                </strong>{' '}
+                necesaria para usar speakingchallenge. Esta funcionalidad requiere la API Web Speech
+                o compatibilidad con WebSocket de Deepgram.
               </p>
             </div>
 
@@ -106,7 +113,9 @@ export default function NavegadorNoValido() {
                     {browser.recommended && (
                       <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-brand-green/60 to-transparent rounded-t-xl"></div>
                     )}
-                    <div className="mb-3"><browser.icon/></div>
+                    <div className="mb-3">
+                      <browser.icon />
+                    </div>
                     <h3 className="font-h3-card text-ui-label text-text-primary font-semibold mb-1">
                       {browser.name}
                     </h3>
@@ -154,11 +163,13 @@ export default function NavegadorNoValido() {
             <div className="mb-8 ani d3">
               <div className="bg-surface-3/50 border border-border-subtle rounded-lg p-4">
                 <p className="font-body-standard text-body-standard text-text-secondary leading-relaxed">
-                  <strong className="text-text-primary">¿Por qué?</strong> La transcripción en tiempo real usa{' '}
+                  <strong className="text-text-primary">¿Por qué?</strong> La transcripción en
+                  tiempo real usa{' '}
                   <code className="font-ui-label text-ui-label bg-surface-4 px-1.5 py-0.5 rounded text-brand-cyan">
                     Web Speech API
-                  </code>
-                  {' '}que requiere navegadores basados en Chromium (Chrome, Edge) para el mejor soporte y precisión.
+                  </code>{' '}
+                  que requiere navegadores basados en Chromium (Chrome, Edge) para el mejor soporte
+                  y precisión.
                 </p>
               </div>
             </div>
@@ -177,13 +188,7 @@ export default function NavegadorNoValido() {
         </div>
 
         <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-          <Particles
-            quantity={60}
-            color="#f5a623"
-            size={0.4}
-            staticity={50}
-            ease={50}
-          />
+          <Particles quantity={60} color="#f5a623" size={0.4} staticity={50} ease={50} />
         </div>
       </main>
     </>
