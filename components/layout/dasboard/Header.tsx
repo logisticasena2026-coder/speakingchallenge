@@ -15,7 +15,7 @@ export function HeaderDashboard() {
           </div>
 
 
-          { pathName.includes('sophia') && <div className='flex items-center justify-center gap-2.5'>
+          { pathName.includes('emily') && <div className='flex items-center justify-center gap-2.5'>
 
           <Link href="/dashboard" className="text-text-muted-alt hover:text-brand-green transition-colors">
     <ArrowLeft className="w-5 h-5" />
@@ -25,7 +25,7 @@ export function HeaderDashboard() {
         <Radio className="w-4.5 h-4.5 text-brand-green" />
     </div>
     <div>
-        <h1 className="text-sm font-semibold font-ui-label">Sophia Chat</h1>
+        <h1 className="text-sm font-semibold font-ui-label">Emily Chat</h1>
         <p className="text-xs text-text-muted-alt">Tiempo real</p>
     </div>
 </div>

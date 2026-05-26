@@ -1,16 +1,16 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useSophiaStore } from '@/store/useSophiaStore';
+import { useEmilyStore } from '@/store/useEmilyStore';
 import { createSession } from '@/lib/Geminilive ';
 import type { Session } from '@google/genai';
 import { MediaHandler } from '@/lib/handel';
-import { TextAi } from '@/components/sophia/TextAi';
-import { TextUser } from '@/components/sophia/TextUser';
+import { TextAi } from '@/components/emily/TextAi';
+import { TextUser } from '@/components/emily/TextUser';
 import { Mic } from 'lucide-react';
 import { sileo } from 'sileo';
 
-export default function Sophia() {
+export default function Emily() {
   const {
     messages,
     isRecording,
@@ -23,7 +23,7 @@ export default function Sophia() {
     commitAiText,
     setIsRecording,
     setIsConnecting,
-  } = useSophiaStore();
+  } = useEmilyStore();
 
   const sessionRef = useRef<Session | null>(null);
   const mediaHandlerRef = useRef<MediaHandler | null>(null);
@@ -44,14 +44,14 @@ export default function Sophia() {
             }
           },
           onInputStopped: () => clearUserText(),
-          onError: (msg) => sileo.error({ title: 'Sophia', description: msg }),
+          onError: (msg) => sileo.error({ title: 'Emily', description: msg }),
         });
         sessionRef.current = result.session;
         mediaHandlerRef.current = result.mediaHandler;
         setIsConnecting(false);
       } catch (e) {
         sileo.error({
-          title: 'Sophia',
+          title: 'Emily',
           description: e instanceof Error ? e.message : 'Error al conectar',
         });
         setIsConnecting(false);
@@ -88,7 +88,7 @@ export default function Sophia() {
         setIsRecording(true);
       } catch (e) {
         sileo.error({
-          title: 'Sophia',
+          title: 'Emily',
           description: e instanceof Error ? e.message : 'Error al iniciar micrófono',
         });
       }
@@ -116,7 +116,7 @@ export default function Sophia() {
         <div className="space-y-4">
           {messages.length === 0 && !userText && !aiText && !isConnecting && (
             <p className="text-center text-muted text-sm py-12">
-              Presiona el micrófono para hablar con Sophia
+              Presiona el micrófono para hablar con Emily
             </p>
           )}
 

@@ -55,7 +55,7 @@ export default function ErrorPage({
           </h2>
           <p className="font-body-large text-body-large text-on-surface-variant max-w-2xl mb-8">
             Un error inesperado ha fragmentado la realidad. <br className="hidden md:block" />
-            Sophia está trabajando en la reparación.
+            Emily está trabajando en la reparación.
           </p>
           <div className="w-full max-w-md bg-surface-1 border border-white/5 p-padding-card-sm rounded-xl mb-12 relative overflow-hidden shadow-inner">
             <div className="absolute top-0 left-0 w-1 h-full bg-linear-to-b from-era-rome-end to-primary-container" />
@@ -78,7 +78,7 @@ export default function ErrorPage({
               <div className="mt-2 text-[11px] font-body-standard text-text-muted leading-relaxed">
                 &gt; Trace: /history/eras/collapse_handler.sh <br />
                 &gt; Memory Overflow: linguistic_matrix_buffer <br />
-                &gt; Sophia.init(repair_mode)
+                &gt; Emily.init(repair_mode)
               </div>
             </div>
           </div>

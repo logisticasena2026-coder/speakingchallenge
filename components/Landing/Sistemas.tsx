@@ -91,7 +91,7 @@ export function Sistemas() {
                 style={{ color: 'var(--text-secondary)' }}>Debate Mode.</strong> Defiendes una postura contra
                 la IA.</p>
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>· <strong
-                style={{ color: 'var(--text-secondary)' }}>Error Recap.</strong> Sophia muestra los 3 errores
+                style={{ color: 'var(--text-secondary)' }}>Error Recap.</strong> Emily muestra los 3 errores
                 top.</p>
             </div>
           </div>
@@ -174,16 +174,16 @@ export function Sistemas() {
             </div>
           </div>
 
-          {/* 05 Sophia */}
+          {/* 05 Emily */}
           <div className="system-card" style={{ borderColor: 'rgba(61,214,140,0.15)' }}>
             <div className="flex items-start justify-between mb-4">
               <span className="system-num">05</span>
               <div className="size-9 rounded-full flex items-center justify-center text-sm font-bold"
-                style={{ background: 'var(--brand-green)', color: '#07090f' }}>S</div>
+                style={{ background: 'var(--brand-green)', color: '#07090f' }}>E</div>
             </div>
             <p className="section-label mb-1" style={{ color: 'var(--text-muted)' }}>Mentora Persistente</p>
             <h3 className="text-lg font-semibold mb-2"
-              style={{ fontFamily: "'Cinzel',serif", color: 'var(--brand-green)' }}>Sophia</h3>
+              style={{ fontFamily: "'Cinzel',serif", color: 'var(--brand-green)' }}>Emily</h3>
             <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>Recuerda tu nombre, nivel, errores
               frecuentes y logros. Da feedback emocional.</p>
             <div className="flex gap-2 mb-4 flex-wrap">

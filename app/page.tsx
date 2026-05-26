@@ -6,7 +6,7 @@ import { Juegos } from '@/components/Landing/Juegos';
 import { Mapa } from '@/components/Landing/Mapa';
 import { Presentacion } from '@/components/Landing/Presentacion';
 import { Sistemas } from '@/components/Landing/Sistemas';
-import { Sophia } from '@/components/Landing/Sophia';
+import { Emily } from '@/components/Landing/Emily';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -57,8 +57,8 @@ export default function Home() {
               <Link href="#actividades" className="nav-link">
                 Actividades
               </Link>
-              <Link href="#sophia" className="nav-link">
-                Sophia
+              <Link href="#emily" className="nav-link">
+                Emily
               </Link>
               <Link href="#mapa" className="nav-link">
                 Mapa
@@ -97,7 +97,7 @@ export default function Home() {
         <Eras />
         <Sistemas />
         <Actividades />
-        <Sophia />
+        <Emily />
         <Mapa />
         <Juegos />
         <Creditos />
@@ -137,8 +137,8 @@ export default function Home() {
               <Link href="#actividades" className="nav-link text-xs">
                 Actividades
               </Link>
-              <Link href="#sophia" className="nav-link text-xs">
-                Sophia
+              <Link href="#emily" className="nav-link text-xs">
+                Emily
               </Link>
               <Link href="#creditos" className="nav-link text-xs">
                 Créditos

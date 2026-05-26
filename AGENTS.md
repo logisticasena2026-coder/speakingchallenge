@@ -22,6 +22,7 @@ No test runner. Manual via `pnpm dev`.
 | `NEXT_PUBLIC_APP_URL` | Public URL |
 | `DEEPGREEM_KEY` | Deepgram API key (typo intentional) |
 | `NEXT_PUBLIC_DEEPGRAM_KEY` | Same key exposed client-side |
+| `NEXT_PUBLIC_GEMINI_API_KEY` | Gemini Live API key (moved from hardcoded in `lib/Geminilive .ts`) |
 
 ## Middleware (`proxy.ts`, not `middleware.ts`)
 
@@ -35,13 +36,15 @@ No test runner. Manual via `pnpm dev`.
 
 - Custom session auth (no NextAuth). 24h expiry. Passwords hashed with `bcrypt`.
 - Server actions (`actions/auth/`) accept plain objects, not FormData. Return `{ ok, message, avatar? }`.
-- `actions/auth/iniciarSesion.ts` → `iniciar_session({ correo, contrasena })`
-- `actions/auth/registro.ts` → `registro({ nombre_usuario, correo, contrasena })`
-- `actions/auth/CerrarSesion.ts` → `CerrarSesion()` **BUG**: deletes `session_id` cookie but the real cookie is `sessions_id`
-- `actions/auth/nuevaContrasena.ts` → password reset action (also `schemas/auth/` for Zod schemas)
-- `schemas/auth/login.ts`, `schemas/auth/register.ts` → Zod schemas for form validation
+- Server actions validate input via Zod schemas from `schemas/auth/` before DB calls.
+- `actions/auth/iniciarSesion.ts` → `iniciar_session({ correo, contrasena })` (uses `FormLoginSchema`)
+- `actions/auth/registro.ts` → `registro({ nombre_usuario, correo, contrasena })` (uses `FormRegisterSchema`)
+- `actions/auth/CerrarSesion.ts` → `CerrarSesion()` deletes `sessions_id` cookie
+- `actions/auth/nuevaContrasena.ts` → password reset (uses `PasswordSchema`)
+- `actions/auth/email/recuperacion/recuperarCuenta.tsx` → recovery form (uses `FormRecuperarSchema`, `AppError` subclasses)
+- `schemas/auth/` → Zod schemas: `login.ts`, `register.ts`, `nuevaContrasena.ts`, `recuperar.ts`
 - `lib/auth.ts` → `DatosDelAutenticado()` (returns user or redirects), `requiereIngreso()` (boolean)
-- `lib/apiVos.ts` → `getSession(sessionId)` with in-memory cache for API routes
+- `lib/apiVos.ts` → `getSession(sessionId)` with 60s-TTL in-memory cache for API routes
 - `lib/errors.ts` → custom error classes: `AppError`, `ValidationError`, `UnauthorizedError`, `NotFoundError`, `ConflictError`, `DatabaseError`, `ExternalServiceError`
 
 ## Prisma
@@ -70,7 +73,7 @@ npx prisma migrate dev --name <name>
 | `/dashboard/configuracion` | Settings (avatar, theme, font size) | `AvatarStudio`, `SectionCard`, `FontSizeSelector`, `ThemeSelector`, `CerrarSesion` |
 | `/dashboard/estudiar` | Study mission config | `Configuraciónes`, `ErasPractica`, `Stasts` |
 | `/dashboard/estudiar/practicando` | Practice mode (phrase-by-phrase) | `HeaderPractica`, `MuestraDeFrases`, `Nivel` |
-| `/dashboard/sophia` | AI chat with real-time audio | `TextAi`, `TextUser`, `lib/Geminilive .ts`, `lib/handel.ts` |
+| `/dashboard/emily` | AI chat with real-time audio | `TextAi`, `TextUser`, `lib/Geminilive .ts`, `lib/handel.ts` |
 | `/navegador-no-valido` | Unsupported browser page | `Particles` |
 | `GET /api/vos?text=...` | TTS via Deepgram, returns `audio/mpeg` | `lib/apiVos`, `lib/logger` |
 
@@ -81,10 +84,10 @@ npx prisma migrate dev --name <name>
 - Stores: `useFrasesStore` (Zustand — frase data/pagination), `usePracticaStore` (Zustand — `texto`, `grabando`, `tiempo` for practice session state)
 - Actions: `obtenerFrases`, `contarFrases` from `actions/frases.ts`
 
-## Google Gemini Live Audio (Sophia)
+## Google Gemini Live Audio (Emily)
 
 - `lib/Geminilive .ts` (space in filename — treat path as-is) → Google GenAI client
-  - Model: `gemini-2.5-flash-native-audio-preview-12-2025`. API key hardcoded in file.
+  - Model: `gemini-2.5-flash-native-audio-preview-12-2025`. API key from `NEXT_PUBLIC_GEMINI_API_KEY` env var.
   - Exports `createSession(callbacks)` → `{ session, mediaHandler }`
 - `lib/handel.ts` → `MediaHandler` class for Web Audio API (PCM capture/playback via AudioWorklet)
   - AudioWorklet module: `public/static/pcm-processor.js` (included in tsconfig)
@@ -95,7 +98,7 @@ npx prisma migrate dev --name <name>
 - **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`.
 - **Spanish naming** everywhere: routes, DB models, server actions.
 - **Toast** — `sileo`. Pattern: `sileo.promise(fn, { loading, success, error })` or `sileo.error({ title, description })`.
-- **State** — Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useConfiguracionUsuario` (persisted), `useSophiaStore`.
+- **State** — Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useConfiguracionUsuario` (persisted), `useEmilyStore`.
 - **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry `@magicui`. See `components.json`.
 - **Fonts** — Cinzel (`font-display`), Space Grotesk (`font-body`), Inter (`font-ui`), Geist (`font-sans`). Configured in `app/layout.tsx`.
 - **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts`.
@@ -116,6 +119,13 @@ npx prisma migrate dev --name <name>
 **Accessibility (WCAG AA):** Skip link, `prefers-reduced-motion`, semantic landmarks, `aria-invalid` + `aria-live` on forms, decorative icons with `aria-hidden`, focus-visible outline `brand-green`.
 
 **SEO:** Full metadata in `layout.tsx` (OG, Twitter Cards, canonical, robots). Auth pages: `robots: { index: false }`. `public/robots.txt` + `public/sitemap.xml` exist. OG image: `/FoundPage.webp`.
+
+**Next.js Best Practices (applied):**
+- Segment-level `error.tsx`, `loading.tsx`, `not-found.tsx` exist for `/dashboard`, `/dashboard/estudiar`, `/dashboard/estudiar/practicando`, and `/auth`
+- Components always consumed by `'use client'` parents carry the `'use client'` directive explicitly
+- Server actions validate input via Zod before DB calls
+- API routes use `NextRequest`/`NextResponse`, proper `Cache-Control`, and timeout via `AbortController`
+- Session cache in `lib/apiVos.ts` has 60s TTL (not infinite)
 
 ## Dormant / Removed
 

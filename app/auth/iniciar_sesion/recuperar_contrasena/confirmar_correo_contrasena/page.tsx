@@ -50,7 +50,7 @@ export default async function ConfirmarCorreoContrasena({ searchParams }: Readon
                 Vínculo Enviado
               </h1>
               <p className="font-body-large text-body-large text-text-secondary max-w-md mx-auto leading-relaxed">
-                Sophia ha enviado las coordenadas Link {correo}. Revisa tu bandeja para continuar el
+                Emily ha enviado las coordenadas Link {correo}. Revisa tu bandeja para continuar el
                 salto temporal.
               </p>
             </div>
