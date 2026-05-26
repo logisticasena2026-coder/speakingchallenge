@@ -3,6 +3,39 @@ import { cookies } from 'next/headers';
 import { DeepgramClient } from '@deepgram/sdk';
 import { logger } from '@/lib/logger';
 import { getSession } from '@/lib/apiVos';
+import { cacheLife, cacheTag } from 'next/cache';
+
+async function generateTTSAudio(text: string) {
+  'use cache'
+  cacheLife({ stale: 3600, revalidate: 86400 })
+  cacheTag('tts')
+
+  const deepgram = new DeepgramClient({
+    apiKey: process.env.DEEPGREEM_KEY,
+  });
+
+  const result = await deepgram.speak.v1.audio.generate({
+    text,
+    model: 'aura-2-thalia-en',
+  });
+
+  const reader = result.stream().getReader();
+  const chunks: Uint8Array[] = [];
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+  }
+
+  const totalLength = chunks.reduce((acc, c) => acc + c.length, 0);
+  const buffer = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const chunk of chunks) {
+    buffer.set(chunk, offset);
+    offset += chunk.length;
+  }
+  return buffer;
+}
 
 export async function GET(request: NextRequest) {
   const abortController = new AbortController();
@@ -31,18 +64,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Texto requerido' }, { status: 400 });
     }
 
-    const deepgram = new DeepgramClient({
-      apiKey: process.env.DEEPGREEM_KEY,
-    });
+    const audioBuffer = await generateTTSAudio(text);
 
-    const result = await deepgram.speak.v1.audio.generate({
-      text,
-      model: 'aura-2-thalia-en',
-    });
-
-    const stream = result.stream();
-
-    return new NextResponse(stream as ReadableStream<Uint8Array>, {
+    return new NextResponse(audioBuffer, {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Cache-Control': 'public, max-age=86400, s-maxage=86400',

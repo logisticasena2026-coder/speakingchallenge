@@ -8,7 +8,7 @@ export default function NotFound() {
       <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-emerald-900/20">
         <div className="flex items-center gap-4">
           <Link
-            href="/"
+            href="/auth/iniciar_sesion"
             aria-label="Volver al inicio"
             className="text-emerald-400 cursor-pointer hover:bg-white/5 transition-all duration-300 p-2 rounded-full"
           >
@@ -18,9 +18,13 @@ export default function NotFound() {
             speakingchallenge
           </h1>
         </div>
-
       </header>
-      <main id="main-content" className="relative grow flex items-center justify-center px-container-px-mobile md:px-container-px-desktop mesh-linear overflow-hidden min-h-screen" role="status" aria-live="polite">
+      <main
+        id="main-content"
+        className="relative grow flex items-center justify-center px-container-px-mobile md:px-container-px-desktop mesh-linear overflow-hidden min-h-screen"
+        role="status"
+        aria-live="polite"
+      >
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[15%] left-[10%] opacity-20 float-slow">
             <div
@@ -98,7 +102,6 @@ export default function NotFound() {
           </Link>
         </div>
       </footer>
-
     </>
   );
 }

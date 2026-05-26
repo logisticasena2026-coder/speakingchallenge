@@ -5,6 +5,18 @@ import { DatabaseError, UnauthorizedError, ValidationError } from '@/lib/errors'
 import { logger } from '@/lib/logger';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcrypt';
+import { cacheLife, cacheTag, revalidateTag } from 'next/cache';
+
+async function buscarToken(token: string) {
+  'use cache'
+  cacheLife({ stale: 30, revalidate: 60 })
+  cacheTag(`reset-token-${token}`)
+
+  return prisma.resetearContrasenaToken.findFirst({
+    where: { token },
+    include: { propietario: true },
+  });
+}
 
 const PasswordSchema = z.string().min(6, 'Minimo 6 caracteres').max(100, 'Maximo 100 caracteres');
 
@@ -18,14 +30,7 @@ export async function cambiarContrasena(token: string, nuevaContrasena: string) 
     return { ok: false, message: parsed.error.errors[0]?.message || 'Contrasena invalida' };
   }
   try {
-    const tokenValido = await prisma.resetearContrasenaToken.findFirst({
-      where: {
-        token,
-      },
-      include: {
-        propietario: true,
-      },
-    });
+    const tokenValido = await buscarToken(token);
 
     if (!tokenValido) {
       return { ok: false, message: 'Token inválido' };
@@ -43,6 +48,8 @@ export async function cambiarContrasena(token: string, nuevaContrasena: string) 
     await prisma.resetearContrasenaToken.delete({
       where: { id: tokenValido.id },
     });
+
+    revalidateTag(`reset-token-${token}`)
 
     return { ok: true, message: 'Contraseña cambiada exitosamente' };
   } catch (error) {

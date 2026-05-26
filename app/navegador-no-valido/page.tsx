@@ -1,17 +1,12 @@
-import type { Metadata } from 'next';
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { navegadorEsCompatible } from '@/lib/validarNavegador';
 import Link from 'next/link';
 import { ArrowLeft, TriangleAlert, CheckCircle2, XCircle } from 'lucide-react';
 import { Particles } from '@/components/ui/particles';
 import { FaChrome, FaEdge, FaSafari } from "react-icons/fa";
-
-export const metadata: Metadata = {
-  title: 'Navegador no compatible - speakingchallenge',
-  description: 'Tu navegador no soporta la transcripción de audio a texto. Usa Chrome, Edge o Safari para la mejor experiencia.',
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
 
 const browsersSupported = [
   {
@@ -41,6 +36,14 @@ const browsersNotSupported = [
 ];
 
 export default function NavegadorNoValido() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (navegadorEsCompatible()) {
+      router.replace('/dashboard');
+    }
+  }, [router]);
+
   return (
     <>
       <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-emerald-900/20">

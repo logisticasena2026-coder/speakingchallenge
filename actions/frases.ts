@@ -3,6 +3,7 @@
 import prisma from '@/lib/prisma';
 import { DatabaseError } from '@/lib/errors';
 import { logger } from '@/lib/logger';
+import { cacheLife, cacheTag } from 'next/cache';
 
 export async function obtenerFrases(
   offset: number,
@@ -12,6 +13,10 @@ export async function obtenerFrases(
   edad?: number | '',
   creador?: string,
 ) {
+  'use cache'
+  cacheLife('minutes')
+  cacheTag('frases')
+
   const where: Record<string, unknown> = {};
   if (dificultad) where.dificultad = Number(dificultad);
   if (tematica) where.tematica = tematica;
@@ -44,6 +49,10 @@ export async function contarFrases(
   edad?: number | '',
   creador?: string,
 ) {
+  'use cache'
+  cacheLife('minutes')
+  cacheTag('frases')
+
   const where: Record<string, unknown> = {};
   if (dificultad) where.dificultad = Number(dificultad);
   if (tematica) where.tematica = tematica;
@@ -59,6 +68,9 @@ export async function contarFrases(
 }
 
 export async function obtenerCreadores(): Promise<string[]> {
+  'use cache'
+  cacheLife('hours')
+  cacheTag('frases-metadata')
   try {
     const result = await prisma.frasesDePractica.findMany({
       select: { creador: true },
@@ -73,6 +85,9 @@ export async function obtenerCreadores(): Promise<string[]> {
 }
 
 export async function obtenerTematicas(): Promise<string[]> {
+  'use cache'
+  cacheLife('hours')
+  cacheTag('frases-metadata')
   try {
     const result = await prisma.frasesDePractica.findMany({
       select: { tematica: true },
@@ -87,6 +102,9 @@ export async function obtenerTematicas(): Promise<string[]> {
 }
 
 export async function obtenerDificultades(): Promise<number[]> {
+  'use cache'
+  cacheLife('hours')
+  cacheTag('frases-metadata')
   try {
     const result = await prisma.frasesDePractica.findMany({
       select: { dificultad: true },
@@ -101,6 +119,9 @@ export async function obtenerDificultades(): Promise<number[]> {
 }
 
 export async function obtenerEdades(): Promise<number[]> {
+  'use cache'
+  cacheLife('hours')
+  cacheTag('frases-metadata')
   try {
     const result = await prisma.frasesDePractica.findMany({
       select: { edad: true },

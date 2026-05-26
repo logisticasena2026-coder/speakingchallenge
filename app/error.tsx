@@ -12,7 +12,7 @@ export default function ErrorPage({
       <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-emerald-900/20">
         <div className="flex items-center gap-4">
           <Link
-            href="/"
+            href="/auth/iniciar_sesion"
             aria-label="Volver al inicio"
             className="text-emerald-400 hover:bg-white/5 transition-all duration-300 p-2 rounded-full active:scale-95"
           >

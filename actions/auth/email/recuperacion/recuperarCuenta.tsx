@@ -8,6 +8,21 @@ import { RecuperarCuentaEmailDiseno } from '../disenos/recuperarCuentaDiseno';
 import { FormRecuperarSchema } from '@/schemas/auth/recuperarContrasena';
 import { ExternalServiceError, NotFoundError, ValidationError } from '@/lib/errors';
 import { logger } from '@/lib/logger';
+import { cacheLife, cacheTag } from 'next/cache';
+
+async function buscarUsuarioPorEmail(email: string) {
+  'use cache'
+  cacheLife({ stale: 60, revalidate: 300 })
+  cacheTag(`user-email-${email}`)
+
+  return prisma.user.findFirst({
+    where: { email },
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+}
 
 export async function recuperarCuenta(Destinatario: string) {
   const parsed = FormRecuperarSchema.safeParse({ email: Destinatario });
@@ -16,13 +31,7 @@ export async function recuperarCuenta(Destinatario: string) {
   }
 
   try {
-    const user = await prisma.user.findFirst({
-      where: { email: Destinatario },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
+    const user = await buscarUsuarioPorEmail(Destinatario);
 
     if (!user) {
       throw new NotFoundError('Usuario');
