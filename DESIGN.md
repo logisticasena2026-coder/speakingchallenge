@@ -279,7 +279,7 @@ Integrado con la paleta, refuerza identidad verde del sistema.
 3. Eras — grid 4 eras con ilustraciones SVG
 4. Sistemas — grid 6 sistemas (engranaje pedagógico)
 5. Actividades — grid 6 actividades con previews interactivos
-6. Sophia — layout 2 cols (imagen + contenido)
+6. Emily — layout 2 cols (imagen + contenido)
 7. Mapa / Skill Tree — 5 escalones horizontales
 8. Juegos — 4 juegos arcade
 9. Créditos — grid equipo

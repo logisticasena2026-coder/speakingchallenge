@@ -17,7 +17,7 @@ export default function DashboardError({
           Error en el dashboard
         </h2>
         <p className="text-sm text-text-muted mb-8">
-          Algo salio mal al cargar esta seccion. Sophia ya esta trabajando en ello.
+           Algo salio mal al cargar esta seccion. Emily ya esta trabajando en ello.
         </p>
         <div className="flex items-center justify-center gap-4">
           <button

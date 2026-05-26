@@ -5,7 +5,7 @@ export interface Message {
   text: string;
 }
 
-interface SophiaStore {
+interface EmilyStore {
   messages: Message[];
   isRecording: boolean;
   isConnecting: boolean;
@@ -21,7 +21,7 @@ interface SophiaStore {
   reset: () => void;
 }
 
-export const useSophiaStore = create<SophiaStore>((set) => ({
+export const useEmilyStore = create<EmilyStore>((set) => ({
   messages: [],
   isRecording: false,
   isConnecting: false,

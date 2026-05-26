@@ -222,7 +222,7 @@ export function Eras() {
               <div className="era-tag">Fluency</div>
               <div className="era-title">Futuro Cibernético</div>
               <p className="era-desc">
-                Linking sounds, debates espontáneos y retos personalizados creados por Sophia.
+                Linking sounds, debates espontáneos y retos personalizados creados por Emily.
               </p>
             </div>
           </div>

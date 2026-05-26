@@ -237,7 +237,7 @@ export function Creditos() {
                 className="font-semibold text-sm mb-1"
                 style={{ fontFamily: "'Cinzel',serif", color: 'var(--brand-green)' }}
               >
-                Sophia
+                Emily
               </h3>
               <p className="text-xs font-medium mb-0.5" style={{ color: 'var(--brand-green)' }}>
                 Mentora IA

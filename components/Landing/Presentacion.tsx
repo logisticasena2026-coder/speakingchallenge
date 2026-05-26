@@ -8,6 +8,19 @@ export function Presentacion() {
       id="Presentacion"
     >
 
+      <video
+        autoPlay muted loop playsInline
+        poster="/FoundPage.webp"
+        className="absolute inset-0 size-full object-cover"
+        style={{
+          maskImage: 'linear-gradient(black 80%, transparent)',
+          WebkitMaskImage: 'linear-gradient(black 80%, transparent)',
+        }}
+      >
+        <source src="/FoundPage.webm" type="video/webm" />
+        <source src="/FoundPage.mp4" type="video/mp4" />
+      </video>
+
       <div
         className="absolute top-1/4 right-1/4 size-96 rounded-full opacity-5"
         style={{
@@ -46,7 +59,7 @@ export function Presentacion() {
           style={{ color: 'var(--text-secondary)', lineHeight: 1.75 }}
         >
           Aprende inglés como jamás lo has hecho. Desbloquea eras históricas, enfrenta desafíos
-          arcade y restaura los verbos perdidos del tiempo con la guía de Sophia, tu mentora IA.
+          arcade y restaura los verbos perdidos del tiempo con la guía de Emily, tu mentora IA.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12 animate-in delay-200">

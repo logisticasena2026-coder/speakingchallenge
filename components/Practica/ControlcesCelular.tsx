@@ -49,7 +49,7 @@ export function ControlesCelular({
     <div className="mobile-panel ani d3 flex-col gap-2.5 mt-3">
       <div className="flex bg-surface-2 border border-white/6 rounded-lg p-1 gap-1">
         <button
-          id="tab-sophia"
+          id="tab-emily"
           onClick={anterior}
           className={`tab-btn flex-1 py-2 font-ui ${fuente} font-semibold tracking-[0.06em] uppercase text-text-muted rounded-md cursor-pointer border-none bg-transparent transition-all`}
         >
@@ -108,7 +108,7 @@ export function ControlesCelular({
       </div>
 
       <div
-        id="tab-content-sophia"
+        id="tab-content-emily"
         className="hidden rounded-3xl p-3.5 bg-brand-green/5 border border-brand-green/12"
       >
         <div className="flex gap-2.5 items-start">
@@ -118,11 +118,11 @@ export function ControlesCelular({
               background: 'linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05))',
             }}
           >
-            S
+            E
           </div>
           <div>
             <p className={`font-ui ${fuente} font-bold text-brand-green tracking-widest mb-1`}>
-              SOPHIA DICE
+              EMILY DICE
             </p>
             <p className="text-[12px] text-text-secondary leading-relaxed">
               El fonema <strong className="text-text-primary">/ð/</strong> en &ldquo;the&rdquo; se

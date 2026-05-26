@@ -66,7 +66,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="font-ui text-[9px] font-bold text-brand-green tracking-wider mb-0.5">
-                  SOPHIA
+                  EMILY
                 </p>
                 <p className="text-[11px] text-text-secondary">
                   ¡Mejoraste la <strong className="text-white">th</strong> ayer! 🎯
@@ -332,7 +332,7 @@ export default function Home() {
                   <MessageCircle className="w-4 h-4 text-brand-cyan" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-white mb-0.5">Verbose con Sophia</p>
+                  <p className="text-[13px] font-semibold text-white mb-0.5">Verbose con Emily</p>
                   <p className="text-[11px] text-text-muted">Conversación IA · Roma Imperial</p>
                 </div>
                 <div className="text-right">
@@ -507,7 +507,7 @@ export default function Home() {
               >
                 <div className="ritual-check w-5.5 h-5.5 rounded-md border border-white/10 flex items-center justify-center transition-all"></div>
                 <span className="ritual-label text-[13px] text-text-secondary flex-1 transition-all">
-                  Practicar con Sophia
+                  Practicar con Emily
                 </span>
                 <span className="font-ui text-ui-badge font-bold text-text-muted shrink-0">
                   +100 XP
@@ -533,7 +533,7 @@ export default function Home() {
                 </div>
                 <div>
                   <p className="font-display text-[12px] font-bold text-white mb-0.5">
-                    Consejo de Sophia
+                    Consejo de Emily
                   </p>
                   <p className="text-[11px] text-text-muted leading-relaxed">
                     Revisar eras anteriores aumenta la retención a largo plazo un 40%.

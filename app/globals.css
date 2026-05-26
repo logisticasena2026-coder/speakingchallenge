@@ -362,14 +362,6 @@ body::before {
 }
 
 
-#Presentacion {
-  background-image: url("/FoundPage.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  mask-image: linear-gradient(black 80%,
-      transparent);
-}
 
 .mesh-bg {
   position: absolute;
@@ -900,7 +892,7 @@ body::before {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-.sophia-image-frame {
+.emily-image-frame {
   position: relative;
   border-radius: 16px;
   overflow: hidden;
@@ -908,7 +900,7 @@ body::before {
   border: 1px solid var(--border-subtle);
 }
 
-.sophia-image-frame::before {
+.emily-image-frame::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -1071,7 +1063,7 @@ body::before {
   padding: 4px 12px;
 }
 
-.sophia-quote {
+.emily-quote {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border-subtle);
   border-left: 2px solid var(--brand-green);
@@ -1360,7 +1352,7 @@ button:focus-visible,
   border-color: rgba(34,211,238,0.3);
 }
 
-.avatar-sophia {
+.avatar-emily {
   background: linear-gradient(135deg,rgba(61,214,140,0.2),rgba(61,214,140,0.05));
   color: var(--brand-green);
   border-color: rgba(61,214,140,0.3);

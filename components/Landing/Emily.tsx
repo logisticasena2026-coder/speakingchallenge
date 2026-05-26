@@ -2,17 +2,17 @@ import { GraduationCap, Clock, Bot, Languages, Globe, Sparkles } from 'lucide-re
 import { OrbitingCircles } from '../ui/orbiting-circles';
 import Image from 'next/image';
 
-export function Sophia() {
+export function Emily() {
   return (
     <section
-      id="sophia"
+      id="emily"
       className="py-20 sm:py-28 px-4 sm:px-6"
       style={{ background: 'var(--surface-1)' }}
     >
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Sophia image */}
-          <div className="sophia-image-frame aspect-3/4 max-w-sm mx-auto lg:mx-0">
+          {/* Emily image */}
+          <div className="emily-image-frame aspect-3/4 max-w-sm mx-auto lg:mx-0">
             <div className="relative h-125 w-full overflow-hidden flex items-center justify-center ">
               <OrbitingCircles>
                 <Globe />
@@ -31,7 +31,7 @@ export function Sophia() {
                   border: '2px solid rgba(61,214,140,0.2)',
                 }}
               >
-                <Image src="/Sophia.png" alt="Sophia" width={500} height={500} />
+                <Image src="/Emily.png" alt="Emily" width={500} height={500} />
               </div>
             </div>
 
@@ -83,11 +83,11 @@ export function Sophia() {
             </div>
           </div>
 
-          {/* <!-- Sophia content --> */}
+          {/* <!-- Emily content --> */}
           <div>
             <p className="section-label mb-3">Tu Mentora</p>
             <h2 className="display-heading text-3xl sm:text-4xl lg:text-5xl mb-4">
-              Conoce a <span className="text-highlight-green">Sophia</span>
+              Conoce a <span className="text-highlight-green">Emily</span>
             </h2>
             <p
               className="text-sm sm:text-base mb-6"
@@ -97,7 +97,7 @@ export function Sophia() {
               experiencia coherente: convierte tus errores en retos y tus logros en historia.
             </p>
 
-            <div className="sophia-quote mb-8">
+            <div className="emily-quote mb-8">
               <p
                 className="text-sm sm:text-base italic mb-3"
                 style={{ color: 'var(--text-primary)' }}
@@ -111,7 +111,7 @@ export function Sophia() {
                   className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
                   style={{ background: 'var(--brand-green)', color: '#07090f' }}
                 >
-                  <Image src="/Sophia.png" alt="Sophia" width={500} height={500} />
+                  <Image src="/Emily.png" alt="Emily" width={500} height={500} />
                 </div>
                 <span
                   style={{
@@ -120,7 +120,7 @@ export function Sophia() {
                     fontFamily: "'Inter',sans-serif",
                   }}
                 >
-                  Sophia, mentora speakingchallenge
+                  Emily, mentora speakingchallenge
                 </span>
               </div>
             </div>
@@ -136,7 +136,7 @@ export function Sophia() {
                 marginBottom: '14px',
               }}
             >
-              Sophia recuerda y aprende
+              Emily recuerda y aprende
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="list">
@@ -150,7 +150,8 @@ export function Sophia() {
                 <span className="capability-dot" aria-hidden="true"></span>Guarda tus puntajes
               </div>
               <div className="capability-item" role="listitem">
-                <span className="capability-dot" aria-hidden="true"></span>Detecta errores frecuentes
+                <span className="capability-dot" aria-hidden="true"></span>Detecta errores
+                frecuentes
               </div>
               <div className="capability-item" role="listitem">
                 <span
@@ -161,7 +162,11 @@ export function Sophia() {
                 Celebra tus logros
               </div>
               <div className="capability-item" role="listitem">
-                <span className="capability-dot" style={{ background: 'var(--brand-cyan)' }} aria-hidden="true"></span>
+                <span
+                  className="capability-dot"
+                  style={{ background: 'var(--brand-cyan)' }}
+                  aria-hidden="true"
+                ></span>
                 Crea retos a medida
               </div>
             </div>
