@@ -8,17 +8,10 @@ import {
   Timer,
   Target,
   Map,
-  Bolt,
-  ChevronRight,
-  MessageCircle,
-  Gamepad2,
-  GitBranch,
-  Lock,
-  Lightbulb,
-  Sparkles,
-  Check,
-  Wand2,
   Trophy,
+  Crown,
+  Compass,
+  Zap,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -30,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="pt-20 px-4 md:px-6 relative z-10">
+    <main className="pt-20 px-4 md:px-6 pb-10 relative z-10">
       <section className="ani d1 relative rounded-2xl overflow-hidden border border-white/6 p-6 md:p-8 mb-7">
         <div className="absolute inset-0 bg-linear-to-br from-brand-green/6 via-surface-1 to-brand-cyan/4"></div>
         <div
@@ -41,6 +34,7 @@ export default function Home() {
             opacity: 0.5,
           }}
         ></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_20%_10%,rgba(61,214,140,0.07)_0%,transparent_60%),radial-gradient(ellipse_60%_50%_at_80%_90%,rgba(34,211,238,0.04)_0%,transparent_50%)]"></div>
         <div className="relative z-10">
           <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4 mb-4">
             <div className="flex-1">
@@ -51,25 +45,29 @@ export default function Home() {
                     12 días de racha
                   </span>
                 </div>
+                <div className="h-3 w-[1px] bg-white/8"></div>
+                <span className="font-ui text-[10px] text-text-muted tracking-wider">
+                  SEMANA DE PODER
+                </span>
               </div>
               <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-2.5">
                 Bienvenido, <span className="text-brand-green">Aurelius</span>
               </h1>
               <p className="text-sm text-text-secondary max-w-md leading-relaxed">
-                Tu viaje a través del tiempo continúa. Tienes 3 rituales diarios pendientes para
-                mantener tu racha de aprendizaje.
+                Tu bitácora de viaje. 3 eras descubiertas, 1,432 palabras dominadas y una racha
+                encendida.
               </p>
             </div>
-            <div className="inline-flex items-center gap-2.5 bg-surface-3 border border-brand-green/15 rounded-xl px-3.5 py-2.5 cursor-pointer hover:border-brand-green/30 transition-all">
+            <div className="inline-flex items-center gap-2.5 bg-surface-3 border border-brand-green/15 rounded-xl px-3.5 py-2.5 cursor-pointer hover:border-brand-green/30 transition-all shrink-0">
               <div className="w-8 h-8 rounded-full bg-linear-to-br from-brand-green/20 to-brand-green/5 border border-brand-green/30 flex items-center justify-center font-display text-sm text-brand-green">
-                S
+                E
               </div>
               <div>
                 <p className="font-ui text-[9px] font-bold text-brand-green tracking-wider mb-0.5">
-                  EMILY
+                  EMILY · IA
                 </p>
                 <p className="text-[11px] text-text-secondary">
-                  ¡Mejoraste la <strong className="text-white">th</strong> ayer! 🎯
+                  &ldquo;Mejoraste la <strong className="text-white">th</strong> ayer&rdquo;
                 </p>
               </div>
               <ArrowRight className="w-4 h-4 text-brand-green" />
@@ -86,11 +84,18 @@ export default function Home() {
                   2,450 / 3,000
                 </span>
               </div>
-              <div className="w-full h-2 bg-surface-4 rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-surface-4 rounded-full overflow-hidden relative">
+                <div className="absolute inset-0 flex items-center justify-between px-0.5 pointer-events-none">
+                  {[...Array(10)].map((_, i) => (
+                    <div key={i} className="w-px h-1.5 bg-white/8"></div>
+                  ))}
+                </div>
                 <div
-                  className="h-full rounded-full bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)] transition-all duration-500"
+                  className="h-full rounded-full bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)] transition-all duration-500 relative"
                   style={{ width: '81%' }}
-                ></div>
+                >
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-brand-green shadow-[0_0_12px_rgba(61,214,140,0.7)]"></div>
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
@@ -106,16 +111,17 @@ export default function Home() {
       </section>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-7 ani d2">
-        <div className="bg-surface-2 border border-white/6 rounded-xl p-5 transition-all duration-200 hover:border-brand-green/15 hover:-translate-y-0.5 hover:shadow-lg">
+        <div className="group bg-surface-2 border border-white/6 rounded-xl p-5 transition-all duration-200 hover:border-brand-green/15 hover:-translate-y-0.5 relative overflow-hidden">
+          <div className="absolute top-0 left-4 right-4 h-px bg-linear-to-r from-transparent via-brand-green/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <div className="flex items-start justify-between mb-1">
             <p className="font-ui text-[9px] font-bold tracking-wider uppercase text-text-muted">
               Palabras
             </p>
-            <div className="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center ring-1 ring-brand-green/20 group-hover:ring-brand-green/30 transition-all">
               <SpellCheck2 className="w-4 h-4 text-brand-green" />
             </div>
           </div>
-          <div className="font-display text-[28px] font-bold text-brand-green leading-none">
+          <div className="font-display text-[28px] font-bold text-brand-green leading-none tracking-wider">
             1,432
           </div>
           <p className="text-[11px] text-text-muted mt-1">dominadas</p>
@@ -125,16 +131,19 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="bg-surface-2 border border-white/6 rounded-xl p-5 transition-all duration-200 hover:border-brand-cyan/15 hover:-translate-y-0.5 hover:shadow-lg">
+        <div className="group bg-surface-2 border border-white/6 rounded-xl p-5 transition-all duration-200 hover:border-brand-cyan/15 hover:-translate-y-0.5 relative overflow-hidden">
+          <div className="absolute top-0 left-4 right-4 h-px bg-linear-to-r from-transparent via-brand-cyan/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <div className="flex items-start justify-between mb-1">
             <p className="font-ui text-[9px] font-bold tracking-wider uppercase text-text-muted">
               Tiempo
             </p>
-            <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 flex items-center justify-center ring-1 ring-brand-cyan/20 group-hover:ring-brand-cyan/30 transition-all">
               <Clock className="w-4 h-4 text-brand-cyan" />
             </div>
           </div>
-          <div className="font-display text-[28px] font-bold text-brand-cyan leading-none">42h</div>
+          <div className="font-display text-[28px] font-bold text-brand-cyan leading-none tracking-wider">
+            42h
+          </div>
           <p className="text-[11px] text-text-muted mt-1">viajadas en el tiempo</p>
           <div className="mt-2.5 flex items-center gap-1">
             <Timer className="w-3 h-3 text-brand-cyan" />
@@ -142,23 +151,24 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="bg-surface-2 border border-white/6 rounded-xl p-5 transition-all duration-200 hover:border-brand-amber/15 hover:-translate-y-0.5 hover:shadow-lg">
+        <div className="group bg-surface-2 border border-white/6 rounded-xl p-5 transition-all duration-200 hover:border-brand-amber/15 hover:-translate-y-0.5 relative overflow-hidden">
+          <div className="absolute top-0 left-4 right-4 h-px bg-linear-to-r from-transparent via-brand-amber/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <div className="flex items-start justify-between mb-1">
             <p className="font-ui text-[9px] font-bold tracking-wider uppercase text-text-muted">
               Precisión
             </p>
-            <div className="w-8 h-8 rounded-lg bg-brand-amber/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-brand-amber/10 flex items-center justify-center ring-1 ring-brand-amber/20 group-hover:ring-brand-amber/30 transition-all">
               <Target className="w-4 h-4 text-brand-amber" />
             </div>
           </div>
-          <div className="font-display text-[28px] font-bold text-brand-amber leading-none">
+          <div className="font-display text-[28px] font-bold text-brand-amber leading-none tracking-wider">
             88%
           </div>
           <p className="text-[11px] text-text-muted mt-1">tasa de acierto global</p>
           <div className="mt-2.5">
             <div className="w-full h-1 bg-surface-4 rounded-full overflow-hidden">
               <div
-                className="h-full rounded-full bg-brand-amber shadow-[0_0_8px_rgba(245,166,35,0.5)]"
+                className="h-full rounded-full bg-brand-amber shadow-[0_0_8px_rgba(245,166,35,0.5)] transition-all duration-500"
                 style={{ width: '88%' }}
               ></div>
             </div>
@@ -166,12 +176,50 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">
         <div className="flex flex-col gap-7">
           <section className="ani d3">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-display text-base font-bold text-white flex items-center gap-2.5">
-                <Map className="w-4 h-4 text-brand-green" />
+                <Zap className="w-4 h-4 text-brand-green" />
+                Acceso Rápido
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <a
+                href="/dashboard/estudiar"
+                className="group bg-surface-2 border border-white/6 rounded-xl p-4 text-left hover:border-brand-green/20 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="w-9 h-9 rounded-lg bg-brand-green/10 border border-brand-green/20 flex items-center justify-center mb-3 group-hover:bg-brand-green/15 group-hover:border-brand-green/30 transition-all">
+                  <Map className="w-4 h-4 text-brand-green" />
+                </div>
+                <p className="font-display text-[13px] font-bold text-white mb-0.5">Estudiar</p>
+                <p className="font-ui text-[9px] text-text-muted">Era Vikinga · 3 lecciones</p>
+              </a>
+              <a
+                href="/dashboard/emily"
+                className="group bg-surface-2 border border-white/6 rounded-xl p-4 text-left hover:border-brand-cyan/20 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="w-9 h-9 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-3 group-hover:bg-brand-cyan/15 group-hover:border-brand-cyan/30 transition-all">
+                  <Compass className="w-4 h-4 text-brand-cyan" />
+                </div>
+                <p className="font-display text-[13px] font-bold text-white mb-0.5">Emily IA</p>
+                <p className="font-ui text-[9px] text-text-muted">Conversación libre</p>
+              </a>
+              <button className="group bg-surface-2 border border-white/6 rounded-xl p-4 text-left hover:border-brand-amber/20 transition-all hover:-translate-y-1 hover:shadow-lg">
+                <div className="w-9 h-9 rounded-lg bg-brand-amber/10 border border-brand-amber/20 flex items-center justify-center mb-3 group-hover:bg-brand-amber/15 group-hover:border-brand-amber/30 transition-all">
+                  <Trophy className="w-4 h-4 text-brand-amber" />
+                </div>
+                <p className="font-display text-[13px] font-bold text-white mb-0.5">Logros</p>
+                <p className="font-ui text-[9px] text-text-muted">12 desbloqueados</p>
+              </button>
+            </div>
+          </section>
+
+          <section className="ani d4">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-display text-base font-bold text-white flex items-center gap-2.5">
+                <Compass className="w-4 h-4 text-brand-green" />
                 Viajes Activos
               </h2>
               <button className="bg-transparent text-text-muted border border-white/6 font-ui text-ui-badge font-bold uppercase tracking-wider px-3.5 py-2 rounded-lg flex items-center gap-1.5 hover:border-white/10 hover:text-white hover:bg-white/3 transition-all">
@@ -181,7 +229,7 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
+              <div className="group relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
                 <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-[#0a1628] via-[#1a3a5c] to-era-viking-end">
                   <svg
                     fill="none"
@@ -210,9 +258,12 @@ export default function Home() {
                 </div>
                 <div className="absolute inset-0 bg-linear-to-t from-[rgba(7,9,15,0.95)] via-[rgba(7,9,15,0.3)] to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-[rgba(180,100,30,0.2)] text-[#d97706] border border-[rgba(217,119,6,0.3)] inline-block mb-2">
-                    75% Dominio
-                  </span>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-[rgba(180,100,30,0.2)] text-[#d97706] border border-[rgba(217,119,6,0.3)]">
+                      75% Dominio
+                    </span>
+                    <span className="font-ui text-[9px] text-text-muted">550 XP para Nv.2</span>
+                  </div>
                   <div>
                     <div className="flex justify-between mb-1">
                       <span className="font-display text-base font-bold text-white">
@@ -230,9 +281,15 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="font-ui text-[9px] font-bold uppercase tracking-wider bg-brand-green text-[#07090f] px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-[0_0_20px_rgba(61,214,140,0.3)]">
+                    <Zap className="w-3 h-3" />
+                    Viajar
+                  </span>
+                </div>
               </div>
 
-              <div className="relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
+              <div className="group relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
                 <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-era-egypt-start via-[#3d2800] to-era-egypt-end">
                   <svg
                     fill="none"
@@ -258,9 +315,12 @@ export default function Home() {
                 </div>
                 <div className="absolute inset-0 bg-linear-to-t from-[rgba(7,9,15,0.95)] via-[rgba(7,9,15,0.3)] to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-[rgba(148,163,184,0.15)] text-[#94a3b8] border border-[rgba(148,163,184,0.25)] inline-block mb-2">
-                    32% Dominio
-                  </span>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-[rgba(148,163,184,0.15)] text-[#94a3b8] border border-[rgba(148,163,184,0.25)]">
+                      32% Dominio
+                    </span>
+                    <span className="font-ui text-[9px] text-text-muted">1,360 XP para Nv.2</span>
+                  </div>
                   <div>
                     <span className="font-display text-base font-bold text-white block mb-1">
                       Antiguo Egipto
@@ -276,277 +336,19 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </section>
-
-          <section className="ani d4">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-base font-bold text-white flex items-center gap-2.5">
-                <Bolt className="w-4 h-4 text-brand-amber" />
-                Continuar Practicando
-              </h2>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-3.5 p-3.5 rounded-lg bg-surface-3 border border-white/6 cursor-pointer transition-all duration-200 hover:border-white/10 hover:translate-x-1">
-                <div className="w-10 h-10 rounded-lg bg-brand-green/12 border border-brand-green/20 flex items-center justify-center shrink-0">
-                  <div className="flex items-center gap-0.5 h-5">
-                    <div
-                      className="w-0.5 rounded bg-brand-green animate-pulse"
-                      style={{ height: '6px', animationDelay: '0s' }}
-                    ></div>
-                    <div
-                      className="w-0.5 rounded bg-brand-green animate-pulse"
-                      style={{ height: '14px', animationDelay: '0.1s' }}
-                    ></div>
-                    <div
-                      className="w-0.5 rounded bg-brand-green animate-pulse"
-                      style={{ height: '10px', animationDelay: '0.2s' }}
-                    ></div>
-                    <div
-                      className="w-0.5 rounded bg-brand-green animate-pulse"
-                      style={{ height: '18px', animationDelay: '0.05s' }}
-                    ></div>
-                    <div
-                      className="w-0.5 rounded bg-brand-green animate-pulse"
-                      style={{ height: '8px', animationDelay: '0.15s' }}
-                    ></div>
-                  </div>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-white mb-0.5">Speaking Challenge</p>
-                  <p className="text-[11px] text-text-muted">Pronunciación · Era Vikinga</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-brand-green/12 text-brand-green border border-brand-green/25 block mb-1">
-                    +50 XP
-                  </span>
-                  <span className="font-ui text-[9px] text-text-muted">~5 min</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-text-muted" />
-              </div>
-
-              <div className="flex items-center gap-3.5 p-3.5 rounded-lg bg-surface-3 border border-white/6 cursor-pointer transition-all duration-200 hover:border-white/10 hover:translate-x-1">
-                <div className="w-10 h-10 rounded-lg bg-brand-cyan/10 border border-brand-cyan/18 flex items-center justify-center shrink-0">
-                  <MessageCircle className="w-4 h-4 text-brand-cyan" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-white mb-0.5">Verbose con Emily</p>
-                  <p className="text-[11px] text-text-muted">Conversación IA · Roma Imperial</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-brand-cyan/12 text-brand-cyan border border-brand-cyan/25 block mb-1">
-                    +100 XP
-                  </span>
-                  <span className="font-ui text-[9px] text-text-muted">~10 min</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-text-muted" />
-              </div>
-
-              <div className="flex items-center gap-3.5 p-3.5 rounded-lg bg-surface-3 border border-white/6 cursor-pointer transition-all duration-200 hover:border-white/10 hover:translate-x-1">
-                <div className="w-10 h-10 rounded-lg bg-brand-amber/10 border border-brand-amber/18 flex items-center justify-center shrink-0">
-                  <Gamepad2 className="w-4 h-4 text-brand-amber" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-white mb-0.5">Trivia Fight</p>
-                  <p className="text-[11px] text-text-muted">Duelo Arcade · 1v1 vs IA</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-[rgba(234,179,8,0.15)] text-[#eab308] border border-[rgba(234,179,8,0.25)] block mb-1">
-                    +200 XP
-                  </span>
-                  <span className="font-ui text-[9px] text-text-muted">~8 min</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-text-muted" />
-              </div>
-
-              <div className="flex items-center gap-3.5 p-3.5 rounded-lg bg-surface-3 border border-white/6 cursor-pointer transition-all duration-200 hover:border-white/10 hover:translate-x-1">
-                <div className="w-10 h-10 rounded-lg bg-brand-purple/10 border border-brand-purple/18 flex items-center justify-center shrink-0">
-                  <Gamepad2 className="w-4 h-4 text-brand-purple" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-white mb-0.5">Serpiente Rúnica</p>
-                  <p className="text-[11px] text-text-muted">Arcade · Era Vikinga</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-brand-purple/12 text-brand-purple border border-brand-purple/25 block mb-1">
-                    +80 XP
-                  </span>
-                  <span className="font-ui text-[9px] text-text-muted">~6 min</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-text-muted" />
-              </div>
-            </div>
-          </section>
-
-          <section className="ani d5">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-base font-bold text-white flex items-center gap-2.5">
-                <GitBranch className="w-4 h-4 text-brand-cyan" />
-                Skill Tree · Presente Simple
-              </h2>
-              <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-[rgba(180,100,30,0.2)] text-[#d97706] border border-[rgba(217,119,6,0.3)]">
-                Era Vikinga
-              </span>
-            </div>
-
-            <div className="bg-surface-2 border border-white/6 rounded-xl p-5">
-              <div className="flex flex-col gap-2 mb-4">
-                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-surface-3 border border-white/6">
-                  <div className="w-6 h-6 rounded-full bg-brand-green flex items-center justify-center text-[11px] font-bold text-[#07090f]">
-                    ✓
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[12px] font-semibold text-white">Lección</p>
-                    <p className="text-ui-badge text-text-muted">Concepto en contexto narrativo</p>
-                  </div>
-                  <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded bg-brand-green/12 text-brand-green border border-brand-green/25">
-                    Completado
+                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="font-ui text-[9px] font-bold uppercase tracking-wider bg-brand-green text-[#07090f] px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-[0_0_20px_rgba(61,214,140,0.3)]">
+                    <Zap className="w-3 h-3" />
+                    Viajar
                   </span>
                 </div>
-
-                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-brand-green/4 border border-brand-green/20">
-                  <div className="w-6 h-6 rounded-full bg-transparent border-1.5 border-brand-green text-brand-green flex items-center justify-center text-[11px] font-bold">
-                    2
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[12px] font-semibold text-brand-green">Práctica</p>
-                    <p className="text-ui-badge text-text-muted">Repetición guiada con feedback</p>
-                  </div>
-                  <button className="bg-brand-green text-[#07090f] font-ui text-ui-badge font-bold uppercase px-3 py-1.5 rounded-lg flex items-center gap-1 hover:shadow-[0_0_20px_rgba(61,214,140,0.4)] transition-all">
-                    Continuar
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-surface-3 border border-white/6 opacity-50 cursor-not-allowed">
-                  <div className="w-6 h-6 rounded-full bg-surface-4 text-text-muted flex items-center justify-center text-[11px] font-bold">
-                    3
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[12px] text-text-muted">Quiz</p>
-                    <p className="text-ui-badge text-text-muted">Comprueba dominio del tema</p>
-                  </div>
-                  <Lock className="w-4 h-4 text-text-muted" />
-                </div>
-
-                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-surface-3 border border-white/6 opacity-40 cursor-not-allowed">
-                  <div className="w-6 h-6 rounded-full bg-surface-4 text-text-muted flex items-center justify-center text-[11px] font-bold">
-                    4
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[12px] text-text-muted">Desafío 🔥</p>
-                    <p className="text-ui-badge text-text-muted">Aplica bajo presión de tiempo</p>
-                  </div>
-                  <Lock className="w-4 h-4 text-text-muted" />
-                </div>
-
-                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-surface-3 border border-white/6 opacity-35 cursor-not-allowed">
-                  <div className="w-6 h-6 rounded-full bg-brand-purple/10 text-brand-purple flex items-center justify-center text-[11px] font-bold">
-                    💀
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[12px] text-text-muted">Boss Final</p>
-                    <p className="text-ui-badge text-text-muted">Desbloquea la siguiente era</p>
-                  </div>
-                  <span className="font-ui text-[9px] text-brand-purple/50 border border-brand-purple/20 px-1.5 py-0.5 rounded">
-                    DESBLOQUEA ERA
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-3 rounded-lg bg-brand-green/5 border border-brand-green/12 flex gap-2.5 items-start">
-                <Lightbulb className="w-4 h-4 text-brand-green shrink-0 mt-0.5" />
-                <p className="text-[11px] text-text-secondary leading-relaxed">
-                  <strong className="text-brand-green">Tip:</strong> Si tu Quiz supera el{' '}
-                  <strong className="text-white">90%</strong>, puedes saltar al Desafío
-                  directamente.
-                </p>
               </div>
             </div>
           </section>
         </div>
 
         <div className="flex flex-col gap-5">
-          <div className="bg-surface-1 border border-white/6 rounded-2xl p-6 ani d2">
-            <div className="flex items-center gap-2.5 mb-1">
-              <Sparkles className="w-5 h-5 text-brand-amber" />
-              <h2 className="font-display text-base font-bold text-white">Rituales Diarios</h2>
-            </div>
-            <p className="text-[11px] text-text-muted mb-5">1 de 3 completados hoy</p>
-
-            <div className="mb-5">
-              <div className="w-full h-1.5 bg-surface-4 rounded-full overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)] transition-all"
-                  style={{ width: '33%' }}
-                ></div>
-              </div>
-              <div className="flex justify-between mt-1.5">
-                <span className="font-ui text-[9px] text-text-muted">0 XP ganados hoy</span>
-                <span className="font-ui text-[9px] text-brand-green">350 XP disponibles</span>
-              </div>
-            </div>
-
-            <ul className="list-none p-0">
-              <li
-                className="flex items-center gap-3.5 py-3 border-b border-white/6 cursor-pointer hover:opacity-80 transition-opacity"
-              >
-                <div className="ritual-check w-5.5 h-5.5 rounded-md border border-white/10 flex items-center justify-center transition-all done:bg-brand-green/12 done:border-brand-green">
-                  <Check className="w-4 h-4 text-brand-green" />
-                </div>
-                <span className="ritual-label text-[13px] text-text-secondary flex-1 transition-all">
-                  Completar 1 lección
-                </span>
-                <span className="font-ui text-ui-badge font-bold text-text-muted shrink-0">
-                  +50 XP
-                </span>
-              </li>
-              <li
-                className="flex items-center gap-3.5 py-3 border-b border-white/6 cursor-pointer hover:opacity-80 transition-opacity"
-              >
-                <div className="ritual-check w-5.5 h-5.5 rounded-md border border-white/10 flex items-center justify-center transition-all"></div>
-                <span className="ritual-label text-[13px] text-text-secondary flex-1 transition-all">
-                  Practicar con Emily
-                </span>
-                <span className="font-ui text-ui-badge font-bold text-text-muted shrink-0">
-                  +100 XP
-                </span>
-              </li>
-              <li
-                className="flex items-center gap-3.5 py-3 cursor-pointer hover:opacity-80 transition-opacity"
-              >
-                <div className="ritual-check w-5.5 h-5.5 rounded-md border border-white/10 flex items-center justify-center transition-all"></div>
-                <span className="ritual-label text-[13px] text-text-secondary flex-1 transition-all">
-                  Ganar 1 Trivia Fight
-                </span>
-                <span className="font-ui text-ui-badge font-bold text-text-muted shrink-0">
-                  +200 XP
-                </span>
-              </li>
-            </ul>
-
-            <div className="mt-5 pt-5 border-t border-white/6">
-              <div className="flex gap-3 items-start mb-4">
-                <div className="w-9 h-9 rounded-lg bg-brand-green/10 border border-brand-green/20 flex items-center justify-center shrink-0">
-                  <Wand2 className="w-4 h-4 text-brand-green" />
-                </div>
-                <div>
-                  <p className="font-display text-[12px] font-bold text-white mb-0.5">
-                    Consejo de Emily
-                  </p>
-                  <p className="text-[11px] text-text-muted leading-relaxed">
-                    Revisar eras anteriores aumenta la retención a largo plazo un 40%.
-                  </p>
-                </div>
-              </div>
-              <button className="w-full bg-transparent text-text-muted border border-white/6 font-ui text-ui-badge font-bold uppercase tracking-wider px-4 py-2 rounded-lg flex items-center justify-center gap-1.5 hover:border-white/10 hover:text-white hover:bg-white/3 transition-all">
-                Ver todos los retos
-              </button>
-            </div>
-          </div>
-
-          <div className="bg-surface-2 border border-white/6 rounded-xl p-5 ani d3">
+          <div className="bg-surface-2 border border-white/6 rounded-xl p-5 ani d2">
             <div className="flex items-center gap-2.5 mb-4">
               <Trophy className="w-5 h-5 text-brand-amber" />
               <h2 className="font-display text-sm font-bold">Ranking Global</h2>
@@ -564,10 +366,11 @@ export default function Home() {
 
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-2.5 p-2 rounded-lg bg-brand-green/6 border border-brand-green/12">
-                <span className="font-ui text-[11px] font-bold text-brand-green min-w-[20px]">
+                <span className="font-ui text-[11px] font-bold text-brand-green min-w-[20px] flex items-center gap-1">
+                  <Crown className="w-3 h-3 text-brand-amber" />
                   #1
                 </span>
-                <div className="w-6 h-6 rounded-full bg-linear-to-br from-[#1a3a5c] to-[#0d2240] border border-brand-green/30 flex items-center justify-center font-display text-[9px] font-bold text-brand-green">
+                <div className="w-6 h-6 rounded-full bg-linear-to-br from-amber-600/30 to-amber-800/20 border border-amber-500/40 flex items-center justify-center font-display text-[9px] font-bold text-amber-400">
                   V
                 </div>
                 <span className="text-[12px] text-white flex-1">Valentina R.</span>
@@ -577,26 +380,29 @@ export default function Home() {
                 <span className="font-ui text-[11px] font-bold text-text-muted min-w-[20px]">
                   #2
                 </span>
-                <div className="w-6 h-6 rounded-full bg-linear-to-br from-[#2a2a3c] to-[#1a1a28] border border-white/10 flex items-center justify-center font-display text-[9px] font-bold text-text-muted">
+                <div className="w-6 h-6 rounded-full bg-linear-to-br from-gray-400/20 to-gray-600/10 border border-gray-500/30 flex items-center justify-center font-display text-[9px] font-bold text-gray-400">
                   L
                 </div>
                 <span className="text-[12px] text-text-secondary flex-1">Luis A.</span>
                 <span className="font-ui text-ui-badge text-text-muted">3,890 XP</span>
               </div>
-              <div className="flex items-center gap-2.5 p-2 rounded-lg bg-brand-amber/6 border border-brand-amber/12">
-                <span className="font-ui text-[11px] font-bold text-brand-amber min-w-[20px]">
+              <div className="flex items-center gap-2.5 p-2 rounded-lg bg-brand-green/6 border border-brand-green/20 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,rgba(61,214,140,0.06)_0%,transparent_60%)]"></div>
+                <span className="font-ui text-[11px] font-bold text-brand-amber min-w-[20px] relative z-10">
                   Tú
                 </span>
-                <div className="w-6 h-6 rounded-full bg-linear-to-br from-[#1a3a5c] to-[#0d2240] border border-brand-green/30 flex items-center justify-center font-display text-[9px] font-bold text-brand-green">
+                <div className="w-6 h-6 rounded-full bg-linear-to-br from-brand-green/30 to-brand-green/10 border border-brand-green/50 flex items-center justify-center font-display text-[9px] font-bold text-brand-green relative z-10 shadow-[0_0_8px_rgba(61,214,140,0.2)]">
                   A
                 </div>
-                <span className="text-[12px] text-white flex-1">Aurelius</span>
-                <span className="font-ui text-ui-badge text-brand-amber">2,450 XP</span>
+                <span className="text-[12px] text-white flex-1 relative z-10">Aurelius</span>
+                <span className="font-ui text-ui-badge text-brand-amber relative z-10">
+                  2,450 XP
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="bg-surface-2 border border-white/6 rounded-xl p-5 ani d4">
+          <div className="bg-surface-2 border border-white/6 rounded-xl p-5 ani d3">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Flame className="w-5 h-5 text-brand-amber" />
@@ -652,9 +458,11 @@ export default function Home() {
             </div>
 
             <p className="text-[11px] text-text-muted text-center">
-              ¡No pierdas tu racha! Completa un ritual hoy.
+              Semana de poder · <span className="text-brand-green">100% activo</span>
             </p>
           </div>
+
+
         </div>
       </div>
     </main>

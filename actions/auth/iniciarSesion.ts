@@ -5,6 +5,8 @@ import prisma from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { FormLoginSchema } from '@/schemas/auth/login';
 import { DatabaseError, ValidationError, UnauthorizedError } from '@/lib/errors';
+import { actualizarRacha } from '@/lib/rachas';
+
 import { logger } from '@/lib/logger';
 
 async function getSession() {
@@ -77,6 +79,7 @@ export async function iniciar_session({
         expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
       },
     });
+    await actualizarRacha(usuarioEstudiante.id);
 
     const isProduction = process.env.NODE_ENV === 'production';
 
@@ -95,7 +98,6 @@ export async function iniciar_session({
   } catch (error) {
     // Línea 95-101 podría ser:
     logger.error('Error en iniciar sesión', error as Error, { correo });
-
 
     if (error instanceof ValidationError || error instanceof UnauthorizedError) {
       throw error;

@@ -48,6 +48,10 @@ model user {
   name       String                    @unique
   email      String                    @unique
   password   String
+  dias_racha                      Int       @default(0)
+  ultima_racha_fecha              DateTime?
+  racha_mas_larga                 Int       @default(0)
+  ultima_sesion                   DateTime?
   avatar     String?
   skin       Skin?
   nivel      Nivel                     @default(PRINCIPIANTE)
