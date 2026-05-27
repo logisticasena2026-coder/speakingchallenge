@@ -16,10 +16,12 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
 
   img-src 'self'
+    blob:
     data:
     https://lh3.googleusercontent.com
     https://www.speakingchallenge.online
-    https://api.dicebear.com;
+    https://api.dicebear.com
+    https://*.public.blob.vercel-storage.com;
 
   media-src 'self' blob:;
 
