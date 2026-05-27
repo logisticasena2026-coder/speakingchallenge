@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, connection } from 'next/server';
 import { cookies } from 'next/headers';
 import { DeepgramClient } from '@deepgram/sdk';
 import { logger } from '@/lib/logger';
@@ -40,6 +40,8 @@ async function generateTTSAudio(text: string) {
 }
 
 export async function GET(request: NextRequest) {
+  await connection();
+
   const abortController = new AbortController();
   const timeout = setTimeout(() => abortController.abort(), 15_000);
 
