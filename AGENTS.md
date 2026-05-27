@@ -26,9 +26,9 @@ No test runner. Manual via `pnpm dev`.
 
 ## Middleware (`proxy.ts`, not `middleware.ts`)
 
-- Named `proxy.ts`, not `middleware.ts`. Function is exported as `proxy`, not `middleware`. Next.js won't auto-register this — if it currently works something else wires it in.
+- Named `proxy.ts`, not `middleware.ts`. Exported as `proxy`, not `middleware`. Next.js won't auto-register this — if it currently works something else wires it in.
 - Matcher: `/dashboard/:path*`
-- **Browser check first**: allows Chrome / Edge / Safari only. Firefox, Opera, etc. → `/navegador-no-valido`
+- **Browser check first**: allows Chrome / Edge / Safari only (not Brave). Firefox, Opera, etc. → `/navegador-no-valido`
 - Then checks `sessions_id` cookie → `/auth/iniciar_sesion` if missing
 - No standard `middleware.ts` file exists
 
@@ -42,10 +42,11 @@ No test runner. Manual via `pnpm dev`.
 - `actions/auth/CerrarSesion.ts` → `CerrarSesion()` deletes `sessions_id` cookie
 - `actions/auth/nuevaContrasena.ts` → password reset (uses `PasswordSchema`)
 - `actions/auth/email/recuperacion/recuperarCuenta.tsx` → recovery form (uses `FormRecuperarSchema`, `AppError` subclasses)
-- `schemas/auth/` → Zod schemas: `login.ts`, `register.ts`, `nuevaContrasena.ts`, `recuperar.ts`
-- `lib/auth.ts` → `DatosDelAutenticado()` (returns user or redirects), `requiereIngreso()` (boolean)
-- `lib/apiVos.ts` → `getSession(sessionId)` with 60s-TTL in-memory cache for API routes
+- `schemas/auth/` → Zod schemas: `login.ts`, `register.ts`, `nuevaContrasena.ts`, `recuperarContrasena.ts`
+- `lib/auth.ts` → `DatosDelAutenticado()` (returns user or redirects), `requiereIngreso()` (boolean). Uses `'use cache'` / `cacheLife` for session queries.
+- `lib/apiVos.ts` → `getSession(sessionId)` for API routes, also uses `'use cache'` / `cacheLife({ stale: 60, revalidate: 120 })`
 - `lib/errors.ts` → custom error classes: `AppError`, `ValidationError`, `UnauthorizedError`, `NotFoundError`, `ConflictError`, `DatabaseError`, `ExternalServiceError`
+- `lib/prisma.ts` → singleton PrismaClient with `@prisma/adapter-pg` (not the default constructor). Import from here, never `new PrismaClient()`.
 
 ## Prisma
 
@@ -55,11 +56,12 @@ npx prisma studio     # Web DB GUI
 npx prisma migrate dev --name <name>
 ```
 
-- `pnpm build` auto-runs `prisma generate`. Seed file `prisma/seed.ts` is commented out.
+- `pnpm build` auto-runs `prisma generate`.
 - `prisma.config.ts` loads `dotenv` — needed for `prisma migrate` outside of Next.js.
-- `pnpm-workspace.yaml` whitelists `prisma` and `@prisma/engines` in `onlyBuiltDependencies`.
+- Seed is **active** via `prisma.config.ts`: runs `tsx prisma/seed-etc.ts & tsx prisma/seed-logistica.ts & tsx prisma/seed-portuaria.ts`. Run with `npx prisma db seed`. `prisma/seed.ts` is old (commented out).
+- `pnpm-workspace.yaml` whitelists these in `onlyBuiltDependencies`: `@google/genai`, `@prisma/engines`, `esbuild`, `msw`, `prisma`, `protobufjs`
 - 4 models: `user`, `Session`, `ResetearContrasenaToken`, `FrasesDePractica`
-- 2 enums: `Nivel` (5 values), `Skin` (18 empire values)
+- 2 enums: `Nivel` (5 values), `Skin` (19 empire values)
 
 ## App Routes
 
@@ -69,13 +71,15 @@ npx prisma migrate dev --name <name>
 | `/auth/iniciar_sesion` | Login form | `IniciarSesionForm`, `Particles` |
 | `/auth/register` | Registration form | `RegistrarseForm`, `Particles` |
 | `/auth` layout | Redirects to `/dashboard` if already authenticated | `requiereIngreso` |
+| `/auth/iniciar_sesion/recuperar_contrasena/*` | Password recovery flow (email, reset, confirm) | Various server actions |
 | `/dashboard` | Stats, skill tree, rituals, ranking | Inline JSX (no component imports) |
 | `/dashboard/configuracion` | Settings (avatar, theme, font size) | `AvatarStudio`, `SectionCard`, `FontSizeSelector`, `ThemeSelector`, `CerrarSesion` |
 | `/dashboard/estudiar` | Study mission config | `Configuraciónes`, `ErasPractica`, `Stasts` |
 | `/dashboard/estudiar/practicando` | Practice mode (phrase-by-phrase) | `HeaderPractica`, `MuestraDeFrases`, `Nivel` |
+| `/dashboard/estudiar/estadisticas` | Practice statistics | Inline page |
 | `/dashboard/emily` | AI chat with real-time audio | `TextAi`, `TextUser`, `lib/Geminilive .ts`, `lib/handel.ts` |
 | `/navegador-no-valido` | Unsupported browser page | `Particles` |
-| `GET /api/vos?text=...` | TTS via Deepgram, returns `audio/mpeg` | `lib/apiVos`, `lib/logger` |
+| `GET /api/vos?text=...` | TTS via Deepgram, returns `audio/mpeg`. Uses `'use cache'` / `cacheLife` | `lib/apiVos`, `lib/logger` |
 
 ## Practica Component Chain
 
@@ -88,31 +92,35 @@ npx prisma migrate dev --name <name>
 
 - `lib/Geminilive .ts` (space in filename — treat path as-is) → Google GenAI client
   - Model: `gemini-2.5-flash-native-audio-preview-12-2025`. API key from `NEXT_PUBLIC_GEMINI_API_KEY` env var.
-  - Exports `createSession(callbacks)` → `{ session, mediaHandler }`
+  - Exports `createSession(callbacks)` → `{ session, mediaHandler }`. Voice: `Leda`.
+  - Uses `@google/genai` SDK (`ai.live.connect()`), not the REST API.
 - `lib/handel.ts` → `MediaHandler` class for Web Audio API (PCM capture/playback via AudioWorklet)
   - AudioWorklet module: `public/static/pcm-processor.js` (included in tsconfig)
+- `lib/chromeSpeech.ts` → alternative Chrome Speech Recognition for browsers without AudioWorklet support
 
 ## Key Architecture
 
 - **App Router only** — no `pages/`. All routes under `app/`.
+- **Next.js 16** — uses `cacheComponents: true`, `'use cache'` directive, `cacheLife` / `cacheTag` for data caching (auth sessions, TTS audio, TTS text → audio).
 - **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`.
 - **Spanish naming** everywhere: routes, DB models, server actions.
 - **Toast** — `sileo`. Pattern: `sileo.promise(fn, { loading, success, error })` or `sileo.error({ title, description })`.
 - **State** — Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useConfiguracionUsuario` (persisted), `useEmilyStore`.
 - **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry `@magicui`. See `components.json`.
 - **Fonts** — Cinzel (`font-display`), Space Grotesk (`font-body`), Inter (`font-ui`), Geist (`font-sans`). Configured in `app/layout.tsx`.
-- **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts`.
+- **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts`. CSP varies by dev/prod.
 - **Design tokens** — see `DESIGN.md` for surface colors, spacing, era themes, animations.
 
 ## Conventions
 
 - Path alias: `@/*` → project root.
-- All custom CSS in `app/globals.css` (~1832 lines) — no `*.module.css`.
+- All custom CSS in `app/globals.css` — no `*.module.css`.
 - 4 era themes: **Viking** (cyan), **Egypt** (gold/brown), **Rome** (dark red), **Cyber** (deep blue/neon).
 - `generated/prisma/` gitignored — must run `prisma generate` after schema changes.
-- ESLint flat config at `eslint.config.mjs` — no `.eslintrc.*`.
+- ESLint flat config at `eslint.config.mjs` — uses `eslint-config-next/core-web-vitals` + `eslint-config-next/typescript`.
 - `lib/utils.ts` → `cn()` helper (`clsx` + `tailwind-merge`).
 - `lib/logger.ts` → structured logger (debug/info/warn/error) with context.
+- `lib/rachas.ts` → streak/racha calculation logic for user dashboard.
 
 ## Already Implemented (Do Not Repeat)
 
@@ -121,11 +129,11 @@ npx prisma migrate dev --name <name>
 **SEO:** Full metadata in `layout.tsx` (OG, Twitter Cards, canonical, robots). Auth pages: `robots: { index: false }`. `public/robots.txt` + `public/sitemap.xml` exist. OG image: `/FoundPage.webp`.
 
 **Next.js Best Practices (applied):**
-- Segment-level `error.tsx`, `loading.tsx`, `not-found.tsx` exist for `/dashboard`, `/dashboard/estudiar`, `/dashboard/estudiar/practicando`, and `/auth`
+- Segment-level `error.tsx` (root, `/dashboard`, `/dashboard/estudiar`, `/dashboard/estudiar/practicando`, `/auth`), `loading.tsx` (root, `/dashboard`, `/dashboard/estudiar`, `/dashboard/estudiar/practicando`), `not-found.tsx` (root, `/dashboard`) all exist
 - Components always consumed by `'use client'` parents carry the `'use client'` directive explicitly
 - Server actions validate input via Zod before DB calls
 - API routes use `NextRequest`/`NextResponse`, proper `Cache-Control`, and timeout via `AbortController`
-- Session cache in `lib/apiVos.ts` has 60s TTL (not infinite)
+- Session/TTS cache uses `'use cache'` directive with `cacheLife` (Next.js 16 cache components)
 
 ## Dormant / Removed
 
@@ -134,4 +142,4 @@ npx prisma migrate dev --name <name>
 | `lib/deepGrem2.ts` | **Removed** — STT replaced by Google Gemini Live Audio |
 | `lib/gemini.ts` | **Removed** — no longer exists |
 | `lib/streaming/`, `lib/text/`, `lib/audio/` | **Removed** — directories no longer exist |
-| `prisma/seed.ts` | Exists but fully commented out |
+| `prisma/seed.ts` | **Commented out** — superseded by `seed-etc.ts`, `seed-logistica.ts`, `seed-portuaria.ts` |
