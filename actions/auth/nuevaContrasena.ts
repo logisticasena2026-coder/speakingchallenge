@@ -49,7 +49,7 @@ export async function cambiarContrasena(token: string, nuevaContrasena: string) 
       where: { id: tokenValido.id },
     });
 
-    revalidateTag(`reset-token-${token}`)
+    revalidateTag(`reset-token-${token}`, 'seconds')
 
     return { ok: true, message: 'Contraseña cambiada exitosamente' };
   } catch (error) {

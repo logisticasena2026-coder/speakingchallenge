@@ -19,7 +19,9 @@ async function generateTTSAudio(text: string) {
     model: 'aura-2-thalia-en',
   });
 
-  const reader = result.stream().getReader();
+  const stream = result.stream();
+  if (!stream) throw new Error('No se pudo obtener el stream de audio');
+  const reader = stream.getReader();
   const chunks: Uint8Array[] = [];
   while (true) {
     const { done, value } = await reader.read();
