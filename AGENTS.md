@@ -24,25 +24,21 @@ No test runner. Manual via `pnpm dev`.
 | `NEXT_PUBLIC_DEEPGRAM_KEY` | Same key exposed client-side |
 | `NEXT_PUBLIC_GEMINI_API_KEY` | Gemini Live API key (moved from hardcoded in `lib/Geminilive .ts`) |
 
-## Middleware (`proxy.ts`, not `middleware.ts`)
+## Browser Check (two layers)
 
-- Named `proxy.ts`, not `middleware.ts`. Exported as `proxy`, not `middleware`. Next.js won't auto-register this — if it currently works something else wires it in.
-- Matcher: `/dashboard/:path*`
-- **Browser check first**: allows Chrome / Edge / Safari only (not Brave). Firefox, Opera, etc. → `/navegador-no-valido`
-- Then checks `sessions_id` cookie → `/auth/iniciar_sesion` if missing
-- No standard `middleware.ts` file exists
+- **Server (`proxy.ts`, named `proxy` not `middleware`):** Next.js only auto-registers `middleware.ts` — `proxy.ts` is **not** wired in. Matcher targets `/dashboard/:path*`. Would block Brave/Firefox/Opera and redirect to `/navegador-no-valido`.
+- **Client (`lib/validarNavegador.ts`):** `navegadorEsCompatible()` — same logic but runs client-side. Imported from hooks (`useValidarNavegador`).
 
 ## Auth
 
 - Custom session auth (no NextAuth). 24h expiry. Passwords hashed with `bcrypt`.
 - Server actions (`actions/auth/`) accept plain objects, not FormData. Return `{ ok, message, avatar? }`.
 - Server actions validate input via Zod schemas from `schemas/auth/` before DB calls.
-- `actions/auth/iniciarSesion.ts` → `iniciar_session({ correo, contrasena })` (uses `FormLoginSchema`)
-- `actions/auth/registro.ts` → `registro({ nombre_usuario, correo, contrasena })` (uses `FormRegisterSchema`)
-- `actions/auth/CerrarSesion.ts` → `CerrarSesion()` deletes `sessions_id` cookie
-- `actions/auth/nuevaContrasena.ts` → password reset (uses `PasswordSchema`)
-- `actions/auth/email/recuperacion/recuperarCuenta.tsx` → recovery form (uses `FormRecuperarSchema`, `AppError` subclasses)
-- `schemas/auth/` → Zod schemas: `login.ts`, `register.ts`, `nuevaContrasena.ts`, `recuperarContrasena.ts`
+- `iniciar_session({ correo, contrasena })` → `iniciarSesion.ts` (uses `FormLoginSchema`)
+- `registro({ nombre_usuario, correo, contrasena })` → `registro.ts` (uses `FormRegisterSchema`)
+- `CerrarSesion()` deletes `sessions_id` cookie → `CerrarSesion.ts`
+- Password reset → `nuevaContrasena.ts` (uses `PasswordSchema`)
+- Recovery email flow → `actions/auth/email/`
 - `lib/auth.ts` → `DatosDelAutenticado()` (returns user or redirects), `requiereIngreso()` (boolean). Uses `'use cache'` / `cacheLife` for session queries.
 - `lib/apiVos.ts` → `getSession(sessionId)` for API routes, also uses `'use cache'` / `cacheLife({ stale: 60, revalidate: 120 })`
 - `lib/errors.ts` → custom error classes: `AppError`, `ValidationError`, `UnauthorizedError`, `NotFoundError`, `ConflictError`, `DatabaseError`, `ExternalServiceError`
@@ -59,7 +55,7 @@ npx prisma migrate dev --name <name>
 - `pnpm build` auto-runs `prisma generate`.
 - `prisma.config.ts` loads `dotenv` — needed for `prisma migrate` outside of Next.js.
 - Seed is **active** via `prisma.config.ts`: runs `tsx prisma/seed-etc.ts & tsx prisma/seed-logistica.ts & tsx prisma/seed-portuaria.ts`. Run with `npx prisma db seed`. `prisma/seed.ts` is old (commented out).
-- `pnpm-workspace.yaml` whitelists these in `onlyBuiltDependencies`: `@google/genai`, `@prisma/engines`, `esbuild`, `msw`, `prisma`, `protobufjs`
+- `pnpm-workspace.yaml` whitelists build deps in `onlyBuiltDependencies`: `@google/genai`, `@prisma/engines`, `esbuild`, `msw`, `prisma`, `protobufjs`
 - 4 models: `user`, `Session`, `ResetearContrasenaToken`, `FrasesDePractica`
 - 2 enums: `Nivel` (5 values), `Skin` (19 empire values)
 
@@ -71,7 +67,7 @@ npx prisma migrate dev --name <name>
 | `/auth/iniciar_sesion` | Login form | `IniciarSesionForm`, `Particles` |
 | `/auth/register` | Registration form | `RegistrarseForm`, `Particles` |
 | `/auth` layout | Redirects to `/dashboard` if already authenticated | `requiereIngreso` |
-| `/auth/iniciar_sesion/recuperar_contrasena/*` | Password recovery flow (email, reset, confirm) | Various server actions |
+| `/auth/iniciar_sesion/recuperar_contrasena/` | Password recovery flow (email, reset, confirm) | Various server actions |
 | `/dashboard` | Stats, skill tree, rituals, ranking | Inline JSX (no component imports) |
 | `/dashboard/configuracion` | Settings (avatar, theme, font size) | `AvatarStudio`, `SectionCard`, `FontSizeSelector`, `ThemeSelector`, `CerrarSesion` |
 | `/dashboard/estudiar` | Study mission config | `Configuraciónes`, `ErasPractica`, `Stasts` |
@@ -101,11 +97,11 @@ npx prisma migrate dev --name <name>
 ## Key Architecture
 
 - **App Router only** — no `pages/`. All routes under `app/`.
-- **Next.js 16** — uses `cacheComponents: true`, `'use cache'` directive, `cacheLife` / `cacheTag` for data caching (auth sessions, TTS audio, TTS text → audio).
-- **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`.
+- **Next.js 16** — uses `cacheComponents: true`, `'use cache'` directive, `cacheLife` / `cacheTag` for data caching (auth sessions, TTS audio).
+- **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`. PostCSS: `@tailwindcss/postcss`.
 - **Spanish naming** everywhere: routes, DB models, server actions.
 - **Toast** — `sileo`. Pattern: `sileo.promise(fn, { loading, success, error })` or `sileo.error({ title, description })`.
-- **State** — Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useConfiguracionUsuario` (persisted), `useEmilyStore`.
+- **State** — 4 Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useConfiguracionUsuario` (persisted), `useEmilyStore`.
 - **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry `@magicui`. See `components.json`.
 - **Fonts** — Cinzel (`font-display`), Space Grotesk (`font-body`), Inter (`font-ui`), Geist (`font-sans`). Configured in `app/layout.tsx`.
 - **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts`. CSP varies by dev/prod.
@@ -121,16 +117,20 @@ npx prisma migrate dev --name <name>
 - `lib/utils.ts` → `cn()` helper (`clsx` + `tailwind-merge`).
 - `lib/logger.ts` → structured logger (debug/info/warn/error) with context.
 - `lib/rachas.ts` → streak/racha calculation logic for user dashboard.
+- `hooks/` — custom hooks: `useSpeechToText`, `useTextToSpeech`, `useValidarNavegador`, `use-mobile`, `VerContrasena`.
+- `utils/comparacion-de-frases.ts` → phrase comparison utility for practice scoring.
+- `types/browser.d.ts` → TypeScript declarations for Brave browser API (`navigator.brave`).
+- `actions/configuracion/actualizarAvatar.ts` → avatar update action.
 
 ## Already Implemented (Do Not Repeat)
 
-**Accessibility (WCAG AA):** Skip link, `prefers-reduced-motion`, semantic landmarks, `aria-invalid` + `aria-live` on forms, decorative icons with `aria-hidden`, focus-visible outline `brand-green`.
+**Accessibility (WCAG AA):** Skip link, `prefers-reduced-motion`, semantic landmarks, `aria-invalid` / `aria-live` on forms, decorative icons with `aria-hidden`, focus-visible outline `brand-green`.
 
 **SEO:** Full metadata in `layout.tsx` (OG, Twitter Cards, canonical, robots). Auth pages: `robots: { index: false }`. `public/robots.txt` + `public/sitemap.xml` exist. OG image: `/FoundPage.webp`.
 
 **Next.js Best Practices (applied):**
 - Segment-level `error.tsx` (root, `/dashboard`, `/dashboard/estudiar`, `/dashboard/estudiar/practicando`, `/auth`), `loading.tsx` (root, `/dashboard`, `/dashboard/estudiar`, `/dashboard/estudiar/practicando`), `not-found.tsx` (root, `/dashboard`) all exist
-- Components always consumed by `'use client'` parents carry the `'use client'` directive explicitly
+- Components always consumed by `'use client'` parents carry the directive explicitly
 - Server actions validate input via Zod before DB calls
 - API routes use `NextRequest`/`NextResponse`, proper `Cache-Control`, and timeout via `AbortController`
 - Session/TTS cache uses `'use cache'` directive with `cacheLife` (Next.js 16 cache components)
