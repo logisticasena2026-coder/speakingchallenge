@@ -1,14 +1,31 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Calendar, Clock, Hourglass, Target, Trophy, Zap } from 'lucide-react';
-
+import { useRouter } from 'next/navigation';
+import { Calendar, Clock, Hourglass, Target } from 'lucide-react';
+import { usePracticaStore } from '@/store/usePracticaStore';
 const RADIO = 42;
 const CIRCUNFERENCIA = 2 * Math.PI * RADIO;
 
-const WAVE_HEIGHTS = [12, 22, 34, 42, 50, 46, 38, 28, 18, 22, 30, 40, 48, 44, 36, 26, 16, 20, 28, 38, 46, 42, 34, 24];
+const WAVE_HEIGHTS = [
+  12, 22, 34, 42, 50, 46, 38, 28, 18, 22, 30, 40, 48, 44, 36, 26, 16, 20, 28, 38, 46, 42, 34, 24,
+];
 
-const MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+const MONTHS = [
+  'enero',
+  'febrero',
+  'marzo',
+  'abril',
+  'mayo',
+  'junio',
+  'julio',
+  'agosto',
+  'septiembre',
+  'octubre',
+  'noviembre',
+  'diciembre',
+];
 
 function formatearTiempo(segundos: number): string {
   const h = Math.floor(segundos / 3600);
@@ -34,9 +51,12 @@ function sombraPrecision(pct: number): string {
 
 function rating(pct: number): { letra: string; clase: string } {
   if (pct >= 95) return { letra: 'S', clase: 'text-brand-cyan border-cyan-500/25 bg-cyan-500/8' };
-  if (pct >= 85) return { letra: 'A', clase: 'text-brand-green border-green-500/25 bg-green-500/8' };
-  if (pct >= 75) return { letra: 'B', clase: 'text-brand-amber border-amber-500/25 bg-amber-500/8' };
-  if (pct >= 60) return { letra: 'C', clase: 'text-yellow-400 border-yellow-400/25 bg-yellow-400/8' };
+  if (pct >= 85)
+    return { letra: 'A', clase: 'text-brand-green border-green-500/25 bg-green-500/8' };
+  if (pct >= 75)
+    return { letra: 'B', clase: 'text-brand-amber border-amber-500/25 bg-amber-500/8' };
+  if (pct >= 60)
+    return { letra: 'C', clase: 'text-yellow-400 border-yellow-400/25 bg-yellow-400/8' };
   return { letra: 'D', clase: 'text-red-400 border-red-400/25 bg-red-400/8' };
 }
 
@@ -48,7 +68,7 @@ function mensajePrecision(pct: number): string {
   return 'Requiere más práctica. Intenta de nuevo.';
 }
 
-function AnilloPrecision({ precision }: { precision: number }) {
+function AnilloPrecision({ precision }: Readonly<{ precision: number }>) {
   const [valor, setValor] = useState(0);
   const color = colorPrecision(precision);
   const sombra = sombraPrecision(precision);
@@ -109,21 +129,20 @@ function fechaFormateada(): string {
   return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const HUD_CORNERS = [
-  'top-2.5 left-2.5 border-t border-l rounded-tl',
-  'top-2.5 right-2.5 border-t border-r rounded-tr',
-  'bottom-2.5 left-2.5 border-b border-l rounded-bl',
-  'bottom-2.5 right-2.5 border-b border-r rounded-br',
+  { text: 'top-2.5 left-2.5 border-t border-l rounded-tl', id: 1 },
+  { text: 'top-2.5 right-2.5 border-t border-r rounded-tr', id: 2 },
+  { text: 'bottom-2.5 left-2.5 border-b border-l rounded-bl', id: 3 },
+  { text: 'bottom-2.5 right-2.5 border-b border-r rounded-br', id: 4 },
 ] as const;
 
 function HudCorners() {
   return (
     <>
-      {HUD_CORNERS.map((pos, i) => (
+      {HUD_CORNERS.map((pos) => (
         <div
-          key={i}
-          className={`absolute ${pos} w-3 h-3 border-white/8 opacity-0 transition-all duration-350 ease-out group-hover:opacity-100 pointer-events-none`}
+          key={pos.id}
+          className={`absolute ${pos.text} w-3 h-3 border-white/8 opacity-0 transition-all duration-350 ease-out group-hover:opacity-100 pointer-events-none`}
         />
       ))}
     </>
@@ -131,13 +150,19 @@ function HudCorners() {
 }
 
 export function EstadisticasSesion() {
-  // TODO: Reemplazar con datos reales del store/API
+  const estadisticas = usePracticaStore((store) => store.estadisticas);
+  const router = useRouter();
+  useEffect(() => {
+    if (estadisticas.length === 0) {
+      router.replace('/dashboard/estudiar');
+    }
+  }, [estadisticas, router]);
+  const tiempoTotal = usePracticaStore((store) => store.tiempoTotal);
   const sesion = {
-    tiempoSegundos: 754,
-    totalFrases: 25,
-    precisionMedia: 81,
-    xpGanado: 180,
-    nivel: 'Básico',
+    tiempoSegundos: tiempoTotal,
+    totalFrases: estadisticas.length + 1,
+    precisionMedia:
+      estadisticas.reduce((acc, e) => acc + e.precision, 0) / estadisticas.length || 0,
   };
 
   const promedioPorFrase = sesion.tiempoSegundos / sesion.totalFrases;
@@ -149,13 +174,13 @@ export function EstadisticasSesion() {
       <div className="orb orb--2" />
       <div className="orb orb--3" />
 
-      <div className="fixed bottom-0 left-0 right-0 h-22 flex items-end justify-center gap-[3px] opacity-15 pointer-events-none z-0 px-6">
+      <div className="fixed bottom-0 left-0 right-0 h-22 flex items-end justify-center gap-75 opacity-15 pointer-events-none z-0 px-6">
         {WAVE_HEIGHTS.map((h, i) => (
           <span
             key={i}
             className="waveform-bar"
             style={{
-              height: `${h}px`,
+              height: `${i}px`,
               animationDelay: `${i * 0.1}s`,
             }}
           />
@@ -181,17 +206,6 @@ export function EstadisticasSesion() {
           <span className="flex items-center gap-1.5">
             <Target className="w-3.5 h-3.5 text-text-muted-alt" />
             {sesion.totalFrases} frases
-          </span>
-          <span className="w-px h-3.5 bg-white/8" />
-          <span className="flex items-center gap-1.5">
-            <Zap className="w-3.5 h-3.5 text-brand-green" />
-            +{sesion.xpGanado}
-            <span className="text-brand-green font-semibold">XP</span>
-          </span>
-          <span className="w-px h-3.5 bg-white/8" />
-          <span className="flex items-center gap-1.5">
-            <Trophy className="w-3.5 h-3.5 text-brand-amber" />
-            Nivel {sesion.nivel}
           </span>
         </div>
 
@@ -257,6 +271,15 @@ export function EstadisticasSesion() {
               {mensajePrecision(sesion.precisionMedia)}
             </p>
           </div>
+        </div>
+
+        <div className="mt-8 flex justify-center ani d5">
+          <Link
+            href="/dashboard/estudiar"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/8 bg-white/5 px-6 py-3 text-sm font-semibold text-text-primary transition-all duration-250 hover:bg-white/10 hover:border-white/15 hover:-translate-y-0.5"
+          >
+            Finalizar sesión
+          </Link>
         </div>
       </main>
     </>

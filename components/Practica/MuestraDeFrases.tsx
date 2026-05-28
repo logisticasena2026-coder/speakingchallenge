@@ -14,6 +14,9 @@ import { OpcionesMicrofono } from './OpcionesMicrofono';
 import { EstadisticasDeFrases } from './EstadisticasDeFrases';
 export function MuestraDeFrases() {
   const frases = useFrasesStore((state) => state.frases);
+  const setEstadistica = usePracticaStore((state) => state.setEstadisticas);
+  const precision = usePracticaStore((state) => state.precision);
+
   const indiceActual = useFrasesStore((state) => state.indiceActual);
   const siguiente = useFrasesStore((state) => state.siguiente);
   const anterior = useFrasesStore((state) => state.anterior);
@@ -24,8 +27,9 @@ export function MuestraDeFrases() {
 
   const irSiguiente = useCallback(async () => {
     setTexto('');
+    setEstadistica([{ id: indiceActual, precision }]);
     await siguiente();
-  }, [setTexto, siguiente]);
+  }, [setTexto, siguiente, setEstadistica, indiceActual, precision]);
 
   const irAnterior = useCallback(() => {
     setTexto('');
@@ -89,12 +93,8 @@ export function MuestraDeFrases() {
                   <span className={`font-display ${fuente} text-brand-green`}>
                     {indiceActual + 1}
                   </span>
-                  <span className={`font-ui text-text-muted ${fuente}`}>
-                    /
-                  </span>
-                  <span className={`font-ui text-text-muted ${fuente}`}>
-                    {TotalFrases}
-                  </span>
+                  <span className={`font-ui text-text-muted ${fuente}`}>/</span>
+                  <span className={`font-ui text-text-muted ${fuente}`}>{TotalFrases}</span>
                 </div>
                 <div className="progress-bar w-full h-1 bg-white/10 rounded-full overflow-hidden">
                   <div
