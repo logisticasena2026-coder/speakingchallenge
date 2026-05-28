@@ -45,9 +45,7 @@ export function EstadisticasDeFrases() {
   }, [resetearTodo]);
   const precision = comparacion_de_frases(frases[fraseActual]?.fraseIngles ?? '', texto ?? '');
   useEffect(() => {
-    return () => {
-      setPrecision(precision);
-    };
+    setPrecision(precision);
   }, [precision, setPrecision]);
   const [displayValue, setDisplayValue] = useState(0);
 
