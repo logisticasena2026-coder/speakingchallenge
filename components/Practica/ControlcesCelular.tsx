@@ -1,10 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useFrasesStore } from '@/store/useFrasesStore';
 import { usePracticaStore } from '@/store/usePracticaStore';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
 import { comparacion_de_frases } from '@/utils/comparacion-de-frases';
+import { sileo } from 'sileo';
 
 const RADIO = 28;
 const CIRCUNFERENCIA = 2 * Math.PI * RADIO;
@@ -19,10 +21,13 @@ export function ControlesCelular({
   siguiente,
   anterior,
 }: Readonly<{ siguiente: () => Promise<void>; anterior: () => void }>) {
+  const router = useRouter();
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
   const fraseActual = useFrasesStore((state) => state.indiceActual);
   const frases = useFrasesStore((store) => store.frases);
   const texto = usePracticaStore((store) => store.texto);
+  const resetearTiempo = usePracticaStore((store) => store.resetTiempo);
+  const estadisticas = usePracticaStore((store) => store.estadisticas);
 
   const precision = comparacion_de_frases(frases[fraseActual]?.fraseIngles ?? '', texto ?? '');
   const [displayValue, setDisplayValue] = useState(0);
@@ -145,6 +150,23 @@ export function ControlesCelular({
           </div>
         </button>
       </div>
+
+      <button
+        onClick={() => {
+          if (estadisticas.length < 3) {
+            sileo.error({
+              title: 'Práctica incompleta',
+              description: 'Completa al menos 3 frases para ver tus estadísticas completas.',
+            });
+            return;
+          }
+          resetearTiempo();
+          router.push('/dashboard/estudiar/estadisticas');
+        }}
+        className="w-full h-11 px-5 bg-brand-green text-surface-0 font-ui text-sm font-semibold rounded-lg transition-all duration-200 ease-out hover:shadow-[0_0_24px_rgba(61,214,140,0.45)] hover:-translate-y-0.5 active:translate-y-0"
+      >
+        Finalizar práctica
+      </button>
     </div>
   );
 }

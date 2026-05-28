@@ -12,6 +12,9 @@ import { Frase } from './Frase';
 import { TuPronunciacion } from './TuPronunciacion';
 import { OpcionesMicrofono } from './OpcionesMicrofono';
 import { EstadisticasDeFrases } from './EstadisticasDeFrases';
+import { sileo } from 'sileo';
+
+
 export function MuestraDeFrases() {
   const frases = useFrasesStore((state) => state.frases);
   const setEstadistica = usePracticaStore((state) => state.setEstadisticas);
@@ -26,6 +29,13 @@ export function MuestraDeFrases() {
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
 
   const irSiguiente = useCallback(async () => {
+    if (precision === 0) {
+      sileo.info({
+        title: '¡Espera!',
+        description: 'Por favor, pronuncia la frase antes de avanzar.',
+      });
+      return;
+    }
     setTexto('');
     setEstadistica([{ id: indiceActual, precision }]);
     await siguiente();
