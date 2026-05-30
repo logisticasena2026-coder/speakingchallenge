@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, Clock, Hourglass, Target } from 'lucide-react';
+import { Calendar, Clock, Hourglass, Target, Users, Shield, Trophy } from 'lucide-react';
 import { usePracticaStore } from '@/store/usePracticaStore';
+import { useSesionPracticaStore } from '@/store/useSesionPracticaStore';
 const RADIO = 42;
 const CIRCUNFERENCIA = 2 * Math.PI * RADIO;
 
@@ -152,11 +153,29 @@ function HudCorners() {
 export function EstadisticasSesion() {
   const estadisticas = usePracticaStore((store) => store.estadisticas);
   const router = useRouter();
+
+  const historialGrupos = useSesionPracticaStore((store) => store.historialGrupos);
+  const cargarHistorial = useSesionPracticaStore((store) => store.cargarHistorial);
+
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
-    if (estadisticas.length === 0) {
+    cargarHistorial();
+    setReady(true);
+  }, [cargarHistorial]);
+
+  const tieneSquadReciente =
+    ready &&
+    historialGrupos.length > 0 &&
+    Date.now() - new Date(historialGrupos[historialGrupos.length - 1].fecha).getTime() < 60000;
+
+  useEffect(() => {
+    if (!ready) return;
+    if (estadisticas.length === 0 && !tieneSquadReciente) {
       router.replace('/dashboard/estudiar');
     }
-  }, [estadisticas, router]);
+  }, [estadisticas, router, tieneSquadReciente, ready]);
+
   const tiempoTotal = usePracticaStore((store) => store.tiempoTotal);
   const sesion = {
     tiempoSegundos: tiempoTotal,
@@ -167,6 +186,8 @@ export function EstadisticasSesion() {
 
   const promedioPorFrase = sesion.tiempoSegundos / sesion.totalFrases;
   const { letra, clase } = rating(sesion.precisionMedia);
+
+  const gruposStats = tieneSquadReciente ? historialGrupos : [];
 
   return (
     <>
@@ -281,6 +302,110 @@ export function EstadisticasSesion() {
             Finalizar sesión
           </Link>
         </div>
+
+        {tieneSquadReciente && (
+          <section className="mt-12 ani d3">
+            <div className="flex items-center gap-3 mb-6">
+              <Users className="w-5 h-5 text-brand-amber" />
+              <h2 className="font-display text-xl font-bold text-text-primary">
+                Estadísticas de Escuadrón
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {gruposStats.map((grupo, gi) => {
+                const colorGrupo = gi % 3 === 0 ? '#22d3ee' : gi % 3 === 1 ? '#f5a623' : '#a855f7';
+                return (
+                  <div
+                    key={gi}
+                    className="group relative overflow-hidden rounded-xl border border-white/6 bg-white/3 p-5 transition-all duration-250 ease-out hover:-translate-y-1 hover:border-white/10 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
+                  >
+                    <HudCorners />
+
+                    <div className="flex items-center gap-3 mb-4">
+                      <Shield className="w-5 h-5 shrink-0" style={{ color: colorGrupo }} />
+                      <div className="min-w-0">
+                        <h3 className="font-display text-sm font-bold text-text-primary">
+                          {grupo.nombre}
+                        </h3>
+                        <p className="font-ui text-[10px] text-text-muted tracking-wider">
+                          {grupo.totalFrases} frases ·{' '}
+                          {grupo.precisionMedia.toFixed(1)}% precisión media
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 mb-4 p-3 rounded-lg bg-white/4 border border-white/6">
+                      <Trophy className="w-4 h-4 shrink-0" style={{ color: colorGrupo }} />
+                      <div className="flex-1">
+                        <div className="flex items-baseline justify-between">
+                          <span className="font-ui text-[10px] font-semibold tracking-wider uppercase text-text-muted">
+                            Precisión grupal
+                          </span>
+                          <span
+                            className="font-display text-lg font-bold"
+                            style={{ color: colorGrupo }}
+                          >
+                            {grupo.precisionMedia.toFixed(0)}%
+                          </span>
+                        </div>
+                        <div className="mt-1.5 h-1.5 rounded-full bg-white/8 overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all duration-700"
+                            style={{
+                              width: `${grupo.precisionMedia}%`,
+                              backgroundColor: colorGrupo,
+                              boxShadow: `0 0 8px ${colorGrupo}66`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="font-ui text-[9px] font-semibold tracking-[0.18em] uppercase text-text-muted">
+                        Desglose por integrante
+                      </p>
+                      {grupo.integrantes.map((integrante, ii) => {
+                        const promedio =
+                          integrante.puntajes.length > 0
+                            ? integrante.puntajes.reduce((a, b) => a + b, 0) /
+                              integrante.puntajes.length
+                            : 0;
+                        return (
+                          <div
+                            key={ii}
+                            className="flex items-center justify-between gap-3 rounded-lg border border-white/6 bg-white/3 px-3.5 py-2.5"
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-white/6 font-ui text-[10px] font-bold text-text-muted">
+                                {ii + 1}
+                              </span>
+                              <span className="font-ui text-sm font-semibold text-text-primary truncate">
+                                {integrante.nombre}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-3 shrink-0">
+                              <span className="font-ui text-[10px] text-text-muted tabular-nums">
+                                {integrante.puntajes.length} respuestas
+                              </span>
+                              <span
+                                className="font-display text-sm font-bold min-w-[3ch] text-right"
+                                style={{ color: promedio >= 60 ? '#3dd68c' : '#ef4444' }}
+                              >
+                                {promedio.toFixed(0)}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
       </main>
     </>
   );

@@ -1,11 +1,13 @@
 'use client';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
+import { useFrasesStore } from '@/store/useFrasesStore';
 
-import { Bell, Flame } from 'lucide-react';
+import { Bell, Flame, Users } from 'lucide-react';
 import { Temporizador } from './temporizador';
 
 export function HeaderPractica() {
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
+  const protocoloGrupo = useFrasesStore((state) => state.protocoloGrupo);
   return (
     <header className="sticky top-0 h-16 bg-[rgba(7,9,15,0.92)] border-b border-white/10 backdrop-blur-xl z-40 flex items-center justify-between px-4 md:px-6">
       <div className="flex items-center gap-2.5">
@@ -21,6 +23,15 @@ export function HeaderPractica() {
             </span>
           </div>
         </button>
+
+        {protocoloGrupo === 'escuadron' && (
+          <div className="flex items-center gap-1.5 rounded-full border border-brand-amber/25 bg-brand-amber/8 px-3 py-1">
+            <Users className="size-3 text-brand-amber" />
+            <span className="font-ui text-[10px] font-bold tracking-wider uppercase text-brand-amber">
+              Escuadrón
+            </span>
+          </div>
+        )}
 
         <div className="hidden sm:block">
           <Temporizador />

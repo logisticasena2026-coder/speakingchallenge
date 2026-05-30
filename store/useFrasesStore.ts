@@ -7,6 +7,12 @@ export interface Frase {
   tematica: string;
 }
 
+export interface GrupoConfig {
+  miembros: number;
+  nombre: string;
+  integrantes: string[];
+}
+
 interface FrasesStore {
   frases: Frase[];
   indiceActual: number;
@@ -19,6 +25,13 @@ interface FrasesStore {
   dificultad: number | '';
   edad: number | '';
   creador: string;
+  protocoloGrupo: 'solitario' | 'escuadron';
+  setProtocoloGrupo: (protocolo: 'solitario' | 'escuadron') => void;
+  cantidadGrupos: number;
+  gruposConfig: GrupoConfig[];
+  setGrupoConfig: (index: number, data: Partial<GrupoConfig>) => void;
+  agregarGrupo: () => void;
+  quitarGrupo: () => void;
   cargarFrasesInicial: () => Promise<void>;
   siguiente: () => Promise<void>;
   anterior: () => void;
@@ -30,9 +43,13 @@ interface FrasesStore {
   setModoDeEstudio: (modo: 'Estudio' | 'Practica') => void;
 }
 
+const crearGruposConfig = (n: number): GrupoConfig[] =>
+  Array.from({ length: n }, () => ({ miembros: 2, nombre: '', integrantes: ['', ''] }));
+
 export const useFrasesStore = create<FrasesStore>((set, get) => ({
   frases: [],
   indiceActual: 0,
+  protocoloGrupo: "solitario",
   offset: 0,
   totalFrases: 0,
   estaCargando: false,
@@ -42,6 +59,27 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   edad: '',
   creador: '',
   modoDeEstudio: 'Estudio',
+  cantidadGrupos: 2,
+  gruposConfig: crearGruposConfig(2),
+  setProtocoloGrupo: (protocolo) => set({ protocoloGrupo: protocolo }),
+
+  setGrupoConfig: (index, data) =>
+    set((state) => {
+      const gruposConfig = [...state.gruposConfig];
+      gruposConfig[index] = { ...gruposConfig[index], ...data };
+      return { gruposConfig };
+    }),
+
+  agregarGrupo: () =>
+    set((state) => {
+      const n = Math.min(6, state.cantidadGrupos + 1);
+      return { cantidadGrupos: n, gruposConfig: crearGruposConfig(n) };
+    }),
+  quitarGrupo: () =>
+    set((state) => {
+      const n = Math.max(2, state.cantidadGrupos - 1);
+      return { cantidadGrupos: n, gruposConfig: crearGruposConfig(n) };
+    }),
 
   setModoDeEstudio: (modo) => set({ modoDeEstudio: modo }),
   cargarFrasesInicial: async () => {

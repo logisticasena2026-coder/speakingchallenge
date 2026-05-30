@@ -1,10 +1,12 @@
 'use client';
 
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useCallback, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Users } from 'lucide-react';
+import { useCallback, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useFrasesStore } from '@/store/useFrasesStore';
 import { usePracticaStore } from '@/store/usePracticaStore';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
+import { useSesionPracticaStore } from '@/store/useSesionPracticaStore';
 
 import { ControlesCelular } from './ControlcesCelular';
 import { EstadisticaEstudiantePractica } from './EstadisticasEStudiantePracticando';
@@ -14,8 +16,8 @@ import { OpcionesMicrofono } from './OpcionesMicrofono';
 import { EstadisticasDeFrases } from './EstadisticasDeFrases';
 import { sileo } from 'sileo';
 
-
 export function MuestraDeFrases() {
+  const router = useRouter();
   const frases = useFrasesStore((state) => state.frases);
   const setEstadistica = usePracticaStore((state) => state.setEstadisticas);
   const precision = usePracticaStore((state) => state.precision);
@@ -25,8 +27,28 @@ export function MuestraDeFrases() {
   const anterior = useFrasesStore((state) => state.anterior);
   const cargarFrasesInicial = useFrasesStore((state) => state.cargarFrasesInicial);
   const TotalFrases = useFrasesStore((store) => store.totalFrases);
+  const protocoloGrupo = useFrasesStore((state) => state.protocoloGrupo);
+  const gruposConfig = useFrasesStore((state) => state.gruposConfig);
   const setTexto = usePracticaStore((state) => state.setTexto);
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
+
+  const esEscuadron = protocoloGrupo === 'escuadron';
+
+  const {
+    sesionActiva,
+    colaTurnos,
+    turnoActual: turnoIdx,
+    iniciarSesion,
+    registrarPuntaje,
+    avanzarTurno,
+    finalizarSesion,
+  } = useSesionPracticaStore();
+
+  const turno = colaTurnos[turnoIdx] ?? null;
+  const displayIndex = esEscuadron && turno ? turno.fraseIndex : indiceActual;
+  const sessionLength = esEscuadron ? colaTurnos.length : TotalFrases;
+
+  const iniciado = useRef(false);
 
   const irSiguiente = useCallback(async () => {
     if (precision === 0) {
@@ -37,17 +59,47 @@ export function MuestraDeFrases() {
       return;
     }
     setTexto('');
-    setEstadistica([{ id: indiceActual, precision }]);
-    await siguiente();
-  }, [setTexto, siguiente, setEstadistica, indiceActual, precision]);
+
+    if (esEscuadron) {
+      registrarPuntaje(precision);
+      const hayMas = avanzarTurno();
+      if (!hayMas) {
+        finalizarSesion(gruposConfig);
+        sileo.success({ title: 'Práctica completada', description: 'Revisa las estadísticas del escuadrón.' });
+        router.push('/dashboard/estudiar/estadisticas');
+      }
+    } else {
+      setEstadistica([{ id: indiceActual, precision }]);
+      await siguiente();
+    }
+  }, [precision, setTexto, esEscuadron, registrarPuntaje, avanzarTurno, finalizarSesion, gruposConfig, router, setEstadistica, indiceActual, siguiente]);
 
   const irAnterior = useCallback(() => {
+    if (esEscuadron) return;
     setTexto('');
     anterior();
-  }, [setTexto, anterior]);
+  }, [setTexto, anterior, esEscuadron]);
+
   useEffect(() => {
-    cargarFrasesInicial();
+    if (!iniciado.current) {
+      iniciado.current = true;
+      cargarFrasesInicial();
+    }
   }, [cargarFrasesInicial]);
+
+  useEffect(() => {
+    if (esEscuadron && frases.length > 0 && colaTurnos.length === 0) {
+      iniciarSesion(gruposConfig, TotalFrases);
+    }
+  }, [esEscuadron, frases.length, colaTurnos.length, iniciarSesion, gruposConfig, TotalFrases]);
+
+  useEffect(() => {
+    return () => {
+      if (esEscuadron && sesionActiva) {
+        finalizarSesion(gruposConfig);
+      }
+    };
+  }, [esEscuadron, sesionActiva, finalizarSesion, gruposConfig]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -58,7 +110,7 @@ export function MuestraDeFrases() {
         irSiguiente();
       }
 
-      if (e.key.toLowerCase() === 'a') {
+      if (e.key.toLowerCase() === 'a' && !esEscuadron) {
         e.preventDefault();
         irAnterior();
       }
@@ -66,22 +118,52 @@ export function MuestraDeFrases() {
 
     globalThis.addEventListener('keydown', handleKeyDown);
     return () => globalThis.removeEventListener('keydown', handleKeyDown);
-  }, [irSiguiente, irAnterior]);
+  }, [irSiguiente, irAnterior, esEscuadron]);
 
   return (
     <>
       <EstadisticaEstudiantePractica
-        frase={indiceActual}
-        TotalFrases={TotalFrases}
+        frase={displayIndex}
+        TotalFrases={sessionLength}
         fuente={fuente}
       />
+
+      {esEscuadron && turno && (
+        <div className="ani d1 mb-3 mx-auto w-full max-w-250">
+          <div className="flex items-center justify-center gap-3 rounded-xl border border-brand-amber/20 bg-brand-amber/6 px-4 py-2.5 backdrop-blur-sm">
+            <div className="flex items-center gap-2 text-brand-amber">
+              <Users className="size-4" />
+              <span className="font-ui text-[11px] font-bold tracking-[0.14em] uppercase">
+                Turno de
+              </span>
+            </div>
+            <span className="font-display text-sm font-bold text-text-primary">
+              {turno.nombreIntegrante}
+            </span>
+            <span className="font-ui text-[10px] text-text-muted tracking-wider">
+              · {turno.nombreGrupo}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {esEscuadron && !sesionActiva && colaTurnos.length > 0 && (
+        <div className="ani d1 mb-3 mx-auto w-full max-w-250">
+          <div className="flex items-center justify-center gap-3 rounded-xl border-brand-green/20 bg-brand-green/6 px-4 py-3 backdrop-blur-sm">
+            <span className="font-display text-sm font-bold text-brand-green">
+              ¡Práctica de escuadrón completada!
+            </span>
+          </div>
+        </div>
+      )}
+
       <div className="practice-grid ani d2 flex-1 min-h-0">
         <div className="flex flex-col gap-4 h-full justify-center">
-          <Frase frases={frases} indice={indiceActual} fuente={fuente} />
+          <Frase frases={frases} indice={displayIndex} fuente={fuente} />
 
           <TuPronunciacion />
 
-          <OpcionesMicrofono frase={frases} indiceActual={indiceActual} />
+          <OpcionesMicrofono frase={frases} indiceActual={displayIndex} />
         </div>
 
         <div className="side-panel flex flex-col gap-3.5 h-full justify-center">
@@ -91,7 +173,7 @@ export function MuestraDeFrases() {
             <div className="flex items-center justify-between gap-3 p-1">
               <button
                 onClick={irAnterior}
-                disabled={indiceActual === 0}
+                disabled={esEscuadron || indiceActual === 0}
                 aria-label="Frase anterior"
                 className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20 disabled:opacity-30 disabled:cursor-not-allowed"
               >
@@ -101,16 +183,16 @@ export function MuestraDeFrases() {
               <div className="flex-1 flex flex-col items-center">
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className={`font-display ${fuente} text-brand-green`}>
-                    {indiceActual + 1}
+                    {displayIndex + 1}
                   </span>
                   <span className={`font-ui text-text-muted ${fuente}`}>/</span>
-                  <span className={`font-ui text-text-muted ${fuente}`}>{TotalFrases}</span>
+                  <span className={`font-ui text-text-muted ${fuente}`}>{sessionLength}</span>
                 </div>
                 <div className="progress-bar w-full h-1 bg-white/10 rounded-full overflow-hidden">
                   <div
                     className="progress-fill h-full bg-linear-to-r from-brand-green/60 to-brand-green rounded-full transition-all duration-500 ease-out"
                     style={{
-                      width: `${TotalFrases > 0 ? ((indiceActual + 1) / TotalFrases) * 100 : 0}%`,
+                      width: `${sessionLength > 0 ? ((turnoIdx + 1) / sessionLength) * 100 : 0}%`,
                     }}
                   />
                 </div>
@@ -118,8 +200,9 @@ export function MuestraDeFrases() {
 
               <button
                 onClick={irSiguiente}
+                disabled={esEscuadron && !sesionActiva}
                 aria-label="Siguiente frase"
-                className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20"
+                className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20 disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <ChevronRight className="w-5 h-5 text-text-secondary group-hover:text-brand-green transition-colors" />
               </button>
