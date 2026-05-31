@@ -5,15 +5,6 @@ import type { GrupoConfig } from './useFrasesStore';
 
 const STORAGE_KEY = 'speakingchallenge_squad_history';
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
 export interface TurnoInfo {
   fraseIndex: number;
   grupoIndex: number;
@@ -96,7 +87,7 @@ export const useSesionPracticaStore = create<SesionPracticaStore>((set, get) => 
 
   iniciarSesion: (gruposConfig, totalFrases) => {
     const sessionLength = Math.min(totalFrases, 50);
-    const frasesOrder = shuffle(Array.from({ length: sessionLength }, (_, i) => i));
+    const frasesOrder = Array.from({ length: sessionLength }, (_, i) => i);
     const colaTurnos = generarColaTurnos(gruposConfig, sessionLength, frasesOrder);
 
     const puntajes: Record<string, number[]> = {};

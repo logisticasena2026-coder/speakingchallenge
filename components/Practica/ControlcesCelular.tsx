@@ -1,10 +1,11 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFrasesStore } from '@/store/useFrasesStore';
 import { usePracticaStore } from '@/store/usePracticaStore';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
+import { useSesionPracticaStore } from '@/store/useSesionPracticaStore';
 import { comparacion_de_frases } from '@/utils/comparacion-de-frases';
 import { sileo } from 'sileo';
 
@@ -26,6 +27,10 @@ export function ControlesCelular({
   const fraseActual = useFrasesStore((state) => state.indiceActual);
   const frases = useFrasesStore((store) => store.frases);
   const texto = usePracticaStore((store) => store.texto);
+  const protocoloGrupo = useFrasesStore((store) => store.protocoloGrupo);
+  const gruposConfig = useFrasesStore((store) => store.gruposConfig);
+  const turnoActual = useSesionPracticaStore((store) => store.turnoActual);
+  const finalizarSesion = useSesionPracticaStore((store) => store.finalizarSesion);
   const resetearTiempo = usePracticaStore((store) => store.resetTiempo);
   const estadisticas = usePracticaStore((store) => store.estadisticas);
 
@@ -140,7 +145,9 @@ export function ControlesCelular({
       <div id="tab-content-next" className="hidden">
         <button className="next-btn w-full flex items-center justify-between px-5 py-4 rounded-xl border border-white/6 bg-white/3 cursor-pointer transition-all duration-300 relative overflow-hidden hover:border-brand-green/30">
           <div className="text-left relative z-1">
-            <p className={`font-ui ${fuente} font-semibold tracking-[0.2em] uppercase text-brand-green mb-1`}>
+            <p
+              className={`font-ui ${fuente} font-semibold tracking-[0.2em] uppercase text-brand-green mb-1`}
+            >
               Siguiente enigma
             </p>
             <p className="font-display text-sm font-bold text-text-primary">Continuar práctica</p>
@@ -153,7 +160,17 @@ export function ControlesCelular({
 
       <button
         onClick={() => {
-          if (estadisticas.length < 3) {
+          if (protocoloGrupo === 'escuadron') {
+            if (turnoActual < 5) {
+              sileo.error({
+                title: 'Práctica incompleta',
+                description:
+                  'Completa al menos 5 frases en modo escuadrón para ver las estadísticas.',
+              });
+              return;
+            }
+            finalizarSesion(gruposConfig);
+          } else if (estadisticas.length < 3) {
             sileo.error({
               title: 'Práctica incompleta',
               description: 'Completa al menos 3 frases para ver tus estadísticas completas.',
