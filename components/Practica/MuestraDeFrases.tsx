@@ -94,14 +94,6 @@ export function MuestraDeFrases() {
   }, [esEscuadron, frases.length, colaTurnos.length, iniciarSesion, gruposConfig, TotalFrases]);
 
   useEffect(() => {
-    return () => {
-      if (esEscuadron && sesionActiva) {
-        finalizarSesion(gruposConfig);
-      }
-    };
-  }, [esEscuadron, sesionActiva, finalizarSesion, gruposConfig]);
-
-  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 

@@ -223,13 +223,18 @@ export function EstadisticasSesion() {
             <Calendar className="w-3.5 h-3.5 text-text-muted-alt" />
             {fechaFormateada()}
           </span>
-          <span className="w-px h-3.5 bg-white/8" />
-          <span className="flex items-center gap-1.5">
-            <Target className="w-3.5 h-3.5 text-text-muted-alt" />
-            {sesion.totalFrases} frases
-          </span>
+          {estadisticas.length > 0 && (
+            <span className="w-px h-3.5 bg-white/8" />
+          )}
+          {estadisticas.length > 0 && (
+            <span className="flex items-center gap-1.5">
+              <Target className="w-3.5 h-3.5 text-text-muted-alt" />
+              {sesion.totalFrases} frases
+            </span>
+          )}
         </div>
 
+        {estadisticas.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="group relative overflow-hidden rounded-xl border border-white/6 bg-white/3 p-5 ani-scale d2 transition-all duration-250 ease-out hover:-translate-y-1 hover:border-white/10 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4),0_0_0_1px_rgba(61,214,140,0.06)]">
             <HudCorners />
@@ -293,6 +298,7 @@ export function EstadisticasSesion() {
             </p>
           </div>
         </div>
+        )}
 
         <div className="mt-8 flex justify-center ani d5">
           <Link

@@ -86,7 +86,7 @@ export const useSesionPracticaStore = create<SesionPracticaStore>((set, get) => 
   historialGrupos: [],
 
   iniciarSesion: (gruposConfig, totalFrases) => {
-    const sessionLength = Math.min(totalFrases, 50);
+    const sessionLength = totalFrases;
     const frasesOrder = Array.from({ length: sessionLength }, (_, i) => i);
     const colaTurnos = generarColaTurnos(gruposConfig, sessionLength, frasesOrder);
 
@@ -103,6 +103,7 @@ export const useSesionPracticaStore = create<SesionPracticaStore>((set, get) => 
       turnoActual: 0,
       sesionActiva: true,
       puntajesPorIntegrante: puntajes,
+      historialGrupos: [],
     });
   },
 
@@ -163,9 +164,8 @@ export const useSesionPracticaStore = create<SesionPracticaStore>((set, get) => 
       };
     });
 
-    const updated = [...historialGrupos, ...gruposStats];
-    set({ historialGrupos: updated, sesionActiva: false });
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    set({ historialGrupos: gruposStats, sesionActiva: false });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(gruposStats));
   },
 
   cargarHistorial: () => {
