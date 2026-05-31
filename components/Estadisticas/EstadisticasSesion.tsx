@@ -303,7 +303,7 @@ export function EstadisticasSesion() {
           </Link>
         </div>
 
-        {tieneSquadReciente && (
+        {tieneSquadReciente && estadisticas.length === 0 && (
           <section className="mt-12 ani d3">
             <div className="flex items-center gap-3 mb-6">
               <Users className="w-5 h-5 text-brand-amber" />

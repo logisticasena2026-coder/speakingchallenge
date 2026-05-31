@@ -167,7 +167,7 @@ export function MuestraDeFrases() {
         </div>
 
         <div className="side-panel flex flex-col gap-3.5 h-full justify-center">
-          <EstadisticasDeFrases />
+          <EstadisticasDeFrases indiceForzado={displayIndex} />
 
           <div className="nav-controls ani d4 w-full">
             <div className="flex items-center justify-between gap-3 p-1">

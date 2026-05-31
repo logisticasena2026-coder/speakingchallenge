@@ -32,7 +32,7 @@ function mensajeSegunPrecision(pct: number): string {
   return 'Requiere más práctica. Intenta de nuevo con más cuidado.';
 }
 
-export function EstadisticasDeFrases() {
+export function EstadisticasDeFrases({ indiceForzado }: { indiceForzado?: number }) {
   const router = useRouter();
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
   const fraseActual = useFrasesStore((state) => state.indiceActual);
@@ -46,7 +46,8 @@ export function EstadisticasDeFrases() {
   useEffect(() => {
     resetearTodo();
   }, [resetearTodo]);
-  const precision = comparacion_de_frases(frases[fraseActual]?.fraseIngles ?? '', texto ?? '');
+  const idx = indiceForzado ?? fraseActual;
+  const precision = comparacion_de_frases(frases[idx]?.fraseIngles ?? '', texto ?? '');
   useEffect(() => {
     setPrecision(precision);
   }, [precision, setPrecision]);
