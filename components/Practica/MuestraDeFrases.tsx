@@ -29,6 +29,8 @@ export function MuestraDeFrases() {
   const TotalFrases = useFrasesStore((store) => store.totalFrases);
   const protocoloGrupo = useFrasesStore((state) => state.protocoloGrupo);
   const gruposConfig = useFrasesStore((state) => state.gruposConfig);
+  const estaCargando = useFrasesStore((state) => state.estaCargando);
+  const reiniciarFrases = useFrasesStore((state) => state.reiniciar);
   const setTexto = usePracticaStore((state) => state.setTexto);
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
 
@@ -42,6 +44,7 @@ export function MuestraDeFrases() {
     registrarPuntaje,
     avanzarTurno,
     finalizarSesion,
+    reiniciarSesion,
   } = useSesionPracticaStore();
 
   const turno = colaTurnos[turnoIdx] ?? null;
@@ -49,6 +52,14 @@ export function MuestraDeFrases() {
   const sessionLength = esEscuadron ? colaTurnos.length : TotalFrases;
 
   const iniciado = useRef(false);
+
+  useEffect(() => {
+    return () => {
+      reiniciarSesion();
+      reiniciarFrases();
+      iniciado.current = false;
+    };
+  }, [reiniciarSesion, reiniciarFrases]);
 
   const irSiguiente = useCallback(async () => {
     if (precision === 0) {
@@ -88,10 +99,10 @@ export function MuestraDeFrases() {
   }, [cargarFrasesInicial]);
 
   useEffect(() => {
-    if (esEscuadron && frases.length > 0 && colaTurnos.length === 0) {
+    if (esEscuadron && frases.length > 0 && colaTurnos.length === 0 && !estaCargando) {
       iniciarSesion(gruposConfig, TotalFrases);
     }
-  }, [esEscuadron, frases.length, colaTurnos.length, iniciarSesion, gruposConfig, TotalFrases]);
+  }, [esEscuadron, frases.length, colaTurnos.length, iniciarSesion, gruposConfig, TotalFrases, estaCargando]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
