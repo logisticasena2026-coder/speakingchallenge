@@ -3,6 +3,7 @@
 import { useFrasesStore } from '@/store/useFrasesStore';
 import { cn } from '@/lib/utils';
 import { BookOpen, Zap, Play, Radar, Users, Save, Shield } from 'lucide-react';
+import { sileo } from 'sileo';
 import { useState, useEffect } from 'react';
 
 import Link from 'next/link';
@@ -15,7 +16,6 @@ export function ModoEstudio() {
   const modo = useFrasesStore((state) => state.modoDeEstudio);
   const setModo = useFrasesStore((state) => state.setModoDeEstudio);
   const protocoloGrupo = useFrasesStore((state) => state.protocoloGrupo);
-  const cantidadGrupos = useFrasesStore((state) => state.cantidadGrupos);
   const gruposConfig = useFrasesStore((state) => state.gruposConfig);
   const setGrupoConfig = useFrasesStore((state) => state.setGrupoConfig);
 
@@ -25,6 +25,13 @@ export function ModoEstudio() {
   useEffect(() => {
     setFormData(gruposConfig);
   }, [gruposConfig]);
+
+  const grupoConfigurado = (g: GrupoConfig) =>
+    g.nombre.trim() !== '' && g.integrantes.every((i) => i.trim() !== '');
+
+  const gruposInsuficientes =
+    protocoloGrupo === 'escuadron' &&
+    formData.filter(grupoConfigurado).length < 2;
 
   const handleSave = (index: number) => {
     setGrupoConfig(index, formData[index]);
@@ -237,11 +244,30 @@ export function ModoEstudio() {
                 <Radar className="w-14 h-14 text-brand-green/20" />
               </div>
               <p className="text-sm text-text-muted mb-6 max-w-100 leading-relaxed">
-                Listo para comenzar a practicar cuando quieras. tienes 2.000 frases a tu disposicion
+                {protocoloGrupo === 'escuadron'
+                  ? gruposInsuficientes
+                    ? 'Configura al menos 2 grupos con nombre para practicar en modo Escuadrón Cronista'
+                    : `Listo para practicar en equipo con ${formData.filter(grupoConfigurado).length} grupos configurados`
+                  : 'Listo para comenzar a practicar cuando quieras. tienes 2.000 frases a tu disposicion'}
               </p>
               <Link
                 href="/dashboard/estudiar/practicando"
-                className="flex items-center justify-center gap-2 bg-brand-green text-surface-0 font-ui text-xs font-bold tracking-widest uppercase w-full sm:w-auto px-8 py-3.5 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-[0_0_24px rgba(61,214,140,0.4)] hover:-translate-y-0.5"
+                onClick={(e) => {
+                  if (gruposInsuficientes) {
+                    e.preventDefault();
+                    sileo.error({
+                      title: 'Configuración incompleta',
+                      description:
+                        'Se requieren al menos 2 grupos para practicar en modo Escuadrón Cronista',
+                    });
+                  }
+                }}
+                className={cn(
+                  'flex items-center justify-center gap-2 font-ui text-xs font-bold tracking-widest uppercase w-full sm:w-auto px-8 py-3.5 rounded-xl transition-all duration-200',
+                  gruposInsuficientes
+                    ? 'bg-white/8 text-text-muted cursor-not-allowed'
+                    : 'bg-brand-green text-surface-0 cursor-pointer hover:shadow-[0_0_24px_rgba(61,214,140,0.4)] hover:-translate-y-0.5',
+                )}
               >
                 <Play className="w-5 h-5" />
                 Iniciar practica
