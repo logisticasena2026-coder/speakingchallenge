@@ -28,7 +28,7 @@ function base64ToArrayBuffer(base64: string): ArrayBuffer {
   return bytes.buffer;
 }
 
-export async function createSession(callbacks?: SessionCallbacks) {
+export async function createSession(callbacks?: SessionCallbacks, systemInstruction?: string) {
   const mh = getMediaHandler();
 
   try {
@@ -97,6 +97,11 @@ export async function createSession(callbacks?: SessionCallbacks) {
       },
       inputAudioTranscription: {},
       outputAudioTranscription: {},
+      ...(systemInstruction && {
+        systemInstruction: {
+          parts: [{ text: systemInstruction }],
+        },
+      }),
     },
   });
 
