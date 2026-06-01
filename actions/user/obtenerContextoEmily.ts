@@ -5,6 +5,10 @@ import { DatosDelAutenticado } from '@/lib/auth';
 export async function obtenerContextoEmily() {
   const user = await DatosDelAutenticado();
 
+  if (!user) {
+    throw new Error('No se pudo obtener la sesión del usuario');
+  }
+
   return {
     name: user.name,
     nivel: user.nivel,
