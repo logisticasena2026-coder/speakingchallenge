@@ -24,20 +24,24 @@ import {
 } from 'lucide-react';
 
 import Link from 'next/link';
+
+const terminalItems = [
+  { label: 'Inicio', href: '/dashboard', icon: Home },
+  { label: 'Emily Chat', href: '/dashboard/emily', icon: MessageCircle },
+  { label: 'Estudiar', href: '/dashboard/estudiar', icon: Dumbbell },
+  { label: 'Juegos', href: '#', icon: Gamepad },
+];
+
+const progresItems = [
+  { label: 'Logros', href: '#', icon: Medal },
+  { label: 'Estadisticas', href: '#', icon: ChartNoAxesCombined },
+];
+
+const systemItems = [
+  { label: 'Configuración', href: '/dashboard/configuracion', icon: Settings },
+];
+
 export function Enlaces() {
-  const terminalItems = [
-    { label: 'Inicio', href: '/dashboard', icon: Home },
-    { label: 'Emily Chat', href: '/dashboard/emily', icon: MessageCircle },
-    { label: 'Estudiar', href: '/dashboard/estudiar', icon: Dumbbell },
-    { label: 'Juegos', href: '#', icon: Gamepad },
-  ];
-  const progresItems = [
-    { label: 'Logros', href: '#', icon: Medal },
-    { label: 'Estadisticas', href: '#', icon: ChartNoAxesCombined },
-  ];
-  const systemItems = [
-    { label: 'Configuración', href: '/dashboard/configuracion', icon: Settings },
-  ];
   const pathname = usePathname();
 
   return (

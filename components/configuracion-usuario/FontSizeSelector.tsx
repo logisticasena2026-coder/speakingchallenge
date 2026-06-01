@@ -2,16 +2,16 @@
 import { cn } from '@/lib/utils';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
 
+const sizes = [
+  { value: 'text-[12px]', label: 'A', desc: 'Pequeño' },
+  { value: 'text-[14px]', label: 'A', desc: 'Mediano' },
+  { value: 'text-[16px]', label: 'A', desc: 'Grande' },
+  { value: 'text-[18px]', label: 'A', desc: 'Extra' },
+];
+
 export function FontSizeSelector() {
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente)
     const setFuente = useConfiguracionUsuario((state) => state.setTamanoFuente);
-
-  const sizes = [
-    { value: 'text-[12px]', label: 'A', desc: 'Pequeño' },
-    { value: 'text-[14px]', label: 'A', desc: 'Mediano' },
-    { value: 'text-[16px]', label: 'A', desc: 'Grande' },
-    { value: 'text-[18px]', label: 'A', desc: 'Extra' },
-  ];
 
   return (
     <span>
