@@ -49,7 +49,7 @@ export function Presentacion() {
           className="display-heading text-5xl sm:text-6xl lg:text-7xl xl:text-8xl mb-6 animate-in"
           style={{ fontSize: 'clamp(36px, 7vw, 80px)' }}
         >
-          Cuatro eras,
+          Cinco eras,
           <br />
           <span className="text-highlight-green">una travesía</span>
         </h1>

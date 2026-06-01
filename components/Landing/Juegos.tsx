@@ -15,57 +15,26 @@ export function Juegos() {
             className="text-sm sm:text-base max-w-xl mx-auto"
             style={{ color: 'var(--text-secondary)' }}
           >
-            Cuatro juegos, cuatro eras. Aprende inglés mientras viajas en el tiempo.
+            Cinco juegos, cinco eras. Aprende inglés mientras viajas por la historia de la humanidad.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" role="list">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" role="list">
           <div className="game-card" role="listitem">
             <div className="flex items-center justify-between mb-5">
-              <span style={{ fontSize: '28px' }} aria-hidden="true">🐍</span>
+              <span style={{ fontSize: '28px' }} aria-hidden="true">🏛️</span>
               <span className="badge badge-bronze">Bronce</span>
-            </div>
-            <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>
-              Serpiente Rúnica
-            </h3>
-            <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
-              Era Vikinga
-            </p>
-            <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
-              Guía la serpiente hacia la traducción correcta. Evita las respuestas falsas o perderás
-              una vida.
-            </p>
-            <div className="divider"></div>
-            <p
-              className="text-xs mt-3 mb-1"
-              style={{
-                color: 'var(--text-muted)',
-                fontFamily: "'Inter',sans-serif",
-                letterSpacing: '0.06em',
-              }}
-            >
-              WASD · FLECHAS · DESLIZA
-            </p>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              Sin partidas aún
-            </p>
-          </div>
-
-          <div className="game-card" role="listitem">
-            <div className="flex items-center justify-between mb-5">
-              <span style={{ fontSize: '28px' }} aria-hidden="true">🎪</span>
-              <span className="badge badge-silver">Plata</span>
             </div>
             <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>
               Jeroglíficos
             </h3>
             <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
-              Antiguo Egipto
+              Era Antigua
             </p>
             <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
               Encuentra los pares inglés-español. Tres errores activan penalización de tiempo.
             </p>
-            <div className="divider" style={{ background: 'var(--brand-amber)' }}></div>
+            <div className="divider"></div>
             <p
               className="text-xs mt-3 mb-1"
               style={{
@@ -81,19 +50,79 @@ export function Juegos() {
             </p>
           </div>
 
+          <div className="game-card" role="listitem">
+            <div className="flex items-center justify-between mb-5">
+              <span style={{ fontSize: '28px' }} aria-hidden="true">⚔️</span>
+              <span className="badge badge-silver">Plata</span>
+            </div>
+            <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>
+              Legiones de Bloques
+            </h3>
+            <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
+              Era Medieval
+            </p>
+            <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
+              Apila piezas como en el Tetris clásico. Cada fila completa activa un reto de traducción.
+            </p>
+            <div className="divider" style={{ background: 'var(--brand-amber)' }}></div>
+            <p
+              className="text-xs mt-3 mb-1"
+              style={{
+                color: 'var(--text-muted)',
+                fontFamily: "'Inter',sans-serif",
+                letterSpacing: '0.06em',
+              }}
+            >
+              FLECHAS · ESPACIO · DESLIZA
+            </p>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              Sin partidas aún
+            </p>
+          </div>
+
+          <div className="game-card" role="listitem">
+            <div className="flex items-center justify-between mb-5">
+              <span style={{ fontSize: '28px' }} aria-hidden="true">🚂</span>
+              <span className="badge badge-gold">Oro</span>
+            </div>
+            <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>
+              Rutas del Imperio
+            </h3>
+            <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
+              Era Moderna
+            </p>
+            <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
+              Conecta palabras para formar rutas comerciales. Cada ruta completada desbloquea vocabulario nuevo.
+            </p>
+            <div className="divider" style={{ background: 'var(--brand-amber)' }}></div>
+            <p
+              className="text-xs mt-3 mb-1"
+              style={{
+                color: 'var(--text-muted)',
+                fontFamily: "'Inter',sans-serif",
+                letterSpacing: '0.06em',
+              }}
+            >
+              ARRASTRA · CONECTA
+            </p>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              Sin partidas aún
+            </p>
+          </div>
+
           <div className="game-card" style={{ borderColor: 'rgba(34,211,238,0.15)' }} role="listitem">
             <div className="flex items-center justify-between mb-5">
-              <span style={{ fontSize: '28px' }} aria-hidden="true">🚀</span>
+              <span style={{ fontSize: '28px' }} aria-hidden="true">₿</span>
               <span className="badge badge-diamond">Diamante</span>
             </div>
             <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>
               Carrera Cuántica
             </h3>
             <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
-              Futuro Cibernético
+              Era Crypto
             </p>
             <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
-              Escribe la traducción correcta para hacer avanzar tu nave. ¡Vence a la IA rival!
+              Escribe la traducción correcta para hacer avanzar tu nodo. ¡Vence a la IA rival en la blockchain!
             </p>
             <div className="divider" style={{ background: 'var(--brand-cyan)' }}></div>
             <p
@@ -111,22 +140,21 @@ export function Juegos() {
             </p>
           </div>
 
-          <div className="game-card" role="listitem">
+          <div className="game-card" style={{ borderColor: 'rgba(168,85,247,0.15)' }} role="listitem">
             <div className="flex items-center justify-between mb-5">
-              <span style={{ fontSize: '28px' }} aria-hidden="true">🧱</span>
-              <span className="badge badge-gold">Oro</span>
+              <span style={{ fontSize: '28px' }} aria-hidden="true">🤖</span>
+              <span className="badge" style={{ background: 'rgba(168,85,247,0.15)', color: '#c084fc', border: '1px solid rgba(168,85,247,0.3)' }}>Élite</span>
             </div>
             <h3 className="font-bold text-base mb-1" style={{ fontFamily: "'Cinzel',serif" }}>
-              Legiones de Bloques
+              Nexo Sintético
             </h3>
             <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
-              Roma Imperial
+              Era Post-Humana
             </p>
             <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
-              Apila piezas como en el Tetris clásico. Cada fila completa activa un reto de
-              traducción.
+              Combina estructuras gramaticales complejas en tiempo real. Solo los mejores alcanzan la trascendencia.
             </p>
-            <div className="divider" style={{ background: 'var(--brand-amber)' }}></div>
+            <div className="divider" style={{ background: '#a855f7' }}></div>
             <p
               className="text-xs mt-3 mb-1"
               style={{
@@ -135,7 +163,7 @@ export function Juegos() {
                 letterSpacing: '0.06em',
               }}
             >
-              FLECHAS · ESPACIO · DESLIZA
+              VOZ · TECLADO
             </p>
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Sin partidas aún
@@ -151,7 +179,7 @@ export function Juegos() {
             letterSpacing: '0.05em',
           }}
         >
-          4 DE 4 ERAS DESBLOQUEADAS
+          5 DE 5 ERAS DESBLOQUEADAS
         </p>
       </div>
     </section>

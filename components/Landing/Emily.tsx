@@ -104,7 +104,7 @@ export function Emily() {
               >
                 &ldquo;Veo que mejoraste la{' '}
                 <strong style={{ color: 'var(--brand-green)' }}>th</strong> desde la última vez.
-                ¡Esta vez probemos un debate corto en la Roma Imperial!&rdquo;
+                ¡Esta vez probemos un debate corto en la era Medieval!&rdquo;
               </p>
               <div className="flex items-center gap-2">
                 <div
