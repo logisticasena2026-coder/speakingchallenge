@@ -8,33 +8,41 @@ import { actualizarAvatar } from '@/actions/configuracion/actualizarAvatar';
 import { AvatarCropDialog } from './AvatarCropDialog';
 const SKIN_ERAS = [
   {
-    id: 'viking',
-    label: 'Vikingo',
-    skins: ['ImperioCivilización', 'ImperioAcadio'],
-    color: 'border-cyan-500/40 bg-cyan-500/8 hover:bg-cyan-500/15',
-    accent: 'text-cyan-400',
-    gradient: 'from-cyan-500/20 via-blue-600/10 to-surface-2',
-  },
-  {
-    id: 'egypt',
-    label: 'Egipto',
-    skins: ['ImperioAntiguoDeEgipto'],
+    id: 'antigua',
+    label: 'Antigua',
+    skins: ['ImperioCivilización', 'ImperioAcadio', 'ImperioAntiguoDeEgipto', 'ImperioBabilónico', 'ImperioHitita', 'ImperioAsirio', 'ImperioNeobabilónico', 'ImperioAqueménidaPersa', 'ImperioMacedonio', 'ImperioMaurya', 'ImperioCartaginés'],
     color: 'border-amber-500/40 bg-amber-500/8 hover:bg-amber-500/15',
     accent: 'text-amber-400',
     gradient: 'from-amber-500/20 via-yellow-700/10 to-surface-2',
   },
   {
-    id: 'rome',
-    label: 'Roma',
-    skins: ['ImperioRomano', 'ImperioBizantino'],
+    id: 'medieval',
+    label: 'Medieval',
+    skins: ['ImperioRomano', 'ImperioBizantino', 'CalifatoOmeya', 'ImperioMongol', 'ImperioOtomano'],
     color: 'border-red-500/40 bg-red-500/8 hover:bg-red-500/15',
     accent: 'text-red-400',
     gradient: 'from-red-500/20 via-rose-800/10 to-surface-2',
   },
   {
-    id: 'cyber',
-    label: 'Cyber',
-    skins: ['ImperioJaponés'],
+    id: 'moderna',
+    label: 'Moderna',
+    skins: ['ImperioAzteca', 'ImperioInca', 'ImperioRuso', 'ImperioBritánico', 'ImperioJaponés'],
+    color: 'border-green-500/40 bg-green-500/8 hover:bg-green-500/15',
+    accent: 'text-green-400',
+    gradient: 'from-green-500/20 via-emerald-700/10 to-surface-2',
+  },
+  {
+    id: 'crypto',
+    label: 'Crypto',
+    skins: ['ImperioSatoshi', 'ImperioEthereum', 'ImperioSolariaChain', 'ImperioQuantumLedger', 'ImperioNexusAI'],
+    color: 'border-cyan-500/40 bg-cyan-500/8 hover:bg-cyan-500/15',
+    accent: 'text-cyan-400',
+    gradient: 'from-cyan-500/20 via-blue-600/10 to-surface-2',
+  },
+  {
+    id: 'posthumana',
+    label: 'Post-Humana',
+    skins: ['ImperioTitanVanguard', 'ImperioCyberAnunnaki', 'ImperioAtlantechPrime', 'ImperioOmegaCyborg', 'GuardianesDelPacífico'],
     color: 'border-purple-500/40 bg-purple-500/8 hover:bg-purple-500/15',
     accent: 'text-purple-400',
     gradient: 'from-purple-500/20 via-violet-700/10 to-surface-2',
@@ -180,7 +188,7 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
             <label className="text-[10px] font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label">
               Era del avatar
             </label>
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
               {SKIN_ERAS.map((era) => (
                 <button
                   key={era.id}

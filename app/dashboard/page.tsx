@@ -229,61 +229,7 @@ export default async function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="group relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
-                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-[#0a1628] via-[#1a3a5c] to-era-viking-end">
-                  <svg
-                    fill="none"
-                    className="w-full h-full absolute inset-0 opacity-45"
-                    viewBox="0 0 300 240"
-                  >
-                    <path
-                      fill="rgba(20,50,80,0.8)"
-                      stroke="#1e4a70"
-                      strokeWidth="1"
-                      d="M20 200q130-80 260 0l10 10q-140-80-280 0Z"
-                    />
-                    <path stroke="#4a7fa0" strokeWidth="2" d="M150 70v130" />
-                    <path
-                      fill="rgba(40,80,120,0.7)"
-                      stroke="#3d7a9e"
-                      strokeWidth="1"
-                      d="M115 70h70l-35-45z"
-                    />
-                    <path fill="rgba(10,30,60,0.9)" d="M0 220q75-20 150-10t150-5v35H0Z" />
-                    <circle cx="50" cy="30" r="1" fill="#fff" opacity=".6" />
-                    <circle cx="90" cy="15" r=".5" fill="#fff" opacity=".4" />
-                    <circle cx="200" cy="25" r="1" fill="#fff" opacity=".6" />
-                    <circle cx="250" cy="40" r=".5" fill="#fff" opacity=".4" />
-                  </svg>
-                </div>
-                <div className="absolute inset-0 bg-linear-to-t from-[rgba(7,9,15,0.95)] via-[rgba(7,9,15,0.3)] to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="font-display text-base font-bold text-white">
-                        Era Vikinga
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-text-secondary mb-2">
-                      Mitología Nórdica · Vocabulario base
-                    </p>
-                    <div className="w-full h-1.5 bg-surface-4 rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]"
-                        style={{ width: '0%' }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="font-ui text-[9px] font-bold uppercase tracking-wider bg-brand-green text-[#07090f] px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-[0_0_20px_rgba(61,214,140,0.3)]">
-                    <Zap className="w-3 h-3" />
-                    Viajar
-                  </span>
-                </div>
-              </div>
-
-              <div className="group relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
-                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-era-egypt-start via-[#3d2800] to-era-egypt-end">
+                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-[#1a1200] via-[#3d2800] to-era-egypt-end">
                   <svg
                     fill="none"
                     className="w-full h-full absolute inset-0 opacity-45"
@@ -310,10 +256,50 @@ export default async function Home() {
                 <div className="absolute bottom-0 left-0 right-0 p-5">
                   <div>
                     <span className="font-display text-base font-bold text-white block mb-1">
-                      Antiguo Egipto
+                      Era Antigua
                     </span>
                     <p className="text-[11px] text-text-secondary mb-2">
-                      Jeroglíficos · Construcción de frases
+                      Egipto, Babilonia, Persia · Vocabulario base
+                    </p>
+                    <div className="w-full h-1.5 bg-surface-4 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]"
+                        style={{ width: '0%' }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="font-ui text-[9px] font-bold uppercase tracking-wider bg-brand-green text-[#07090f] px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-[0_0_20px_rgba(61,214,140,0.3)]">
+                    <Zap className="w-3 h-3" />
+                    Viajar
+                  </span>
+                </div>
+              </div>
+
+              <div className="group relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
+                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-[#1a0808] via-[#3d1515] to-era-rome-end">
+                  <svg
+                    fill="none"
+                    className="w-full h-full absolute inset-0 opacity-45"
+                    viewBox="0 0 300 240"
+                  >
+                    <path fill="rgba(80,20,20,0.6)" d="M0 220v-60q150-15 300 0v60Z" />
+                    <rect x="100" y="60" width="100" height="120" rx="4" fill="rgba(120,40,40,0.5)" stroke="rgba(180,60,60,0.3)" strokeWidth="1" />
+                    <path d="M100 60q50-30 100 0" fill="rgba(150,50,50,0.4)" stroke="rgba(200,70,70,0.3)" strokeWidth="1" />
+                    <rect x="140" y="100" width="20" height="30" rx="2" fill="rgba(60,15,15,0.7)" />
+                    <circle cx="150" cy="55" r="4" fill="rgba(200,200,200,0.3)" />
+                    <path fill="rgba(40,10,10,0.9)" d="M0 215q75-10 150-5t150-5v35H0Z" />
+                  </svg>
+                </div>
+                <div className="absolute inset-0 bg-linear-to-t from-[rgba(7,9,15,0.95)] via-[rgba(7,9,15,0.3)] to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <div>
+                    <span className="font-display text-base font-bold text-white block mb-1">
+                      Era Medieval
+                    </span>
+                    <p className="text-[11px] text-text-secondary mb-2">
+                      Roma, Bizancio, Mongol · Construcción de frases
                     </p>
                     <div className="w-full h-1.5 bg-surface-4 rounded-full overflow-hidden">
                       <div
