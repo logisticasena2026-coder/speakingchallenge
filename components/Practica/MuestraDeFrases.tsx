@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronLeft, ChevronRight, Users } from 'lucide-react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useEffectEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFrasesStore } from '@/store/useFrasesStore';
 import { usePracticaStore } from '@/store/usePracticaStore';
@@ -91,6 +91,9 @@ export function MuestraDeFrases() {
     anterior();
   }, [setTexto, anterior, esEscuadron]);
 
+  const onIrSiguiente = useEffectEvent(irSiguiente);
+  const onIrAnterior = useEffectEvent(irAnterior);
+
   useEffect(() => {
     if (!iniciado.current) {
       iniciado.current = true;
@@ -110,18 +113,18 @@ export function MuestraDeFrases() {
 
       if (e.key.toLowerCase() === 'd') {
         e.preventDefault();
-        irSiguiente();
+        onIrSiguiente();
       }
 
       if (e.key.toLowerCase() === 'a' && !esEscuadron) {
         e.preventDefault();
-        irAnterior();
+        onIrAnterior();
       }
     };
 
     globalThis.addEventListener('keydown', handleKeyDown);
     return () => globalThis.removeEventListener('keydown', handleKeyDown);
-  }, [irSiguiente, irAnterior, esEscuadron]);
+  }, [esEscuadron]);
 
   return (
     <>

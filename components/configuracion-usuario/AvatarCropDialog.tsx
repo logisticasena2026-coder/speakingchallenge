@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
 import 'react-easy-crop/react-easy-crop.css';
 import { Dialog } from 'radix-ui';
@@ -57,18 +57,18 @@ interface Props {
 export function AvatarCropDialog({ imageSrc, onConfirm, onCancel }: Props) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedArea | null>(null);
+  const croppedAreaPixels = useRef<CroppedArea | null>(null);
   const [confirming, setConfirming] = useState(false);
 
   const onCropComplete = useCallback((_: unknown, pixels: CroppedArea) => {
-    setCroppedAreaPixels(pixels);
+    croppedAreaPixels.current = pixels;
   }, []);
 
   const handleConfirm = async () => {
-    if (!croppedAreaPixels) return;
+    if (!croppedAreaPixels.current) return;
     setConfirming(true);
     try {
-      const file = await getCroppedImg(imageSrc, croppedAreaPixels);
+      const file = await getCroppedImg(imageSrc, croppedAreaPixels.current);
       onConfirm(file);
     } catch {
       sileo.error({ title: 'Error al recortar', description: 'No se pudo procesar la imagen' });
