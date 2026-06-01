@@ -73,8 +73,8 @@ export default function Emily() {
           const pcm16 = new Int16Array(pcmBuffer);
           const bytes = new Uint8Array(pcm16.buffer);
           let binary = '';
-          for (let i = 0; i < bytes.length; i++) {
-            binary += String.fromCharCode(bytes[i]);
+          for (const byte of bytes) {
+            binary += String.fromCodePoint(byte);
           }
           const base64 = btoa(binary);
 
@@ -96,17 +96,14 @@ export default function Emily() {
   };
 
   useEffect(() => {
-    const session = sessionRef.current;
-    const handler = mediaHandlerRef.current;
     return () => {
-      if (session) {
-        try {
-          session.close();
-        } catch {}
-        sessionRef.current = null;
-      }
-      handler?.stopAudio();
+      sessionRef.current?.close();
+      mediaHandlerRef.current?.stopAudio();
+      sessionRef.current = null;
       mediaHandlerRef.current = null;
+      hasConnectedRef.current = false;
+      setIsRecording(false);
+      setIsConnecting(false);
     };
   }, []);
 

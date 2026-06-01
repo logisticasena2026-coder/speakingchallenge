@@ -6,14 +6,9 @@ import { MediaHandler } from './handel';
 const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY! });
 const MODEL = 'gemini-2.5-flash-native-audio-preview-12-2025';
 
-let mediaHandler: MediaHandler | null = null;
-
 function getMediaHandler(): MediaHandler {
   if (typeof window === 'undefined') throw new Error('Cannot use MediaHandler on server');
-  if (!mediaHandler) {
-    mediaHandler = new MediaHandler();
-  }
-  return mediaHandler;
+  return new MediaHandler();
 }
 
 export interface SessionCallbacks {
