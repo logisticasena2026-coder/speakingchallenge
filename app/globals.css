@@ -734,6 +734,26 @@ body::before {
   background: linear-gradient(135deg, #0a0a1a 0%, #0d1a3d 40%, #0a1628 100%);
 }
 
+.era-antigua {
+  background: linear-gradient(135deg, #1a1200 0%, #3d2800 40%, #5c3d00 100%);
+}
+
+.era-medieval {
+  background: linear-gradient(135deg, #1a0808 0%, #3d1515 40%, #5c2020 100%);
+}
+
+.era-moderna {
+  background: linear-gradient(135deg, #0a1a10 0%, #153020 40%, #204030 100%);
+}
+
+.era-crypto {
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a1040 40%, #0d1a3d 100%);
+}
+
+.era-posthumana {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2a 40%, #2a1040 100%);
+}
+
 .era-content {
   position: absolute;
   bottom: 0;
@@ -1350,6 +1370,36 @@ button:focus-visible,
   background: linear-gradient(135deg,#0d1a3d,#0a1628);
   color: var(--brand-cyan);
   border-color: rgba(34,211,238,0.3);
+}
+
+.avatar-antigua {
+  background: linear-gradient(135deg,#3d2800,#5c3d00);
+  color: var(--brand-amber);
+  border-color: rgba(245,166,35,0.3);
+}
+
+.avatar-medieval {
+  background: linear-gradient(135deg,#3d1515,#5c2020);
+  color: #f87171;
+  border-color: rgba(239,68,68,0.3);
+}
+
+.avatar-moderna {
+  background: linear-gradient(135deg,#153020,#204030);
+  color: #4ade80;
+  border-color: rgba(74,222,128,0.3);
+}
+
+.avatar-crypto {
+  background: linear-gradient(135deg,#1a1040,#0d1a3d);
+  color: var(--brand-cyan);
+  border-color: rgba(34,211,238,0.3);
+}
+
+.avatar-posthumana {
+  background: linear-gradient(135deg,#1a0a2a,#2a1040);
+  color: #c084fc;
+  border-color: rgba(192,132,252,0.3);
 }
 
 .avatar-emily {

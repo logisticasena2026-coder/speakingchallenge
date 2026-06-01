@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: '%s | speakingchallenge',
   },
   description:
-    'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas (Vikinga, Egipto, Roma, Ciberpunk) mientras restauras los verbos perdidos del tiempo. Incluye speaking challenge, conversaciones con IA y juegos arcade.',
+    'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 5 eras históricas (Antigua, Medieval, Moderna, Crypto, Post-Humana) mientras restauras los verbos perdidos del tiempo. Incluye speaking challenge, conversaciones con IA y juegos arcade.',
   keywords: [
     'aprender inglés',
     'inglés gamificado',
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     siteName: 'speakingchallenge',
     title: 'speakingchallenge - Aprende inglés a través del tiempo',
     description:
-      'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
+      'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 5 eras históricas mientras restauras los verbos perdidos del tiempo.',
     images: [
       {
         url: '/FoundPage.webp',
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'speakingchallenge - Aprende inglés a través del tiempo',
     description:
-      'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 4 eras históricas mientras restauras los verbos perdidos del tiempo.',
+      'Plataforma de aprendizaje de inglés gamificada con IA. Viaja a través de 5 eras históricas mientras restauras los verbos perdidos del tiempo.',
     images: ['/FoundPage.webp'],
   },
   alternates: {

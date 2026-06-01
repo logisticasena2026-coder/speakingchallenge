@@ -64,10 +64,11 @@ El diseño hereda la paleta oscura del original pero la ejecuta con mayor precis
 
 | Era              | Color Primario | Gradiente de Fondo                       | Badge    |
 |-----------------|---------------|------------------------------------------|----------|
-| Era Vikinga      | Azul marino   | `#0a1628 → #1a3a5c → #0d2a45`           | Bronce   |
-| Antiguo Egipto   | Ámbar oscuro  | `#1a1200 → #3d2800 → #5c3d00`           | Plata    |
-| Roma Imperial    | Rojo oscuro   | `#1a0808 → #3d1515 → #5c2020`           | Oro      |
-| Futuro Cibernético| Azul digital | `#0a0a1a → #0d1a3d → #0a1628`           | Diamante |
+| Antigua          | Ámbar oscuro  | `#1a1200 → #3d2800 → #5c3d00`           | Bronce   |
+| Medieval         | Rojo oscuro   | `#1a0808 → #3d1515 → #5c2020`           | Plata    |
+| Moderna          | Verde bosque  | `#0a1a10 → #153020 → #204030`           | Oro      |
+| Crypto           | Azul neón     | `#0a0a1a → #1a1040 → #0d1a3d`          | Diamante |
+| Post-Humana      | Púrpura       | `#0a0a0a → #1a0a2a → #2a1040`          | Élite    |
 
 ---
 
@@ -204,10 +205,10 @@ Base unit: **4px** (Tailwind's default).
 | xl   | 1280px+ | Max-width containers                |
 
 ### Grids por sección
-- **Eras:** `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`
+- **Eras:** `grid-cols-1 sm:grid-cols-2 lg:grid-cols-5`
 - **Sistemas:** `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`
 - **Actividades:** `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`
-- **Juegos:** `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`
+- **Juegos:** `grid-cols-1 sm:grid-cols-2 lg:grid-cols-5`
 - **Créditos:** `grid-cols-1 md:grid-cols-3` con `md:row-span-2` para card featured
 
 ### Navegación
@@ -276,12 +277,12 @@ Integrado con la paleta, refuerza identidad verde del sistema.
 ```
 1. Nav (sticky)
 2. Hero — headline + CTA + feature pills + waveform deco
-3. Eras — grid 4 eras con ilustraciones SVG
+3. Eras — grid 5 eras con ilustraciones SVG
 4. Sistemas — grid 6 sistemas (engranaje pedagógico)
 5. Actividades — grid 6 actividades con previews interactivos
 6. Emily — layout 2 cols (imagen + contenido)
 7. Mapa / Skill Tree — 5 escalones horizontales
-8. Juegos — 4 juegos arcade
+8. Juegos — 5 juegos arcade
 9. Créditos — grid equipo
 10. CTA Final — email capture
 11. Footer

@@ -13,7 +13,7 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'speakingchallenge - Speaking Challenge Online',
   description:
-    'Aprende inglés viajando por el tiempo. Cuatro eras históricas te esperan: Vikings, Egypt, Rome y Cyber. Únete al desafío ahora.',
+    'Aprende inglés viajando por el tiempo. Cinco eras históricas te esperan: Antigua, Medieval, Moderna, Crypto y Post-Humana. Únete al desafío ahora.',
   robots: { index: true, follow: true },
 };
 
