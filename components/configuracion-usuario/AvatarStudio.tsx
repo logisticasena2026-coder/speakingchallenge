@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useReducer, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Camera, Sparkles, Upload } from 'lucide-react';
 import { sileo } from 'sileo';
@@ -49,11 +49,44 @@ const SKIN_ERAS = [
   },
 ] as const;
 
+interface AvatarStudioState {
+  selectedEra: string | null;
+  avatarPreview: string | null;
+  selectedFile: File | null;
+  cropSrc: string | null;
+}
+
+type AvatarStudioAction =
+  | { type: 'SELECT_ERA'; era: string | null }
+  | { type: 'FILE_SELECTED'; cropSrc: string }
+  | { type: 'CROP_CONFIRMED'; file: File; preview: string }
+  | { type: 'CROP_CANCELLED' }
+  | { type: 'AVATAR_SAVED' };
+
+function avatarStudioReducer(state: AvatarStudioState, action: AvatarStudioAction): AvatarStudioState {
+  switch (action.type) {
+    case 'SELECT_ERA':
+      return { ...state, selectedEra: action.era };
+    case 'FILE_SELECTED':
+      return { ...state, cropSrc: action.cropSrc };
+    case 'CROP_CONFIRMED':
+      return { ...state, cropSrc: null, selectedFile: action.file, avatarPreview: action.preview };
+    case 'CROP_CANCELLED':
+      return { ...state, cropSrc: null };
+    case 'AVATAR_SAVED':
+      return { ...state, selectedFile: null };
+    default:
+      return state;
+  }
+}
+
 export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: string | null }>) {
-  const [selectedEra, setSelectedEra] = useState<string | null>(null);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentAvatar ?? null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [state, dispatch] = useReducer(avatarStudioReducer, {
+    selectedEra: null,
+    avatarPreview: currentAvatar ?? null,
+    selectedFile: null,
+    cropSrc: null,
+  });
   const [isPending, setIsPending] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -67,41 +100,34 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
       return;
     }
 
-    URL.revokeObjectURL(cropSrc ?? '');
-    setCropSrc(URL.createObjectURL(file));
+    URL.revokeObjectURL(state.cropSrc ?? '');
+    dispatch({ type: 'FILE_SELECTED', cropSrc: URL.createObjectURL(file) });
     e.target.value = '';
   };
 
   const handleCropConfirm = (croppedFile: File) => {
-    URL.revokeObjectURL(cropSrc ?? '');
-    setCropSrc(null);
-    setSelectedFile(croppedFile);
-    setAvatarPreview(prev => {
-      if (prev && prev.startsWith('blob:')) URL.revokeObjectURL(prev);
-      return URL.createObjectURL(croppedFile);
-    });
+    URL.revokeObjectURL(state.cropSrc ?? '');
+    if (state.avatarPreview?.startsWith('blob:')) URL.revokeObjectURL(state.avatarPreview);
+    dispatch({ type: 'CROP_CONFIRMED', file: croppedFile, preview: URL.createObjectURL(croppedFile) });
   };
 
   const handleCropCancel = () => {
-    URL.revokeObjectURL(cropSrc ?? '');
-    setCropSrc(null);
+    URL.revokeObjectURL(state.cropSrc ?? '');
+    dispatch({ type: 'CROP_CANCELLED' });
   };
 
   const handleGuardar = async () => {
-    if (!selectedFile) return;
+    if (!state.selectedFile) return;
 
     const formData = new FormData();
-    formData.append('avatar', selectedFile);
+    formData.append('avatar', state.selectedFile);
     setIsPending(true);
 
     try {
       const res = await actualizarAvatar(formData);
       if (!res.ok) throw new Error(res.message);
-      setSelectedFile(null);
-      setAvatarPreview(prev => {
-        if (prev && prev.startsWith('blob:')) URL.revokeObjectURL(prev);
-        return prev;
-      });
+      if (state.avatarPreview?.startsWith('blob:')) URL.revokeObjectURL(state.avatarPreview);
+      dispatch({ type: 'AVATAR_SAVED' });
       sileo.success({ title: 'Avatar guardado' });
     } catch (err: unknown) {
       sileo.error({
@@ -137,8 +163,8 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
               aria-hidden="true"
               className={cn(
                 'absolute -inset-3 rounded-full opacity-20 blur-2xl transition-all duration-700',
-                selectedEra
-                  ? SKIN_ERAS.find((e) => e.id === selectedEra)?.gradient
+                state.selectedEra
+                  ? SKIN_ERAS.find((e) => e.id === state.selectedEra)?.gradient
                   : 'bg-brand-green/10',
               )}
             />
@@ -148,15 +174,15 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
               <div
                 className={cn(
                   'size-full rounded-full overflow-hidden border-2 transition-colors duration-500',
-                  selectedEra
-                    ? SKIN_ERAS.find((e) => e.id === selectedEra)?.color.split(' ')[0]
+                  state.selectedEra
+                    ? SKIN_ERAS.find((e) => e.id === state.selectedEra)?.color.split(' ')[0]
                     : 'border-border-default',
                 )}
               >
                 <div className="size-full bg-surface-3 flex items-center justify-center">
-                  {avatarPreview ? (
+                  {state.avatarPreview ? (
                     <img
-                      src={avatarPreview}
+                      src={state.avatarPreview}
                       alt="Avatar preview"
                       className="size-full object-cover"
                     />
@@ -188,15 +214,15 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
             <label className="text-[10px] font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label">
               Era del avatar
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+            <div className="flex flex-wrap gap-2.5">
               {SKIN_ERAS.map((era) => (
                 <button
                   key={era.id}
                   type="button"
-                  onClick={() => setSelectedEra(era.id)}
+                  onClick={() => dispatch({ type: 'SELECT_ERA', era: era.id })}
                   className={cn(
                     'relative flex items-center gap-2.5 px-3 py-2.5 rounded-xl border text-left transition-all duration-200 cursor-pointer',
-                    selectedEra === era.id
+                    state.selectedEra === era.id
                       ? [era.color.split(' ')[0], era.color.split(' ')[1], 'shadow-lg'].join(' ')
                       : 'border-border-subtle bg-surface-3/50 hover:bg-surface-3 hover:border-border-default',
                   )}
@@ -205,21 +231,21 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
                     aria-hidden="true"
                     className={cn(
                       'w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold font-display uppercase',
-                      selectedEra === era.id ? era.accent : 'text-text-muted',
-                      selectedEra === era.id ? 'bg-white/5' : 'bg-surface-4',
+                      state.selectedEra === era.id ? era.accent : 'text-text-muted',
+                      state.selectedEra === era.id ? 'bg-white/5' : 'bg-surface-4',
                     )}
                   >
                     {era.label[0]}
                   </div>
                   <span
                     className={cn(
-                      'text-xs font-medium transition-colors',
-                      selectedEra === era.id ? 'text-text-primary' : 'text-text-secondary',
+                      'text-xs font-medium transition-colors whitespace-nowrap',
+                      state.selectedEra === era.id ? 'text-text-primary' : 'text-text-secondary',
                     )}
                   >
                     {era.label}
                   </span>
-                  {selectedEra === era.id && (
+                  {state.selectedEra === era.id && (
                     <div className="ml-auto w-1.5 h-1.5 rounded-full bg-brand-green shadow-[0_0_6px_rgba(61,214,140,0.6)]" />
                   )}
                 </button>
@@ -230,10 +256,10 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
           <button
             type="button"
             onClick={handleGuardar}
-            disabled={!selectedFile || isPending}
+            disabled={!state.selectedFile || isPending}
             className={cn(
               'relative w-full py-3 rounded-xl font-semibold text-sm transition-all duration-200 cursor-pointer overflow-hidden',
-              selectedFile && !isPending
+              state.selectedFile && !isPending
                 ? 'bg-brand-green text-surface-0 hover:shadow-[0_0_24px_rgba(61,214,140,0.35)] hover:-translate-y-0.5'
                 : 'bg-surface-3 text-text-muted cursor-not-allowed',
             )}
@@ -242,7 +268,7 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
               <Sparkles className="w-4 h-4" />
               {isPending ? 'Guardando...' : 'Guardar Avatar'}
             </span>
-            {selectedFile && !isPending && (
+            {state.selectedFile && !isPending && (
               <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent translate-x-full hover:translate-x-full transition-transform duration-700" />
             )}
           </button>
@@ -250,9 +276,9 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
       </div>
     </div>
 
-    {cropSrc && (
+    {state.cropSrc && (
       <AvatarCropDialog
-        imageSrc={cropSrc}
+        imageSrc={state.cropSrc}
         onConfirm={handleCropConfirm}
         onCancel={handleCropCancel}
       />
