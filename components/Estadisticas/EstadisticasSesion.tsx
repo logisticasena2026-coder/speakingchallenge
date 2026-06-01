@@ -157,24 +157,23 @@ export function EstadisticasSesion() {
   const historialGrupos = useSesionPracticaStore((store) => store.historialGrupos);
   const cargarHistorial = useSesionPracticaStore((store) => store.cargarHistorial);
 
-  const [ready, setReady] = useState(false);
-
   useEffect(() => {
     cargarHistorial();
-    setReady(true);
-  }, [cargarHistorial]);
 
-  const tieneSquadReciente =
-    ready &&
-    historialGrupos.length > 0 &&
-    Date.now() - new Date(historialGrupos[historialGrupos.length - 1].fecha).getTime() < 60000;
+    const stats = usePracticaStore.getState().estadisticas;
+    const historial = useSesionPracticaStore.getState().historialGrupos;
+    const tieneSquadReciente =
+      historial.length > 0 &&
+      Date.now() - new Date(historial[historial.length - 1].fecha).getTime() < 60000;
 
-  useEffect(() => {
-    if (!ready) return;
-    if (estadisticas.length === 0 && !tieneSquadReciente) {
+    if (stats.length === 0 && !tieneSquadReciente) {
       router.replace('/dashboard/estudiar');
     }
-  }, [estadisticas, router, tieneSquadReciente, ready]);
+  }, [cargarHistorial, router]);
+
+  const tieneSquadReciente =
+    historialGrupos.length > 0 &&
+    Date.now() - new Date(historialGrupos[historialGrupos.length - 1].fecha).getTime() < 60000;
 
   const tiempoTotal = usePracticaStore((store) => store.tiempoTotal);
   const sesion = {

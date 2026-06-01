@@ -4,13 +4,16 @@ import { useFrasesStore } from '@/store/useFrasesStore';
 import { cn } from '@/lib/utils';
 import { BookOpen, Zap, Play, Radar, Users, Save, Shield } from 'lucide-react';
 import { sileo } from 'sileo';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import Link from 'next/link';
 import { EnDesarrollo } from '@/components/EnDesarrollo';
 import { Configuraciónes } from './Configuraciones';
 import { ErasPractica } from './ErasPractica';
 import type { GrupoConfig } from '@/store/useFrasesStore';
+
+const grupoConfigurado = (g: GrupoConfig) =>
+  g.nombre.trim() !== '' && g.integrantes.every((i) => i.trim() !== '');
 
 export function ModoEstudio() {
   const modo = useFrasesStore((state) => state.modoDeEstudio);
@@ -21,13 +24,6 @@ export function ModoEstudio() {
 
   const [formData, setFormData] = useState<GrupoConfig[]>(gruposConfig);
   const [savedIndex, setSavedIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    setFormData(gruposConfig);
-  }, [gruposConfig]);
-
-  const grupoConfigurado = (g: GrupoConfig) =>
-    g.nombre.trim() !== '' && g.integrantes.every((i) => i.trim() !== '');
 
   const gruposInsuficientes =
     protocoloGrupo === 'escuadron' &&

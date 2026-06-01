@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFrasesStore } from '@/store/useFrasesStore';
 import { usePracticaStore } from '@/store/usePracticaStore';
@@ -53,9 +53,7 @@ export function EstadisticasDeFrases({ indiceForzado }: { indiceForzado?: number
   }, [resetearTodo]);
   const idx = indiceForzado ?? fraseActual;
   const precision = comparacion_de_frases(frases[idx]?.fraseIngles ?? '', texto ?? '');
-  useEffect(() => {
-    setPrecision(precision);
-  }, [precision, setPrecision]);
+  setPrecision(precision);
   const [displayValue, setDisplayValue] = useState(0);
 
   const color = colorSegunPrecision(precision);
