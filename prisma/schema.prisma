@@ -44,21 +44,25 @@ enum Skin {
 }
 
 model user {
-  id         String                    @id @default(uuid())
-  name       String                    @unique
-  email      String                    @unique
-  password   String
-  dias_racha                      Int       @default(0)
-  ultima_racha_fecha              DateTime?
-  racha_mas_larga                 Int       @default(0)
-  ultima_sesion                   DateTime?
-  avatar     String?
-  skin       Skin?
-  nivel      Nivel                     @default(PRINCIPIANTE)
-  createdAt  DateTime                  @default(now())
-  updatedAt  DateTime                  @updatedAt
-  sesiones   Session[]
-  tokenReset ResetearContrasenaToken[]
+  id                 String                    @id @default(uuid())
+  name               String                    @unique
+  email              String                    @unique
+  password           String
+  dias_racha         Int                       @default(0)
+  ultima_racha_fecha DateTime?
+  racha_mas_larga    Int                       @default(0)
+  ultima_sesion      DateTime?
+  avatar             String?
+  frases             Int                       @default(0)
+  precicion_global   Float                     @default(0)
+  cantidad_logros    Int                       @default(0)
+  tiempo_promedio    Float                     @default(0)
+  skin               Skin?
+  nivel              Nivel                     @default(PRINCIPIANTE)
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+  sesiones           Session[]
+  tokenReset         ResetearContrasenaToken[]
 
   @@unique([name, email])
   @@index([email, name, nivel])
