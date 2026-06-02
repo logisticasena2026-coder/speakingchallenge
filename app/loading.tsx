@@ -1,11 +1,15 @@
-
 import { Sparkles } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Loading() {
   return (
     <>
-
-      <main id="main-content" className="grow flex flex-col items-center justify-center relative mesh-bg px-container-px-mobile md:px-container-px-desktop min-h-screen" role="status" aria-live="polite">
+      <main
+        id="main-content"
+        className="grow flex flex-col items-center justify-center relative mesh-bg px-container-px-mobile md:px-container-px-desktop min-h-screen"
+        role="status"
+        aria-live="polite"
+      >
         <div className="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center">
           <div className="absolute inset-0 portal-linear rounded-full animate-pulse-glow" />
           <div className="absolute inset-0 border border-primary/20 rounded-full animate-rotate-cw flex items-center justify-center">
@@ -53,10 +57,12 @@ export default function Loading() {
         </div>
       </main>
       <div className="fixed inset-0 pointer-events-none opacity-10 z-[-1]">
-        <img
+        <Image
           alt="Celestial background"
           className="w-full h-full object-cover"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqwRrM8ksELL-yTHwGWjXzci2JY4gb2_I91Gzli7188I9GA6AIIbP7DxmxlWtm67pi_LDbMBC32N2guT5M7pmg2ao_YmhA7faKEUnOzNVgrMpQAk0rTz6jw8qEdFyBmMR-kdSvLxHtypWP_cOKAAcXLutm_2kp-WTOoEUdVcdy3tF-9Y5q2gbbYyh56ilXzxxIUOKQclUqHmZdkroURgZ0RgWMp4Yw8L0wktN8Eu-SjpaGxckD7fHKIyc1DMNQKh7K7C1DAlszQ2Dt"
+          src="/landing.webp"
+          width={512}
+          height={512}
         />
       </div>
     </>

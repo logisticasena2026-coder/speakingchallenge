@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowLeft, HelpCircle, AlertTriangle, Terminal, RefreshCw, Home } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function ErrorPage({
@@ -37,10 +38,12 @@ export default function ErrorPage({
           <div className="relative mb-12 group">
             <div className="absolute inset-0 bg-error blur-3xl opacity-10 group-hover:opacity-20 transition-opacity" />
             <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-2 border-white/10 glass-card p-1">
-              <img
+              <Image
                 alt="System Failure Visualization"
+                src="/error.webp"
+                height={512}
+                width={512}
                 className="w-full h-full object-cover rounded-full grayscale hover:grayscale-0 transition-all duration-700"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuClH6FKM5g9Wy9oJ58Lc60YiZco5Q3t6bkeyki8GdJbHG8u83p12eOm8YINioXXdYe_d19Fxfi7JrLZn8lPlAGwjwx8OWOk3WVRxSHiThdjhkWSu6N4WeQy4-WYHLgE7EZ89WN_gl-DeO-b9B4Y2-vbXkQVUpkrkLSBJvErsJ327UTuVKvgG_z89kJ65jpVoZ06ZP7eaoLZnuc_iS2OBHTz-iUoMM9S4bZVj0g0SJh9Udg7i-TBbETmjHYnivKX2bGFh1oIuP_dloiP"
               />
             </div>
             <div className="absolute -top-4 -right-4 bg-error-container text-on-error-container px-3 py-1 rounded-lg border border-error/50 flex items-center gap-2 shadow-lg">
