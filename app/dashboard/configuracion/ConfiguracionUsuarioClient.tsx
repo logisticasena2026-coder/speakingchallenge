@@ -62,27 +62,27 @@ export function ConfiguracionUsuarioClient({
             <EnDesarrollo>
               <SectionCard icon={User} title="Perfil" subtitle="Tu información personal">
                 <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
+                  <label className="space-y-1.5">
+                    <span className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
                       <User className="w-3 h-3" />
                       Nombre
-                    </label>
+                    </span>
                     <Input
                       defaultValue={userName ?? 'Usuario'}
                       className="bg-surface-3/50 border-border-subtle text-text-primary placeholder:text-text-muted-alt focus:border-brand-green/40 transition-colors h-10"
                     />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
+                  </label>
+                  <label className="space-y-1.5">
+                    <span className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
                       <Mail className="w-3 h-3" />
                       Correo electrónico
-                    </label>
+                    </span>
                     <Input
                       type="email"
                       defaultValue={userEmail ?? 'usuario@ejemplo.com'}
                       className="bg-surface-3/50 border-border-subtle text-text-primary placeholder:text-text-muted-alt focus:border-brand-green/40 transition-colors h-10"
                     />
-                  </div>
+                  </label>
                   <div className="flex justify-end pt-1">
                     <Button className="h-9 bg-brand-green text-surface-0 hover:bg-brand-green/90 hover:shadow-[0_0_20px_rgba(61,214,140,0.3)] transition-all duration-200 cursor-pointer text-xs font-semibold gap-1.5">
                       <Save className="w-3.5 h-3.5" />
@@ -101,12 +101,13 @@ export function ConfiguracionUsuarioClient({
               >
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
+                    <label htmlFor="contrasena-actual" className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
                       <Lock className="w-3 h-3" />
                       Contraseña actual
                     </label>
                     <div className="relative">
                       <Input
+                        id="contrasena-actual"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="••••••••"
                         className="bg-surface-3/50 border-border-subtle text-text-primary placeholder:text-text-muted-alt focus:border-brand-amber/40 transition-colors h-10 pr-10"
@@ -126,12 +127,13 @@ export function ConfiguracionUsuarioClient({
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
+                    <label htmlFor="nueva-contrasena" className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
                       <Lock className="w-3 h-3" />
                       Nueva contraseña
                     </label>
                     <div className="relative">
                       <Input
+                        id="nueva-contrasena"
                         type={showNewPassword ? 'text' : 'password'}
                         placeholder="Nueva contraseña"
                         className="bg-surface-3/50 border-border-subtle text-text-primary placeholder:text-text-muted-alt focus:border-brand-amber/40 transition-colors h-10 pr-10"
@@ -167,13 +169,13 @@ export function ConfiguracionUsuarioClient({
               accent="purple"
             >
               <div className="space-y-6">
-                <div className="space-y-3">
-                  <label className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
+                <label className="space-y-3">
+                  <span className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
                     <Sun className="w-3 h-3" />
                     Tema de la interfaz
-                  </label>
+                  </span>
                   <ThemeSelector />
-                </div>
+                </label>
                 <div className="border-t border-border-subtle pt-5">
                   <FontSizeSelector />
                 </div>

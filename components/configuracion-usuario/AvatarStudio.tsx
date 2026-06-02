@@ -210,10 +210,10 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
             </div>
           </div>
 
-          <div className="w-full space-y-3">
-            <label className="text-[10px] font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label">
+          <fieldset className="w-full space-y-3">
+            <legend className="text-[10px] font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label">
               Era del avatar
-            </label>
+            </legend>
             <div className="flex flex-wrap gap-2.5">
               {SKIN_ERAS.map((era) => (
                 <button
@@ -251,7 +251,7 @@ export function AvatarStudio({ currentAvatar }: Readonly<{ currentAvatar?: strin
                 </button>
               ))}
             </div>
-          </div>
+          </fieldset>
 
           <button
             type="button"

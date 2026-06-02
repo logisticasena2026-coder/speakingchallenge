@@ -11,6 +11,7 @@ export function Presentacion() {
       <video
         autoPlay muted loop playsInline
         poster="/FoundPage.webp"
+        aria-label="Video de fondo de la plataforma"
         className="absolute inset-0 size-full object-cover"
         style={{
           maskImage: 'linear-gradient(black 80%, transparent)',

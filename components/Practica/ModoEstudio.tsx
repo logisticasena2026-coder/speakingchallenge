@@ -126,12 +126,13 @@ export function ModoEstudio() {
 
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-col gap-1.5">
-                        <label className="font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-text-muted">
+                        <label htmlFor={`miembros-${index}`} className="font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-text-muted">
                           N.º de integrantes
                         </label>
                         <div className="relative">
                           <Users className="absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-text-muted pointer-events-none" />
                           <input
+                            id={`miembros-${index}`}
                             type="number"
                             min={1}
                             max={10}
@@ -157,10 +158,11 @@ export function ModoEstudio() {
                       </div>
 
                       <div className="flex flex-col gap-1.5">
-                        <label className="font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-text-muted">
+                        <label htmlFor={`nombre-escuadron-${index}`} className="font-ui text-[10px] font-semibold tracking-[0.12em] uppercase text-text-muted">
                           Nombre del escuadrón
                         </label>
                         <input
+                          id={`nombre-escuadron-${index}`}
                           type="text"
                           value={grupo.nombre}
                           onChange={(e) => {
@@ -187,6 +189,7 @@ export function ModoEstudio() {
                               <input
                                 type="text"
                                 value={nombre}
+                                aria-label={`Integrante ${mi + 1}`}
                                 onChange={(e) => {
                                   const v = formData.map((g, i) =>
                                     i === index
