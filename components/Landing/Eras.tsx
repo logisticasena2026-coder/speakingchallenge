@@ -66,7 +66,7 @@ export function Eras() {
               <div className="era-tag">Foundations</div>
               <div className="era-title">Antigua</div>
               <p className="era-desc">
-                Egipto, Acadio, Babilonia, Asiria, Persia, Macedonia, Maurya, Cartago — las primeras grandes civilizaciones.
+                Egipto, Acadio, Babilonia, Asiria, Persia, Macedonia, Maurya, Cartago: las primeras grandes civilizaciones.
               </p>
             </div>
           </div>
@@ -104,7 +104,7 @@ export function Eras() {
               <div className="era-tag">Building Blocks</div>
               <div className="era-title">Medieval</div>
               <p className="era-desc">
-                Roma, Bizancio, Califato Omeya, Imperio Mongol, Otomano — el puente entre mundos.
+                Roma, Bizancio, Califato Omeya, Imperio Mongol, Otomano: el puente entre mundos.
               </p>
             </div>
           </div>
@@ -135,7 +135,7 @@ export function Eras() {
               <div className="era-tag">Mastery</div>
               <div className="era-title">Moderna</div>
               <p className="era-desc">
-                Azteca, Inca, Imperio Ruso, Británico, Japonés — expansión global e industrialización.
+                Azteca, Inca, Imperio Ruso, Británico, Japonés: expansión global e industrialización.
               </p>
             </div>
           </div>
@@ -166,7 +166,7 @@ export function Eras() {
               <div className="era-tag">Fluency</div>
               <div className="era-title">Crypto</div>
               <p className="era-desc">
-                Satoshi, Ethereum, Solaria Chain, Quantum Ledger, Nexus AI — la revolución digital descentralizada.
+                Satoshi, Ethereum, Solaria Chain, Quantum Ledger, Nexus AI: la revolución digital descentralizada.
               </p>
             </div>
           </div>
@@ -197,7 +197,7 @@ export function Eras() {
               <div className="era-tag">Transcendence</div>
               <div className="era-title">Post-Humana</div>
               <p className="era-desc">
-                Titan Vanguard, Cyber Anunnaki, Atlantech Prime, Omega Cyborg, Guardianes del Pacífico — el despertar de la humanidad aumentada.
+                Titan Vanguard, Cyber Anunnaki, Atlantech Prime, Omega Cyborg, Guardianes del Pacífico: el despertar de la humanidad aumentada.
               </p>
             </div>
           </div>

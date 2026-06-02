@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation';
 import { navegadorEsCompatible } from '@/lib/validarNavegador';
 import Link from 'next/link';
 import { ArrowLeft, TriangleAlert, CheckCircle2, XCircle } from 'lucide-react';
@@ -36,15 +36,19 @@ const browsersNotSupported = [
 ];
 
 export default function NavegadorNoValido() {
-  const router = useRouter();
+  const [comprobando, setComprobando] = useState(true);
 
   useEffect(() => {
     navegadorEsCompatible().then((compatible) => {
       if (compatible) {
-        router.replace('/dashboard');
+        redirect('/dashboard');
+      } else {
+        setComprobando(false);
       }
     });
-  }, [router]);
+  }, []);
+
+  if (comprobando) return null;
 
   return (
     <>

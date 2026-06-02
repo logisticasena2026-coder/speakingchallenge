@@ -134,7 +134,7 @@ export function AvatarCropDialog({ imageSrc, onConfirm, onCancel }: Props) {
           </div>
 
           {/* Actions */}
-          <div className="flex gap-2.5 px-5 py-5 mt-1">
+          <div className="flex gap-2.5 p-5 mt-1">
             <button
               type="button"
               onClick={onCancel}

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { Calendar, Clock, Hourglass, Target, Users, Shield, Trophy } from 'lucide-react';
 import { usePracticaStore } from '@/store/usePracticaStore';
 import { useSesionPracticaStore } from '@/store/useSesionPracticaStore';
@@ -152,28 +152,22 @@ function HudCorners() {
 
 export function EstadisticasSesion() {
   const estadisticas = usePracticaStore((store) => store.estadisticas);
-  const router = useRouter();
-
   const historialGrupos = useSesionPracticaStore((store) => store.historialGrupos);
   const cargarHistorial = useSesionPracticaStore((store) => store.cargarHistorial);
+  const [inicializado, setInicializado] = useState(false);
 
   useEffect(() => {
     cargarHistorial();
-
-    const stats = usePracticaStore.getState().estadisticas;
-    const historial = useSesionPracticaStore.getState().historialGrupos;
-    const tieneSquadReciente =
-      historial.length > 0 &&
-      Date.now() - new Date(historial[historial.length - 1].fecha).getTime() < 60000;
-
-    if (stats.length === 0 && !tieneSquadReciente) {
-      router.replace('/dashboard/estudiar');
-    }
-  }, [cargarHistorial, router]);
+    setInicializado(true);
+  }, [cargarHistorial]);
 
   const tieneSquadReciente =
     historialGrupos.length > 0 &&
     Date.now() - new Date(historialGrupos[historialGrupos.length - 1].fecha).getTime() < 60000;
+
+  if (inicializado && estadisticas.length === 0 && !tieneSquadReciente) {
+    redirect('/dashboard/estudiar');
+  }
 
   const tiempoTotal = usePracticaStore((store) => store.tiempoTotal);
   const sesion = {

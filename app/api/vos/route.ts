@@ -23,6 +23,7 @@ async function generateTTSAudio(text: string) {
   if (!stream) throw new Error('No se pudo obtener el stream de audio');
   const reader = stream.getReader();
   const chunks: Uint8Array[] = [];
+  // oxlint-disable-next-line react-doctor/async-await-in-loop
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
