@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFrasesStore } from '@/store/useFrasesStore';
 import { usePracticaStore } from '@/store/usePracticaStore';
