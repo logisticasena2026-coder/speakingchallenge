@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { CheckCircle, Hourglass, Lock } from 'lucide-react';
 import { EnDesarrollo } from '@/components/EnDesarrollo';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -34,10 +35,13 @@ export function ErasPractica() {
 
         <div className="flex gap-4 overflow-x-auto pb-2 pt-2 snap-x snap-mandatory era-scroll">
           <div className="relative shrink-0 min-w-[200px] sm:min-w-[240px] lg:min-w-[260px] h-32 sm:h-36 lg:h-40 rounded-xl overflow-hidden border border-brand-green/40 cursor-pointer transition-all duration-300 hover:border-brand-green/30 hover:-translate-y-1 shadow-[0_0_20px_rgba(61,214,140,0.15)]">
-            <img
-              className="w-full h-full object-cover opacity-[0.85]"
-              src="data:image/svg+xml,%3Csvg viewBox='0 0 300 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%231a1200'/%3E%3Cstop offset='50%25' stop-color='%233d2800'/%3E%3Cstop offset='100%25' stop-color='%235c3d00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='160' fill='url(%23g)'/%3E%3Cpolygon points='80,120 150,50 220,120' fill='%232a1a00'/%3E%3Ccircle cx='60' cy='40' r='12' fill='%23f5a623' opacity='0.2'/%3E%3C/svg%3E"
+            <Image
               alt="Antigua"
+              src="/eras/Era_Antigua.webp"
+              width={1536}
+              height={1024}
+              className="w-full h-full object-cover"
+              sizes="(max-width: 640px) 200px, 260px"
             />
             <div className="absolute inset-0 bg-linear-to-t from-[#07090f]/95 via-[#07090f]/20 to-transparent"></div>
             <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
@@ -52,10 +56,13 @@ export function ErasPractica() {
           </div>
 
           <div className="relative shrink-0 min-w-[200px] sm:min-w-[240px] lg:min-w-[260px] h-32 sm:h-36 lg:h-40 rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/30 hover:-translate-y-1">
-            <img
-              className="w-full h-full object-cover transition-all duration-500 hover:brightness-75 hover:saturate-110 opacity-[0.85]"
-              src="data:image/svg+xml,%3Csvg viewBox='0 0 300 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%231a0808'/%3E%3Cstop offset='50%25' stop-color='%23301010'/%3E%3Cstop offset='100%25' stop-color='%235c2020'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='160' fill='url(%23g2)'/%3E%3Cellipse cx='150' cy='80' rx='80' ry='50' fill='%23201010'/%3E%3C/svg%3E"
+            <Image
               alt="Medieval"
+              src="/eras/Era_medieval.webp"
+              width={1641}
+              height={958}
+              className="w-full h-full object-cover transition-all duration-500 hover:brightness-75 hover:saturate-110"
+              sizes="(max-width: 640px) 200px, 260px"
             />
             <div className="absolute inset-0 bg-linear-to-t from-[#07090f]/95 via-[#07090f]/20 to-transparent"></div>
             <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
@@ -69,10 +76,13 @@ export function ErasPractica() {
           </div>
 
           <div className="relative shrink-0 min-w-[200px] sm:min-w-[240px] lg:min-w-[260px] h-32 sm:h-36 lg:h-40 rounded-xl overflow-hidden border border-white/6 opacity-50 cursor-not-allowed">
-            <img
-              className="w-full h-full object-cover"
-              src="data:image/svg+xml,%3Csvg viewBox='0 0 300 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%230a1a10'/%3E%3Cstop offset='50%25' stop-color='%23153020'/%3E%3Cstop offset='100%25' stop-color='%23204030'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='160' fill='url(%23g3)'/%3E%3Crect x='100' y='50' width='100' height='80' fill='%231a2a1a'/%3E%3C/svg%3E"
+            <Image
               alt="Moderna"
+              src="/eras/Era_Moderna.webp"
+              width={1640}
+              height={959}
+              className="w-full h-full object-cover"
+              sizes="(max-width: 640px) 200px, 260px"
             />
             <div className="absolute inset-0 bg-linear-to-t from-[#07090f]/95 via-[#07090f]/20 to-transparent"></div>
             <div className="absolute inset-0 flex items-center justify-center">
@@ -91,10 +101,13 @@ export function ErasPractica() {
           </div>
 
           <div className="relative shrink-0 min-w-[200px] sm:min-w-[240px] lg:min-w-[260px] h-32 sm:h-36 lg:h-40 rounded-xl overflow-hidden border border-white/6 opacity-50 cursor-not-allowed">
-            <img
-              className="w-full h-full object-cover"
-              src="data:image/svg+xml,%3Csvg viewBox='0 0 300 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g4' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%230a0a1a'/%3E%3Cstop offset='50%25' stop-color='%230d1a3d'/%3E%3Cstop offset='100%25' stop-color='%230a1628'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='160' fill='url(%23g4)'/%3E%3Ccircle cx='150' cy='80' r='30' fill='%230d1a3d'/%3E%3C/svg%3E"
+            <Image
               alt="Crypto"
+              src="/eras/Era_crypto.webp"
+              width={1641}
+              height={958}
+              className="w-full h-full object-cover"
+              sizes="(max-width: 640px) 200px, 260px"
             />
             <div className="absolute inset-0 bg-linear-to-t from-[#07090f]/95 via-[#07090f]/20 to-transparent"></div>
             <div className="absolute inset-0 flex items-center justify-center">
@@ -113,10 +126,13 @@ export function ErasPractica() {
           </div>
 
           <div className="relative shrink-0 min-w-[200px] sm:min-w-[240px] lg:min-w-[260px] h-32 sm:h-36 lg:h-40 rounded-xl overflow-hidden border border-white/6 opacity-50 cursor-not-allowed">
-            <img
-              className="w-full h-full object-cover"
-              src="data:image/svg+xml,%3Csvg viewBox='0 0 300 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g5' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%230a0a0a'/%3E%3Cstop offset='50%25' stop-color='%231a0a2a'/%3E%3Cstop offset='100%25' stop-color='%232a1040'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='160' fill='url(%23g5)'/%3E%3Ccircle cx='150' cy='80' r='25' fill='%232a1040'/%3E%3C/svg%3E"
+            <Image
               alt="Post-Humana"
+              src="/eras/Era_postHUmana.webp"
+              width={1642}
+              height={958}
+              className="w-full h-full object-cover"
+              sizes="(max-width: 640px) 200px, 260px"
             />
             <div className="absolute inset-0 bg-linear-to-t from-[#07090f]/95 via-[#07090f]/20 to-transparent"></div>
             <div className="absolute inset-0 flex items-center justify-center">

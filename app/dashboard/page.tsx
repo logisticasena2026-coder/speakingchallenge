@@ -229,28 +229,16 @@ export default async function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="group relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
-                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-[#1a1200] via-[#3d2800] to-era-egypt-end">
-                  <svg
-                    fill="none"
-                    className="w-full h-full absolute inset-0 opacity-45"
-                    viewBox="0 0 300 240"
-                  >
-                    <path
-                      fill="rgba(140,90,20,0.7)"
-                      stroke="rgba(200,140,40,0.4)"
-                      strokeWidth="1"
-                      d="m60 200 80-110 80 110z"
-                    />
-                    <path
-                      fill="rgba(120,75,15,0.5)"
-                      stroke="rgba(180,120,30,0.3)"
-                      strokeWidth=".5"
-                      d="m190 200 50-60 50 60z"
-                    />
-                    <circle cx="60" cy="55" r="18" fill="rgba(245,166,35,0.15)" />
-                    <circle cx="60" cy="55" r="8" fill="rgba(245,166,35,0.4)" />
-                    <path fill="rgba(60,35,5,0.9)" d="M0 215q75-15 150-5t150-5v35H0Z" />
-                  </svg>
+                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-era-egypt-start/60 via-[#3d2800]/40 to-era-egypt-end/60">
+                  <Image
+                    alt="Era Antigua"
+                    src="/eras/Era_Antigua.webp"
+                    width={1536}
+                    height={1024}
+                    loading="eager"
+                    className="w-full h-full object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
                 </div>
                 <div className="absolute inset-0 bg-linear-to-t from-[rgba(7,9,15,0.95)] via-[rgba(7,9,15,0.3)] to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -278,19 +266,16 @@ export default async function Home() {
               </div>
 
               <div className="group relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
-                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-[#1a0808] via-[#3d1515] to-era-rome-end">
-                  <svg
-                    fill="none"
-                    className="w-full h-full absolute inset-0 opacity-45"
-                    viewBox="0 0 300 240"
-                  >
-                    <path fill="rgba(80,20,20,0.6)" d="M0 220v-60q150-15 300 0v60Z" />
-                    <rect x="100" y="60" width="100" height="120" rx="4" fill="rgba(120,40,40,0.5)" stroke="rgba(180,60,60,0.3)" strokeWidth="1" />
-                    <path d="M100 60q50-30 100 0" fill="rgba(150,50,50,0.4)" stroke="rgba(200,70,70,0.3)" strokeWidth="1" />
-                    <rect x="140" y="100" width="20" height="30" rx="2" fill="rgba(60,15,15,0.7)" />
-                    <circle cx="150" cy="55" r="4" fill="rgba(200,200,200,0.3)" />
-                    <path fill="rgba(40,10,10,0.9)" d="M0 215q75-10 150-5t150-5v35H0Z" />
-                  </svg>
+                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-era-rome-start/60 via-[#3d1515]/40 to-era-rome-end/60">
+                  <Image
+                    alt="Era Medieval"
+                    src="/eras/Era_medieval.webp"
+                    width={1641}
+                    height={958}
+                    loading="eager"
+                    className="w-full h-full object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
                 </div>
                 <div className="absolute inset-0 bg-linear-to-t from-[rgba(7,9,15,0.95)] via-[rgba(7,9,15,0.3)] to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-5">
