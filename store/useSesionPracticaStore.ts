@@ -137,17 +137,18 @@ export const useSesionPracticaStore = create<SesionPracticaStore>((set, get) => 
     const { puntajesPorIntegrante, historialGrupos } = get();
 
     const gruposStats: GrupoStats[] = gruposConfig.map((g, gi) => {
-      const integrantes = g.integrantes
-        .filter((nombre) => nombre.trim())
-        .map((nombre, ii) => {
-          const key = `g${gi}-i${ii}`;
-          const puntajes = puntajesPorIntegrante[key] || [];
-          return {
-            nombre,
-            puntajes,
-            total: puntajes.reduce((a, b) => a + b, 0),
-          };
+      const integrantes: PuntajeIntegrante[] = [];
+      for (const nombre of g.integrantes) {
+        if (!nombre.trim()) continue;
+        const ii = integrantes.length;
+        const key = `g${gi}-i${ii}`;
+        const puntajes = puntajesPorIntegrante[key] || [];
+        integrantes.push({
+          nombre,
+          puntajes,
+          total: puntajes.reduce((a, b) => a + b, 0),
         });
+      }
 
       const todosPuntajes = integrantes.flatMap((i) => i.puntajes);
       const precisionMedia =
