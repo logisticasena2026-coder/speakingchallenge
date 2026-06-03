@@ -77,11 +77,26 @@ npx prisma migrate dev --name <name>
 | `/navegador-no-valido` | Unsupported browser page | `Particles` |
 | `GET /api/vos?text=...` | TTS via Deepgram, returns `audio/mpeg`. Uses `'use cache'` / `cacheLife` | `lib/apiVos`, `lib/logger` |
 
+## Practice Modes (Solitario vs Escuadrón)
+
+Two modes controlled by `protocoloGrupo` in `useFrasesStore`:
+
+| Mode | Store used | Scoring |
+|---|---|---|
+| `solitario` | `usePracticaStore.estadisticas` | Running average shown in `PromedioSolitario` (side panel) |
+| `escuadron` | `useSesionPracticaStore.puntajesPorIntegrante` | Per-team averages in `PromedioEquipos` (horizontal row above grid, hidden on mobile) |
+
+### Team Setup Flow (`ModoEstudio.tsx` + `Configuraciones.tsx` Drawer)
+- Groups managed via `agregarGrupo` / `quitarGrupo` — push/pop single group, preserve existing data.
+- Group editor cards use local `formData` state synced via `useEffect(() => setFormData(gruposConfig), [gruposConfig])`.
+- **No individual "Guardar" buttons.** All groups saved at once via `setAllGruposConfig(formData)` on "Iniciar practica" click.
+- Validation: all groups must have a name and all integrants filled (`gruposInsuficientes`).
+
 ## Practica Component Chain
 
 `MuestraDeFrases` (at `practicando/page.tsx`) imports internally:
-- `ControlesCelular`, `EstadisticaEstudiantePractica`, `Frase`, `TuPronunciacion`, `OpcionesMicrofono`, `EstadisticasDeFrases`
-- Stores: `useFrasesStore` (Zustand — frase data/pagination), `usePracticaStore` (Zustand — `texto`, `grabando`, `tiempo` for practice session state)
+- `ControlesCelular`, `EstadisticaEstudiantePractica`, `Frase`, `TuPronunciacion`, `OpcionesMicrofono`, `EstadisticasDeFrases`, `PromedioSolitario`, `PromedioEquipos`
+- Stores: `useFrasesStore` (Zustand — frase data/pagination), `usePracticaStore` (Zustand — `texto`, `grabando`, `tiempo` for practice session state), `useSesionPracticaStore` (Zustand — turn queue, per-integrant scores for squad mode)
 - Actions: `obtenerFrases`, `contarFrases` from `actions/frases.ts`
 
 ## Google Gemini Live Audio (Emily)
@@ -101,7 +116,7 @@ npx prisma migrate dev --name <name>
 - **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`. PostCSS: `@tailwindcss/postcss`.
 - **Spanish naming** everywhere: routes, DB models, server actions.
 - **Toast** — `sileo`. Pattern: `sileo.promise(fn, { loading, success, error })` or `sileo.error({ title, description })`.
-- **State** — 4 Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useConfiguracionUsuario` (persisted), `useEmilyStore`.
+- **State** — 5 Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useSesionPracticaStore`, `useConfiguracionUsuario` (persisted), `useEmilyStore`.
 - **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry `@magicui`. See `components.json`.
 - **Fonts** — Cinzel (`font-display`), Space Grotesk (`font-body`), Inter (`font-ui`), Geist (`font-sans`). Configured in `app/layout.tsx`.
 - **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts`. CSP varies by dev/prod.
