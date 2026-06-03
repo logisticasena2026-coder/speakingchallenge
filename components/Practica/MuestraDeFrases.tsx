@@ -14,6 +14,8 @@ import { Frase } from './Frase';
 import { TuPronunciacion } from './TuPronunciacion';
 import { OpcionesMicrofono } from './OpcionesMicrofono';
 import { EstadisticasDeFrases } from './EstadisticasDeFrases';
+import { PromedioSolitario } from './PromedioSolitario';
+import { PromedioEquipos } from './PromedioEquipos';
 import { sileo } from 'sileo';
 
 export function MuestraDeFrases() {
@@ -62,13 +64,6 @@ export function MuestraDeFrases() {
   }, [reiniciarSesion, reiniciarFrases]);
 
   const irSiguiente = useCallback(async () => {
-    if (precision === 0) {
-      sileo.info({
-        title: '¡Espera!',
-        description: 'Por favor, pronuncia la frase antes de avanzar.',
-      });
-      return;
-    }
     setTexto('');
 
     if (esEscuadron) {
@@ -163,6 +158,8 @@ export function MuestraDeFrases() {
         </div>
       )}
 
+      <PromedioEquipos />
+
       <div className="practice-grid ani d2 flex-1 min-h-0">
         <div className="flex flex-col gap-4 h-full justify-center">
           <Frase frases={frases} indice={displayIndex} fuente={fuente} />
@@ -174,6 +171,8 @@ export function MuestraDeFrases() {
 
         <div className="side-panel flex flex-col gap-3.5 h-full justify-center">
           <EstadisticasDeFrases indiceForzado={displayIndex} />
+
+          <PromedioSolitario />
 
           <div className="nav-controls ani d4 w-full">
             <div className="flex items-center justify-between gap-3 p-1">
