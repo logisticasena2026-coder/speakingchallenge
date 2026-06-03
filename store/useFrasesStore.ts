@@ -41,6 +41,7 @@ interface FrasesStore {
   setEdad: (edad: number | '') => void;
   setCreador: (creador: string) => void;
   setModoDeEstudio: (modo: 'Estudio' | 'Practica') => void;
+  setAllGruposConfig: (grupos: GrupoConfig[]) => void;
 }
 
 const crearGruposConfig = (n: number): GrupoConfig[] =>
@@ -72,16 +73,24 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
 
   agregarGrupo: () =>
     set((state) => {
-      const n = Math.min(6, state.cantidadGrupos + 1);
-      return { cantidadGrupos: n, gruposConfig: crearGruposConfig(n) };
+      if (state.cantidadGrupos >= 6) return state;
+      const newGroup: GrupoConfig = { miembros: 2, nombre: '', integrantes: ['', ''] };
+      return {
+        cantidadGrupos: state.cantidadGrupos + 1,
+        gruposConfig: [...state.gruposConfig, newGroup],
+      };
     }),
   quitarGrupo: () =>
     set((state) => {
-      const n = Math.max(2, state.cantidadGrupos - 1);
-      return { cantidadGrupos: n, gruposConfig: crearGruposConfig(n) };
+      if (state.cantidadGrupos <= 2) return state;
+      return {
+        cantidadGrupos: state.cantidadGrupos - 1,
+        gruposConfig: state.gruposConfig.slice(0, -1),
+      };
     }),
 
   setModoDeEstudio: (modo) => set({ modoDeEstudio: modo }),
+  setAllGruposConfig: (grupos) => set({ gruposConfig: grupos }),
   cargarFrasesInicial: async () => {
     set({ estaCargando: true });
     const { tematica, dificultad, edad, creador } = get();

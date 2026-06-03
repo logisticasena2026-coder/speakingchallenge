@@ -2,9 +2,9 @@
 
 import { useFrasesStore } from '@/store/useFrasesStore';
 import { cn } from '@/lib/utils';
-import { BookOpen, Zap, Play, Radar, Users, Save, Shield } from 'lucide-react';
+import { BookOpen, Zap, Play, Radar, Users, Shield } from 'lucide-react';
 import { sileo } from 'sileo';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { EnDesarrollo } from '@/components/EnDesarrollo';
@@ -20,20 +20,17 @@ export function ModoEstudio() {
   const setModo = useFrasesStore((state) => state.setModoDeEstudio);
   const protocoloGrupo = useFrasesStore((state) => state.protocoloGrupo);
   const gruposConfig = useFrasesStore((state) => state.gruposConfig);
-  const setGrupoConfig = useFrasesStore((state) => state.setGrupoConfig);
+  const setAllGruposConfig = useFrasesStore((state) => state.setAllGruposConfig);
 
   const [formData, setFormData] = useState<GrupoConfig[]>(gruposConfig);
-  const [savedIndex, setSavedIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    setFormData(gruposConfig);
+  }, [gruposConfig]);
 
   const gruposInsuficientes =
     protocoloGrupo === 'escuadron' &&
-    formData.filter(grupoConfigurado).length < 2;
-
-  const handleSave = (index: number) => {
-    setGrupoConfig(index, formData[index]);
-    setSavedIndex(index);
-    setTimeout(() => setSavedIndex(null), 1500);
-  };
+    formData.filter(grupoConfigurado).length !== formData.length;
   return (
     <div className="space-y-5 mb-3 ani delay-anim-2 mt-3">
       <div className="flex items-center justify-center gap-4">
@@ -212,22 +209,6 @@ export function ModoEstudio() {
                       </div>
                     </div>
 
-                    <button
-                      onClick={() => handleSave(index)}
-                      className="flex items-center justify-center gap-2 w-full h-10 rounded-lg border border-border-subtle bg-white/4 text-text-muted font-ui text-[11px] font-bold tracking-widest uppercase transition-all duration-200 hover:border-brand-green/30 hover:bg-brand-green/8 hover:text-brand-green cursor-pointer active:scale-[0.98]"
-                    >
-                      {savedIndex === index ? (
-                        <>
-                          <Save className="size-3.5" />
-                          Guardado
-                        </>
-                      ) : (
-                        <>
-                          <Save className="size-3.5" />
-                          Guardar
-                        </>
-                      )}
-                    </button>
                   </div>
                 ))}
               </div>
@@ -252,6 +233,9 @@ export function ModoEstudio() {
               <Link
                 href="/dashboard/estudiar/practicando"
                 onClick={(e) => {
+                  if (protocoloGrupo === 'escuadron') {
+                    setAllGruposConfig(formData);
+                  }
                   if (gruposInsuficientes) {
                     e.preventDefault();
                     sileo.error({
