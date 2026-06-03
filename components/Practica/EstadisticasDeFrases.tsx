@@ -53,8 +53,11 @@ export function EstadisticasDeFrases({ indiceForzado }: { indiceForzado?: number
   }, [resetearTodo]);
   const idx = indiceForzado ?? fraseActual;
   const precision = comparacion_de_frases(frases[idx]?.fraseIngles ?? '', texto ?? '');
-  setPrecision(precision);
   const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    setPrecision(precision);
+  }, [precision, setPrecision]);
 
   const color = colorSegunPrecision(precision);
   const textShadow = textShadowSegunPrecision(precision);
