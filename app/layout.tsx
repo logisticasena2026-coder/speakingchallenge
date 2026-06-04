@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { SileoToaster } from '@/components/SileoToaster';
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/next';
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const cinzel = Cinzel({
@@ -116,6 +116,7 @@ export default function RootLayout({
         {children}
         <SileoToaster />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
