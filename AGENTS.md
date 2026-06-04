@@ -7,6 +7,7 @@ pnpm dev          # http://localhost:3000 (not 3002 despite .env)
 pnpm build        # prisma generate && next build — always after schema changes
 pnpm lint         # ESLint flat config v9
 pnpm start        # production server
+pnpm doctor       # npx react-doctor@latest
 ```
 
 No test runner. Manual via `pnpm dev`.
@@ -22,27 +23,21 @@ No test runner. Manual via `pnpm dev`.
 | `NEXT_PUBLIC_APP_URL` | Public URL |
 | `DEEPGREEM_KEY` | Deepgram API key (typo intentional) |
 | `NEXT_PUBLIC_DEEPGRAM_KEY` | Same key exposed client-side |
-| `NEXT_PUBLIC_GEMINI_API_KEY` | Gemini Live API key (moved from hardcoded in `lib/Geminilive .ts`) |
+| `NEXT_PUBLIC_GEMINI_API_KEY` | Gemini Live API key |
 
-## Browser Check (two layers)
+## Dead Code — proxy.ts
 
-- **Server (`proxy.ts`, named `proxy` not `middleware`):** Next.js only auto-registers `middleware.ts` — `proxy.ts` is **not** wired in. Matcher targets `/dashboard/:path*`. Would block Brave/Firefox/Opera and redirect to `/navegador-no-valido`.
-- **Client (`lib/validarNavegador.ts`):** `navegadorEsCompatible()` — same logic but runs client-side. Imported from hooks (`useValidarNavegador`).
+`proxy.ts` is **not** auto-registered** — Next.js only wires `middleware.ts`. The file contains browser-check + session logic for `/dashboard/:path*` that never runs. The client-side equivalent is `lib/validarNavegador.ts` (imported via hooks `useValidarNavegador`). Do not try to "fix" proxy.ts — it's intentionally disconnected.
 
 ## Auth
 
 - Custom session auth (no NextAuth). 24h expiry. Passwords hashed with `bcrypt`.
 - Server actions (`actions/auth/`) accept plain objects, not FormData. Return `{ ok, message, avatar? }`.
-- Server actions validate input via Zod schemas from `schemas/auth/` before DB calls.
-- `iniciar_session({ correo, contrasena })` → `iniciarSesion.ts` (uses `FormLoginSchema`)
-- `registro({ nombre_usuario, correo, contrasena })` → `registro.ts` (uses `FormRegisterSchema`)
-- `CerrarSesion()` deletes `sessions_id` cookie → `CerrarSesion.ts`
-- Password reset → `nuevaContrasena.ts` (uses `PasswordSchema`)
-- Recovery email flow → `actions/auth/email/`
-- `lib/auth.ts` → `DatosDelAutenticado()` (returns user or redirects), `requiereIngreso()` (boolean). Uses `'use cache'` / `cacheLife` for session queries.
-- `lib/apiVos.ts` → `getSession(sessionId)` for API routes, also uses `'use cache'` / `cacheLife({ stale: 60, revalidate: 120 })`
-- `lib/errors.ts` → custom error classes: `AppError`, `ValidationError`, `UnauthorizedError`, `NotFoundError`, `ConflictError`, `DatabaseError`, `ExternalServiceError`
-- `lib/prisma.ts` → singleton PrismaClient with `@prisma/adapter-pg` (not the default constructor). Import from here, never `new PrismaClient()`.
+- Zod schemas at `schemas/auth/` — validate before DB calls.
+- `DatosDelAutenticado()` / `requiereIngreso()` in `lib/auth.ts` use `'use cache'` / `cacheLife`.
+- `getSession(sessionId)` in `lib/apiVos.ts` for API routes, also uses `cacheLife({ stale: 60, revalidate: 120 })`.
+- `lib/prisma.ts` → singleton PrismaClient with `@prisma/adapter-pg`. Never `new PrismaClient()` elsewhere.
+- `lib/errors.ts` → `AppError`, `ValidationError`, `UnauthorizedError`, `NotFoundError`, `ConflictError`, `DatabaseError`, `ExternalServiceError`.
 
 ## Prisma
 
@@ -50,111 +45,83 @@ No test runner. Manual via `pnpm dev`.
 npx prisma generate   # Output: generated/prisma/ (gitignored)
 npx prisma studio     # Web DB GUI
 npx prisma migrate dev --name <name>
+npx prisma db seed    # runs seed-etc.ts, seed-logistica.ts, seed-portuaria.ts concurrently
 ```
 
 - `pnpm build` auto-runs `prisma generate`.
-- `prisma.config.ts` loads `dotenv` — needed for `prisma migrate` outside of Next.js.
-- Seed is **active** via `prisma.config.ts`: runs `tsx prisma/seed-etc.ts & tsx prisma/seed-logistica.ts & tsx prisma/seed-portuaria.ts`. Run with `npx prisma db seed`. `prisma/seed.ts` is old (commented out).
-- `pnpm-workspace.yaml` whitelists build deps in `onlyBuiltDependencies`: `@google/genai`, `@prisma/engines`, `esbuild`, `msw`, `prisma`, `protobufjs`
+- `prisma.config.ts` loads `dotenv` — needed for `prisma migrate` outside Next.js.
 - 4 models: `user`, `Session`, `ResetearContrasenaToken`, `FrasesDePractica`
-- 2 enums: `Nivel` (5 values), `Skin` (19 empire values)
+- 2 enums: `Nivel` (5 levels), `Skin` (19 empire values)
+- `pnpm-workspace.yaml` whitelists `onlyBuiltDependencies`: `@google/genai`, `@prisma/engines`, `esbuild`, `msgpackr-extract`, `msw`, `prisma`, `protobufjs`
 
 ## App Routes
 
-| Route | What it does | Key imports |
-|---|---|---|
-| `/` | Landing page (hero, eras, systems, activities, Mapa, games) | All `@/components/Landing/*` |
-| `/auth/iniciar_sesion` | Login form | `IniciarSesionForm`, `Particles` |
-| `/auth/register` | Registration form | `RegistrarseForm`, `Particles` |
-| `/auth` layout | Redirects to `/dashboard` if already authenticated | `requiereIngreso` |
-| `/auth/iniciar_sesion/recuperar_contrasena/` | Password recovery flow (email, reset, confirm) | Various server actions |
-| `/dashboard` | Stats, skill tree, rituals, ranking | Inline JSX (no component imports) |
-| `/dashboard/configuracion` | Settings (avatar, theme, font size) | `AvatarStudio`, `SectionCard`, `FontSizeSelector`, `ThemeSelector`, `CerrarSesion` |
-| `/dashboard/estudiar` | Study mission config | `Configuraciónes`, `ErasPractica`, `Stasts` |
-| `/dashboard/estudiar/practicando` | Practice mode (phrase-by-phrase) | `HeaderPractica`, `MuestraDeFrases`, `Nivel` |
-| `/dashboard/estudiar/estadisticas` | Practice statistics | Inline page |
-| `/dashboard/emily` | AI chat with real-time audio | `TextAi`, `TextUser`, `lib/Geminilive .ts`, `lib/handel.ts` |
-| `/navegador-no-valido` | Unsupported browser page | `Particles` |
-| `GET /api/vos?text=...` | TTS via Deepgram, returns `audio/mpeg`. Uses `'use cache'` / `cacheLife` | `lib/apiVos`, `lib/logger` |
+| Route | Purpose |
+|---|---|
+| `/` | Landing (hero, eras, systems, activities, map, games) |
+| `/auth/iniciar_sesion` | Login |
+| `/auth/register` | Register |
+| `/auth/iniciar_sesion/recuperar_contrasena/` | Password recovery flow |
+| `/dashboard` | Stats, skill tree, rituals, ranking |
+| `/dashboard/configuracion` | Settings (avatar, theme, font size) |
+| `/dashboard/estudiar` | Study mission config |
+| `/dashboard/estudiar/practicando` | Practice mode (phrase-by-phrase) |
+| `/dashboard/estudiar/estadisticas` | Practice statistics |
+| `/dashboard/emily` | AI chat with real-time Gemini Live Audio |
+| `/navegador-no-valido` | Unsupported browser page |
+| `GET /api/vos?text=...` | TTS via Deepgram, returns `audio/mpeg` |
 
-## Practice Modes (Solitario vs Escuadrón)
+## Practice Modes
 
 Two modes controlled by `protocoloGrupo` in `useFrasesStore`:
 
-| Mode | Store used | Scoring |
+| Mode | Scoring store | UI component |
 |---|---|---|
-| `solitario` | `usePracticaStore.estadisticas` | Running average shown in `PromedioSolitario` (side panel) |
-| `escuadron` | `useSesionPracticaStore.puntajesPorIntegrante` | Per-team averages in `PromedioEquipos` (horizontal row above grid, hidden on mobile) |
+| `solitario` | `usePracticaStore.estadisticas` | `PromedioSolitario` (side panel) |
+| `escuadron` | `useSesionPracticaStore.puntajesPorIntegrante` | `PromedioEquipos` (horizontal row, hidden on mobile) |
 
-### Team Setup Flow (`ModoEstudio.tsx` + `Configuraciones.tsx` Drawer)
-- Groups managed via `agregarGrupo` / `quitarGrupo` — push/pop single group, preserve existing data.
-- Group editor cards use local `formData` state synced via `useEffect(() => setFormData(gruposConfig), [gruposConfig])`.
-- **No individual "Guardar" buttons.** All groups saved at once via `setAllGruposConfig(formData)` on "Iniciar practica" click.
-- Validation: all groups must have a name and all integrants filled (`gruposInsuficientes`).
+**Team setup** (`ModoEstudio.tsx` + `Configuraciones.tsx` drawer):
+- Groups added/removed via `agregarGrupo` / `quitarGrupo` (push/pop single group, preserve existing data)
+- **No per-group "Guardar"** — all saved at once via `setAllGruposConfig(formData)` on "Iniciar practica"
+- Validation: all groups need name + integrants filled (`gruposInsuficientes`)
 
-## Practica Component Chain
+## Key Architecture
 
-`MuestraDeFrases` (at `practicando/page.tsx`) imports internally:
-- `ControlesCelular`, `EstadisticaEstudiantePractica`, `Frase`, `TuPronunciacion`, `OpcionesMicrofono`, `EstadisticasDeFrases`, `PromedioSolitario`, `PromedioEquipos`
-- Stores: `useFrasesStore` (Zustand — frase data/pagination), `usePracticaStore` (Zustand — `texto`, `grabando`, `tiempo` for practice session state), `useSesionPracticaStore` (Zustand — turn queue, per-integrant scores for squad mode)
-- Actions: `obtenerFrases`, `contarFrases` from `actions/frases.ts`
+- **Next.js 16 App Router** — no `pages/`. `cacheComponents: true` enabled.
+- **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`. PostCSS: `@tailwindcss/postcss`.
+- **Spanish naming** everywhere: routes, DB models, server actions, variables.
+- **Toast** — `sileo`. Pattern: `sileo.promise(fn, { loading, success, error })` or `sileo.error({ title, description })`.
+- **State** — 5 Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useSesionPracticaStore`, `useConfiguracionUsuario` (persisted), `useEmilyStore`.
+- **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry `@magicui`.
+- **Fonts** — Cinzel (display), Space Grotesk (body), Inter (ui), Geist (sans). Configured in `app/layout.tsx`.
+- **Design tokens** — see `DESIGN.md` for surface colors, spacing, era themes, animations.
+- **Path alias** — `@/*` → project root.
+- **All custom CSS** in `app/globals.css` — no `*.module.css`.
+- **4 era themes**: Viking (cyan), Egypt (gold/brown), Rome (dark red), Cyber (deep blue/neon).
 
 ## Google Gemini Live Audio (Emily)
 
 - `lib/Geminilive .ts` (space in filename — treat path as-is) → Google GenAI client
-  - Model: `gemini-2.5-flash-native-audio-preview-12-2025`. API key from `NEXT_PUBLIC_GEMINI_API_KEY` env var.
+  - Model: `gemini-2.5-flash-native-audio-preview-12-2025`. API key: `NEXT_PUBLIC_GEMINI_API_KEY`.
   - Exports `createSession(callbacks)` → `{ session, mediaHandler }`. Voice: `Leda`.
   - Uses `@google/genai` SDK (`ai.live.connect()`), not the REST API.
 - `lib/handel.ts` → `MediaHandler` class for Web Audio API (PCM capture/playback via AudioWorklet)
-  - AudioWorklet module: `public/static/pcm-processor.js` (included in tsconfig)
-- `lib/chromeSpeech.ts` → alternative Chrome Speech Recognition for browsers without AudioWorklet support
+- `lib/chromeSpeech.ts` → alternative Chrome Speech Recognition fallback
 
-## Key Architecture
+## Already Built (Do Not Re-implement)
 
-- **App Router only** — no `pages/`. All routes under `app/`.
-- **Next.js 16** — uses `cacheComponents: true`, `'use cache'` directive, `cacheLife` / `cacheTag` for data caching (auth sessions, TTS audio).
-- **Tailwind CSS v4** — config in `app/globals.css` via `@theme inline`. No `tailwind.config.ts`. PostCSS: `@tailwindcss/postcss`.
-- **Spanish naming** everywhere: routes, DB models, server actions.
-- **Toast** — `sileo`. Pattern: `sileo.promise(fn, { loading, success, error })` or `sileo.error({ title, description })`.
-- **State** — 5 Zustand stores at `store/`: `useFrasesStore`, `usePracticaStore`, `useSesionPracticaStore`, `useConfiguracionUsuario` (persisted), `useEmilyStore`.
-- **shadcn/ui** — style `radix-nova`, icons `lucide`. Registry `@magicui`. See `components.json`.
-- **Fonts** — Cinzel (`font-display`), Space Grotesk (`font-body`), Inter (`font-ui`), Geist (`font-sans`). Configured in `app/layout.tsx`.
-- **Security headers** — CSP, HSTS, X-Frame-Options, etc. configured in `next.config.ts`. CSP varies by dev/prod.
-- **Design tokens** — see `DESIGN.md` for surface colors, spacing, era themes, animations.
-
-## Conventions
-
-- Path alias: `@/*` → project root.
-- All custom CSS in `app/globals.css` — no `*.module.css`.
-- 4 era themes: **Viking** (cyan), **Egypt** (gold/brown), **Rome** (dark red), **Cyber** (deep blue/neon).
-- `generated/prisma/` gitignored — must run `prisma generate` after schema changes.
-- ESLint flat config at `eslint.config.mjs` — uses `eslint-config-next/core-web-vitals` + `eslint-config-next/typescript`.
-- `lib/utils.ts` → `cn()` helper (`clsx` + `tailwind-merge`).
-- `lib/logger.ts` → structured logger (debug/info/warn/error) with context.
-- `lib/rachas.ts` → streak/racha calculation logic for user dashboard.
-- `hooks/` — custom hooks: `useSpeechToText`, `useTextToSpeech`, `useValidarNavegador`, `use-mobile`, `VerContrasena`.
-- `utils/comparacion-de-frases.ts` → phrase comparison utility for practice scoring.
-- `types/browser.d.ts` → TypeScript declarations for Brave browser API (`navigator.brave`).
-- `actions/configuracion/actualizarAvatar.ts` → avatar update action.
-
-## Already Implemented (Do Not Repeat)
-
-**Accessibility (WCAG AA):** Skip link, `prefers-reduced-motion`, semantic landmarks, `aria-invalid` / `aria-live` on forms, decorative icons with `aria-hidden`, focus-visible outline `brand-green`.
+**Accessibility (WCAG AA):** Skip link, `prefers-reduced-motion`, semantic landmarks, `aria-invalid` / `aria-live` on forms, decorative icons `aria-hidden`, focus-visible outline.
 
 **SEO:** Full metadata in `layout.tsx` (OG, Twitter Cards, canonical, robots). Auth pages: `robots: { index: false }`. `public/robots.txt` + `public/sitemap.xml` exist. OG image: `/FoundPage.webp`.
 
-**Next.js Best Practices (applied):**
-- Segment-level `error.tsx` (root, `/dashboard`, `/dashboard/estudiar`, `/dashboard/estudiar/practicando`, `/auth`), `loading.tsx` (root, `/dashboard`, `/dashboard/estudiar`, `/dashboard/estudiar/practicando`), `not-found.tsx` (root, `/dashboard`) all exist
-- Components always consumed by `'use client'` parents carry the directive explicitly
-- Server actions validate input via Zod before DB calls
-- API routes use `NextRequest`/`NextResponse`, proper `Cache-Control`, and timeout via `AbortController`
-- Session/TTS cache uses `'use cache'` directive with `cacheLife` (Next.js 16 cache components)
+**Vercel monitoring:** `@vercel/analytics` and `@vercel/speed-insights` both present in `app/layout.tsx`.
 
-## Dormant / Removed
+**Error/loading boundaries:** Segment-level `error.tsx`, `loading.tsx`, and `not-found.tsx` files exist for root, `/dashboard`, `/dashboard/estudiar`, `/dashboard/estudiar/practicando`, and `/auth`.
 
-| Path | Notes |
-|---|---|
-| `lib/deepGrem2.ts` | **Removed** — STT replaced by Google Gemini Live Audio |
-| `lib/gemini.ts` | **Removed** — no longer exists |
-| `lib/streaming/`, `lib/text/`, `lib/audio/` | **Removed** — directories no longer exist |
-| `prisma/seed.ts` | **Commented out** — superseded by `seed-etc.ts`, `seed-logistica.ts`, `seed-portuaria.ts` |
+## Conventions
+
+- Server actions accept plain objects, not FormData.
+- Zod schemas validate before any DB operation.
+- API routes use `NextRequest`/`NextResponse`, `Cache-Control`, `AbortController` timeout.
+- `CLAUDE.md` is a pointer to `AGENTS.md` — edit AGENTS.md directly.
+- `opencode.json` only configures shadcn MCP.
