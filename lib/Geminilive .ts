@@ -70,7 +70,7 @@ export async function createSession(callbacks?: SessionCallbacks, systemInstruct
           for (const part of content.modelTurn.parts) {
             if (part.inlineData?.data) {
               const arrayBuffer = base64ToArrayBuffer(part.inlineData.data);
-              mh.playAudio(arrayBuffer);
+              mh.playAudio(arrayBuffer).catch(() => {});
             }
           }
         }

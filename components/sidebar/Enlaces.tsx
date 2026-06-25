@@ -21,6 +21,7 @@ import {
   Gamepad,
   Medal,
   ChartNoAxesCombined,
+  GraduationCap,
 } from 'lucide-react';
 
 import Link from 'next/link';
@@ -30,6 +31,10 @@ const terminalItems = [
   { label: 'Emily Chat', href: '/dashboard/emily', icon: MessageCircle },
   { label: 'Estudiar', href: '/dashboard/estudiar', icon: Dumbbell },
   { label: 'Juegos', href: '#', icon: Gamepad },
+];
+
+const profesorItems = [
+  { label: 'Actividades Profesor', href: '/dashboard/actividades-profesor', icon: GraduationCap },
 ];
 
 const progresItems = [
@@ -110,6 +115,39 @@ export function Enlaces() {
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
+      <SidebarGroup>
+        <SidebarGroupLabel className="px-3 text-[10px] font-semibold text-text-muted uppercase tracking-[0.08em] mb-2">
+          Profesor
+        </SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {profesorItems.map((item) => {
+              const estaActivo = pathname === item.href;
+              const Icon = item.icon;
+              return (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={estaActivo}
+                    className={cn(
+                      'flex items-center gap-4 py-3 px-3 rounded-lg transition-all duration-250',
+                      estaActivo
+                        ? 'text-brand-amber bg-brand-amber/8'
+                        : 'text-text-secondary hover:bg-surface-4 hover:text-brand-amber',
+                    )}
+                  >
+                    <Link href={item.href}>
+                      <Icon className="w-5 h-5 shrink-0" aria-hidden="true" />
+                      <span className="font-ui-label text-sm">{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+
       <SidebarGroup className="mt-8">
         <SidebarGroupLabel className="px-3 text-[10px] font-semibold text-text-muted uppercase tracking-[0.08em] mb-2">
           Cuenta

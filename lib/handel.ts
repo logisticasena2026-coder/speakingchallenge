@@ -11,10 +11,14 @@ export class MediaHandler {
   audioContext: AudioContext | null = null;
   mediaStream: MediaStream | null = null;
   audioWorkletNode: AudioWorkletNode | null = null;
+  source: MediaStreamAudioSourceNode | null = null;
   nextStartTime = 0;
   scheduledSources: AudioBufferSourceNode[] = [];
   isRecording = false;
   startingAudio = false;
+  isAiSpeaking = false;
+  onAiSpeakingChange?: (v: boolean) => void;
+  private _pendingAudioCount = 0;
 
   async initializeAudio() {
     if (!this.audioContext) {
@@ -35,11 +39,11 @@ export class MediaHandler {
       this.mediaStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
       });
-      const source = this.audioContext!.createMediaStreamSource(this.mediaStream);
+      this.source = this.audioContext!.createMediaStreamSource(this.mediaStream);
       this.audioWorkletNode = new AudioWorkletNode(this.audioContext!, 'pcm-processor');
 
       this.audioWorkletNode.port.onmessage = (event) => {
-        if (this.isRecording) {
+        if (this.isRecording && !this.isAiSpeaking) {
           const downsampled = this.downsampleBuffer(
             event.data,
             this.audioContext!.sampleRate,
@@ -50,7 +54,7 @@ export class MediaHandler {
         }
       };
 
-      source.connect(this.audioWorkletNode);
+      this.source.connect(this.audioWorkletNode);
       const muteGain = this.audioContext!.createGain();
       muteGain.gain.value = 0;
       this.audioWorkletNode.connect(muteGain);
@@ -67,6 +71,11 @@ export class MediaHandler {
 
   stopAudio() {
     this.isRecording = false;
+    this.stopAudioPlayback();
+    if (this.source) {
+      this.source.disconnect();
+      this.source = null;
+    }
     if (this.mediaStream) {
       this.mediaStream.getTracks().forEach((t) => t.stop());
       this.mediaStream = null;
@@ -77,10 +86,16 @@ export class MediaHandler {
     }
   }
 
-  playAudio(arrayBuffer: ArrayBuffer) {
+  async playAudio(arrayBuffer: ArrayBuffer) {
     if (!this.audioContext) return;
     if (this.audioContext.state === 'suspended') {
-      this.audioContext.resume();
+      await this.audioContext.resume();
+    }
+
+    this._pendingAudioCount++;
+    if (!this.isAiSpeaking) {
+      this.isAiSpeaking = true;
+      this.onAiSpeakingChange?.(true);
     }
 
     const pcmData = new Int16Array(arrayBuffer);
@@ -105,6 +120,11 @@ export class MediaHandler {
     source.onended = () => {
       const idx = this.scheduledSources.indexOf(source);
       if (idx > -1) this.scheduledSources.splice(idx, 1);
+      this._pendingAudioCount--;
+      if (this._pendingAudioCount <= 0) {
+        this.isAiSpeaking = false;
+        this.onAiSpeakingChange?.(false);
+      }
     };
   }
 
@@ -115,6 +135,11 @@ export class MediaHandler {
       } catch (e) {}
     });
     this.scheduledSources = [];
+    this._pendingAudioCount = 0;
+    if (this.isAiSpeaking) {
+      this.isAiSpeaking = false;
+      this.onAiSpeakingChange?.(false);
+    }
     if (this.audioContext) {
       this.nextStartTime = this.audioContext.currentTime;
     }

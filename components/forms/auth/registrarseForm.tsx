@@ -25,42 +25,34 @@ export function RegistrarseForm() {
     mode: 'onChange',
   });
 
-  const onSubmit: SubmitHandler<FormRegisterData> = (data) => {
+  const onSubmit: SubmitHandler<FormRegisterData> = async (data) => {
     setBoton(true);
-    sileo
-      .promise(
-        () =>
-          registro({
-            contrasena: data.password,
-            correo: data.email,
-            nombre_usuario: data.username,
-          }),
+    try {
+      const res = await sileo.promise(
+        () => registro({
+          contrasena: data.password,
+          correo: data.email,
+          nombre_usuario: data.username,
+        }),
         {
           loading: { title: 'Iniciando tu viaje' },
           success: (res: { ok: boolean; message: string }) => {
             if (!res.ok) throw new Error(res.message);
-            return {
-              title: 'Usuario creado',
-              description: res.message,
-            };
+            return { title: 'Usuario creado', description: res.message };
           },
           error: (err: unknown) => {
-            setBoton(false);
-
             const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado';
-            return {
-              title: 'Error al crear usuario',
-              description: message,
-            };
+            return { title: 'Error al crear usuario', description: message };
           },
         },
-      )
-      .then(async (res: { ok: boolean; message: string }) => {
-        if (res?.ok) {
-          prefetch(`/auth/iniciar_sesion`);
-          push(`/auth/iniciar_sesion`);
-        }
-      });
+      );
+      if (res?.ok) {
+        prefetch(`/auth/iniciar_sesion`);
+        push(`/auth/iniciar_sesion`);
+      }
+    } finally {
+      setBoton(false);
+    }
   };
 
   return (
@@ -244,6 +236,7 @@ export function RegistrarseForm() {
         )}
       </div>
       <button
+        type="submit"
         className="w-full relative group/btn overflow-hidden rounded-lg bg-primary text-on-primary font-ui-label py-4 primary-glow transition-all duration-300 active:scale-95"
         disabled={boton}
       >

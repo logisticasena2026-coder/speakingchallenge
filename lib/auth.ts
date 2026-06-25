@@ -15,14 +15,16 @@ async function cachedSession(sessionId: string) {
   });
 }
 
-export async function requiereIngreso(): Promise<boolean> {
+export async function requiereIngreso(): Promise<string | false> {
   const sessionId = (await cookies()).get('sessions_id')?.value;
 
   if (!sessionId) return false;
 
   const session = await cachedSession(sessionId);
 
-  return !!session && session.expiresAt > new Date();
+  if (!session || session.expiresAt < new Date() || !session.propietario) return false;
+
+  return session.propietario.rol;
 }
 
 export async function DatosDelAutenticado() {
@@ -39,4 +41,14 @@ export async function DatosDelAutenticado() {
   }
 
   return session.propietario;
+}
+
+export async function requiereRol(rol: 'ESTUDIANTE' | 'PROFESOR' | 'ADMIN') {
+  const usuario = await DatosDelAutenticado();
+
+  if (!usuario || usuario.rol !== rol) {
+    redirect('/auth/iniciar_sesion');
+  }
+
+  return usuario;
 }

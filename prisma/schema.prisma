@@ -25,11 +25,36 @@ model user {
   precicion_global   Float                     @default(0)
   tiempo_promedio    Float                     @default(0)
   cantidad_logros    Int                       @default(0)
+  rol                Rol                       @default(ESTUDIANTE)
+  codigo_profesor    String?                   @unique
   tokenReset         ResetearContrasenaToken[]
   sesiones           Session[]
+  progreso_frases    ProgresoFraseEstudiante[]
+  profesores_asignados    EstudianteProfesor[] @relation("EPEstudiante")
+  estudiantes_asignados   EstudianteProfesor[] @relation("EPProfesor")
+  examenes_creados   Examen[]
+  grupos_creados     Grupo[]
+  grupos_membresias  GrupoEstudiante[]
+  respuestas_examen  RespuestaEstudiante[]
+  asignaciones_recibidas AsignacionExamen[]    @relation("AEStudent")
 
   @@unique([name, email])
   @@index([email, name, nivel])
+  @@index([codigo_profesor])
+}
+
+model EstudianteProfesor {
+  id            String   @id @default(uuid())
+  estudiante_id String
+  profesor_id   String
+  assignedAt    DateTime @default(now())
+
+  estudiante user @relation("EPEstudiante", fields: [estudiante_id], references: [id], onDelete: Cascade)
+  profesor   user @relation("EPProfesor", fields: [profesor_id], references: [id], onDelete: Cascade)
+
+  @@unique([estudiante_id, profesor_id])
+  @@index([estudiante_id])
+  @@index([profesor_id])
 }
 
 model Session {
@@ -53,7 +78,7 @@ model ResetearContrasenaToken {
 
 model FrasesDePractica {
   id           Int       @id @default(autoincrement())
-  fraseIngles  String    
+  fraseIngles  String
   fraseEspanol String
   dificultad   Int
   creador      String
@@ -63,7 +88,123 @@ model FrasesDePractica {
   Idioma       String?   @db.Char(15)
   Fec_Alta     DateTime? @default(now()) @db.Date
 
+  progreso       ProgresoFraseEstudiante[]
+
   @@index([dificultad, tematica, edad, creador])
+}
+
+model ProgresoFraseEstudiante {
+  id            String   @id @default(uuid())
+  estudiante_id String
+  frase_id      Int
+  precision     Float
+  tiempo        Int
+  intentos      Int      @default(1)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  estudiante user            @relation(fields: [estudiante_id], references: [id], onDelete: Cascade)
+  frase      FrasesDePractica @relation(fields: [frase_id], references: [id], onDelete: Cascade)
+
+  @@unique([estudiante_id, frase_id])
+  @@index([estudiante_id])
+  @@index([frase_id])
+}
+
+model Examen {
+  id           String   @id @default(uuid())
+  titulo       String
+  descripcion  String?
+  profesor_id  String
+  profesor     user     @relation(fields: [profesor_id], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  preguntas    Pregunta[]
+  asignaciones AsignacionExamen[]
+
+  @@unique([profesor_id, titulo])
+  @@index([profesor_id])
+}
+
+model Pregunta {
+  id                 String        @id @default(uuid())
+  examen_id          String
+  examen             Examen        @relation(fields: [examen_id], references: [id], onDelete: Cascade)
+  tipo               TipoPregunta
+  pregunta           String
+  opciones           Json?
+  respuesta_correcta String
+  orden              Int           @default(0)
+  createdAt          DateTime      @default(now())
+
+  respuestas         RespuestaEstudiante[]
+
+  @@index([examen_id])
+}
+
+model Grupo {
+  id           String   @id @default(uuid())
+  nombre       String
+  profesor_id  String
+  profesor     user     @relation(fields: [profesor_id], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+
+  miembros     GrupoEstudiante[]
+  asignaciones AsignacionExamen[]
+
+  @@unique([profesor_id, nombre])
+  @@index([profesor_id])
+}
+
+model GrupoEstudiante {
+  id            String   @id @default(uuid())
+  grupo_id      String
+  grupo         Grupo    @relation(fields: [grupo_id], references: [id], onDelete: Cascade)
+  estudiante_id String
+  estudiante    user     @relation(fields: [estudiante_id], references: [id], onDelete: Cascade)
+  assignedAt    DateTime @default(now())
+
+  @@unique([grupo_id, estudiante_id])
+  @@index([estudiante_id])
+}
+
+model AsignacionExamen {
+  id               String   @id @default(uuid())
+  examen_id        String
+  examen           Examen   @relation(fields: [examen_id], references: [id], onDelete: Cascade)
+  grupo_id         String?
+  grupo            Grupo?   @relation(fields: [grupo_id], references: [id], onDelete: SetNull)
+  estudiante_id    String?
+  estudiante       user?    @relation("AEStudent", fields: [estudiante_id], references: [id], onDelete: Cascade)
+  fecha_asignacion DateTime @default(now())
+  fecha_limite     DateTime?
+
+  @@unique([examen_id, grupo_id])
+  @@index([examen_id])
+  @@index([grupo_id])
+  @@index([estudiante_id])
+}
+
+model RespuestaEstudiante {
+  id            String   @id @default(uuid())
+  estudiante_id String
+  estudiante    user     @relation(fields: [estudiante_id], references: [id], onDelete: Cascade)
+  pregunta_id   String
+  pregunta      Pregunta @relation(fields: [pregunta_id], references: [id], onDelete: Cascade)
+  respuesta     String
+  correcta      Boolean
+  createdAt     DateTime @default(now())
+
+  @@unique([estudiante_id, pregunta_id])
+  @@index([estudiante_id])
+  @@index([pregunta_id])
+}
+
+enum Rol {
+  ESTUDIANTE
+  PROFESOR
+  ADMIN
 }
 
 enum Nivel {
@@ -74,15 +215,16 @@ enum Nivel {
   AVANZADO
 }
 
+enum TipoPregunta {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+}
+
 enum Skin {
-  // ImperioCivilización
   ImperioAcadio
   ImperioAntiguoDeEgipto
-  // ImperioBabilónico
   ImperioHitita
   ImperioAsirio
-  // ImperioNeobabilónico
-  // ImperioAqueménidaPersa
   ImperioMacedonio
   ImperioMaurya
   ImperioRomano
@@ -93,9 +235,6 @@ enum Skin {
   ImperioAzteca
   ImperioInca
   ImperioRuso
-  // ImperioBritánico
-  // ImperioJaponés
-  // ImperioCartaginés
   ImperioSatoshi
   ImperioEthereum
   ImperioSolariaChain
@@ -105,5 +244,4 @@ enum Skin {
   ImperioCyberAnunnaki
   ImperioAtlantechPrime
   ImperioOmegaCyborg
-  // GuardianesDelPacífico
 }

@@ -29,48 +29,52 @@ export function IniciarSesionForm() {
     mode: 'onChange',
   });
 
-  const onSubmit: SubmitHandler<FormLoginData> = (data) => {
+  const onSubmit: SubmitHandler<FormLoginData> = async (data) => {
     setBoton(true);
-    sileo
-      .promise(() => iniciar_session({ contrasena: data.password, correo: data.email }), {
-        loading: { title: 'Ingresando al viaje' },
-        success: (res: { ok: boolean; message: string; avatar?: string | null }) => {
-          if (!res.ok) throw new Error(res.message);
-          return {
-            title: 'Datos Validos',
-            description: (
-              <div className="flex flex-col items-center justify-center gap-2">
-                {res.avatar && (
-                  <Avatar
-                    size="lg"
-                    className="ring-2 ring-brand-green/50 shadow-[0_0_20px_rgba(61,214,140,0.3)]"
-                  >
-                    <AvatarImage src={res.avatar} alt="Avatar" className="object-cover" />
-                    <AvatarFallback className="bg-surface-3 text-brand-green font-bold text-lg">
-                      AV
-                    </AvatarFallback>
-                  </Avatar>
-                )}
-                <span className="text-xs text-text-secondary">{res.message}</span>
-              </div>
-            ),
-          };
+    try {
+      const res = await sileo.promise(
+        () => iniciar_session({ contrasena: data.password, correo: data.email }),
+        {
+          loading: { title: 'Ingresando al viaje' },
+          success: (res: { ok: boolean; message: string; avatar?: string | null }) => {
+            if (!res.ok) throw new Error(res.message);
+            return {
+              title: 'Datos Validos',
+              description: (
+                <div className="flex flex-col items-center justify-center gap-2">
+                  {res.avatar && (
+                    <Avatar
+                      size="lg"
+                      className="ring-2 ring-brand-green/50 shadow-[0_0_20px_rgba(61,214,140,0.3)]"
+                    >
+                      <AvatarImage src={res.avatar} alt="Avatar" className="object-cover" />
+                      <AvatarFallback className="bg-surface-3 text-brand-green font-bold text-lg">
+                        AV
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
+                  <span className="text-xs text-text-secondary">{res.message}</span>
+                </div>
+              ),
+            };
+          },
+          error: (err: unknown) => {
+            const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado';
+            return {
+              title: 'Error al comprovar datos',
+              description: message,
+            };
+          },
         },
-        error: (err: unknown) => {
-          setBoton(false);
-          const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado';
-          return {
-            title: 'Error al comprovar datos',
-            description: message,
-          };
-        },
-      })
-      .then((res: { ok: boolean; message: string; avatar: string | null }) => {
-        if (res?.ok) {
-          prefetch('/dashboard');
-          push('/dashboard');
-        }
-      });
+      );
+      if (res?.ok) {
+        const destino = res.rol === 'PROFESOR' ? '/profesor/dashboard' : res.rol === 'ADMIN' ? '/admin/dashboard' : '/dashboard';
+        prefetch(destino);
+        push(destino);
+      }
+    } finally {
+      setBoton(false);
+    }
   };
 
   return (
@@ -178,6 +182,7 @@ export function IniciarSesionForm() {
         </Link>
       </div>
       <button
+        type="submit"
         className="w-full relative group/btn overflow-hidden rounded-lg bg-primary text-on-primary font-ui-label py-4 primary-glow transition-all duration-300 active:scale-95"
         disabled={boton}
       >

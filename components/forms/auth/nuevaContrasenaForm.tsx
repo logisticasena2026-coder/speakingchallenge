@@ -25,43 +25,30 @@ export function NuevaContrasenaForm({ token }: Readonly<{ token: string }>) {
     mode: 'onChange',
   });
 
-  const onSubmit: SubmitHandler<FormNuevaContrasenaData> = (data) => {
+  const onSubmit: SubmitHandler<FormNuevaContrasenaData> = async (data) => {
     setBoton(true);
-    sileo
-      .promise(() => cambiarContrasena(token, data.password), {
+    try {
+      const res = await sileo.promise(() => cambiarContrasena(token, { password: data.password, confirmPassword: data.confirmPassword }), {
         loading: {
           title: 'Cambiando contraseña...',
           description: 'Por favor espera mientras se cambia tu contraseña.',
         },
         success: (res: { ok: boolean; message: string }) => {
           if (!res.ok) throw new Error(res.message);
-
-          return {
-            title: 'Contraseña cambiada',
-            description: res.message,
-          };
+          return { title: 'Contraseña cambiada', description: res.message };
         },
         error: (err: unknown) => {
-          setBoton(false);
-
           const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado';
-
-          return {
-            title: 'Error al cambiar contraseña',
-            description: message,
-          };
+          return { title: 'Error al cambiar contraseña', description: message };
         },
-      })
-      .then((res: { ok: boolean; message: string }) => {
-        if (res.ok) {
-          prefetch(
-            '/auth/iniciar_sesion/recuperar_contrasena/nueva_contrasena/contrasena_cambiada',
-          );
-          push(
-            '/auth/iniciar_sesion/recuperar_contrasena/nueva_contrasena/contrasena_cambiada',
-          );
-        }
       });
+      if (res.ok) {
+        prefetch('/auth/iniciar_sesion/recuperar_contrasena/nueva_contrasena/contrasena_cambiada');
+        push('/auth/iniciar_sesion/recuperar_contrasena/nueva_contrasena/contrasena_cambiada');
+      }
+    } finally {
+      setBoton(false);
+    }
   };
 
   return (
@@ -161,6 +148,7 @@ export function NuevaContrasenaForm({ token }: Readonly<{ token: string }>) {
         )}
       </div>
       <button
+        type="submit"
         className="w-full relative group/btn overflow-hidden rounded-lg bg-primary text-on-primary font-ui-label py-4 primary-glow transition-all duration-300 active:scale-95"
         disabled={boton}
       >

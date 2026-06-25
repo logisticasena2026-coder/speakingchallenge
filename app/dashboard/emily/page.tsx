@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useEmilyStore } from '@/store/useEmilyStore';
 import { createSession } from '@/lib/Geminilive ';
 import type { Session } from '@google/genai';
@@ -26,6 +26,7 @@ export default function Emily() {
     setIsConnecting,
   } = useEmilyStore();
 
+  const [aiSpeaking, setAiSpeaking] = useState(false);
   const sessionRef = useRef<Session | null>(null);
   const mediaHandlerRef = useRef<MediaHandler | null>(null);
   const hasConnectedRef = useRef(false);
@@ -162,6 +163,7 @@ export default function Emily() {
         );
         sessionRef.current = result.session;
         mediaHandlerRef.current = result.mediaHandler;
+        mediaHandlerRef.current.onAiSpeakingChange = setAiSpeaking;
         setIsConnecting(false);
       } catch (e) {
         sileo.error({
@@ -249,7 +251,15 @@ export default function Emily() {
       </main>
 
       <footer className="border-t border-white/5 bg-surface-0/90 backdrop-blur-xl">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 flex justify-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 flex flex-col items-center gap-3">
+          {aiSpeaking && (
+            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <span className="font-ui text-[11px] font-semibold text-amber-400/90 tracking-wider">
+                Emily está hablando
+              </span>
+            </div>
+          )}
           <button
             onClick={toggleRecording}
             disabled={isConnecting}

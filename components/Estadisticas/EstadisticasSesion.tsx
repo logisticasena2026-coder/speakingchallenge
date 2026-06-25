@@ -172,7 +172,7 @@ export function EstadisticasSesion() {
   const tiempoTotal = usePracticaStore((store) => store.tiempoTotal);
   const sesion = {
     tiempoSegundos: tiempoTotal,
-    totalFrases: estadisticas.length + 1,
+    totalFrases: estadisticas.length,
     precisionMedia:
       estadisticas.reduce((acc, e) => acc + e.precision, 0) / estadisticas.length || 0,
   };

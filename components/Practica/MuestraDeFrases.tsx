@@ -78,7 +78,7 @@ export function MuestraDeFrases() {
       setEstadistica([{ id: indiceActual, precision }]);
       await siguiente();
     }
-  }, [precision, setTexto, esEscuadron, registrarPuntaje, avanzarTurno, finalizarSesion, gruposConfig, router, setEstadistica, indiceActual, siguiente]);
+  }, [precision, setTexto, esEscuadron, registrarPuntaje, avanzarTurno, finalizarSesion, gruposConfig, router, setEstadistica, indiceActual, siguiente, frases]);
 
   const irAnterior = useCallback(() => {
     if (esEscuadron) return;

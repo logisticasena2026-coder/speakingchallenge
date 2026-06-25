@@ -62,6 +62,7 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   modoDeEstudio: 'Estudio',
   cantidadGrupos: 2,
   gruposConfig: crearGruposConfig(2),
+
   setProtocoloGrupo: (protocolo) => set({ protocoloGrupo: protocolo }),
 
   setGrupoConfig: (index, data) =>
@@ -91,17 +92,16 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
 
   setModoDeEstudio: (modo) => set({ modoDeEstudio: modo }),
   setAllGruposConfig: (grupos) => set({ gruposConfig: grupos }),
+
   cargarFrasesInicial: async () => {
     set({ estaCargando: true });
     const { tematica, dificultad, edad, creador } = get();
 
     const { obtenerFrases, contarFrases } = await import('../actions/frases');
-
     const [frases, total] = await Promise.all([
       obtenerFrases(0, 50, dificultad, tematica, edad, creador),
       contarFrases(dificultad, tematica, edad, creador),
     ]);
-
     set({
       frases,
       indiceActual: 0,
@@ -133,13 +133,11 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
       return;
     }
 
-    // Si no hay más frases en el array actual, cargar el siguiente batch
     if (indiceActual >= frases.length - 1 && tieneMasFrases && offset < totalFrases) {
       set({ estaCargando: true });
 
       const { obtenerFrases } = await import('../actions/frases');
       const nuevasFrases = await obtenerFrases(offset, 50, dificultad, tematica, edad, creador);
-
       set({
         frases: [...frases, ...nuevasFrases],
         indiceActual: indiceActual + 1,

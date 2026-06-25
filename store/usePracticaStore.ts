@@ -34,8 +34,7 @@ export const usePracticaStore = create<PracticaStore>((set, get) => ({
     const nuevaEstadistica = [...estadisticas, ...estadistica];
 
     const existe = estadisticas.some((e) => e.id === estadistica[0].id);
-    const esCero = estadisticas.some((e) => e.precision === 0);
-    if (existe || esCero) return;
+    if (existe) return;
     set({ estadisticas: nuevaEstadistica });
   },
 

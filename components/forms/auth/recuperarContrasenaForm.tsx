@@ -22,17 +22,16 @@ export function RecuperarContrasenaForm() {
     mode: 'onChange',
   });
 
-  const onSubmit: SubmitHandler<FormRecuperarData> = (data) => {
+  const onSubmit: SubmitHandler<FormRecuperarData> = async (data) => {
     setBoton(true);
-    sileo
-      .promise(() => recuperarCuenta(data.email), {
+    try {
+      const res = await sileo.promise(() => recuperarCuenta(data.email), {
         loading: {
           title: 'Enviando correo...',
           description: 'Estamos preparando tu correo de recuperación.',
         },
         success: (res: { ok: boolean; message: string }) => {
           if (!res.ok) throw new Error(res.message);
-
           return {
             title: 'Correo enviado',
             description: 'Revisa tu bandeja de entrada para restablecer tu contraseña.',
@@ -45,27 +44,23 @@ export function RecuperarContrasenaForm() {
           };
         },
         error: (err: unknown) => {
-          setBoton(false);
-
           const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado';
-          return {
-            title: 'Error',
-            description: message,
-          };
+          return { title: 'Error', description: message };
         },
-      })
-      .then((res: { ok: boolean; message: string }) => {
-        if (res?.ok) {
-          prefetch(
-            '/auth/iniciar_sesion/recuperar_contrasena/confirmar_correo_contrasena?correo=' +
-              data.email,
-          );
-          push(
-            '/auth/iniciar_sesion/recuperar_contrasena/confirmar_correo_contrasena?correo=' +
-              data.email,
-          );
-        }
       });
+      if (res?.ok) {
+        prefetch(
+          '/auth/iniciar_sesion/recuperar_contrasena/confirmar_correo_contrasena?correo=' +
+            data.email,
+        );
+        push(
+          '/auth/iniciar_sesion/recuperar_contrasena/confirmar_correo_contrasena?correo=' +
+            data.email,
+        );
+      }
+    } finally {
+      setBoton(false);
+    }
   };
 
   return (
@@ -113,6 +108,7 @@ export function RecuperarContrasenaForm() {
         )}
       </div>
       <button
+        type="submit"
         className="w-full relative group/btn overflow-hidden rounded-lg bg-primary text-on-primary font-ui-label py-4 primary-glow transition-all duration-300 active:scale-95"
         disabled={boton}
       >

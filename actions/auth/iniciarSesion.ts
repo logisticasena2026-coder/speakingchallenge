@@ -51,9 +51,56 @@ export async function iniciar_session({
   }
 
   try {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPass = process.env.ADMIN_PASSWORD;
+
+    if (adminEmail && correo === adminEmail) {
+      if (contrasena !== adminPass) {
+        return { ok: false, message: 'Credenciales incorrectas', avatar: '' };
+      }
+
+      let usuarioAdmin = await prisma.user.findFirst({ where: { email: adminEmail } });
+      if (!usuarioAdmin) {
+        const hashed = await bcrypt.hash(adminPass, 10);
+        usuarioAdmin = await prisma.user.create({
+          data: {
+            name: 'Admin',
+            email: adminEmail,
+            password: hashed,
+            rol: 'ADMIN',
+          },
+        });
+      } else if (usuarioAdmin.rol !== 'ADMIN') {
+        await prisma.user.update({
+          where: { id: usuarioAdmin.id },
+          data: { rol: 'ADMIN' },
+        });
+        usuarioAdmin.rol = 'ADMIN';
+      }
+
+      const session = await prisma.session.create({
+        data: {
+          propietario_id: usuarioAdmin.id,
+          expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
+        },
+      });
+
+      const isProduction = process.env.NODE_ENV === 'production';
+      (await cookies()).set('sessions_id', session.id, {
+        httpOnly: true, secure: isProduction, sameSite: 'lax', path: '/',
+      });
+
+      return {
+        ok: true,
+        message: `Bienvenido Admin`,
+        avatar: null,
+        rol: 'ADMIN',
+      };
+    }
+
     const usuarioEstudiante = await prisma.user.findFirst({
       where: { email: correo },
-      select: { avatar: true, email: true, password: true, id: true, name: true },
+      select: { avatar: true, email: true, password: true, id: true, name: true, rol: true },
     });
 
     if (!usuarioEstudiante) {
@@ -94,9 +141,9 @@ export async function iniciar_session({
       ok: true,
       message: `Bienvenido ${usuarioEstudiante.name}`,
       avatar: usuarioEstudiante.avatar,
+      rol: usuarioEstudiante.rol,
     };
   } catch (error) {
-    // Línea 95-101 podría ser:
     logger.error('Error en iniciar sesión', error as Error, { correo });
 
     if (error instanceof ValidationError || error instanceof UnauthorizedError) {
