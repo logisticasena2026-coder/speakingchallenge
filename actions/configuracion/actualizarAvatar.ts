@@ -10,7 +10,7 @@ export async function actualizarAvatar(formData: FormData) {
   const sessionId = (await cookies()).get('sessions_id')?.value;
 
   if (!sessionId) {
-    return { ok: false, message: 'No autenticado' };
+    return { ok: false, message: 'No autenticado, por favor autenticarse.' };
   }
 
   const session = await prisma.session.findUnique({
