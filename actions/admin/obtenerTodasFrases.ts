@@ -9,6 +9,10 @@ interface PaginacionOpts {
   pagina?: number;
   limite?: number;
   buscar?: string;
+  tematica?: string;
+  dificultad?: number;
+  edad?: number;
+  creador?: string;
 }
 
 export async function obtenerTodasFrases(opts?: PaginacionOpts) {
@@ -20,15 +24,24 @@ export async function obtenerTodasFrases(opts?: PaginacionOpts) {
   const buscar = opts?.buscar?.trim();
 
   try {
-    const where = buscar
-      ? {
-          OR: [
-            { fraseIngles: { contains: buscar, mode: 'insensitive' as const } },
-            { fraseEspanol: { contains: buscar, mode: 'insensitive' as const } },
-            { tematica: { contains: buscar, mode: 'insensitive' as const } },
-          ],
-        }
-      : {};
+    const filtros: Record<string, unknown>[] = [];
+
+    if (opts?.tematica) filtros.push({ tematica: opts.tematica });
+    if (opts?.dificultad) filtros.push({ dificultad: opts.dificultad });
+    if (opts?.edad) filtros.push({ edad: opts.edad });
+    if (opts?.creador) filtros.push({ creador: opts.creador });
+
+    if (buscar) {
+      filtros.push({
+        OR: [
+          { fraseIngles: { contains: buscar, mode: 'insensitive' as const } },
+          { fraseEspanol: { contains: buscar, mode: 'insensitive' as const } },
+          { tematica: { contains: buscar, mode: 'insensitive' as const } },
+        ],
+      });
+    }
+
+    const where = filtros.length > 0 ? { AND: filtros } : {};
 
     const [frases, total] = await Promise.all([
       prisma.frasesDePractica.findMany({
