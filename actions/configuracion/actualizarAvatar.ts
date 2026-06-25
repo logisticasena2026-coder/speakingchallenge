@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { put, del } from '@vercel/blob';
 import prisma from '@/lib/prisma';
 
+
 export async function actualizarAvatar(formData: FormData) {
   const sessionId = (await cookies()).get('sessions_id')?.value;
 
