@@ -1,6 +1,6 @@
 'use client';
 import { BookOpen, CheckCircle, MapPin, Minus, Plus, Users } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useFrasesStore } from '@/store/useFrasesStore';
 import {
@@ -45,17 +45,29 @@ export function Configuraciónes() {
   const setEdad = useFrasesStore((s) => s.setEdad);
   const setCreador = useFrasesStore((s) => s.setCreador);
 
-  useEffect(() => {
-    import('@/actions/frases').then(
-      ({ obtenerTematicas, obtenerDificultades, obtenerEdades, obtenerCreadores }) =>
-        Promise.all([
-          obtenerTematicas().then(setTematicasList),
-          obtenerDificultades().then(setDificultadesList),
-          obtenerEdades().then(setEdadesList),
-          obtenerCreadores().then(setCreadores),
-        ]),
-    );
+  const fetchOptions = useCallback(async (
+    filterTematica?: string,
+    filterDificultad?: number | '',
+    filterEdad?: number | '',
+    filterCreador?: string,
+  ) => {
+    const { obtenerOpcionesFiltros } = await import('@/actions/frases');
+    const opts = await obtenerOpcionesFiltros({
+      tematica: filterTematica || undefined,
+      dificultad: typeof filterDificultad === 'number' ? filterDificultad : undefined,
+      edad: typeof filterEdad === 'number' ? filterEdad : undefined,
+      creador: filterCreador || undefined,
+    });
+    setTematicasList(opts.tematicas);
+    setDificultadesList(opts.dificultades);
+    setEdadesList(opts.edades);
+    setCreadores(opts.creadores);
   }, []);
+
+  useEffect(() => {
+    const state = useFrasesStore.getState();
+    fetchOptions(state.tematica || undefined, state.dificultad, state.edad, state.creador);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 ani delay-anim-3">
@@ -194,7 +206,12 @@ export function Configuraciónes() {
               Temática
             </label>
             <Select
-              onValueChange={(value) => setTematica(value === '__none__' ? '' : value)}
+              onValueChange={(value) => {
+                const newVal = value === '__none__' ? '' : value;
+                setTematica(newVal);
+                const state = useFrasesStore.getState();
+                fetchOptions(newVal || undefined, state.dificultad, state.edad, state.creador);
+              }}
               value={tematica}
             >
               <SelectTrigger id="sel-tematica" className="w-full">
@@ -224,7 +241,12 @@ export function Configuraciónes() {
               Dificultad
             </label>
             <Select
-              onValueChange={(value) => setDificultad(value === '__none__' ? '' : Number(value))}
+              onValueChange={(value) => {
+                const newVal = value === '__none__' ? '' : Number(value);
+                setDificultad(newVal);
+                const state = useFrasesStore.getState();
+                fetchOptions(state.tematica || undefined, newVal, state.edad, state.creador);
+              }}
               value={dificultad !== '' ? dificultad.toString() : ''}
             >
               <SelectTrigger id="sel-dificultad" className="w-full">
@@ -277,7 +299,12 @@ export function Configuraciónes() {
               Edad equivalente
             </label>
             <Select
-              onValueChange={(value) => setEdad(value === '__none__' ? '' : Number(value))}
+              onValueChange={(value) => {
+                const newVal = value === '__none__' ? '' : Number(value);
+                setEdad(newVal);
+                const state = useFrasesStore.getState();
+                fetchOptions(state.tematica || undefined, state.dificultad, newVal, state.creador);
+              }}
               value={edad !== '' ? edad.toString() : ''}
             >
               <SelectTrigger id="sel-edad" className="w-full">
@@ -307,7 +334,12 @@ export function Configuraciónes() {
               Creador de la prueba
             </label>
             <Select
-              onValueChange={(value) => setCreador(value === '__none__' ? '' : value)}
+              onValueChange={(value) => {
+                const newVal = value === '__none__' ? '' : value;
+                setCreador(newVal);
+                const state = useFrasesStore.getState();
+                fetchOptions(state.tematica || undefined, state.dificultad, state.edad, newVal || undefined);
+              }}
               value={creador}
             >
               <SelectTrigger id="sel-creador" className="w-full">
