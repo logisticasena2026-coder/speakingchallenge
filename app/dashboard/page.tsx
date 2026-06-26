@@ -29,9 +29,10 @@ export const metadata: Metadata = {
 export default async function Home() {
   const datos = await DatosDelAutenticado();
   const progreso = await obtenerEstadoProgreso();
+  const usuarioStats = progreso.ok && progreso.usuario ? progreso.usuario : null;
   const estratoSocial = progreso.ok && progreso.progreso ? progreso.progreso.estrato_social : 0;
   const eraActiva = progreso.ok && progreso.progreso ? progreso.progreso.era_actual?.nombre ?? '' : '';
-  const cantidadLogros = progreso.ok && progreso.usuario ? progreso.usuario.cantidad_logros ?? 0 : datos?.cantidad_logros ?? 0;
+  const cantidadLogros = usuarioStats?.cantidad_logros ?? 0;
   const progresoExt = progreso as unknown as { ok: boolean; eras: Array<{
     id: string; nombre: string; orden: number; color: string;
     estado: 'completado' | 'activo' | 'disponible' | 'bloqueado';
@@ -59,7 +60,7 @@ export default async function Home() {
                 <Flame className="w-5 h-5 text-brand-amber" />
                 <div className="inline-flex items-center gap-1.5 bg-brand-amber/12 border border-brand-amber/25 rounded-full px-3 py-1">
                   <span className="font-ui text-[11px] font-bold text-brand-amber">
-                    {datos?.dias_racha} días de racha
+                    {(usuarioStats?.dias_racha ?? 0)} días de racha
                   </span>
                 </div>
                 <div className="h-3 w-px bg-white/8"></div>
@@ -126,7 +127,7 @@ export default async function Home() {
                 </div>
                 <div
                   className="h-full rounded-full bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)] transition-all duration-500 relative"
-                  style={{ width: `${datos?.precicion_global}%` }}
+                  style={{ width: `${usuarioStats?.precicion_global ?? 0}%` }}
                 >
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-brand-green shadow-[0_0_12px_rgba(61,214,140,0.7)]"></div>
                 </div>
@@ -153,7 +154,7 @@ export default async function Home() {
             </div>
           </div>
           <div className="font-display text-[28px] font-bold text-brand-green leading-none tracking-wider">
-            {datos?.frases}
+            {usuarioStats?.frases ?? 0}
           </div>
           <p className="text-[11px] text-text-muted mt-1">dominadas</p>
         </div>
@@ -169,7 +170,7 @@ export default async function Home() {
             </div>
           </div>
           <div className="font-display text-[28px] font-bold text-brand-cyan leading-none tracking-wider">
-            {datos?.tiempo_promedio?.toFixed(1)}
+            {(usuarioStats?.tiempo_promedio ?? 0).toFixed(1)}
           </div>
           <p className="text-[11px] text-text-muted mt-1">viajadas en el tiempo</p>
         </div>
@@ -185,14 +186,14 @@ export default async function Home() {
             </div>
           </div>
           <div className="font-display text-[28px] font-bold text-brand-amber leading-none tracking-wider">
-            {datos?.precicion_global}%
+            {usuarioStats?.precicion_global ?? 0}%
           </div>
           <p className="text-[11px] text-text-muted mt-1">tasa de acierto global</p>
           <div className="mt-2.5">
             <div className="w-full h-1 bg-surface-4 rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full bg-brand-amber shadow-[0_0_8px_rgba(245,166,35,0.5)] transition-all duration-500"
-                style={{ width: `${datos?.precicion_global}%` }}
+                style={{ width: `${usuarioStats?.precicion_global ?? 0}%` }}
               ></div>
             </div>
           </div>
@@ -314,7 +315,7 @@ export default async function Home() {
               </div>
               <div className="inline-flex items-center gap-1.5 bg-brand-amber/12 border border-brand-amber/25 rounded-full px-3 py-1">
                 <span className="font-display text-xl font-bold text-brand-amber">
-                  {datos?.dias_racha}
+                  {usuarioStats?.dias_racha ?? 0}
                 </span>
                 <span className="font-ui text-ui-badge text-text-muted">días</span>
               </div>

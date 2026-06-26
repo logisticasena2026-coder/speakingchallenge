@@ -8,25 +8,8 @@ import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { Configuraciónes } from './Configuraciones';
-import { ErasPractica } from './ErasPractica';
+import { ErasPractica, type EraData } from './ErasPractica';
 import type { GrupoConfig } from '@/store/useFrasesStore';
-
-type ImperioEstado = {
-  id: string;
-  nombre: string;
-  orden: number;
-  completado: boolean;
-  activo: boolean;
-};
-
-type EraData = {
-  id: string;
-  nombre: string;
-  orden: number;
-  color: string;
-  estado: 'completado' | 'activo' | 'disponible' | 'bloqueado';
-  imperios: ImperioEstado[];
-};
 
 interface Props {
   eras: EraData[];

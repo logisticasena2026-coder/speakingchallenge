@@ -3,7 +3,7 @@
 import prisma from '@/lib/prisma';
 import { DatosDelAutenticado } from '@/lib/auth';
 import { DatabaseError, NotFoundError, UnauthorizedError, ValidationError } from '@/lib/errors';
-import { revalidateTag } from 'next/cache';
+
 import { logger } from '@/lib/logger';
 import { CompletarNivelSchema } from '@/schemas/progreso';
 import { calcularDominioNivel } from './calcularDominioNivel';
@@ -79,8 +79,6 @@ export async function completarNivel(data: { nivel_id: string }) {
         tiempo_promedio: avgTiempo._avg.tiempo ?? 0,
       },
     });
-
-    revalidateTag('session');
 
     // Actualizar estrato social y avanzar al siguiente nivel/imperio (solo primera vez)
     let siguienteNivel = undefined;

@@ -15,7 +15,7 @@ import {
   Languages,
 } from 'lucide-react';
 
-type NivelData = {
+export type NivelData = {
   id: string;
   orden: number;
   frases: number;
@@ -23,7 +23,7 @@ type NivelData = {
   precision_promedio: number | null;
 };
 
-type ImperioData = {
+export type ImperioData = {
   id: string;
   nombre: string;
   orden: number;
@@ -35,7 +35,7 @@ type ImperioData = {
   activo: boolean;
 };
 
-type EraData = {
+export type EraData = {
   id: string;
   nombre: string;
   orden: number;
