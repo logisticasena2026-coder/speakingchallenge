@@ -1,0 +1,9 @@
+export { guardarResultadosFrase } from './guardarResultadosFrase';
+export { calcularDominioNivel } from './calcularDominioNivel';
+export { verificarDesbloqueo } from './verificarDesbloqueo';
+export { completarNivel } from './completarNivel';
+export { completarImperio } from './completarImperio';
+export { completarEra } from './completarEra';
+export { resetearImperio } from './resetearImperio';
+export { inicializarProgreso } from './inicializarProgreso';
+export { evaluarLogros } from './evaluarLogros';
