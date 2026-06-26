@@ -12,7 +12,9 @@ export default async function AdminEditarFrase({
   const fraseId = parseInt(id, 10);
   if (isNaN(fraseId)) notFound();
 
-  const frase = await prisma.frasesDePractica.findUnique({ where: { id: fraseId } });
+  const frase = await prisma.frasesDePractica.findUnique({
+    where: { id: fraseId },
+  });
   if (!frase) notFound();
 
   return (
