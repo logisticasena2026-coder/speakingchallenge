@@ -5,9 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useFrasesStore } from '@/store/useFrasesStore';
 import { usePracticaStore } from '@/store/usePracticaStore';
 import { useConfiguracionUsuario } from '@/store/useConfiguracionUsuario';
-import { useSesionPracticaStore } from '@/store/useSesionPracticaStore';
 import { comparacion_de_frases } from '@/utils/comparacion-de-frases';
-import { sileo } from 'sileo';
 
 const RADIO = 28;
 const CIRCUNFERENCIA = 2 * Math.PI * RADIO;
@@ -27,10 +25,6 @@ export function ControlesCelular({
   const fraseActual = useFrasesStore((state) => state.indiceActual);
   const frases = useFrasesStore((store) => store.frases);
   const texto = usePracticaStore((store) => store.texto);
-  const protocoloGrupo = useFrasesStore((store) => store.protocoloGrupo);
-  const gruposConfig = useFrasesStore((store) => store.gruposConfig);
-  const turnoActual = useSesionPracticaStore((store) => store.turnoActual);
-  const finalizarSesion = useSesionPracticaStore((store) => store.finalizarSesion);
   const resetearTiempo = usePracticaStore((store) => store.resetTiempo);
   const estadisticas = usePracticaStore((store) => store.estadisticas);
 
@@ -158,32 +152,17 @@ export function ControlesCelular({
         </button>
       </div>
 
-      <button
-        onClick={() => {
-          if (protocoloGrupo === 'escuadron') {
-            if (turnoActual < 5) {
-              sileo.error({
-                title: 'Práctica incompleta',
-                description:
-                  'Completa al menos 5 frases en modo escuadrón para ver las estadísticas.',
-              });
-              return;
-            }
-            finalizarSesion(gruposConfig);
-          } else if (estadisticas.length < 3) {
-            sileo.error({
-              title: 'Práctica incompleta',
-              description: 'Completa al menos 3 frases para ver tus estadísticas completas.',
-            });
-            return;
-          }
-          resetearTiempo();
-          router.push('/dashboard/estudiar/estadisticas');
-        }}
-        className="w-full h-11 px-5 bg-brand-green text-surface-0 font-ui text-sm font-semibold rounded-lg transition-all duration-200 ease-out hover:shadow-[0_0_24px_rgba(61,214,140,0.45)] hover:-translate-y-0.5 active:translate-y-0"
-      >
-        Finalizar práctica
-      </button>
+      {estadisticas.length >= 4 && (
+        <button
+          onClick={() => {
+            resetearTiempo();
+            router.push('/dashboard/estudiar/estadisticas');
+          }}
+          className="w-full h-11 px-5 bg-brand-green text-surface-0 font-ui text-sm font-semibold rounded-lg transition-all duration-200 ease-out hover:shadow-[0_0_24px_rgba(61,214,140,0.45)] hover:-translate-y-0.5 active:translate-y-0"
+        >
+          Finalizar práctica
+        </button>
+      )}
     </div>
   );
 }

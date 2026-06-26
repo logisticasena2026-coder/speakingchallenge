@@ -25,6 +25,7 @@ interface FrasesStore {
   dificultad: number | '';
   edad: number | '';
   creador: string;
+  nivel_id: string;
   protocoloGrupo: 'solitario' | 'escuadron';
   setProtocoloGrupo: (protocolo: 'solitario' | 'escuadron') => void;
   cantidadGrupos: number;
@@ -32,7 +33,7 @@ interface FrasesStore {
   setGrupoConfig: (index: number, data: Partial<GrupoConfig>) => void;
   agregarGrupo: () => void;
   quitarGrupo: () => void;
-  cargarFrasesInicial: () => Promise<void>;
+  cargarFrasesInicial: (nivel_id?: string) => Promise<void>;
   siguiente: () => Promise<void>;
   anterior: () => void;
   reiniciar: () => void;
@@ -59,6 +60,7 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   dificultad: '',
   edad: '',
   creador: '',
+  nivel_id: '',
   modoDeEstudio: 'Estudio',
   cantidadGrupos: 2,
   gruposConfig: crearGruposConfig(2),
@@ -93,20 +95,22 @@ export const useFrasesStore = create<FrasesStore>((set, get) => ({
   setModoDeEstudio: (modo) => set({ modoDeEstudio: modo }),
   setAllGruposConfig: (grupos) => set({ gruposConfig: grupos }),
 
-  cargarFrasesInicial: async () => {
+  cargarFrasesInicial: async (nivel_id?: string) => {
     set({ estaCargando: true });
     const { tematica, dificultad, edad, creador } = get();
+    const nid = nivel_id || get().nivel_id || undefined;
 
     const { obtenerFrases, contarFrases } = await import('../actions/frases');
     const [frases, total] = await Promise.all([
-      obtenerFrases(0, 50, dificultad, tematica, edad, creador),
-      contarFrases(dificultad, tematica, edad, creador),
+      obtenerFrases(0, 50, dificultad, tematica, edad, creador, nid),
+      contarFrases(dificultad, tematica, edad, creador, nid),
     ]);
     set({
       frases,
       indiceActual: 0,
       offset: 50,
       totalFrases: total,
+      nivel_id: nid ?? '',
       tieneMasFrases: frases.length === 50,
       estaCargando: false,
     });

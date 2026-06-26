@@ -7,15 +7,37 @@ import { sileo } from 'sileo';
 import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
-import { EnDesarrollo } from '@/components/EnDesarrollo';
 import { Configuraciónes } from './Configuraciones';
 import { ErasPractica } from './ErasPractica';
 import type { GrupoConfig } from '@/store/useFrasesStore';
 
+type ImperioEstado = {
+  id: string;
+  nombre: string;
+  orden: number;
+  completado: boolean;
+  activo: boolean;
+};
+
+type EraData = {
+  id: string;
+  nombre: string;
+  orden: number;
+  color: string;
+  estado: 'completado' | 'activo' | 'disponible' | 'bloqueado';
+  imperios: ImperioEstado[];
+};
+
+interface Props {
+  eras: EraData[];
+  estratoSocial: number;
+  nivelActualId: string | null;
+}
+
 const grupoConfigurado = (g: GrupoConfig) =>
   g.nombre.trim() !== '' && g.integrantes.every((i) => i.trim() !== '');
 
-export function ModoEstudio() {
+export function ModoEstudio({ eras, estratoSocial, nivelActualId }: Props) {
   const modo = useFrasesStore((state) => state.modoDeEstudio);
   const setModo = useFrasesStore((state) => state.setModoDeEstudio);
   const protocoloGrupo = useFrasesStore((state) => state.protocoloGrupo);
@@ -31,6 +53,7 @@ export function ModoEstudio() {
   const gruposInsuficientes =
     protocoloGrupo === 'escuadron' &&
     formData.filter(grupoConfigurado).length !== formData.length;
+
   return (
     <div className="space-y-5 mb-3 ani delay-anim-2 mt-3">
       <div className="flex items-center justify-center gap-4">
@@ -69,29 +92,16 @@ export function ModoEstudio() {
         <>
           <section>
             <h2 className="sr-only">Era histórica</h2>
-            <ErasPractica />
+            <ErasPractica eras={eras} estratoSocial={estratoSocial} nivelActualId={nivelActualId} />
           </section>
-          <EnDesarrollo>
-            <div className="relative rounded-xl border border-white/6 bg-surface-2/70 backdrop-blur-xl animate-zoom-in">
-              <div className="hud-corner-sm hud-corner-tl-sm" />
-              <div className="hud-corner-sm hud-corner-tr-sm" />
-              <div className="hud-corner-sm hud-corner-bl-sm" />
-              <div className="hud-corner-sm hud-corner-br-sm" />
-              <div className="flex flex-col justify-center items-center text-center p-6 sm:p-8">
-                <div className="mb-4">
-                  <Radar className="w-14 h-14 text-brand-green/20" />
-                </div>
-                <p className="text-sm text-text-muted mb-6 max-w-100 leading-relaxed">
-                  Listo para sincronizar la conciencia con la era seleccionada. Todos los parámetros
-                  están validados.
-                </p>
-                <button className="flex items-center justify-center gap-2 bg-brand-green text-surface-0 font-ui text-xs font-bold tracking-widest uppercase w-full sm:w-auto px-8 py-3.5 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-[0_0_24px_rgba(61,214,140,0.4)] hover:-translate-y-0.5">
-                  <Play className="w-5 h-5" />
-                  Iniciar estudio
-                </button>
-              </div>
-            </div>
-          </EnDesarrollo>
+
+          <Link
+            href={`/dashboard/estudiar/practicar-nivel?nivel_id=${nivelActualId}`}
+            className="flex items-center justify-center gap-2 bg-brand-green text-surface-0 font-ui text-xs font-bold tracking-widest uppercase w-full sm:w-auto mx-auto px-8 py-3.5 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-[0_0_24px_rgba(61,214,140,0.4)] hover:-translate-y-0.5"
+          >
+            <Play className="w-5 h-5" />
+            Iniciar estudio
+          </Link>
         </>
       ) : (
         <>
@@ -228,7 +238,7 @@ export function ModoEstudio() {
                   ? gruposInsuficientes
                     ? 'Configura al menos 2 grupos con nombre para practicar en modo Escuadrón Cronista'
                     : `Listo para practicar en equipo con ${formData.filter(grupoConfigurado).length} grupos configurados`
-                  : 'Listo para comenzar a practicar cuando quieras. tienes 2.000 frases a tu disposicion'}
+                  : 'Listo para comenzar a practicar cuando quieras'}
               </p>
               <Link
                 href="/dashboard/estudiar/practicando"

@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { DatosDelAutenticado } from '@/lib/auth';
+import { obtenerEstadoProgreso } from '@/actions/progreso/obtenerEstadoProgreso';
 import { Stasts } from '@/components/Practica/Stasts';
 import { ModoEstudio } from '@/components/Practica/ModoEstudio';
 
@@ -9,7 +11,18 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function Practicando() {
+export default async function Practicando() {
+  const user = await DatosDelAutenticado();
+  const progreso = await obtenerEstadoProgreso();
+
+  const frases = user?.frases ?? 0;
+  const diasRacha = user?.dias_racha ?? 0;
+  const tiempoPromedio = user?.tiempo_promedio ?? 0;
+
+  const eras = progreso.ok && progreso.eras ? progreso.eras : [];
+  const estratoSocial = progreso.ok && progreso.progreso ? progreso.progreso.estrato_social : 0;
+  const nivelActualId = progreso.ok && progreso.progreso ? progreso.progreso.nivel_actual_id : null;
+
   return (
     <main className="relative z-10 px-6 py-8 max-w-250 mx-auto w-full min-w-0">
       <div className="mb-8 ani delay-anim-1">
@@ -21,9 +34,9 @@ export default function Practicando() {
         </p>
       </div>
 
-      <Stasts />
+      <Stasts frases={frases} dias_racha={diasRacha} tiempo_promedio={tiempoPromedio} />
 
-      <ModoEstudio />
+      <ModoEstudio eras={eras} estratoSocial={estratoSocial} nivelActualId={nivelActualId} />
     </main>
   );
 }

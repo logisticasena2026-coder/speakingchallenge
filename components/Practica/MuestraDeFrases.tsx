@@ -37,6 +37,8 @@ export function MuestraDeFrases() {
   const fuente = useConfiguracionUsuario((state) => state.tamanoFuente);
 
   const esEscuadron = protocoloGrupo === 'escuadron';
+  const estadisticasLen = usePracticaStore((s) => s.estadisticas.length);
+  const todasCompletadas = estadisticasLen >= TotalFrases && TotalFrases > 0;
 
   const {
     sesionActiva,
@@ -75,7 +77,10 @@ export function MuestraDeFrases() {
         router.push('/dashboard/estudiar/estadisticas');
       }
     } else {
-      setEstadistica([{ id: indiceActual, precision }]);
+      const frase = frases[indiceActual];
+      if (frase && precision > 0) {
+        setEstadistica([{ id: frase.id, precision }]);
+      }
       await siguiente();
     }
   }, [precision, setTexto, esEscuadron, registrarPuntaje, avanzarTurno, finalizarSesion, gruposConfig, router, setEstadistica, indiceActual, siguiente, frases]);
@@ -92,7 +97,8 @@ export function MuestraDeFrases() {
   useEffect(() => {
     if (!iniciado.current) {
       iniciado.current = true;
-      cargarFrasesInicial();
+      const params = new URLSearchParams(globalThis.location?.search ?? '');
+      cargarFrasesInicial(params.get('nivel_id') ?? undefined);
     }
   }, [cargarFrasesInicial]);
 
@@ -175,43 +181,43 @@ export function MuestraDeFrases() {
           <PromedioSolitario />
 
           <div className="nav-controls ani d4 w-full">
-            <div className="flex items-center justify-between gap-3 p-1">
-              <button
-                onClick={irAnterior}
-                disabled={esEscuadron || indiceActual === 0}
-                aria-label="Frase anterior"
-                className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20 disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                <ChevronLeft className="w-5 h-5 text-text-secondary group-hover:text-brand-green transition-colors" />
-              </button>
+              <div className="flex items-center justify-between gap-3 p-1">
+                <button
+                  onClick={irAnterior}
+                  disabled={esEscuadron || indiceActual === 0}
+                  aria-label="Frase anterior"
+                  className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20 disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft className="w-5 h-5 text-text-secondary group-hover:text-brand-green transition-colors" />
+                </button>
 
-              <div className="flex-1 flex flex-col items-center">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className={`font-display ${fuente} text-brand-green`}>
-                    {displayIndex + 1}
-                  </span>
-                  <span className={`font-ui text-text-muted ${fuente}`}>/</span>
-                  <span className={`font-ui text-text-muted ${fuente}`}>{sessionLength}</span>
+                <div className="flex-1 flex flex-col items-center">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className={`font-display ${fuente} text-brand-green`}>
+                      {displayIndex + 1}
+                    </span>
+                    <span className={`font-ui text-text-muted ${fuente}`}>/</span>
+                    <span className={`font-ui text-text-muted ${fuente}`}>{sessionLength}</span>
+                  </div>
+                  <div className="progress-bar w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className="progress-fill h-full bg-linear-to-r from-brand-green/60 to-brand-green rounded-full transition-all duration-500 ease-out"
+                      style={{
+                        width: `${sessionLength > 0 ? ((esEscuadron ? turnoIdx + 1 : estadisticasLen) / sessionLength) * 100 : 0}%`,
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="progress-bar w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className="progress-fill h-full bg-linear-to-r from-brand-green/60 to-brand-green rounded-full transition-all duration-500 ease-out"
-                    style={{
-                      width: `${sessionLength > 0 ? ((turnoIdx + 1) / sessionLength) * 100 : 0}%`,
-                    }}
-                  />
-                </div>
+
+                <button
+                  onClick={irSiguiente}
+                  disabled={esEscuadron && !sesionActiva}
+                  aria-label="Siguiente frase"
+                  className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20 disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight className="w-5 h-5 text-text-secondary group-hover:text-brand-green transition-colors" />
+                </button>
               </div>
-
-              <button
-                onClick={irSiguiente}
-                disabled={esEscuadron && !sesionActiva}
-                aria-label="Siguiente frase"
-                className="nav-btn group relative flex items-center justify-center w-12 h-12 rounded-2xl border border-white/8 bg-white/4 transition-all duration-300 hover:bg-white/8 hover:border-brand-green/20 disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                <ChevronRight className="w-5 h-5 text-text-secondary group-hover:text-brand-green transition-colors" />
-              </button>
-            </div>
           </div>
         </div>
       </div>
