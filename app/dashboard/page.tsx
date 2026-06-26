@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { DatosDelAutenticado } from '@/lib/auth';
+import { obtenerEstadoProgreso } from '@/actions/progreso/obtenerEstadoProgreso';
 import { EnDesarrollo } from '@/components/EnDesarrollo';
+import { ViajesActivos } from '@/components/dashboard/ViajesActivos';
 import {
   Flame,
   ArrowRight,
@@ -12,6 +14,7 @@ import {
   Crown,
   Compass,
   Zap,
+  Layers,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -25,6 +28,16 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const datos = await DatosDelAutenticado();
+  const progreso = await obtenerEstadoProgreso();
+  const estratoSocial = progreso.ok && progreso.progreso ? progreso.progreso.estrato_social : 0;
+  const eraActiva = progreso.ok && progreso.progreso ? progreso.progreso.era_actual?.nombre ?? '' : '';
+  const cantidadLogros = progreso.ok && progreso.usuario ? progreso.usuario.cantidad_logros ?? 0 : datos?.cantidad_logros ?? 0;
+  const progresoExt = progreso as unknown as { ok: boolean; eras: Array<{
+    id: string; nombre: string; orden: number; color: string;
+    estado: 'completado' | 'activo' | 'disponible' | 'bloqueado';
+    imperios: Array<{ id: string; nombre: string; orden: number; completado: boolean; activo: boolean }>;
+  }> };
+  const eras = progreso.ok && 'eras' in progreso ? progresoExt.eras : [];
 
   return (
     <main className="pt-20 px-4 md:px-6 pb-10 relative z-10">
@@ -84,6 +97,19 @@ export default async function Home() {
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-3 px-3 py-2 bg-brand-purple/10 border border-brand-purple/20 rounded-lg shrink-0">
+              <Layers className="w-4 h-4 text-brand-purple" />
+              <div>
+                <p className="font-ui text-[9px] font-bold tracking-wider text-brand-purple uppercase">Estrato Social</p>
+                <p className="font-display text-lg font-bold text-text-primary">{estratoSocial}</p>
+              </div>
+              {eraActiva && (
+                <div className="border-l border-brand-purple/20 pl-3">
+                  <p className="font-ui text-[9px] text-text-muted">Era activa</p>
+                  <p className="font-display text-sm font-semibold text-text-primary">{eraActiva}</p>
+                </div>
+              )}
+            </div>
             <div className="flex-1 min-w-45">
               <div className="w-full h-2 bg-surface-4 rounded-full overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center justify-between px-0.5 pointer-events-none">
@@ -182,7 +208,7 @@ export default async function Home() {
                 Acceso Rápido
               </h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 items-start">
               <Link
                 href="/dashboard/estudiar"
                 className="group bg-surface-2 border border-white/6 rounded-xl p-4 text-left hover:border-brand-green/20 transition-all hover:-translate-y-1 hover:shadow-lg"
@@ -203,105 +229,23 @@ export default async function Home() {
                 <p className="font-display text-[13px] font-bold text-white mb-0.5">Emily IA</p>
                 <p className="font-ui text-[9px] text-text-muted">Conversación libre</p>
               </Link>
-              <button className="group bg-surface-2 border border-white/6 rounded-xl p-4 text-left hover:border-brand-amber/20 transition-all hover:-translate-y-1 hover:shadow-lg">
+              <Link
+                href="/dashboard/logros"
+                className="group bg-surface-2 border border-white/6 rounded-xl p-4 text-left hover:border-brand-amber/20 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
                 <div className="w-9 h-9 rounded-lg bg-brand-amber/10 border border-brand-amber/20 flex items-center justify-center mb-3 group-hover:bg-brand-amber/15 group-hover:border-brand-amber/30 transition-all">
                   <Trophy className="w-4 h-4 text-brand-amber" />
                 </div>
                 <p className="font-display text-[13px] font-bold text-white mb-0.5">Logros</p>
                 <p className="font-ui text-[9px] text-text-muted">
-                  {datos?.cantidad_logros} desbloqueados
+                  {cantidadLogros} {cantidadLogros === 1 ? 'desbloqueado' : 'desbloqueados'}
                 </p>
-              </button>
+              </Link>
             </div>
           </section>
 
           <section className="ani d4">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-base font-bold text-white flex items-center gap-2.5">
-                <Compass className="w-4 h-4 text-brand-green" />
-                Viajes Activos
-              </h2>
-              <button className="bg-transparent text-text-muted border border-white/6 font-ui text-ui-badge font-bold uppercase tracking-wider px-3.5 py-2 rounded-lg flex items-center gap-1.5 hover:border-white/10 hover:text-white hover:bg-white/3 transition-all">
-                Ver todos
-                <ArrowRight className="w-3 h-3" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="group relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
-                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-era-egypt-start/60 via-[#3d2800]/40 to-era-egypt-end/60">
-                  <Image
-                    alt="Era Antigua"
-                    src="/eras/Era_Antigua.webp"
-                    width={1536}
-                    height={1024}
-                    loading="eager"
-                    className="w-full h-full object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-linear-to-t from-[rgba(7,9,15,0.95)] via-[rgba(7,9,15,0.3)] to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <div>
-                    <span className="font-display text-base font-bold text-white block mb-1">
-                      Era Antigua
-                    </span>
-                    <p className="text-[11px] text-text-secondary mb-2">
-                      Egipto, Babilonia, Persia · Vocabulario base
-                    </p>
-                    <div className="w-full h-1.5 bg-surface-4 rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.5)]"
-                        style={{ width: '0%' }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="font-ui text-[9px] font-bold uppercase tracking-wider bg-brand-green text-[#07090f] px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-[0_0_20px_rgba(61,214,140,0.3)]">
-                    <Zap className="w-3 h-3" />
-                    Viajar
-                  </span>
-                </div>
-              </div>
-
-              <div className="group relative rounded-xl overflow-hidden border border-white/6 cursor-pointer transition-all duration-300 hover:border-brand-green/25 hover:-translate-y-1 hover:shadow-2xl">
-                <div className="w-full h-60 relative overflow-hidden bg-linear-to-br from-era-rome-start/60 via-[#3d1515]/40 to-era-rome-end/60">
-                  <Image
-                    alt="Era Medieval"
-                    src="/eras/Era_medieval.webp"
-                    width={1641}
-                    height={958}
-                    loading="eager"
-                    className="w-full h-full object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-linear-to-t from-[rgba(7,9,15,0.95)] via-[rgba(7,9,15,0.3)] to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <div>
-                    <span className="font-display text-base font-bold text-white block mb-1">
-                      Era Medieval
-                    </span>
-                    <p className="text-[11px] text-text-secondary mb-2">
-                      Roma, Bizancio, Mongol · Construcción de frases
-                    </p>
-                    <div className="w-full h-1.5 bg-surface-4 rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-brand-amber shadow-[0_0_8px_rgba(245,166,35,0.5)]"
-                        style={{ width: '0%' }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="font-ui text-[9px] font-bold uppercase tracking-wider bg-brand-green text-[#07090f] px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-[0_0_20px_rgba(61,214,140,0.3)]">
-                    <Zap className="w-3 h-3" />
-                    Viajar
-                  </span>
-                </div>
-              </div>
-            </div>
+            <ViajesActivos eras={eras} maxCards={2} />
           </section>
         </div>
 

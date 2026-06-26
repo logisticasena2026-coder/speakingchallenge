@@ -38,7 +38,7 @@ const profesorItems = [
 ];
 
 const progresItems = [
-  { label: 'Logros', href: '#', icon: Medal },
+  { label: 'Logros', href: '/dashboard/logros', icon: Medal },
   { label: 'Estadisticas', href: '#', icon: ChartNoAxesCombined },
 ];
 
