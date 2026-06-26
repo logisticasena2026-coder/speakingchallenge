@@ -316,6 +316,7 @@ export function TablaFrasesAdmin({
               <th className="text-left py-3 px-3 font-ui text-[10px] font-semibold uppercase tracking-wider text-text-muted">Español</th>
               <th className="text-center py-3 px-3 font-ui text-[10px] font-semibold uppercase tracking-wider text-text-muted">Dif.</th>
               <th className="text-left py-3 px-3 font-ui text-[10px] font-semibold uppercase tracking-wider text-text-muted">Temática</th>
+
               <th className="text-left py-3 px-3 font-ui text-[10px] font-semibold uppercase tracking-wider text-text-muted">Creador</th>
               <th className="text-center py-3 px-3 font-ui text-[10px] font-semibold uppercase tracking-wider text-text-muted">Progreso</th>
               <th className="text-right py-3 px-3 font-ui text-[10px] font-semibold uppercase tracking-wider text-text-muted">Acciones</th>
@@ -332,6 +333,7 @@ export function TablaFrasesAdmin({
                 <td className="py-3 px-3">
                   <span className="text-xs text-brand-cyan">{f.tematica}</span>
                 </td>
+
                 <td className="py-3 px-3 text-text-secondary text-xs truncate max-w-24">{f.creador}</td>
                 <td className="py-3 px-3 text-center text-text-muted text-xs">{f._count.progreso}</td>
                 <td className="py-3 px-3 text-right">

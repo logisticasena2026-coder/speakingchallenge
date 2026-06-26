@@ -15,7 +15,7 @@ import {
   Users,
   GraduationCap,
   BookOpen,
-  Shield,
+  Globe,
 } from 'lucide-react';
 import Link from 'next/link';
 import { BotonCerrarSesion } from '@/components/ui/BotonCerrarSesion';
@@ -79,6 +79,14 @@ export function SidebarAdmin() {
                   <Link href="/admin/frases" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-purple transition-all duration-250">
                     <BookOpen className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Frases</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/admin/eras" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-purple transition-all duration-250">
+                    <Globe className="w-5 h-5 shrink-0" aria-hidden="true" />
+                    <span className="font-ui-label text-sm">Eras</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

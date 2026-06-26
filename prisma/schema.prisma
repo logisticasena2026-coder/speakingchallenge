@@ -29,9 +29,15 @@ model user {
   codigo_profesor    String?                   @unique
   tokenReset         ResetearContrasenaToken[]
   sesiones           Session[]
-  progreso_frases    ProgresoFraseEstudiante[]
+  progreso_frases           ProgresoFraseEstudiante[]
+  progreso_frases_nivel     ProgresoFraseNivelEstudiante[]
+  progreso_usuario          ProgresoUsuario?
+  niveles_completados   NivelCompletado[]
+  imperios_completados  ImperioCompletado[]
+  eras_completadas      EraCompletada[]
   profesores_asignados    EstudianteProfesor[] @relation("EPEstudiante")
   estudiantes_asignados   EstudianteProfesor[] @relation("EPProfesor")
+  logros_desbloqueados LogroDesbloqueado[]
   examenes_creados   Examen[]
   grupos_creados     Grupo[]
   grupos_membresias  GrupoEstudiante[]
@@ -88,9 +94,26 @@ model FrasesDePractica {
   Idioma       String?   @db.Char(15)
   Fec_Alta     DateTime? @default(now()) @db.Date
 
-  progreso       ProgresoFraseEstudiante[]
+  progreso     ProgresoFraseEstudiante[]
 
   @@index([dificultad, tematica, edad, creador])
+}
+
+model FraseNivel {
+  id           Int       @id @default(autoincrement())
+  fraseIngles  String
+  fraseEspanol String
+  dificultad   Int
+  creador      String
+  edad         Int?
+  tematica     String
+  Fec_Alta     DateTime? @default(now()) @db.Date
+  nivel_id     String
+  nivel        NivelProgresion @relation(fields: [nivel_id], references: [id], onDelete: Cascade)
+
+  progreso     ProgresoFraseNivelEstudiante[]
+
+  @@index([nivel_id])
 }
 
 model ProgresoFraseEstudiante {
@@ -103,8 +126,26 @@ model ProgresoFraseEstudiante {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  estudiante user            @relation(fields: [estudiante_id], references: [id], onDelete: Cascade)
-  frase      FrasesDePractica @relation(fields: [frase_id], references: [id], onDelete: Cascade)
+  estudiante user              @relation(fields: [estudiante_id], references: [id], onDelete: Cascade)
+  frase      FrasesDePractica  @relation(fields: [frase_id], references: [id], onDelete: Cascade)
+
+  @@unique([estudiante_id, frase_id])
+  @@index([estudiante_id])
+  @@index([frase_id])
+}
+
+model ProgresoFraseNivelEstudiante {
+  id            String   @id @default(uuid())
+  estudiante_id String
+  frase_id      Int
+  precision     Float
+  tiempo        Int
+  intentos      Int      @default(1)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  estudiante user       @relation(fields: [estudiante_id], references: [id], onDelete: Cascade)
+  frase      FraseNivel @relation(fields: [frase_id], references: [id], onDelete: Cascade)
 
   @@unique([estudiante_id, frase_id])
   @@index([estudiante_id])
@@ -220,6 +261,150 @@ enum TipoPregunta {
   TRUE_FALSE
 }
 
+model Era {
+  id        String   @id @default(uuid())
+  nombre    String   @unique
+  orden     Int      @unique
+  color     String
+  createdAt DateTime @default(now())
+
+  imperios   Imperio[]
+  progreso   ProgresoUsuario[]
+  completadas EraCompletada[]
+}
+
+model Imperio {
+  id                        String   @id @default(uuid())
+  era_id                    String
+  era                       Era      @relation(fields: [era_id], references: [id], onDelete: Cascade)
+  nombre                    String
+  orden                     Int
+  frases_propias            Int      @default(0)
+  frases_para_desbloquear   Int      @default(0)
+  porcentaje_aprobacion     Float    @default(0)
+  umbral_bronce             Float    @default(65)
+  umbral_plata              Float    @default(75)
+  umbral_oro                Float    @default(98)
+  skin                      Skin?
+  createdAt                 DateTime @default(now())
+
+  niveles     NivelProgresion[]
+  progreso    ProgresoUsuario[]
+  completados ImperioCompletado[]
+
+  @@unique([era_id, nombre])
+  @@unique([era_id, orden])
+}
+
+model NivelProgresion {
+  id         String   @id @default(uuid())
+  imperio_id String
+  imperio    Imperio  @relation(fields: [imperio_id], references: [id], onDelete: Cascade)
+  orden      Int
+  createdAt  DateTime @default(now())
+
+  frases_nivel FraseNivel[]
+  progreso     ProgresoUsuario[]
+  completado   NivelCompletado[]
+
+  @@unique([imperio_id, orden])
+}
+
+model ProgresoUsuario {
+  id                String   @id @default(uuid())
+  usuario_id        String   @unique
+  usuario           user     @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  era_actual_id     String
+  era_actual        Era      @relation(fields: [era_actual_id], references: [id])
+  imperio_actual_id String
+  imperio_actual    Imperio  @relation(fields: [imperio_actual_id], references: [id])
+  nivel_actual_id   String
+  nivel_actual      NivelProgresion @relation(fields: [nivel_actual_id], references: [id])
+  estrato_social    Int      @default(0)
+  updatedAt         DateTime @updatedAt
+
+  @@index([usuario_id])
+}
+
+model NivelCompletado {
+  id                 String   @id @default(uuid())
+  usuario_id         String
+  usuario            user     @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  nivel_id           String
+  nivel              NivelProgresion @relation(fields: [nivel_id], references: [id], onDelete: Cascade)
+  precision_promedio Float    @default(0)
+  created_at         DateTime @default(now())
+
+  @@unique([usuario_id, nivel_id])
+}
+
+model ImperioCompletado {
+  id                 String   @id @default(uuid())
+  usuario_id         String
+  usuario            user     @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  imperio_id         String
+  imperio            Imperio  @relation(fields: [imperio_id], references: [id], onDelete: Cascade)
+  insignia           Insignia @default(NINGUNA)
+  precision_promedio Float    @default(0)
+  created_at         DateTime @default(now())
+
+  @@unique([usuario_id, imperio_id])
+}
+
+model EraCompletada {
+  id         String   @id @default(uuid())
+  usuario_id String
+  usuario    user     @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  era_id     String
+  era        Era      @relation(fields: [era_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+
+  @@unique([usuario_id, era_id])
+}
+
+enum Insignia {
+  NINGUNA
+  BRONCE
+  PLATA
+  ORO
+}
+
+enum TipoCondicionLogro {
+  NIVELES_COMPLETADOS
+  FRASES_TOTALES
+  RACHA_DIAS
+  IMPERIOS_COMPLETADOS
+  IMPERIOS_INSIGNIA_BRONCE
+  IMPERIOS_INSIGNIA_ORO
+  ERAS_COMPLETADAS
+  PRECISION_GLOBAL
+  ESTRATO_SOCIAL
+}
+
+model Logro {
+  id          String               @id @default(uuid())
+  nombre      String               @unique
+  descripcion String
+  icono       String
+  tipo        TipoCondicionLogro
+  valor       Int
+  created_at  DateTime             @default(now())
+
+  desbloqueos LogroDesbloqueado[]
+}
+
+model LogroDesbloqueado {
+  id         String   @id @default(uuid())
+  usuario_id String
+  usuario    user     @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  logro_id   String
+  logro      Logro    @relation(fields: [logro_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+
+  @@unique([usuario_id, logro_id])
+  @@index([usuario_id])
+}
+
 enum Skin {
   ImperioAcadio
   ImperioAntiguoDeEgipto
@@ -227,6 +412,7 @@ enum Skin {
   ImperioAsirio
   ImperioMacedonio
   ImperioMaurya
+  ImperioCartagines
   ImperioRomano
   ImperioBizantino
   CalifatoOmeya
@@ -244,4 +430,10 @@ enum Skin {
   ImperioCyberAnunnaki
   ImperioAtlantechPrime
   ImperioOmegaCyborg
+  ImperioBabilonico
+  ImperioNeobabilonico
+  ImperioPersa
+  ImperioBritanico
+  ImperioJapones
+  GuardianesDelPacifico
 }

@@ -12,6 +12,7 @@ export async function obtenerFrases(
   tematica?: string,
   edad?: number | '',
   creador?: string,
+  nivel_id?: string,
 ) {
   'use cache'
   cacheLife('minutes')
@@ -24,6 +25,23 @@ export async function obtenerFrases(
   if (creador) where.creador = creador;
 
   try {
+    if (nivel_id) {
+      where.nivel_id = nivel_id;
+      return await prisma.fraseNivel.findMany({
+        skip: offset,
+        take,
+        where,
+        select: {
+          id: true,
+          fraseIngles: true,
+          fraseEspanol: true,
+          dificultad: true,
+          tematica: true,
+        },
+        orderBy: { id: 'asc' },
+      });
+    }
+
     return await prisma.frasesDePractica.findMany({
       skip: offset,
       take,
@@ -48,6 +66,7 @@ export async function contarFrases(
   tematica?: string,
   edad?: number | '',
   creador?: string,
+  nivel_id?: string,
 ) {
   'use cache'
   cacheLife('minutes')
@@ -60,6 +79,11 @@ export async function contarFrases(
   if (creador) where.creador = creador;
 
   try {
+    if (nivel_id) {
+      where.nivel_id = nivel_id;
+      return await prisma.fraseNivel.count({ where });
+    }
+
     return await prisma.frasesDePractica.count({ where });
   } catch (error) {
     logger.error('Error al contar frases', error as Error);
