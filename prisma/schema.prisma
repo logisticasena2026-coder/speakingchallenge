@@ -21,6 +21,8 @@ model user {
   racha_mas_larga    Int                       @default(0)
   ultima_racha_fecha DateTime?
   ultima_sesion      DateTime?
+  fecha_nacimiento   DateTime?
+  sexo               String?
   frases             Int                       @default(0)
   precicion_global   Float                     @default(0)
   tiempo_promedio    Float                     @default(0)
@@ -43,6 +45,7 @@ model user {
   grupos_membresias  GrupoEstudiante[]
   respuestas_examen  RespuestaEstudiante[]
   asignaciones_recibidas AsignacionExamen[]    @relation("AEStudent")
+  palabras_guardadas PalabraGuardada[]
 
   @@unique([name, email])
   @@index([email, name, nivel])
@@ -240,6 +243,19 @@ model RespuestaEstudiante {
   @@unique([estudiante_id, pregunta_id])
   @@index([estudiante_id])
   @@index([pregunta_id])
+}
+
+model PalabraGuardada {
+  id            String   @id @default(uuid())
+  usuario_id    String
+  usuario       user     @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  palabra       String
+  traduccion    String
+  contexto      String?
+  created_at    DateTime @default(now())
+
+  @@unique([usuario_id, palabra])
+  @@index([usuario_id])
 }
 
 enum Rol {
