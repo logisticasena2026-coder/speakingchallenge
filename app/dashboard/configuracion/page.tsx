@@ -11,6 +11,8 @@ export default async function ConfiguracionPage() {
       currentAvatar={user.avatar}
       userName={user.name}
       userEmail={user.email}
+      userFechaNacimiento={user.fecha_nacimiento?.toISOString().split('T')[0] ?? ''}
+      userSexo={user.sexo ?? ''}
     />
   );
 }

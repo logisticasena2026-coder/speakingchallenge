@@ -28,10 +28,14 @@ export async function registro({
   nombre_usuario,
   correo,
   contrasena,
+  fecha_nacimiento,
+  sexo,
 }: {
   nombre_usuario: string;
   correo: string;
   contrasena: string;
+  fecha_nacimiento?: string;
+  sexo?: string;
 }) {
   const session = await getSesion();
 
@@ -47,6 +51,8 @@ export async function registro({
     email: correo,
     password: contrasena,
     confirmPassword: contrasena,
+    fecha_nacimiento: fecha_nacimiento || undefined,
+    sexo: sexo || undefined,
   });
   if (!parsed.success) {
     return {
@@ -77,12 +83,16 @@ export async function registro({
     const contrasenaHasheada = await bcrypt.hash(contrasena, 10);
     const nombre = nombre_usuario.split(' ').join('%20');
 
+    const fechaNac = fecha_nacimiento ? new Date(fecha_nacimiento) : null;
+
     await prisma.user.create({
       data: {
         email: correo,
         name: nombre_usuario,
         avatar: `https://api.dicebear.com/9.x/glass/svg?seed=${nombre}&radius=50`,
         password: contrasenaHasheada,
+        fecha_nacimiento: fechaNac,
+        sexo: sexo || null,
       },
     });
     return {

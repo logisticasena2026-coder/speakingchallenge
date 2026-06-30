@@ -33,6 +33,8 @@ export function RegistrarseForm() {
           contrasena: data.password,
           correo: data.email,
           nombre_usuario: data.username,
+          fecha_nacimiento: data.fecha_nacimiento,
+          sexo: data.sexo,
         }),
         {
           loading: { title: 'Iniciando tu viaje' },
@@ -235,6 +237,63 @@ export function RegistrarseForm() {
           </p>
         )}
       </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <div className="relative flex items-center">
+            <input
+              className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 px-3 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-text-muted/50 text-sm ${
+                errors.fecha_nacimiento ? 'ring-2 ring-error animate-shake' : ''
+              }`}
+              id="fecha_nacimiento"
+              placeholder="Fecha de nacimiento"
+              type="date"
+              aria-invalid={!!errors.fecha_nacimiento}
+              aria-describedby={errors.fecha_nacimiento ? 'fecha_nacimiento-error' : undefined}
+              {...register('fecha_nacimiento')}
+            />
+          </div>
+          {errors.fecha_nacimiento && (
+            <p
+              id="fecha_nacimiento-error"
+              className="text-xs text-error font-medium animate-slide-in-bottom"
+              role="alert"
+              aria-live="polite"
+            >
+              {errors.fecha_nacimiento.message}
+            </p>
+          )}
+        </div>
+        <div>
+          <div className="relative flex items-center">
+            <select
+              className={`w-full bg-surface-container-lowest border border-border-subtle rounded-lg py-3 px-3 text-on-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all text-sm appearance-none ${
+                errors.sexo ? 'ring-2 ring-error animate-shake' : ''
+              }`}
+              id="sexo"
+              aria-invalid={!!errors.sexo}
+              aria-describedby={errors.sexo ? 'sexo-error' : undefined}
+              {...register('sexo')}
+            >
+              <option value="">Sexo</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          {errors.sexo && (
+            <p
+              id="sexo-error"
+              className="text-xs text-error font-medium animate-slide-in-bottom"
+              role="alert"
+              aria-live="polite"
+            >
+              {errors.sexo.message}
+            </p>
+          )}
+        </div>
+      </div>
+
       <button
         type="submit"
         className="w-full relative group/btn overflow-hidden rounded-lg bg-primary text-on-primary font-ui-label py-4 primary-glow transition-all duration-300 active:scale-95"

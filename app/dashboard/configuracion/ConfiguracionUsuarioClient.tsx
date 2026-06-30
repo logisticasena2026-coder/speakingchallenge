@@ -14,6 +14,7 @@ import {
   Check,
   Shield,
   Sun,
+  Calendar,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
@@ -23,16 +24,21 @@ import { FontSizeSelector } from '@/components/configuracion-usuario/FontSizeSel
 import { ThemeSelector } from '@/components/configuracion-usuario/ThemeSelector';
 import { sileo } from 'sileo';
 import { CerrarSesion } from '@/actions/auth/CerrarSesion';
+import { actualizarPerfil } from '@/actions/configuracion/actualizarPerfil';
 import { EnDesarrollo } from '@/components/EnDesarrollo';
 
 export function ConfiguracionUsuarioClient({
   currentAvatar,
   userName,
   userEmail,
+  userFechaNacimiento,
+  userSexo,
 }: {
   currentAvatar?: string | null;
   userName?: string | null;
   userEmail?: string | null;
+  userFechaNacimiento?: string;
+  userSexo?: string;
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -161,6 +167,61 @@ export function ConfiguracionUsuarioClient({
                 </div>
               </SectionCard>
             </EnDesarrollo>
+
+            <SectionCard
+              icon={User}
+              title="Información personal"
+              subtitle="Fecha de nacimiento y sexo"
+              accent="green"
+            >
+              <div className="space-y-4">
+                <label className="space-y-1.5">
+                  <span className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
+                    <Calendar className="w-3 h-3" />
+                    Fecha de nacimiento
+                  </span>
+                  <input
+                    type="date"
+                    defaultValue={userFechaNacimiento}
+                    id="fecha-nacimiento-input"
+                    className="w-full h-10 px-3 rounded-lg bg-surface-3/50 border border-border-subtle text-text-primary text-sm outline-none transition-all duration-200 focus:border-brand-cyan/40"
+                  />
+                </label>
+                <label className="space-y-1.5">
+                  <span className="text-ui-badge font-semibold text-text-muted uppercase tracking-[0.12em] font-ui-label flex items-center gap-1.5">
+                    <User className="w-3 h-3" />
+                    Sexo
+                  </span>
+                  <select
+                    defaultValue={userSexo}
+                    id="sexo-input"
+                    className="w-full h-10 px-3 rounded-lg bg-surface-3/50 border border-border-subtle text-text-primary text-sm outline-none transition-all duration-200 focus:border-brand-cyan/40 appearance-none"
+                  >
+                    <option value="">No especificado</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="femenino">Femenino</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </label>
+                <div className="flex justify-end pt-1">
+                  <button
+                    onClick={async () => {
+                      const fecha = (document.getElementById('fecha-nacimiento-input') as HTMLInputElement)?.value;
+                      const sexo = (document.getElementById('sexo-input') as HTMLSelectElement)?.value;
+                      await sileo.promise(() => actualizarPerfil({ fecha_nacimiento: fecha, sexo }), {
+                        loading: { title: 'Guardando' },
+                        success: () => ({ title: 'Información actualizada' }),
+                        error: (err) => ({ title: 'Error', description: err instanceof Error ? err.message : 'Error al guardar' }),
+                      });
+                    }}
+                    className="h-9 bg-brand-cyan text-surface-0 hover:bg-brand-cyan/90 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all duration-200 cursor-pointer text-xs font-semibold gap-1.5 inline-flex items-center px-4 rounded-lg"
+                  >
+                    <Save className="w-3.5 h-3.5" />
+                    Guardar
+                  </button>
+                </div>
+              </div>
+            </SectionCard>
 
             <SectionCard
               icon={Type}
