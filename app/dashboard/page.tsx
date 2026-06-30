@@ -40,6 +40,33 @@ export default async function Home() {
   }> };
   const eras = progreso.ok && 'eras' in progreso ? progresoExt.eras : [];
 
+  const diasDesdeInicio = usuarioStats?.created_at
+    ? Math.floor((Date.now() - new Date(usuarioStats.created_at).getTime()) / (1000 * 60 * 60 * 24))
+    : 0;
+
+  const ultimaFecha = usuarioStats?.ultima_racha_fecha
+    ? new Date(usuarioStats.ultima_racha_fecha)
+    : null;
+  const racha = usuarioStats?.dias_racha ?? 0;
+  const semanaDias: { label: string; activo: boolean; hoy: boolean }[] = [];
+  const diasSemana = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+  if (ultimaFecha) {
+    const ultimaN = new Date(ultimaFecha.getFullYear(), ultimaFecha.getMonth(), ultimaFecha.getDate());
+    for (let i = 6; i >= 0; i--) {
+      const fecha = new Date();
+      fecha.setDate(fecha.getDate() - i);
+      const fechaN = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
+      const diff = Math.round((ultimaN.getTime() - fechaN.getTime()) / (1000 * 60 * 60 * 24));
+      semanaDias.push({ label: diasSemana[fecha.getDay()], activo: diff >= 0 && diff < racha, hoy: i === 0 });
+    }
+  } else {
+    for (let i = 6; i >= 0; i--) {
+      const fecha = new Date();
+      fecha.setDate(fecha.getDate() - i);
+      semanaDias.push({ label: diasSemana[fecha.getDay()], activo: false, hoy: i === 0 });
+    }
+  }
+
   return (
     <main className="pt-20 px-4 md:px-6 pb-10 relative z-10">
       <section className="ani d1 relative rounded-2xl overflow-hidden border border-white/6 p-6 md:p-8 mb-7">
@@ -320,50 +347,35 @@ export default async function Home() {
                 <span className="font-ui text-ui-badge text-text-muted">días</span>
               </div>
             </div>
-            <EnDesarrollo>
-              <div className="grid grid-cols-7 gap-1 mb-3">
-                <div className="text-center">
-                  <div className="w-full aspect-square rounded-md bg-brand-green/20 border border-brand-green/30 flex items-center justify-center mb-0.5">
-                    <span className="text-[8px]">✓</span>
+
+            <div className="flex items-center justify-between mb-3 px-1">
+              <span className="font-ui text-[9px] font-semibold tracking-wider text-text-muted">Desde tu registro</span>
+              <span className="font-display text-sm font-bold text-text-primary">{diasDesdeInicio} días</span>
+            </div>
+            <div className="grid grid-cols-7 gap-1 mb-3">
+              {semanaDias.map((dia, i) => (
+                <div key={i} className="text-center">
+                  <div
+                    className={`w-full aspect-square rounded-md flex items-center justify-center mb-0.5 ${
+                      dia.hoy
+                        ? 'bg-brand-green shadow-[0_0_8px_rgba(61,214,140,0.4)]'
+                        : dia.activo
+                          ? 'bg-brand-green/20 border border-brand-green/30'
+                          : 'bg-surface-4 border border-white/6'
+                    }`}
+                  >
+                    {dia.activo && (
+                      <span className={`text-[8px] ${dia.hoy ? 'font-bold text-[#07090f]' : ''}`}>
+                        ✓
+                      </span>
+                    )}
                   </div>
-                  <span className="font-ui text-[8px] text-text-muted">L</span>
+                  <span className={`font-ui text-[8px] ${dia.hoy ? 'text-brand-green' : 'text-text-muted'}`}>
+                    {dia.label}
+                  </span>
                 </div>
-                <div className="text-center">
-                  <div className="w-full aspect-square rounded-md bg-brand-green/20 border border-brand-green/30 flex items-center justify-center mb-0.5">
-                    <span className="text-[8px]">✓</span>
-                  </div>
-                  <span className="font-ui text-[8px] text-text-muted">M</span>
-                </div>
-                <div className="text-center">
-                  <div className="w-full aspect-square rounded-md bg-brand-green/20 border border-brand-green/30 flex items-center justify-center mb-0.5">
-                    <span className="text-[8px]">✓</span>
-                  </div>
-                  <span className="font-ui text-[8px] text-text-muted">M</span>
-                </div>
-                <div className="text-center">
-                  <div className="w-full aspect-square rounded-md bg-brand-green/20 border border-brand-green/30 flex items-center justify-center mb-0.5">
-                    <span className="text-[8px]">✓</span>
-                  </div>
-                  <span className="font-ui text-[8px] text-text-muted">J</span>
-                </div>
-                <div className="text-center">
-                  <div className="w-full aspect-square rounded-md bg-brand-green/20 border border-brand-green/30 flex items-center justify-center mb-0.5">
-                    <span className="text-[8px]">✓</span>
-                  </div>
-                  <span className="font-ui text-[8px] text-text-muted">V</span>
-                </div>
-                <div className="text-center">
-                  <div className="w-full aspect-square rounded-md bg-brand-green flex items-center justify-center mb-0.5 shadow-[0_0_8px_rgba(61,214,140,0.4)]">
-                    <span className="text-[8px] font-bold text-[#07090f]">H</span>
-                  </div>
-                  <span className="font-ui text-[8px] text-brand-green">S</span>
-                </div>
-                <div className="text-center">
-                  <div className="w-full aspect-square rounded-md bg-surface-4 border border-white/6 mb-0.5"></div>
-                  <span className="font-ui text-[8px] text-text-muted">D</span>
-                </div>
-              </div>
-            </EnDesarrollo>
+              ))}
+            </div>
           </div>
         </div>
       </div>

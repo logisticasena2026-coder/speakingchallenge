@@ -109,6 +109,13 @@ export function MuestraDeFrases() {
   }, [esEscuadron, frases.length, colaTurnos.length, iniciarSesion, gruposConfig, TotalFrases, estaCargando]);
 
   useEffect(() => {
+    if (todasCompletadas && !esEscuadron) {
+      sileo.success({ title: 'Práctica completada', description: 'Revisa tus estadísticas.' });
+      router.push('/dashboard/estudiar/estadisticas');
+    }
+  }, [todasCompletadas, esEscuadron, router]);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 

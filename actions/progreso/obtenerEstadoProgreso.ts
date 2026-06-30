@@ -161,6 +161,8 @@ export async function obtenerEstadoProgreso() {
         tiempo_promedio: usuario.tiempo_promedio,
         precicion_global: usuario.precicion_global,
         cantidad_logros: usuario.cantidad_logros,
+        created_at: usuario.createdAt,
+        ultima_racha_fecha: usuario.ultima_racha_fecha,
       },
     };
   } catch (error) {
