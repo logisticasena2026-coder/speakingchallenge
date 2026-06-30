@@ -22,6 +22,7 @@ import {
   Medal,
   ChartNoAxesCombined,
   GraduationCap,
+  BookOpen,
 } from 'lucide-react';
 
 import Link from 'next/link';
@@ -39,7 +40,8 @@ const profesorItems = [
 
 const progresItems = [
   { label: 'Logros', href: '/dashboard/logros', icon: Medal },
-  { label: 'Estadisticas', href: '#', icon: ChartNoAxesCombined },
+  { label: 'Diccionario', href: '/dashboard/diccionario', icon: BookOpen },
+  { label: 'Estadisticas', href: '/dashboard/estudiar/estadisticas', icon: ChartNoAxesCombined },
 ];
 
 const systemItems = [
