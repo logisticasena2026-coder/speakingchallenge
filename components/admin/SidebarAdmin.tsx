@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Sidebar,
   SidebarContent,
@@ -51,40 +53,40 @@ export function SidebarAdmin() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/admin/dashboard" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-purple transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-purple">
+                  <Link href="/admin/dashboard">
                     <LayoutDashboard className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Dashboard</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/admin/estudiantes" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-purple transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-purple">
+                  <Link href="/admin/estudiantes">
                     <Users className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Estudiantes</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/admin/profesores" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-purple transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-purple">
+                  <Link href="/admin/profesores">
                     <GraduationCap className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Profesores</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/admin/frases" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-purple transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-purple">
+                  <Link href="/admin/frases">
                     <BookOpen className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Frases</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/admin/eras" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-purple transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-purple">
+                  <Link href="/admin/eras">
                     <Globe className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Eras</span>
                   </Link>
@@ -101,8 +103,8 @@ export function SidebarAdmin() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/admin/configuracion" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-purple transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-purple">
+                  <Link href="/admin/configuracion">
                     <Settings className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Configuración</span>
                   </Link>

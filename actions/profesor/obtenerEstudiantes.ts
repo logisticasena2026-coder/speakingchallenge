@@ -19,6 +19,7 @@ export async function obtenerEstudiantes() {
         id: true,
         name: true,
         email: true,
+        avatar: true,
         nivel: true,
         frases: true,
         precicion_global: true,

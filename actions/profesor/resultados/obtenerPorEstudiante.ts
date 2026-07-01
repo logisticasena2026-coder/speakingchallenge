@@ -16,7 +16,7 @@ export async function obtenerPorEstudiante(estudianteId: string) {
 
     const estudiante = await prisma.user.findUnique({
       where: { id: estudianteId },
-      select: { id: true, name: true, email: true, nivel: true, precicion_global: true, dias_racha: true },
+      select: { id: true, name: true, email: true, avatar: true, nivel: true, precicion_global: true, dias_racha: true },
     });
     if (!estudiante) throw new NotFoundError('Estudiante');
 
@@ -74,6 +74,7 @@ export async function obtenerPorEstudiante(estudianteId: string) {
         id: estudiante.id,
         name: estudiante.name,
         email: estudiante.email,
+        avatar: estudiante.avatar,
         nivel: estudiante.nivel,
         precicion_global: estudiante.precicion_global,
         dias_racha: estudiante.dias_racha,

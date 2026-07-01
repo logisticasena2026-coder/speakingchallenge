@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowLeft, GraduationCap, Calendar, Target, TrendingUp } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface ExamenData {
   examenId: string;
@@ -17,6 +18,7 @@ interface Props {
     id: string;
     name: string;
     email: string;
+    avatar?: string | null;
     nivel: string;
     precicion_global: number;
     dias_racha: number;
@@ -36,13 +38,12 @@ export function ResultadosEstudiante({ estudiante, totalExamenes, promedioGlobal
       </Link>
 
       <div className="bg-surface-2 border border-border-subtle rounded-xl p-6">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-brand-green/20 flex items-center justify-center shrink-0">
-            <span className="font-display text-xl font-bold text-brand-green">
-              {estudiante.name[0].toUpperCase()}
-            </span>
-          </div>
-          <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-4">
+            <Avatar className="w-14 h-14 border-2 border-brand-green/30 shrink-0">
+              <AvatarImage src={estudiante.avatar || ''} alt={estudiante.name} className="object-cover" />
+              <AvatarFallback className="font-display text-xl font-bold text-brand-green bg-brand-green/20">{estudiante.name[0].toUpperCase()}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
             <h1 className="font-display text-[24px] sm:text-[28px] font-bold text-text-primary truncate">
               {estudiante.name}
             </h1>

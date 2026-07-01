@@ -29,7 +29,7 @@ export default async function ProfesorGrupoDetalle({
       rol: 'ESTUDIANTE',
       id: { notIn: Array.from(idsYaEnGrupos) },
     },
-    select: { id: true, name: true, email: true },
+    select: { id: true, name: true, email: true, avatar: true },
     orderBy: { name: 'asc' },
   });
 

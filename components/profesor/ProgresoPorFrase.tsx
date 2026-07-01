@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface ProgresoItem {
   id: string;
@@ -14,6 +15,7 @@ interface ProgresoItem {
     id: string;
     name: string;
     email: string;
+    avatar?: string | null;
     nivel: string;
   };
 }
@@ -74,8 +76,16 @@ export function ProgresoPorFrase({
               {progreso.map((p) => (
                 <tr key={p.id} className="border-b border-border-subtle hover:bg-surface-3/50 transition-colors">
                   <td className="py-3 px-3">
-                    <p className="text-text-primary font-medium">{p.estudiante.name}</p>
-                    <p className="text-text-muted text-xs">{p.estudiante.email}</p>
+                    <div className="flex items-center gap-3">
+                      <Avatar className="w-8 h-8 border border-border-subtle shrink-0">
+                        <AvatarImage src={p.estudiante.avatar || ''} alt={p.estudiante.name} className="object-cover" />
+                        <AvatarFallback className="text-xs font-bold bg-surface-3 text-text-secondary">{p.estudiante.name[0].toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-text-primary font-medium">{p.estudiante.name}</p>
+                        <p className="text-text-muted text-xs">{p.estudiante.email}</p>
+                      </div>
+                    </div>
                   </td>
                   <td className="py-3 px-3 text-center">
                     <span className={p.precision >= 70 ? 'text-brand-green' : 'text-brand-amber'}>

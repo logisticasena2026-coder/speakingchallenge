@@ -19,6 +19,7 @@ export async function obtenerGrupo(grupoId: string) {
                 id: true,
                 name: true,
                 email: true,
+                avatar: true,
                 nivel: true,
                 precicion_global: true,
               },

@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { ArrowLeft, TrendingUp, TrendingDown, HelpCircle, Users, BarChart3 } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface EstudianteScore {
   id: string;
   name: string;
   email: string;
+  avatar?: string | null;
   correctas: number;
   total: number;
   porcentaje: number;
@@ -122,10 +124,16 @@ export function DetalleResultadosExamen({
                 {estudiantes.map((e) => (
                   <tr key={e.id} className="border-b border-border-subtle hover:bg-surface-3/50 transition-colors">
                     <td className="py-2.5 px-3">
-                      <Link href={`/profesor/resultados/estudiante/${e.id}`}
-                        className="text-text-primary font-medium hover:text-brand-green transition-colors">
-                        {e.name}
-                      </Link>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-8 h-8 border border-border-subtle shrink-0">
+                          <AvatarImage src={e.avatar || ''} alt={e.name} className="object-cover" />
+                          <AvatarFallback className="text-xs font-bold bg-surface-3 text-text-secondary">{e.name[0].toUpperCase()}</AvatarFallback>
+                        </Avatar>
+                        <Link href={`/profesor/resultados/estudiante/${e.id}`}
+                          className="text-text-primary font-medium hover:text-brand-green transition-colors">
+                          {e.name}
+                        </Link>
+                      </div>
                     </td>
                     <td className="py-2.5 px-3 text-center text-text-secondary">{e.correctas}/{e.total}</td>
                     <td className="py-2.5 px-3 text-center">

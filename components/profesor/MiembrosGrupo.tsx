@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { sileo } from 'sileo';
 import { Users, Plus, Trash2, BookOpen, CheckCircle2, XCircle } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { agregarMiembro } from '@/actions/profesor/grupo/agregarMiembro';
 import { quitarMiembro } from '@/actions/profesor/grupo/quitarMiembro';
 import { AsignarExamenModal } from './AsignarExamenModal';
@@ -13,6 +14,7 @@ interface Miembro {
     id: string;
     name: string;
     email: string;
+    avatar?: string | null;
     nivel: string;
     precicion_global: number;
   };
@@ -31,7 +33,7 @@ interface Props {
   grupoId: string;
   miembros: Miembro[];
   asignaciones: Asignacion[];
-  estudiantesDisponibles: { id: string; name: string; email: string }[];
+  estudiantesDisponibles: { id: string; name: string; email: string; avatar?: string | null }[];
 }
 
 export function MiembrosGrupo({ grupoId, miembros, asignaciones, estudiantesDisponibles }: Props) {
@@ -107,9 +109,10 @@ export function MiembrosGrupo({ grupoId, miembros, asignaciones, estudiantesDisp
             {miembros.map((m) => (
               <div key={m.estudiante.id} className="flex items-center justify-between bg-surface-2 border border-border-subtle rounded-lg px-4 py-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-8 h-8 rounded-full bg-brand-amber/20 flex items-center justify-center text-brand-amber text-sm font-bold shrink-0">
-                    {m.estudiante.name[0].toUpperCase()}
-                  </div>
+                  <Avatar className="w-8 h-8 border border-border-subtle shrink-0">
+                    <AvatarImage src={m.estudiante.avatar || ''} alt={m.estudiante.name} className="object-cover" />
+                    <AvatarFallback className="text-xs font-bold bg-brand-amber/20 text-brand-amber">{m.estudiante.name[0].toUpperCase()}</AvatarFallback>
+                  </Avatar>
                   <div className="min-w-0">
                     <p className="text-text-primary text-sm font-medium truncate">{m.estudiante.name}</p>
                     <p className="text-text-muted text-xs truncate">{m.estudiante.email}</p>

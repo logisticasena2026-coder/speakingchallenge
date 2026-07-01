@@ -1,6 +1,7 @@
 import { requiereRol } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { Users, BookOpen, Activity, GraduationCap } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default async function ProfesorDashboard() {
   const profesor = await requiereRol('PROFESOR');
@@ -19,7 +20,7 @@ export default async function ProfesorDashboard() {
 
   const estudiantesRecientes = await prisma.user.findMany({
     where: { id: { in: ids }, rol: 'ESTUDIANTE' },
-    select: { name: true, email: true, ultima_sesion: true, nivel: true },
+    select: { id: true, name: true, email: true, avatar: true, ultima_sesion: true, nivel: true },
     orderBy: { ultima_sesion: 'desc' },
     take: 5,
   });
@@ -77,10 +78,16 @@ export default async function ProfesorDashboard() {
         ) : (
           <div className="space-y-3">
             {estudiantesRecientes.map((e) => (
-              <div key={e.email} className="flex items-center justify-between py-2 border-b border-border-subtle last:border-0">
-                <div>
-                  <p className="text-text-primary font-medium">{e.name}</p>
-                  <p className="text-text-muted text-xs">{e.email}</p>
+              <div key={e.id} className="flex items-center justify-between py-2 border-b border-border-subtle last:border-0">
+                <div className="flex items-center gap-3">
+                  <Avatar className="w-9 h-9 border border-border-subtle shrink-0">
+                    <AvatarImage src={e.avatar || ''} alt={e.name} className="object-cover" />
+                    <AvatarFallback className="text-xs font-bold bg-surface-3 text-text-secondary">{e.name[0].toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="text-text-primary font-medium">{e.name}</p>
+                    <p className="text-text-muted text-xs">{e.email}</p>
+                  </div>
                 </div>
                 <div className="text-right">
                   <span className="text-xs text-brand-green capitalize">{e.nivel.toLowerCase().replace(/_/g, ' ')}</span>

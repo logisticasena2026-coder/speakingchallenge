@@ -18,7 +18,7 @@ export async function obtenerPorExamen(examenId: string) {
           include: {
             respuestas: {
               include: {
-                estudiante: { select: { id: true, name: true, email: true } },
+                estudiante: { select: { id: true, name: true, email: true, avatar: true } },
               },
             },
           },
@@ -30,7 +30,7 @@ export async function obtenerPorExamen(examenId: string) {
 
     const totalEstudiantes = new Set(examen.preguntas.flatMap((p) => p.respuestas.map((r) => r.estudiante_id))).size;
 
-    const respuestasPorEstudiante = new Map<string, { name: string; email: string; correctas: number; total: number; fecha: Date }>();
+    const respuestasPorEstudiante = new Map<string, { name: string; email: string; avatar: string | null; correctas: number; total: number; fecha: Date }>();
 
     for (const p of examen.preguntas) {
       for (const r of p.respuestas) {
@@ -44,6 +44,7 @@ export async function obtenerPorExamen(examenId: string) {
           respuestasPorEstudiante.set(r.estudiante_id, {
             name: estudiante.name,
             email: estudiante.email,
+            avatar: estudiante.avatar,
             correctas: r.correcta ? 1 : 0,
             total: 1,
             fecha: r.createdAt,
@@ -57,6 +58,7 @@ export async function obtenerPorExamen(examenId: string) {
         id,
         name: data.name,
         email: data.email,
+        avatar: data.avatar,
         correctas: data.correctas,
         total: data.total,
         porcentaje: Math.round((data.correctas / data.total) * 100),

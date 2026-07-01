@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Sidebar,
   SidebarContent,
@@ -64,45 +66,40 @@ export function SidebarProfesor({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/profesor/dashboard"
-                    className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-green transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-green">
+                  <Link href="/profesor/dashboard">
                     <LayoutDashboard className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Dashboard</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/profesor/estudiantes"
-                    className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-green transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-green">
+                  <Link href="/profesor/estudiantes">
                     <Users className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Estudiantes</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/profesor/examenes"
-                    className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-green transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-green">
+                  <Link href="/profesor/examenes">
                     <BookOpen className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Exámenes</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/profesor/grupos"
-                    className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-green transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-green">
+                  <Link href="/profesor/grupos">
                     <GraduationCap className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Grupos</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/profesor/resultados"
-                    className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-green transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-green">
+                  <Link href="/profesor/resultados">
                     <BarChart3 className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Resultados</span>
                   </Link>
@@ -119,8 +116,8 @@ export function SidebarProfesor({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/profesor/configuracion" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-green transition-all duration-250">
+                <SidebarMenuButton asChild className="text-text-secondary hover:bg-surface-4 hover:text-brand-green">
+                  <Link href="/profesor/configuracion">
                     <Settings className="w-5 h-5 shrink-0" aria-hidden="true" />
                     <span className="font-ui-label text-sm">Configuración</span>
                   </Link>
