@@ -3,12 +3,7 @@
 import { cookies } from 'next/headers';
 import prisma from '@/lib/prisma';
 import { redirect } from 'next/navigation';
-import { cacheLife } from 'next/cache';
-
 async function cachedSession(sessionId: string) {
-  'use cache'
-  cacheLife({ stale: 60, revalidate: 120 })
-
   return prisma.session.findUnique({
     where: { id: sessionId },
     include: { propietario: true },

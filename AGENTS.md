@@ -34,8 +34,8 @@ No test runner. Manual via `pnpm dev`.
 - **Admin login**: compares credentials against `ADMIN_EMAIL`/`ADMIN_PASSWORD` env vars in plaintext. Creates/updates user with `rol: 'ADMIN'` on success. Password reset via email does NOT affect admin login (it uses env vars, not DB hash).
 - Server actions accept plain objects, not FormData. Return `{ ok, message }` or throw `AppError`.
 - Zod schemas at `schemas/auth/` — validate before DB calls.
-- `DatosDelAutenticado()` / `requiereIngreso()` in `lib/auth.ts` use `'use cache'` / `cacheLife`.
-- `getSession(sessionId)` in `lib/apiVos.ts` for API routes, also `cacheLife({ stale: 60, revalidate: 120 })`.
+- `DatosDelAutenticado()` / `requiereIngreso()` in `lib/auth.ts` call Prisma directly (no cache — fast PK lookup).
+- `getSession(sessionId)` in `lib/apiVos.ts` also calls Prisma directly (no cache).
 - `lib/prisma.ts` → singleton PrismaClient with `@prisma/adapter-pg`. Never `new PrismaClient()` elsewhere.
 - `lib/errors.ts` → `AppError`, `ValidationError`, `UnauthorizedError`, `NotFoundError`, `ConflictError`, `DatabaseError`, `ExternalServiceError`.
 
