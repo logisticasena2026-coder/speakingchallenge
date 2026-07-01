@@ -17,9 +17,9 @@ import {
   BookOpen,
   GraduationCap,
   BarChart3,
+  Settings,
 } from 'lucide-react';
 import Link from 'next/link';
-import { BotonCerrarSesion } from '@/components/ui/BotonCerrarSesion';
 
 export function SidebarProfesor({
   user,
@@ -120,7 +120,10 @@ export function SidebarProfesor({
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <BotonCerrarSesion />
+                  <Link href="/profesor/configuracion" className="flex items-center gap-4 py-3 px-3 rounded-lg text-text-secondary hover:bg-surface-4 hover:text-brand-green transition-all duration-250">
+                    <Settings className="w-5 h-5 shrink-0" aria-hidden="true" />
+                    <span className="font-ui-label text-sm">Configuración</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
