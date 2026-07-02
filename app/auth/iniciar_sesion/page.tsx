@@ -13,7 +13,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Iniciar_sesion() {
+export default async function Iniciar_sesion({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirect?: string }>;
+}) {
+  const { redirect: redirectUrl } = await searchParams;
   return (
     <>
 
@@ -42,7 +47,7 @@ export default function Iniciar_sesion() {
               </p>
             </div>
 
-            <IniciarSesionForm />
+            <IniciarSesionForm redirectUrl={redirectUrl} />
 
             <div className="mt-8 text-center pt-6 border-t border-white/5">
               <Link

@@ -1,6 +1,7 @@
 import { requiereRol } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { Users, BookOpen, Activity, GraduationCap } from 'lucide-react';
+import { BotonCopiarInvitacion } from '@/components/profesor/BotonCopiarInvitacion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default async function ProfesorDashboard() {
@@ -33,9 +34,12 @@ export default async function ProfesorDashboard() {
         </h1>
         <p className="text-text-secondary">Bienvenido, {profesor.name}</p>
         {profesor.codigo_profesor && (
-          <p className="mt-2 inline-block px-3 py-1 rounded-lg bg-brand-green/10 border border-brand-green/20 text-sm text-brand-green font-mono">
-            Tu código: <strong>{profesor.codigo_profesor}</strong>
-          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <span className="inline-block px-3 py-1 rounded-lg bg-brand-green/10 border border-brand-green/20 text-sm text-brand-green font-mono">
+              Tu código: <strong>{profesor.codigo_profesor}</strong>
+            </span>
+            <BotonCopiarInvitacion codigo={profesor.codigo_profesor} />
+          </div>
         )}
       </div>
 

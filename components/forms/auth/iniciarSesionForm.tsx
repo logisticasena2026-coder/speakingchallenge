@@ -15,7 +15,7 @@ import { iniciar_session } from '@/actions/auth/iniciarSesion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-export function IniciarSesionForm() {
+export function IniciarSesionForm({ redirectUrl }: { redirectUrl?: string }) {
   const { prefetch, push } = useRouter();
   const { verContrasena, toggleVerContrasena } = useVerContrasena();
   const [boton, setBoton] = useState(false);
@@ -68,7 +68,7 @@ export function IniciarSesionForm() {
         },
       );
       if (res?.ok) {
-        const destino = res.rol === 'PROFESOR' ? '/profesor/dashboard' : res.rol === 'ADMIN' ? '/admin/dashboard' : '/dashboard';
+        const destino = redirectUrl || (res.rol === 'PROFESOR' ? '/profesor/dashboard' : res.rol === 'ADMIN' ? '/admin/dashboard' : '/dashboard');
         prefetch(destino);
         push(destino);
       }
